@@ -1,13 +1,28 @@
 package pt.isel
+const val SIDEMIN = 4
+const val SIDEMAX = 26
 /**
  * Represents a board game grid.
  *
  * @property Piece The piece on the board, either 'b' for black or 'w' for white.
- * @property side The size of the board (number of rows and columns).
+ * @property side Number of rows and columns of the board.
  */
 class Board(private val side: Int) {
     private val pieces: List<Piece> = listOf()
 
+    init {
+        require(side in SIDEMIN..SIDEMAX) {
+            "Side must be between $SIDEMIN and $SIDEMAX"
+        }
+        require(side % 2 == 0) {
+            "Side must be an even number"
+        }
+        val mid = side / 2
+        pieces.plus(Piece(mid, mid, 'w'))
+        pieces.plus(Piece(mid + 1, mid + 1, 'w'))
+        pieces.plus(Piece(mid, mid + 1, 'b'))
+        pieces.plus(Piece(mid + 1, mid, 'b'))
+    }
     /**
      * Represents a piece on the board.
      */
