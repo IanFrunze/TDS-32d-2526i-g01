@@ -1,0 +1,5 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:pt.isel////PointingToDeclaration/-reversi/pt.isel/index.html
+$dokka.location:pt.isel//main/#/PointingToDeclaration/-reversi/pt.isel/main.html
+pt.isel
