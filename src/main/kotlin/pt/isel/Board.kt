@@ -7,23 +7,29 @@ const val SIDE_MAX = 26
  * Represents a board game grid.
  *
  * @property Piece The piece on the board, either 'b' for black or 'w' for white.
- * @property side Number of rows and columns of the board.
+ * @property rows The number of rows on the board.
+ * @property cols The number of columns on the board.
  */
-class Board(private val side: Int) {
-    private val pieces: List<Piece> = listOf()
+class Board(private val rows: Int, private val cols: Int) {
+    private var pieces: List<Piece> = listOf()
 
+    constructor(row: Int) : this(row, row)
     init {
-        require(side in SIDE_MIN..SIDE_MAX) {
-            "Side must be between $SIDE_MIN and $SIDE_MAX"
+        require(rows in SIDE_MIN..SIDE_MAX) {
+            "Row must be between $SIDE_MIN and $SIDE_MAX"
         }
-        require(side % 2 == 0) {
-            "Side must be an even number"
+        require(cols in SIDE_MIN..SIDE_MAX) {
+            "Column must be between $SIDE_MIN and $SIDE_MAX"
         }
-        val mid = side / 2
-        pieces.plus(Piece(mid, mid, 'w'))
-        pieces.plus(Piece(mid + 1, mid + 1, 'w'))
-        pieces.plus(Piece(mid, mid + 1, 'b'))
-        pieces.plus(Piece(mid + 1, mid, 'b'))
+        require(rows % 2 == 0 && cols % 2 == 0) {
+            "Row must be even"
+        }
+        val midRow = rows / 2
+        val midCol = cols/ 2
+        pieces += Piece(midRow, midCol, 'w')
+        pieces += Piece(midRow + 1, midCol + 1, 'w')
+        pieces += Piece(midRow, midCol + 1, 'b')
+        pieces += Piece(midRow + 1, midCol, 'b')
     }
     /**
      * Represents a piece on the board.
@@ -54,10 +60,10 @@ class Board(private val side: Int) {
      * @return The piece at the specified position, or null if there is no piece.
      */
     operator fun get(row: Int, col: Int): Piece? {
-        require(row in 1..side) {
-            "Row must be between 1 and $side" }
-        require(col in 1..side) {
-            "Column must be between 1 and $side"
+        require(row in 1..rows) {
+            "Row must be between 1 and $rows" }
+        require(col in 1..cols) {
+            "Column must be between 1 and $cols"
         }
         return pieces.find { it.row == row && it.col == col }
     }
@@ -73,10 +79,11 @@ class Board(private val side: Int) {
      * @return true if the piece was changed, false if there is no piece at the specified position.
      */
     fun changePiece(row: Int, col: Int): Boolean {
-        require(row in 1..side) {
-            "Row must be between 1 and $side" }
-        require(col in 1..side) {
-            "Column must be between 1 and $side"
+        require(row in 1..rows) {
+            "Row must be between 1 and $rows"
+        }
+        require(col in 1..cols) {
+            "Column must be between 1 and $cols}"
         }
         val value = this[row,col]?.value ?: return false
         val newValue = if (value == 'b') 'w' else 'b'
@@ -92,20 +99,20 @@ class Board(private val side: Int) {
     /**
      * Adds a piece to the board at the specified row and column.
      */
-    fun addPiece(row: Int, col: Int, value: Char) {
+    fun addPiece(row: Int, col: Int, value: Char): Boolean {
         val value = value.lowercase()[0]
-
-        require(row in 1..side) {
-            "Row must be between 1 and $side"
+        require(row in 1..rows) {
+            "Row must be between 1 and $rows"
         }
-        require(col in 1..side) {
-            "Column must be between 1 and $side"
+        require(col in 1..cols) {
+            "Column must be between 1 and $cols"
         }
         require(value == 'b' || value == 'w') {
             "Value must be 'b' or 'w'"
         }
-
-        pieces.plus(Piece(row, col, value))
+        if (this[row, col] == null) return false
+        pieces = pieces + Piece(row, col, value)
+        return true
     }
 
     /**
@@ -113,8 +120,8 @@ class Board(private val side: Int) {
      */
     private fun charIndexToInt(col: Char): Int {
         val colLower = col.lowercase()[0]
-        require(colLower in 'a'..'a' + side - 1) {
-            "Column must be between 'a' and '${'a' + side - 1}'" }
+        require(colLower in 'a'..'a' + cols - 1) {
+            "Column must be between 'a' and '${'a' + cols - 1}'" }
         return colLower - 'a' + 1
     }
 }
