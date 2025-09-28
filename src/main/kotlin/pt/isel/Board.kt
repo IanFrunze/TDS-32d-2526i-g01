@@ -127,7 +127,7 @@ data class Board(private val rows: Int,
      * Starts the board with the initial pieces in the center.
      * @return A list of the initial pieces.
      */
-    private fun startPieces(): Board {
+    fun startPieces(): Board {
         val midRow = rows / 2
         val midCol = cols / 2
         return this.copy(pieces = listOf(
