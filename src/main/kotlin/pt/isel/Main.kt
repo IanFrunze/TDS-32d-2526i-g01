@@ -1,11 +1,26 @@
 package pt.isel
 
-import pt.rafap.clilib.CLI
+import pt.isel.commands.CmdNew
+import pt.isel.parser.CommandParser
+import pt.rafap.ktflag.cmd.CommandResult
+import pt.rafap.ktflag.style.Colors
+import pt.rafap.ktflag.style.Colors.colorText
 
 fun main(){
-    val cli = CLI()
+    var board = Board(8)
 
-    cli.runtimeCLI()
+    val parser = CommandParser<Board>()
 
-    TODO()
+    parser.commandRegister.registerCommands(CmdNew)
+
+    while (true){
+        val result: CommandResult<Board>? = parser.readInputAndGetResult(board)
+
+        if (result == null)
+            println(colorText("[ERROR] Unknown command", Colors.RED))
+        else if (result.isError)
+            result.printError()
+        else if (result.result != null)
+            board = result.result as Board
+    }
 }
