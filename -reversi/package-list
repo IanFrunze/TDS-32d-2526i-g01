@@ -25,12 +25,16 @@ $dokka.location:pt.isel.reversi/Board///PointingToDeclaration/-reversi/pt.isel.
 $dokka.location:pt.isel.reversi/Board/Board/#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi/-board/-board.html
 $dokka.location:pt.isel.reversi/Board/addPiece/#kotlin.Int#kotlin.Char#pt.isel.reversi.Board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi/-board/add-piece.html
 $dokka.location:pt.isel.reversi/Board/addPiece/#kotlin.Int#kotlin.Int#pt.isel.reversi.Board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi/-board/add-piece.html
+$dokka.location:pt.isel.reversi/Board/addPiece/#kotlin.Int#pt.isel.reversi.Board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi/-board/add-piece.html
 $dokka.location:pt.isel.reversi/Board/changePiece/#kotlin.Int#kotlin.Char/PointingToDeclaration/-reversi/pt.isel.reversi/-board/change-piece.html
 $dokka.location:pt.isel.reversi/Board/changePiece/#kotlin.Int#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi/-board/change-piece.html
+$dokka.location:pt.isel.reversi/Board/changePiece/#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi/-board/change-piece.html
 $dokka.location:pt.isel.reversi/Board/get/#kotlin.Int#kotlin.Char/PointingToDeclaration/-reversi/pt.isel.reversi/-board/get.html
 $dokka.location:pt.isel.reversi/Board/get/#kotlin.Int#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi/-board/get.html
+$dokka.location:pt.isel.reversi/Board/get/#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi/-board/get.html
 $dokka.location:pt.isel.reversi/Board/iterator/#/PointingToDeclaration/-reversi/pt.isel.reversi/-board/iterator.html
 $dokka.location:pt.isel.reversi/Board/startPieces/#/PointingToDeclaration/-reversi/pt.isel.reversi/-board/start-pieces.html
+$dokka.location:pt.isel.reversi/Board/toCoordinates/kotlin.Int#/PointingToDeclaration/-reversi/pt.isel.reversi/-board/to-coordinates.html
 pt.isel.reversi
 pt.isel.reversi.commands
 pt.isel.reversi.parser
