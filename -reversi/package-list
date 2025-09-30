@@ -5,12 +5,6 @@ $dokka.location:pt.isel.reversi.commands/CmdNew///PointingToDeclaration/-revers
 $dokka.location:pt.isel.reversi.commands/CmdNew/execute/#kotlin.Array[kotlin.String]#pt.isel.reversi.Board?/PointingToDeclaration/-reversi/pt.isel.reversi.commands/-cmd-new/execute.html
 $dokka.location:pt.isel.reversi.commands/CmdNew/info/#/PointingToDeclaration/-reversi/pt.isel.reversi.commands/-cmd-new/info.html
 $dokka.location:pt.isel.reversi.commands/CmdNew/pieceTypes/#/PointingToDeclaration/-reversi/pt.isel.reversi.commands/-cmd-new/piece-types.html
-$dokka.location:pt.isel.reversi.parser////PointingToDeclaration/-reversi/pt.isel.reversi.parser/index.html
-$dokka.location:pt.isel.reversi.parser/CommandParser///PointingToDeclaration/-reversi/pt.isel.reversi.parser/-command-parser/index.html
-$dokka.location:pt.isel.reversi.parser/CommandParser/CommandParser/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.parser/-command-parser/-command-parser.html
-$dokka.location:pt.isel.reversi.parser/CommandParser/commandRegister/#/PointingToDeclaration/-reversi/pt.isel.reversi.parser/-command-parser/command-register.html
-$dokka.location:pt.isel.reversi.parser/CommandParser/prompt/#/PointingToDeclaration/-reversi/pt.isel.reversi.parser/-command-parser/prompt.html
-$dokka.location:pt.isel.reversi.parser/CommandParser/readInputAndGetResult/#TypeParam(bounds=[kotlin.Any?])?/PointingToDeclaration/-reversi/pt.isel.reversi.parser/-command-parser/read-input-and-get-result.html
 $dokka.location:pt.isel.reversi////PointingToDeclaration/-reversi/pt.isel.reversi/index.html
 $dokka.location:pt.isel.reversi//main/#/PointingToDeclaration/-reversi/pt.isel.reversi/main.html
 $dokka.location:pt.isel.reversi/Board.PieceType.BLACK///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-reversi/pt.isel.reversi/-board/-piece-type/-b-l-a-c-k/index.html
@@ -37,4 +31,3 @@ $dokka.location:pt.isel.reversi/Board/startPieces/#/PointingToDeclaration/-reve
 $dokka.location:pt.isel.reversi/Board/toCoordinates/kotlin.Int#/PointingToDeclaration/-reversi/pt.isel.reversi/-board/to-coordinates.html
 pt.isel.reversi
 pt.isel.reversi.commands
-pt.isel.reversi.parser
