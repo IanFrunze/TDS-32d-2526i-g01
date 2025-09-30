@@ -1,5 +1,36 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
-$dokka.location:pt.isel////PointingToDeclaration/-reversi/pt.isel/index.html
-$dokka.location:pt.isel//main/#/PointingToDeclaration/-reversi/pt.isel/main.html
-pt.isel
+$dokka.location:pt.isel.reversi.commands////PointingToDeclaration/-reversi/pt.isel.reversi.commands/index.html
+$dokka.location:pt.isel.reversi.commands/CmdNew///PointingToDeclaration/-reversi/pt.isel.reversi.commands/-cmd-new/index.html
+$dokka.location:pt.isel.reversi.commands/CmdNew/execute/#kotlin.Array[kotlin.String]#pt.isel.reversi.Board?/PointingToDeclaration/-reversi/pt.isel.reversi.commands/-cmd-new/execute.html
+$dokka.location:pt.isel.reversi.commands/CmdNew/info/#/PointingToDeclaration/-reversi/pt.isel.reversi.commands/-cmd-new/info.html
+$dokka.location:pt.isel.reversi.commands/CmdNew/pieceTypes/#/PointingToDeclaration/-reversi/pt.isel.reversi.commands/-cmd-new/piece-types.html
+$dokka.location:pt.isel.reversi.parser////PointingToDeclaration/-reversi/pt.isel.reversi.parser/index.html
+$dokka.location:pt.isel.reversi.parser/CommandParser///PointingToDeclaration/-reversi/pt.isel.reversi.parser/-command-parser/index.html
+$dokka.location:pt.isel.reversi.parser/CommandParser/CommandParser/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.parser/-command-parser/-command-parser.html
+$dokka.location:pt.isel.reversi.parser/CommandParser/commandRegister/#/PointingToDeclaration/-reversi/pt.isel.reversi.parser/-command-parser/command-register.html
+$dokka.location:pt.isel.reversi.parser/CommandParser/prompt/#/PointingToDeclaration/-reversi/pt.isel.reversi.parser/-command-parser/prompt.html
+$dokka.location:pt.isel.reversi.parser/CommandParser/readInputAndGetResult/#TypeParam(bounds=[kotlin.Any?])?/PointingToDeclaration/-reversi/pt.isel.reversi.parser/-command-parser/read-input-and-get-result.html
+$dokka.location:pt.isel.reversi////PointingToDeclaration/-reversi/pt.isel.reversi/index.html
+$dokka.location:pt.isel.reversi//main/#/PointingToDeclaration/-reversi/pt.isel.reversi/main.html
+$dokka.location:pt.isel.reversi/Board.PieceType.BLACK///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-reversi/pt.isel.reversi/-board/-piece-type/-b-l-a-c-k/index.html
+$dokka.location:pt.isel.reversi/Board.PieceType.WHITE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-reversi/pt.isel.reversi/-board/-piece-type/-w-h-i-t-e/index.html
+$dokka.location:pt.isel.reversi/Board.PieceType///PointingToDeclaration/-reversi/pt.isel.reversi/-board/-piece-type/index.html
+$dokka.location:pt.isel.reversi/Board.PieceType/entries/#/PointingToDeclaration/-reversi/pt.isel.reversi/-board/-piece-type/entries.html
+$dokka.location:pt.isel.reversi/Board.PieceType/swap/#/PointingToDeclaration/-reversi/pt.isel.reversi/-board/-piece-type/swap.html
+$dokka.location:pt.isel.reversi/Board.PieceType/symbol/#/PointingToDeclaration/-reversi/pt.isel.reversi/-board/-piece-type/symbol.html
+$dokka.location:pt.isel.reversi/Board.PieceType/valueOf/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi/-board/-piece-type/value-of.html
+$dokka.location:pt.isel.reversi/Board.PieceType/values/#/PointingToDeclaration/-reversi/pt.isel.reversi/-board/-piece-type/values.html
+$dokka.location:pt.isel.reversi/Board///PointingToDeclaration/-reversi/pt.isel.reversi/-board/index.html
+$dokka.location:pt.isel.reversi/Board/Board/#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi/-board/-board.html
+$dokka.location:pt.isel.reversi/Board/addPiece/#kotlin.Int#kotlin.Char#pt.isel.reversi.Board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi/-board/add-piece.html
+$dokka.location:pt.isel.reversi/Board/addPiece/#kotlin.Int#kotlin.Int#pt.isel.reversi.Board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi/-board/add-piece.html
+$dokka.location:pt.isel.reversi/Board/changePiece/#kotlin.Int#kotlin.Char/PointingToDeclaration/-reversi/pt.isel.reversi/-board/change-piece.html
+$dokka.location:pt.isel.reversi/Board/changePiece/#kotlin.Int#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi/-board/change-piece.html
+$dokka.location:pt.isel.reversi/Board/get/#kotlin.Int#kotlin.Char/PointingToDeclaration/-reversi/pt.isel.reversi/-board/get.html
+$dokka.location:pt.isel.reversi/Board/get/#kotlin.Int#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi/-board/get.html
+$dokka.location:pt.isel.reversi/Board/iterator/#/PointingToDeclaration/-reversi/pt.isel.reversi/-board/iterator.html
+$dokka.location:pt.isel.reversi/Board/startPieces/#/PointingToDeclaration/-reversi/pt.isel.reversi/-board/start-pieces.html
+pt.isel.reversi
+pt.isel.reversi.commands
+pt.isel.reversi.parser
