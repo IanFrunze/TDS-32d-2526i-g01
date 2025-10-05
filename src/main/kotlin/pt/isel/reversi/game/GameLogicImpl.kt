@@ -2,12 +2,32 @@ package pt.isel.reversi.game
 
 import pt.isel.reversi.board.PieceType
 import pt.isel.reversi.board.Board
+import pt.isel.reversi.board.Coordinates
+import pt.isel.reversi.board.Piece
 
 interface GameLogicImpl {
+    fun play(board: Board, coordinates: Coordinates, pieceType: PieceType): Board
 
-    fun play(board: Board, row: Int, col: Int): Board?
+    fun getAvailablePlays(
+        board: Board,
+        myPieceType: PieceType,
+    ): List<Coordinates>
 
-    fun getAvailablePlays(board: Board, piece: PieceType): List<Pair<Int, Int>>
+    fun isValidMove(
+        board: Board,
+        myPiece: Piece,
+        ): Boolean
 
+    fun findAround(
+        board: Board,
+        myPiece: Piece,
+        findThis: PieceType?
+    ): List<Coordinates>
+
+    fun getCapturablePieces (
+        board: Board,
+        myPiece: Piece,
+        direction: Coordinates
+    ): List<Coordinates>
     // TODO FAZER RESTOOOOOOOOOOOOOO
 }

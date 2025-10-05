@@ -6,4 +6,8 @@ package pt.isel.reversi.board
 data class Piece(
     val coordinate: Coordinates,
     val value: PieceType
-)
+) {
+    fun swap(): Piece {
+        return Piece(coordinate, value.swap())
+    }
+}

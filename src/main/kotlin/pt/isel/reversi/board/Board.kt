@@ -1,7 +1,6 @@
 package pt.isel.reversi.board
 
 import kotlin.collections.find
-import kotlin.collections.map
 
 /**
  * Represents a board game grid.
@@ -93,12 +92,9 @@ data class Board(
 
     private fun changePieceNoCheks(coordinate: Coordinates): Board {
         val value = this[coordinate]?.swap() ?: throw IllegalArgumentException("No piece at position $coordinate")
-        return this.copy(pieces = pieces.map { piece ->
-            if (piece.coordinate == coordinate)
-                piece.copy(value = value)
-            else
-                piece
-        })
+        return this.copy(pieces = pieces.filter { piece ->
+            piece.coordinate != coordinate
+        } + Piece(coordinate, value))
     }
 
     /**
