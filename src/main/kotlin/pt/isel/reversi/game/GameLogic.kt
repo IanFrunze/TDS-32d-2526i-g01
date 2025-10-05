@@ -51,8 +51,10 @@ class GameLogic: GameLogicImpl {
         board: Board,
         myPiece: Piece,
     ): Boolean {
+        // Find all opposite pieces around the given coordinates
         val oppositePieces = findAround(board,myPiece , myPiece.value.swap())
         oppositePieces.forEach { coordinate ->
+            //For each opposite piece, check if placing the piece would capture any pieces
             val direction = coordinate - myPiece.coordinate
             if (getCapturablePieces(board, myPiece, direction).isNotEmpty()) {
                 return true
@@ -112,12 +114,14 @@ class GameLogic: GameLogicImpl {
         myPiece: Piece,
         direction: Coordinates
     ): List<Coordinates> {
+        // Start checking from the next piece in the specified direction
         var nextPiece: Piece = Piece(
             myPiece.coordinate + direction,
             board[myPiece.coordinate + direction] ?: return emptyList()
         )
         val capturablePieces = mutableListOf<Coordinates>()
 
+        // Continue in the direction while the pieces are of the opposite type
         while (nextPiece.value == myPiece.value.swap()) {
             capturablePieces += nextPiece.coordinate
             nextPiece = Piece(
