@@ -25,20 +25,20 @@ data class Board(
         }
     }
 
-    fun Int.toCoordinates(): Coordinates {
+    fun Int.toCoordinates(): Coordinate {
         require(this in 0 until side * side) {
             "Index must be between 0 and ${side * side - 1}"
         }
         val row = (this / side) + 1
         val col = (this % side)
-        return Coordinates(row,col)
+        return Coordinate(row, col)
     }
 
     /**
      * Checks if the specified row and column are within the bounds of the board.
      * @throws IllegalArgumentException if the row or column are out of bounds.
      */
-    private fun checkPosition(coordinate: Coordinates) {
+    private fun checkPosition(coordinate: Coordinate) {
         require(coordinate.isValid(side)) {
             "Position ($coordinate is out of bounds)"
         }
@@ -62,7 +62,7 @@ data class Board(
      * @return The piece at the specified position, or null if there is no piece.
      * @throws IllegalArgumentException if the row or column are out of bounds.
      */
-    operator fun get(coordinate: Coordinates): PieceType? {
+    operator fun get(coordinate: Coordinate): PieceType? {
         checkPosition(coordinate)
         return pieces.find { it.coordinate == coordinate }?.value
     }
@@ -72,7 +72,7 @@ data class Board(
      * @return true if the piece was changed, false if there is no piece at the specified position.
      * @throws IllegalArgumentException if the row or column are out of bounds.
      */
-    fun changePiece(coordinate: Coordinates): Board {
+    fun changePiece(coordinate: Coordinate): Board {
         checkPosition(coordinate)
         return changePieceNoCheks(coordinate)
     }
@@ -91,7 +91,7 @@ data class Board(
         return changePieceNoCheks(coordinate)
     }
 
-    private fun changePieceNoCheks(coordinate: Coordinates): Board {
+    private fun changePieceNoCheks(coordinate: Coordinate): Board {
         val value = this[coordinate]?.swap() ?: throw IllegalArgumentException("No piece at position $coordinate")
         return this.copy(pieces = pieces.map { piece ->
             if (piece.coordinate == coordinate)
@@ -105,12 +105,12 @@ data class Board(
      * Adds a piece to the board at the specified row and column.
      * @throws IllegalArgumentException if the row or column are out of bounds.
      */
-    fun addPiece(coordinate: Coordinates, value: PieceType): Board {
+    fun addPiece(coordinate: Coordinate, value: PieceType): Board {
         checkPosition(coordinate)
         return addPieceNoCheks(coordinate, value)
     }
 
-    private fun addPieceNoCheks(coordinate: Coordinates, value: PieceType): Board {
+    private fun addPieceNoCheks(coordinate: Coordinate, value: PieceType): Board {
         if (this[coordinate] != null) throw IllegalArgumentException("There is already a piece at position $coordinate")
         return this.copy(pieces = pieces + Piece(coordinate, value))
     }
@@ -137,10 +137,10 @@ data class Board(
         val mid = side / 2
         return this.copy(
             pieces = listOf(
-                Piece(Coordinates(mid, mid), PieceType.WHITE),
-                Piece(Coordinates(mid + 1, mid + 1), PieceType.WHITE),
-                Piece(Coordinates(mid, mid + 1), PieceType.BLACK),
-                Piece(Coordinates(mid + 1, mid), PieceType.BLACK)
+                Piece(Coordinate(mid, mid), PieceType.WHITE),
+                Piece(Coordinate(mid + 1, mid + 1), PieceType.WHITE),
+                Piece(Coordinate(mid, mid + 1), PieceType.BLACK),
+                Piece(Coordinate(mid + 1, mid), PieceType.BLACK)
             )
         )
     }
