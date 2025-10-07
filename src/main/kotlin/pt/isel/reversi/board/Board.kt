@@ -1,5 +1,6 @@
 package pt.isel.reversi.board
 
+import kotlin.collections.filter
 import kotlin.collections.find
 
 /**
@@ -37,7 +38,7 @@ data class Board(
      * Checks if the specified row and column are within the bounds of the board.
      * @throws IllegalArgumentException if the row or column are out of bounds.
      */
-    private fun checkPosition(coordinate: Coordinates) {
+    fun checkPosition(coordinate: Coordinates) {
         require(coordinate.isValid(side)) {
             "Position ($coordinate is out of bounds)"
         }
@@ -149,4 +150,5 @@ data class Board(
         override fun hasNext() = it.hasNext()
         override fun next() = it.next()
     }
+
 }

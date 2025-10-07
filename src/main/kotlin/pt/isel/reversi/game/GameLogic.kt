@@ -3,14 +3,30 @@ import pt.isel.reversi.board.Board
 import pt.isel.reversi.board.Coordinates
 import pt.isel.reversi.board.Piece
 import pt.isel.reversi.board.PieceType
+import kotlin.collections.filter
 
 class GameLogic: GameLogicImpl {
+    override val illegalPlay = Exception("Illegal play")
     override fun play(
         board: Board,
-        coordinates: Coordinates,
-        pieceType: PieceType
+        myPiece: Piece,
     ): Board {
-        TODO("Not yet implemented")
+        board.checkPosition(myPiece.coordinate)
+
+        val opponentPieces = findAround(board, myPiece, myPiece.value.swap())
+        val capturablePieces = opponentPieces.flatMap { opponentPiece: Coordinates ->
+            val direction = opponentPiece - myPiece.coordinate
+            getCapturablePieces(board, myPiece, direction)
+        }
+
+        if (capturablePieces.isEmpty()) illegalPlay
+
+        val newPieces = board.map {piece ->
+            if (piece.coordinate in capturablePieces) piece.swap()
+            else piece
+        }
+
+        return board.copy(pieces = newPieces)
     }
 
     /**
@@ -25,6 +41,7 @@ class GameLogic: GameLogicImpl {
         board: Board,
         myPieceType: PieceType,
     ): List<Coordinates> {
+
         val opponentPieces = board.filter {it.value != myPieceType }
         return opponentPieces
             .flatMap { piece -> // For each opponent piece, find empty spaces around it
@@ -39,25 +56,24 @@ class GameLogic: GameLogicImpl {
     }
 
     /**
-     * Determines if placing a piece of the given type at the specified coordinates is a valid move.
-     * A move is considered valid if there is at least one opposite piece type in any of the 8 directions
-     * around the specified coordinates.
+     * Checks if placing a piece at the specified coordinates is a valid move.
+     * A move is considered valid if it results in capturing at least one of the opponent's pieces.
      * @param board The current state of the board.
-     * @param coordinates The coordinates where the piece is to be placed.
-     * @param pieceType The type of piece to be placed (e.g., BLACK or WHITE).
+     * @param myPiece The piece being placed on the board.
      * @return True if the move is valid, false otherwise.
      */
     override fun isValidMove(
         board: Board,
         myPiece: Piece,
     ): Boolean {
-        // Find all opposite pieces around the given coordinates
-        val oppositePieces = findAround(board,myPiece , myPiece.value.swap())
-        oppositePieces.forEach { coordinate ->
-            //For each opposite piece, check if placing the piece would capture any pieces
-            val direction = coordinate - myPiece.coordinate
-            if (getCapturablePieces(board, myPiece, direction).isNotEmpty()) {
-                return true
+        board.checkPosition(myPiece.coordinate)
+
+        val opponentPiecesAround = findAround(board, myPiece, myPiece.value.swap())
+        if (opponentPiecesAround.isNotEmpty()) {
+            opponentPiecesAround.forEach { coordinate ->
+                val direction = coordinate - myPiece.coordinate
+                if (getCapturablePieces(board, myPiece, direction).isNotEmpty())
+                    return true
             }
         }
         return false
@@ -75,6 +91,7 @@ class GameLogic: GameLogicImpl {
         myPiece: Piece,
         findThis: PieceType?
     ): List<Coordinates> {
+        board.checkPosition(myPiece.coordinate)
         // Check all 8 directions
         val directions = listOf(
             Coordinates(-1, -1), // Top-left
@@ -91,7 +108,8 @@ class GameLogic: GameLogicImpl {
             directions.forEach { direction ->
                 val newCord = coordinates + direction
 
-                if (newCord.isValid(board.side)
+                if (
+                    newCord.isValid(board.side)
                     && board[newCord] == findThis
                 ) {
                     add(newCord)
@@ -114,21 +132,29 @@ class GameLogic: GameLogicImpl {
         myPiece: Piece,
         direction: Coordinates
     ): List<Coordinates> {
+        board.checkPosition(myPiece.coordinate)
         // Start checking from the next piece in the specified direction
-        var nextPiece: Piece = Piece(
+        var nextPiece = Piece(
             myPiece.coordinate + direction,
             board[myPiece.coordinate + direction] ?: return emptyList()
         )
         val capturablePieces = mutableListOf<Coordinates>()
 
         // Continue in the direction while the pieces are of the opposite type
-        while (nextPiece.value == myPiece.value.swap()) {
+        while (nextPiece.value == myPiece.value.swap() ) {
             capturablePieces += nextPiece.coordinate
+            val newCord = nextPiece.coordinate + direction
+
+            if (!newCord.isValid(board.side)) return emptyList()
+
             nextPiece = Piece(
-                nextPiece.coordinate + direction,
-                board[nextPiece.coordinate + direction] ?: return emptyList()
+                newCord,
+                board[newCord] ?: return emptyList()
             )
+
         }
         return capturablePieces
     }
 }
+
+

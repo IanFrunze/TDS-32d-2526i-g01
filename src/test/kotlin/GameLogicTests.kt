@@ -2,116 +2,271 @@ import pt.isel.reversi.board.Board
 import pt.isel.reversi.board.Coordinates
 import pt.isel.reversi.board.Piece
 import pt.isel.reversi.board.PieceType
+import pt.isel.reversi.board.PieceType.*
 import pt.isel.reversi.game.GameLogic
 import kotlin.test.Test
+import kotlin.test.assertFailsWith
 
 class GameLogicTests {
     @Test
-    fun `checkAround and isValidMove returns empty list when there are no pieces around` () {
-        val board = Board(8)
-        val coordinates = Coordinates(0, 0)
-        val uut = GameLogic().findAround(board, Piece(coordinates, PieceType.BLACK), PieceType.WHITE)
-        assert(emptyList<Coordinates>() == uut)
-        assert(!GameLogic().isValidMove(board, Piece(coordinates, PieceType.BLACK)))
+    fun `getCaptuablePieces should return empty list when no capturable pieces are found`() {
+        var board = Board(4).addPiece(Coordinates(1,1), BLACK )
+        repeat(3) {
+            board = board.addPiece(Coordinates(1, it + 2), WHITE)
+        }
+        val uut = GameLogic().getCapturablePieces(
+            board,
+            Piece(Coordinates(1,1), BLACK),
+            Coordinates(0,1)
+        )
+        assert(uut.isEmpty())
+
+        board = board.addPiece(Coordinates(2,1), BLACK)
+        board = board.addPiece(Coordinates(2,2), WHITE)
+        board = board.addPiece(Coordinates(2,4), BLACK)
+
+        val uut2 = GameLogic().getCapturablePieces(
+            board,
+            Piece(Coordinates(2,1), BLACK),
+            Coordinates(0,1)
+        )
+        assert(uut2.isEmpty())
+
+        board = board.addPiece(Coordinates(3,1), BLACK)
+        board = board.addPiece(Coordinates(3,2), BLACK)
+        board = board.addPiece(Coordinates(3,3), WHITE)
+        board = board.addPiece(Coordinates(3,4), BLACK)
+
+        val uut3 = GameLogic().getCapturablePieces(
+            board,
+            Piece(Coordinates(3,1), BLACK),
+            Coordinates(0,1)
+        )
+        assert(uut2.isEmpty())
+
+        val uut4 = GameLogic().getCapturablePieces(
+            board,
+            Piece(Coordinates(1,1), BLACK),
+            Coordinates(1,1)
+        )
+
+        assert(uut4.isEmpty())
     }
 
     @Test
-    fun `checkAround and isValidMove return empty list when have only same pieces around`(){
-        var board = Board(8)
-        val cordPiece = Coordinates(2, 2)
-        val directions = listOf(
-            Coordinates(-1, -1), // Top-left
-            Coordinates(-1, 0), // Top
-            Coordinates(-1, 1), // Top-right
-            Coordinates(0, -1), // Left
-            Coordinates(0, 1), // Right
-            Coordinates(1, -1), // Bottom-left
-            Coordinates(1, 0), // Bottom
-            Coordinates(1, 1)  // Bottom-right
+    /*
+          1 2 3 4
+        1 B W W B
+        2 . W . .
+        3 . . W .
+        4 . . . B
+     */
+    fun `getCaptuablePieces should return list of capturable pieces when found`() {
+        val coordinate = Coordinates(1, 1)
+        var board = Board(4).addPiece(coordinate, BLACK)
+
+        board = board.addPiece(Coordinates(1, 2), WHITE)
+        board = board.addPiece(Coordinates(1, 3), WHITE)
+        board = board.addPiece(Coordinates(1, 4), BLACK)
+        board = board.addPiece(Coordinates(2, 2), WHITE)
+        board = board.addPiece(Coordinates(3, 3), WHITE)
+        board = board.addPiece(Coordinates(4, 4), BLACK)
+
+        val uut = GameLogic().getCapturablePieces(
+            board,
+            Piece(coordinate, BLACK),
+            Coordinates(1, 1)
         )
-        val newPieces = directions.map { dir ->
-            (cordPiece + dir)
-        }
-        newPieces.forEach { piece ->
-            board = board.addPiece(piece, PieceType.BLACK)
-        }
-        val uut = GameLogic().findAround(board,Piece(cordPiece, PieceType.BLACK), PieceType.WHITE)
-        assert(emptyList<Coordinates>() == uut)
-        assert(!GameLogic().isValidMove(board, Piece(cordPiece, PieceType.BLACK)))
-    }
-
-    @Test
-    fun `checkAround and isValidMove return list with all opposite pieces around`(){
-        var board = Board(8)
-        val cordPiece = Coordinates(2, 2)
-        val directions = listOf(
-            Coordinates(-1, -1), // Top-left
-            Coordinates(-1, 0), // Top
-            Coordinates(-1, 1), // Top-right
-            Coordinates(0, -1), // Left
-            Coordinates(0, 1), // Right
-            Coordinates(1, -1), // Bottom-left
-            Coordinates(1, 0), // Bottom
-            Coordinates(1, 1)  // Bottom-right
-        )
-        val newPieces = directions.map { dir ->
-            (cordPiece + dir)
-        }
-        newPieces.forEach { piece ->
-            board = board.addPiece(piece, PieceType.WHITE)
-        }
-        val uut = GameLogic().findAround(board, Piece(cordPiece, PieceType.BLACK), PieceType.WHITE)
-        assert(newPieces == uut)
-        assert(GameLogic().isValidMove(board, Piece(cordPiece, PieceType.BLACK)))
-    }
-
-    @Test
-    fun `checkAround and isValidMove return list with some opposite pieces around`(){
-        var board = Board(8)
-        val cordPiece = Coordinates(2, 2)
-        val directions = listOf(
-            Coordinates(-1, -1), // Top-left
-            Coordinates(-1, 0), // Top
-            Coordinates(-1, 1), // Top-right
-            Coordinates(0, -1), // Left
-            Coordinates(0, 1), // Right
-            Coordinates(1, -1), // Bottom-left
-            Coordinates(1, 0), // Bottom
-            Coordinates(1, 1)  // Bottom-right
-        )
-        val newPieces = directions.map { dir ->
-            (cordPiece + dir)
-        }
-        val oppositePieces = listOf(newPieces[0], newPieces[3], newPieces[5])
-        val samePieces = listOf(newPieces[1], newPieces[2], newPieces[4], newPieces[6], newPieces[7])
-        oppositePieces.forEach { piece ->
-            board = board.addPiece(piece, PieceType.WHITE)
-        }
-        samePieces.forEach { piece ->
-            board = board.addPiece(piece, PieceType.BLACK)
-        }
-        val uut = GameLogic().findAround(board,Piece(cordPiece, PieceType.BLACK), PieceType.WHITE)
-        assert(oppositePieces == uut)
-        assert(GameLogic().isValidMove(board, Piece(cordPiece, PieceType.BLACK)))
-    }
-
-    @Test
-    fun `getAvailablePlays returns correct list of coordinates`() {
-        val board = Board(8).addPiece(Coordinates(2, 2),PieceType.WHITE)
-        val myPieceType = PieceType.BLACK
-
-        val expectedCoordinates = listOf(
-            Coordinates(1, 1),
-            Coordinates(1, 2),
-            Coordinates(1, 3),
-            Coordinates(2, 1),
-            Coordinates(2, 3),
-            Coordinates(3, 1),
-            Coordinates(3, 2),
-            Coordinates(3, 3)
-        )
-
+        assert(uut.size == 2)
         assert(
-            GameLogic().getAvailablePlays(board, myPieceType) == expectedCoordinates)
+            uut.containsAll(
+                listOf(
+                    Coordinates(3, 3),
+                    Coordinates(2, 2),
+                )
+            )
+        )
+
+        val uut2 = GameLogic().getCapturablePieces(
+            board,
+            Piece(coordinate, BLACK),
+            Coordinates(0, 1)
+        )
+        assert(uut2.size == 2)
+        assert(
+            uut2.containsAll(
+                listOf(
+                    Coordinates(1, 2),
+                    Coordinates(1, 3)
+                )
+            )
+        )
     }
+
+    @Test
+    fun `getCapturablePieces when myPiece does not exist`() {
+        var board = Board(4)
+
+        board = board.addPiece(Coordinates(1, 1), WHITE)
+        board = board.addPiece(Coordinates(1, 2), BLACK)
+
+        assertFailsWith <IllegalArgumentException> {
+            val uut = GameLogic().getCapturablePieces(
+                board,
+                Piece(Coordinates(0,0), BLACK),
+                Coordinates(0,1)
+            )
+        }
+    }
+
+    @Test
+    fun `getCapturablePieces when myPiece is out of bounds`() {
+        val board = Board(4)
+        assertFailsWith <IllegalArgumentException> {
+            GameLogic().getCapturablePieces(board, Piece(Coordinates(0,5), BLACK), Coordinates(0,1))
+        }
+    }
+    @Test
+    /*
+          1 2 3 4
+        1 B W W B
+        2 . W . .
+        3 . . B W
+        4 . . B B
+     */
+    fun `findAround should return list of coordinates around myPiece that contain findThis`() {
+        val coordinate = Coordinates(3, 3)
+        var board = Board(4).addPiece(coordinate, BLACK)
+
+        board = board.addPiece(Coordinates(1, 1), BLACK)
+        board = board.addPiece(Coordinates(1, 2), WHITE)
+        board = board.addPiece(Coordinates(1, 3), WHITE)
+        board = board.addPiece(Coordinates(1, 4), BLACK)
+        board = board.addPiece(Coordinates(2, 2), WHITE)
+        board = board.addPiece(Coordinates(3, 4), WHITE)
+        board = board.addPiece(Coordinates(4, 3), BLACK)
+        board = board.addPiece(Coordinates(4, 4), BLACK)
+
+        val uut = GameLogic().findAround(
+            board,
+            Piece(coordinate, BLACK),
+            WHITE
+        )
+        assert(uut.size == 2)
+        assert(
+            uut.containsAll(
+                listOf(
+                    Coordinates(2, 2),
+                    Coordinates(3, 4),
+                )
+            )
+        )
+
+        val uut2 = GameLogic().findAround(
+            board,
+            Piece(coordinate, BLACK),
+            null
+        )
+        assert(uut2.size == 4)
+        assert(
+            uut2.containsAll(
+            listOf(
+                    Coordinates(2, 3),
+                    Coordinates(4, 2),
+                    Coordinates(2, 4),
+                    Coordinates(3, 2)
+                )
+            )
+        )
+    }
+    @Test
+    fun `findAround when myPiece is out of bounds`() {
+        val board = Board(4)
+        assertFailsWith <IllegalArgumentException> {
+            GameLogic().findAround(board, Piece(Coordinates(0,5), BLACK), WHITE)
+        }
+    }
+
+    @Test
+    /*
+          1 2 3 4
+        1 B W W .
+        2 . W . W
+        3 . . B W
+        4 . . B B
+     */
+
+    fun `isValidMove should return true when there are capturable pieces` () {
+        val coordinate = Coordinates(3, 3)
+        var board = Board(4).addPiece(coordinate, BLACK)
+
+        board = board.addPiece(Coordinates(1, 1), BLACK)
+        board = board.addPiece(Coordinates(1, 2), WHITE)
+        board = board.addPiece(Coordinates(1, 3), WHITE)
+        board = board.addPiece(Coordinates(2, 4), WHITE)
+        board = board.addPiece(Coordinates(2, 2), WHITE)
+        board = board.addPiece(Coordinates(3, 4), WHITE)
+        board = board.addPiece(Coordinates(4, 3), BLACK)
+        board = board.addPiece(Coordinates(4, 4), BLACK)
+
+        val piece = Piece(Coordinates(1,4),BLACK)
+        val uut = GameLogic().isValidMove(board,piece)
+
+        assert(uut)
+    }
+
+    @Test
+    /*
+        1 2 3 4
+      1 B W W .
+      2 . W . W
+      3 . . B W
+      4 . . B B
+   */
+    fun `isValidMove should return false when there are no capturable pieces` () {
+        val coordinate = Coordinates(3, 3)
+        var board = Board(4).addPiece(coordinate, BLACK)
+
+        board = board.addPiece(Coordinates(1, 1), BLACK)
+        board = board.addPiece(Coordinates(1, 2), WHITE)
+        board = board.addPiece(Coordinates(1, 3), WHITE)
+        board = board.addPiece(Coordinates(2, 4), WHITE)
+        board = board.addPiece(Coordinates(2, 2), WHITE)
+        board = board.addPiece(Coordinates(3, 4), WHITE)
+        board = board.addPiece(Coordinates(4, 3), BLACK)
+        board = board.addPiece(Coordinates(4, 4), BLACK)
+
+        val piece = Piece(Coordinates(1,4),WHITE)
+        val uut = GameLogic().isValidMove(board,piece)
+
+        assert(!uut)
+    }
+
+    @Test
+    /*
+        1 2 3 4
+      1 B W W .
+      2 . W . W
+      3 . . B W
+      4 . . B B
+   */
+    fun `isValidMove when myPiece is out of bounds`() {
+        val board = Board(4)
+        assertFailsWith <IllegalArgumentException> {
+            GameLogic().isValidMove(board, Piece(Coordinates(10,10), BLACK))
+        }
+    }
+
+    @Test
+    fun `isValidMove should return false when no pieces around` () {
+        val board = Board(4)
+
+        val uut = GameLogic().isValidMove(board, Piece(Coordinates(2,2), BLACK))
+
+        assert(!uut)
+    }
+
+
+
+
 }
