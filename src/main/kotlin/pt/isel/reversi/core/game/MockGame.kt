@@ -2,15 +2,15 @@ package pt.isel.reversi.core.game
 
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.game.data.GDAImpl
-import pt.isel.reversi.core.game.localgda.LocalGDA
 
 /**
  * Lightweight test/dummy implementation of [GameImpl] used for data access and integration tests.
  *
  * Only acts as a structural carrier for required properties; behavioural methods are left as TODOs
- * so they surface if accidentally invoked in logic outside targeted tests. Replace with a richer
- * fake or real implementation when game rules are completed.
+ * so they surface if accidentally invoked in logic outside targeted tests. Use the nested helper
+ * subclasses to build simple game states for tests (empty, one player or two players).
+ *
+ * Note: This class is intentionally minimal and not suitable for exercising game logic.
  */
 @Suppress("unused")
 open class MockGame(
@@ -57,6 +57,9 @@ open class MockGame(
         TODO("Not yet implemented")
     }
 
+    /**
+     * Convenience copy function to mutate selected fields for tests.
+     */
     fun copy(
         dataAccess: GDAImpl = this.dataAccess,
         players: List<Player> = this.players,
@@ -66,6 +69,9 @@ open class MockGame(
         isLocal: Boolean = this.isLocal
     ) = MockGame(dataAccess, players, currGameName, board, target, isLocal)
 
+    /**
+     * Helper representing a game with no players — useful to test initial write semantics.
+     */
     class EmptyPlayers(dataAccess: GDAImpl, path: String) : MockGame(
         dataAccess = dataAccess,
         players = emptyList(),
@@ -75,6 +81,9 @@ open class MockGame(
         isLocal = false
     )
 
+    /**
+     * Helper representing a game with a single black player.
+     */
     class OnePlayer(dataAccess: GDAImpl, path: String) : MockGame(
         dataAccess = dataAccess,
         players = listOf(Player(PieceType.BLACK, 0, 32)),
@@ -84,6 +93,9 @@ open class MockGame(
         isLocal = false
     )
 
+    /**
+     * Helper representing a game with two players (black and white).
+     */
     class TwoPlayers(dataAccess: GDAImpl, path: String) : MockGame(
         dataAccess = dataAccess,
         players = listOf(Player(PieceType.BLACK, 0, 32), Player(PieceType.WHITE, 0, 32)),

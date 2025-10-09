@@ -2,7 +2,6 @@ package pt.isel.reversi.core.game
 
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.game.data.GDAImpl
 
 /**
  * Interface for the main game operations and state in Reversi.

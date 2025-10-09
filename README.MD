@@ -30,7 +30,6 @@ java -jar build\libs\Reversi-0.0.1-all.jar
 |---------|----------------|
 | `pt.isel.reversi.core.board` | Board, coordinates, piece types & safe transformation operations |
 | `pt.isel.reversi.core.game` | Game interfaces, player representation, logic contracts |
-| `pt.isel.reversi.core.game.data` | Generic persistence contracts + result codes / result wrapper |
 | `pt.isel.reversi.core.game.localgda` | Concrete local text-file persistence (`LocalGDA`) |
 | `pt.isel.reversi.cli` | CLI loop & rendering utilities |
 | `pt.isel.reversi.cli.commands` | Discrete command handlers for user actions |
@@ -38,19 +37,33 @@ java -jar build\libs\Reversi-0.0.1-all.jar
 For in-depth narrative descriptions see `Module.md` (also surfaced in generated Dokka docs).
 
 ## Local Persistence (LocalGDA)
-`LocalGDA` stores each game in a single UTF-8 text file with a deterministic, human-readable structure:
-```
-availablePieces: SYMBOL(|SYMBOL)*
-side: N
-player: SYMBOL points playsLeft
-... (0..2 player lines)
-piece: row col SYMBOL
-pass: SYMBOL
-```
-Moves and passes are appended; board reconstruction parses only `piece:` lines and validates `side:`. Turn order validation is left to higher-level logic.
+`LocalGDA` stores each game in a single UTF-8 text file with a deterministic, human-readable structure. The file is line-oriented and intentionally simple so it can be inspected and edited by hand if needed.
 
-Detailed usage, file format specification, lifecycle, and extensibility notes live in:
-`src/main/kotlin/pt/isel/reversi/core/game/localgda/README.MD`
+Supported line kinds (order is flexible for headers; moves/passes are chronological):
+```
+availablePieces: SYMBOL(|SYMBOL)*   # available piece symbols separated by '|', e.g. "#|@"
+side: N                              # integer board side (even, e.g. 8)
+player: SYMBOL points playsLeft      # optional player lines
+piece: row col SYMBOL                # a played piece; row and col are integers
+pass: SYMBOL                         # a pass for the player with the given symbol
+```
+
+Key behaviour notes:
+- postGame has two distinct code paths:
+  1. New file (or empty file): `postGame` will create the file and write a full snapshot consisting of `availablePieces` followed by `side` and a serialized snapshot of the current board as `piece:` lines. Available pieces are computed by removing the game players' types from the full set of PieceType entries.
+  2. Existing file: `postGame` first reads the existing headers using `GameFileAccess.readGameInfo`. If the persisted `side` does not match `game.board.side` an `InvalidGameWriteException` is thrown — this prevents unintended corruption. If sides match, the persisted `availablePieces` header is filtered by the players in the supplied `game` and the file is overwritten with the updated snapshot.
+
+- postPiece and postPass append a single `piece:` or `pass:` line respectively. These are intended to be cheap, append-only operations.
+
+- getBoard reconstructs the board by reading headers (verifying `side`) and parsing the chronological `piece:` lines. Malformed piece lines will surface as `InvalidPieceInFileException`.
+
+Exceptions and expected errors (domain-level):
+- `InvalidSideInFileException`: thrown when the `side:` header is missing or not a valid integer. This is specifically about the *side* header and should only be used for that purpose.
+- `InvalidAvailablePiecesInFileException`: thrown when the `availablePieces:` header is missing or malformed.
+- `InvalidPieceInFileException`: thrown when a `piece:` line cannot be parsed (wrong token count, non-integer coordinates, unknown symbol).
+- `InvalidGameWriteException`: thrown by `LocalGDA.postGame` when attempting to overwrite an existing file with an incompatible game state (for now, a mismatched `side`).
+
+The data access helpers live in `GameFileAccess` which contains focused parsing/writing routines and throws the above exceptions in the correct, domain-focused places.
 
 ## Result Handling Philosophy
 Persistence methods return `GDAResult<T>` instead of throwing for expected states:
@@ -70,9 +83,9 @@ Run the test suite:
 ./gradlew test
 ```
 Board tests validate coordinate & piece placement invariants. Data access tests assert:
-- Header creation & overwrite
+- Header creation & overwrite (both code paths in `postGame`)
 - Piece / pass recording
-- Error codes for missing files & structural anomalies
+- Error codes / exceptions for missing files & structural anomalies
 
 Add new tests under `src/test/kotlin/` following existing minimal assertion style.
 
