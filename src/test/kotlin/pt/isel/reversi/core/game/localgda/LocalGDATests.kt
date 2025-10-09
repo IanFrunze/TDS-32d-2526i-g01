@@ -1,18 +1,18 @@
 package pt.isel.reversi.core.game.localgda
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
+import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.game.MockGame
-import java.io.File
-import pt.isel.reversi.core.game.exceptions.InvalidGameWriteException
 import pt.isel.reversi.core.game.exceptions.InvalidAvailablePiecesInFileException
-import pt.isel.reversi.core.game.exceptions.InvalidSideInFileException
+import pt.isel.reversi.core.game.exceptions.InvalidGameWriteException
 import pt.isel.reversi.core.game.exceptions.InvalidPieceInFileException
+import pt.isel.reversi.core.game.exceptions.InvalidSideInFileException
+import java.io.File
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class LocalGDATests {
 
