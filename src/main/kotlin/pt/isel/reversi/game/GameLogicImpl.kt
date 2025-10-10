@@ -6,7 +6,6 @@ import pt.isel.reversi.board.Coordinates
 import pt.isel.reversi.board.Piece
 
 interface GameLogicImpl {
-    val illegalPlay: Exception
     fun play(board: Board, myPiece: Piece): Board
 
     fun getAvailablePlays(

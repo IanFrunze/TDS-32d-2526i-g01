@@ -4,9 +4,9 @@ import pt.isel.reversi.board.Coordinates
 import pt.isel.reversi.board.Piece
 import pt.isel.reversi.board.PieceType
 import kotlin.collections.filter
-
+import pt.isel.reversi.game.exceptions.InvalidPlay
 class GameLogic: GameLogicImpl {
-    override val illegalPlay = Exception("Illegal play")
+
     override fun play(
         board: Board,
         myPiece: Piece,
@@ -19,7 +19,7 @@ class GameLogic: GameLogicImpl {
             getCapturablePieces(board, myPiece, direction)
         }
 
-        if (capturablePieces.isEmpty()) illegalPlay
+        if (capturablePieces.isEmpty()) throw InvalidPlay("Invalid play: $myPiece")
 
         val newPieces = board.map {piece ->
             if (piece.coordinate in capturablePieces) piece.swap()
@@ -41,15 +41,14 @@ class GameLogic: GameLogicImpl {
         board: Board,
         myPieceType: PieceType,
     ): List<Coordinates> {
-
         val opponentPieces = board.filter {it.value != myPieceType }
         return opponentPieces
             .flatMap { piece -> // For each opponent piece, find empty spaces around it
                 findAround(board, piece, null).filter {
                     getCapturablePieces( // Check if placing this piece would capture any opponent pieces
                         board,
-                        piece.swap(),
-                        it - piece.coordinate
+                        Piece(it,myPieceType),
+                        piece.coordinate - it
                     ).isNotEmpty()
                 }
             }.toSet().toList()// Remove duplicates by converting to a set and back to a list
@@ -91,6 +90,7 @@ class GameLogic: GameLogicImpl {
         myPiece: Piece,
         findThis: PieceType?
     ): List<Coordinates> {
+
         board.checkPosition(myPiece.coordinate)
         // Check all 8 directions
         val directions = listOf(
