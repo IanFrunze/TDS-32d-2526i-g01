@@ -2,13 +2,19 @@ $dokka.format:html-v1
 $dokka.linkExtension:html
 $dokka.location:pt.isel.reversi.cli.commands////PointingToDeclaration/-reversi/pt.isel.reversi.cli.commands/index.html
 $dokka.location:pt.isel.reversi.cli.commands/ExitCmd///PointingToDeclaration/-reversi/pt.isel.reversi.cli.commands/-exit-cmd/index.html
-$dokka.location:pt.isel.reversi.cli.commands/ExitCmd/execute/#kotlin.Array[kotlin.String]#pt.isel.reversi.core.board.Board?/PointingToDeclaration/-reversi/pt.isel.reversi.cli.commands/-exit-cmd/execute.html
+$dokka.location:pt.isel.reversi.cli.commands/ExitCmd/execute/#kotlin.Array[kotlin.String]#pt.isel.reversi.core.game.GameImpl?/PointingToDeclaration/-reversi/pt.isel.reversi.cli.commands/-exit-cmd/execute.html
 $dokka.location:pt.isel.reversi.cli.commands/ExitCmd/info/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli.commands/-exit-cmd/info.html
 $dokka.location:pt.isel.reversi.cli.commands/NewCmd///PointingToDeclaration/-reversi/pt.isel.reversi.cli.commands/-new-cmd/index.html
-$dokka.location:pt.isel.reversi.cli.commands/NewCmd/execute/#kotlin.Array[kotlin.String]#pt.isel.reversi.core.board.Board?/PointingToDeclaration/-reversi/pt.isel.reversi.cli.commands/-new-cmd/execute.html
+$dokka.location:pt.isel.reversi.cli.commands/NewCmd/execute/#kotlin.Array[kotlin.String]#pt.isel.reversi.core.game.GameImpl?/PointingToDeclaration/-reversi/pt.isel.reversi.cli.commands/-new-cmd/execute.html
 $dokka.location:pt.isel.reversi.cli.commands/NewCmd/info/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli.commands/-new-cmd/info.html
 $dokka.location:pt.isel.reversi.cli////PointingToDeclaration/-reversi/pt.isel.reversi.cli/index.html
-$dokka.location:pt.isel.reversi.cli//runCli/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli/run-cli.html
+$dokka.location:pt.isel.reversi.cli/CLI///PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/index.html
+$dokka.location:pt.isel.reversi.cli/CLI/CLI/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/-c-l-i.html
+$dokka.location:pt.isel.reversi.cli/CLI/addExtraCommands/#kotlin.Array[pt.rafap.ktflag.cmd.CommandImpl[pt.isel.reversi.core.game.GameImpl]]/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/add-extra-commands.html
+$dokka.location:pt.isel.reversi.cli/CLI/setDebug/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/set-debug.html
+$dokka.location:pt.isel.reversi.cli/CLI/setDebug/#kotlin.Boolean/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/set-debug.html
+$dokka.location:pt.isel.reversi.cli/CLI/setWelcomeMessage/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/set-welcome-message.html
+$dokka.location:pt.isel.reversi.cli/CLI/startLoop/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/start-loop.html
 $dokka.location:pt.isel.reversi.core.board////PointingToDeclaration/-reversi/pt.isel.reversi.core.board/index.html
 $dokka.location:pt.isel.reversi.core.board/Board///PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/index.html
 $dokka.location:pt.isel.reversi.core.board/Board/Board/#kotlin.Int#kotlin.collections.List[pt.isel.reversi.core.board.Piece]/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/-board.html
@@ -36,6 +42,8 @@ $dokka.location:pt.isel.reversi.core.board/Piece/Piece/#pt.isel.reversi.core.boa
 $dokka.location:pt.isel.reversi.core.board/Piece/coordinate/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-piece/coordinate.html
 $dokka.location:pt.isel.reversi.core.board/Piece/value/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-piece/value.html
 $dokka.location:pt.isel.reversi.core.board/PieceType.BLACK///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-reversi/pt.isel.reversi.core.board/-piece-type/-b-l-a-c-k/index.html
+$dokka.location:pt.isel.reversi.core.board/PieceType.Companion///PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-piece-type/-companion/index.html
+$dokka.location:pt.isel.reversi.core.board/PieceType.Companion/fromSymbol/#kotlin.Char/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-piece-type/-companion/from-symbol.html
 $dokka.location:pt.isel.reversi.core.board/PieceType.WHITE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-reversi/pt.isel.reversi.core.board/-piece-type/-w-h-i-t-e/index.html
 $dokka.location:pt.isel.reversi.core.board/PieceType///PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-piece-type/index.html
 $dokka.location:pt.isel.reversi.core.board/PieceType/entries/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-piece-type/entries.html
@@ -43,15 +51,51 @@ $dokka.location:pt.isel.reversi.core.board/PieceType/swap/#/PointingToDeclaratio
 $dokka.location:pt.isel.reversi.core.board/PieceType/symbol/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-piece-type/symbol.html
 $dokka.location:pt.isel.reversi.core.board/PieceType/valueOf/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-piece-type/value-of.html
 $dokka.location:pt.isel.reversi.core.board/PieceType/values/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-piece-type/values.html
+$dokka.location:pt.isel.reversi.core.game.exceptions////PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/index.html
+$dokka.location:pt.isel.reversi.core.game.exceptions/InvalidAvailablePiecesInFileException///PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-available-pieces-in-file-exception/index.html
+$dokka.location:pt.isel.reversi.core.game.exceptions/InvalidAvailablePiecesInFileException/InvalidAvailablePiecesInFileException/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-available-pieces-in-file-exception/-invalid-available-pieces-in-file-exception.html
+$dokka.location:pt.isel.reversi.core.game.exceptions/InvalidAvailablePiecesInFileException/message/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-available-pieces-in-file-exception/message.html
+$dokka.location:pt.isel.reversi.core.game.exceptions/InvalidGameWriteException///PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-game-write-exception/index.html
+$dokka.location:pt.isel.reversi.core.game.exceptions/InvalidGameWriteException/InvalidGameWriteException/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-game-write-exception/-invalid-game-write-exception.html
+$dokka.location:pt.isel.reversi.core.game.exceptions/InvalidGameWriteException/message/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-game-write-exception/message.html
+$dokka.location:pt.isel.reversi.core.game.exceptions/InvalidPieceInFileException///PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-piece-in-file-exception/index.html
+$dokka.location:pt.isel.reversi.core.game.exceptions/InvalidPieceInFileException/InvalidPieceInFileException/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-piece-in-file-exception/-invalid-piece-in-file-exception.html
+$dokka.location:pt.isel.reversi.core.game.exceptions/InvalidPieceInFileException/message/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-piece-in-file-exception/message.html
+$dokka.location:pt.isel.reversi.core.game.exceptions/InvalidSideInFileException///PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-side-in-file-exception/index.html
+$dokka.location:pt.isel.reversi.core.game.exceptions/InvalidSideInFileException/InvalidSideInFileException/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-side-in-file-exception/-invalid-side-in-file-exception.html
+$dokka.location:pt.isel.reversi.core.game.exceptions/InvalidSideInFileException/message/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-side-in-file-exception/message.html
+$dokka.location:pt.isel.reversi.core.game.localgda////PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/index.html
+$dokka.location:pt.isel.reversi.core.game.localgda/GameFileAccess///PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-game-file-access/index.html
+$dokka.location:pt.isel.reversi.core.game.localgda/GameFileAccess/AVAILABLE_PIECES_PREFIX/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-game-file-access/-a-v-a-i-l-a-b-l-e_-p-i-e-c-e-s_-p-r-e-f-i-x.html
+$dokka.location:pt.isel.reversi.core.game.localgda/GameFileAccess/PASS_PREFIX/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-game-file-access/-p-a-s-s_-p-r-e-f-i-x.html
+$dokka.location:pt.isel.reversi.core.game.localgda/GameFileAccess/PIECE_PREFIX/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-game-file-access/-p-i-e-c-e_-p-r-e-f-i-x.html
+$dokka.location:pt.isel.reversi.core.game.localgda/GameFileAccess/SIDE_PREFIX/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-game-file-access/-s-i-d-e_-p-r-e-f-i-x.html
+$dokka.location:pt.isel.reversi.core.game.localgda/GameFileAccess/readAvailablePieces/#java.io.File/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-game-file-access/read-available-pieces.html
+$dokka.location:pt.isel.reversi.core.game.localgda/GameFileAccess/readBoard/#java.io.File/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-game-file-access/read-board.html
+$dokka.location:pt.isel.reversi.core.game.localgda/GameFileAccess/readGameInfo/#java.io.File/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-game-file-access/read-game-info.html
+$dokka.location:pt.isel.reversi.core.game.localgda/GameFileAccess/readPieceTypes/#java.io.File/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-game-file-access/read-piece-types.html
+$dokka.location:pt.isel.reversi.core.game.localgda/GameFileAccess/readPieces/#java.io.File/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-game-file-access/read-pieces.html
+$dokka.location:pt.isel.reversi.core.game.localgda/GameFileAccess/writeGame/#java.io.File#kotlin.collections.List[pt.isel.reversi.core.board.PieceType]#pt.isel.reversi.core.game.GameImpl/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-game-file-access/write-game.html
+$dokka.location:pt.isel.reversi.core.game.localgda/GameFileAccess/writePass/#java.io.File#pt.isel.reversi.core.board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-game-file-access/write-pass.html
+$dokka.location:pt.isel.reversi.core.game.localgda/GameFileAccess/writePiece/#java.io.File#pt.isel.reversi.core.board.Piece/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-game-file-access/write-piece.html
+$dokka.location:pt.isel.reversi.core.game.localgda/LocalGDA///PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-local-g-d-a/index.html
+$dokka.location:pt.isel.reversi.core.game.localgda/LocalGDA/LocalGDA/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-local-g-d-a/-local-g-d-a.html
+$dokka.location:pt.isel.reversi.core.game.localgda/LocalGDA/getAvailablePieces/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-local-g-d-a/get-available-pieces.html
+$dokka.location:pt.isel.reversi.core.game.localgda/LocalGDA/getBoard/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-local-g-d-a/get-board.html
+$dokka.location:pt.isel.reversi.core.game.localgda/LocalGDA/getLatestPiece/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-local-g-d-a/get-latest-piece.html
+$dokka.location:pt.isel.reversi.core.game.localgda/LocalGDA/getLatestPlayType/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-local-g-d-a/get-latest-play-type.html
+$dokka.location:pt.isel.reversi.core.game.localgda/LocalGDA/postGame/#kotlin.String#pt.isel.reversi.core.game.GameImpl/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-local-g-d-a/post-game.html
+$dokka.location:pt.isel.reversi.core.game.localgda/LocalGDA/postPass/#kotlin.String#pt.isel.reversi.core.board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-local-g-d-a/post-pass.html
+$dokka.location:pt.isel.reversi.core.game.localgda/LocalGDA/postPiece/#kotlin.String#pt.isel.reversi.core.board.Piece/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-local-g-d-a/post-piece.html
 $dokka.location:pt.isel.reversi.core.game////PointingToDeclaration/-reversi/pt.isel.reversi.core.game/index.html
-$dokka.location:pt.isel.reversi.core.game/GameDataAccessImpl///PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-data-access-impl/index.html
-$dokka.location:pt.isel.reversi.core.game/GameDataAccessImpl/getAvailablePieces/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-data-access-impl/get-available-pieces.html
-$dokka.location:pt.isel.reversi.core.game/GameDataAccessImpl/getBoard/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-data-access-impl/get-board.html
-$dokka.location:pt.isel.reversi.core.game/GameDataAccessImpl/getLatestPiece/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-data-access-impl/get-latest-piece.html
-$dokka.location:pt.isel.reversi.core.game/GameDataAccessImpl/postAvailablePiece/#kotlin.collections.List[pt.isel.reversi.core.board.PieceType]#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-data-access-impl/post-available-piece.html
-$dokka.location:pt.isel.reversi.core.game/GameDataAccessImpl/postGame/#pt.isel.reversi.core.game.GameImpl#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-data-access-impl/post-game.html
-$dokka.location:pt.isel.reversi.core.game/GameDataAccessImpl/postInitGame/#kotlin.Int#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-data-access-impl/post-init-game.html
-$dokka.location:pt.isel.reversi.core.game/GameDataAccessImpl/postPiece/#pt.isel.reversi.core.board.Piece#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-data-access-impl/post-piece.html
+$dokka.location:pt.isel.reversi.core.game/GDAImpl///PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-g-d-a-impl/index.html
+$dokka.location:pt.isel.reversi.core.game/GDAImpl/getAvailablePieces/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-g-d-a-impl/get-available-pieces.html
+$dokka.location:pt.isel.reversi.core.game/GDAImpl/getBoard/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-g-d-a-impl/get-board.html
+$dokka.location:pt.isel.reversi.core.game/GDAImpl/getLatestPiece/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-g-d-a-impl/get-latest-piece.html
+$dokka.location:pt.isel.reversi.core.game/GDAImpl/getLatestPlayType/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-g-d-a-impl/get-latest-play-type.html
+$dokka.location:pt.isel.reversi.core.game/GDAImpl/postGame/#kotlin.String#pt.isel.reversi.core.game.GameImpl/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-g-d-a-impl/post-game.html
+$dokka.location:pt.isel.reversi.core.game/GDAImpl/postPass/#kotlin.String#pt.isel.reversi.core.board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-g-d-a-impl/post-pass.html
+$dokka.location:pt.isel.reversi.core.game/GDAImpl/postPiece/#kotlin.String#pt.isel.reversi.core.board.Piece/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-g-d-a-impl/post-piece.html
 $dokka.location:pt.isel.reversi.core.game/GameImpl///PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-impl/index.html
 $dokka.location:pt.isel.reversi.core.game/GameImpl/board/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-impl/board.html
 $dokka.location:pt.isel.reversi.core.game/GameImpl/currGameName/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-impl/curr-game-name.html
@@ -71,16 +115,43 @@ $dokka.location:pt.isel.reversi.core.game/GameImpl/target/#/PointingToDeclaratio
 $dokka.location:pt.isel.reversi.core.game/GameLogicImpl///PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-logic-impl/index.html
 $dokka.location:pt.isel.reversi.core.game/GameLogicImpl/getAvailablePlays/#pt.isel.reversi.core.board.Board#pt.isel.reversi.core.board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-logic-impl/get-available-plays.html
 $dokka.location:pt.isel.reversi.core.game/GameLogicImpl/play/#pt.isel.reversi.core.board.Board#kotlin.Int#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-logic-impl/play.html
+$dokka.location:pt.isel.reversi.core.game/MockGame.EmptyPlayers///PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/-empty-players/index.html
+$dokka.location:pt.isel.reversi.core.game/MockGame.EmptyPlayers/EmptyPlayers/#pt.isel.reversi.core.game.GDAImpl#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/-empty-players/-empty-players.html
+$dokka.location:pt.isel.reversi.core.game/MockGame.OnePlayer///PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/-one-player/index.html
+$dokka.location:pt.isel.reversi.core.game/MockGame.OnePlayer/OnePlayer/#pt.isel.reversi.core.game.GDAImpl#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/-one-player/-one-player.html
+$dokka.location:pt.isel.reversi.core.game/MockGame.TwoPlayers///PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/-two-players/index.html
+$dokka.location:pt.isel.reversi.core.game/MockGame.TwoPlayers/TwoPlayers/#pt.isel.reversi.core.game.GDAImpl#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/-two-players/-two-players.html
+$dokka.location:pt.isel.reversi.core.game/MockGame///PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/index.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/MockGame/#pt.isel.reversi.core.game.GDAImpl#kotlin.collections.List[pt.isel.reversi.core.game.Player]#kotlin.String?#pt.isel.reversi.core.board.Board#kotlin.Boolean#kotlin.Boolean/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/-mock-game.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/board/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/board.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/copy/#pt.isel.reversi.core.game.GDAImpl#kotlin.collections.List[pt.isel.reversi.core.game.Player]#kotlin.String?#pt.isel.reversi.core.board.Board#kotlin.Boolean#kotlin.Boolean/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/copy.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/currGameName/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/curr-game-name.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/dataAccess/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/data-access.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/getAvailablePlays/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/get-available-plays.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/isLocal/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/is-local.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/join/#kotlin.String#pt.isel.reversi.core.board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/join.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/pass/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/pass.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/pieceOptions/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/piece-options.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/play/#kotlin.Int#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/play.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/players/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/players.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/poopBoard/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/poop-board.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/refresh/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/refresh.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/setTargetMode/#kotlin.Boolean/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/set-target-mode.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/start/#pt.isel.reversi.core.board.PieceType#kotlin.String?/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/start.html
+$dokka.location:pt.isel.reversi.core.game/MockGame/target/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-mock-game/target.html
 $dokka.location:pt.isel.reversi.core.game/Player///PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-player/index.html
 $dokka.location:pt.isel.reversi.core.game/Player/Player/#pt.isel.reversi.core.board.PieceType#kotlin.Int#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-player/-player.html
 $dokka.location:pt.isel.reversi.core.game/Player/playsLeft/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-player/plays-left.html
 $dokka.location:pt.isel.reversi.core.game/Player/points/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-player/points.html
 $dokka.location:pt.isel.reversi.core.game/Player/type/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-player/type.html
 $dokka.location:pt.isel.reversi////PointingToDeclaration/-reversi/pt.isel.reversi/index.html
-$dokka.location:pt.isel.reversi//main/#/PointingToDeclaration/-reversi/pt.isel.reversi/main.html
+$dokka.location:pt.isel.reversi//main/#kotlin.Array[kotlin.String]/PointingToDeclaration/-reversi/pt.isel.reversi/main.html
+$dokka.location:pt.isel.reversi//printUsage/#/PointingToDeclaration/-reversi/pt.isel.reversi/print-usage.html
 pt.isel.reversi
 pt.isel.reversi.cli
 pt.isel.reversi.cli.commands
 pt.isel.reversi.core.board
 pt.isel.reversi.core.game
+pt.isel.reversi.core.game.exceptions
+pt.isel.reversi.core.game.localgda
 
