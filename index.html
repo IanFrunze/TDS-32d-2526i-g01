@@ -65,7 +65,7 @@
   <div class="breadcrumbs"></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Reversi</span></span></h1>
-    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><p class="paragraph">This module implements the Reversi game with a focus on modularity, clarity, and extensibility. The architecture is divided into distinct packages to separate responsibilities, facilitating maintenance, testing, and project evolution.</p><p class="paragraph">It provides a clean core domain (board, players, game state & logic), an extensible CLI layer, and a simple file‑based persistence component. Each package below is declared with a #package marker consumed by Dokka, immediately followed by a concise Markdown heading (title without the fully qualified name) and a narrative description (no code examples) to support conceptual navigation in generated documentation.</p><p class="paragraph">#package pt.isel.reversi.core.board</p><h1 class="">Board</h1><p class="paragraph">Models the reversible grid state and immutable operations over it. The board exposes safe value semantics (data class) and transformation methods that either yield a new board or throw when preconditions are violated. Responsibilities include:</p><ul><li><p class="paragraph">Coordinate normalization and validation (1-based rows, alpha or numeric columns)</p></li><li><p class="paragraph">Piece placement and color flipping with invariant checks (even side, bounds, uniqueness)</p></li><li><p class="paragraph">Deriving initial setup (standard four center pieces) without embedding game turn logic</p></li></ul><p class="paragraph">#package pt.isel.reversi.core.game</p><h1 class="">Game</h1><p class="paragraph">Defines the high‑level game abstraction (composition of board, players, and access layer) plus extension points for logic strategies. It coordinates player actions, target/assist modes and refresh/pass mechanics while remaining UI‑agnostic and persistence‑agnostic. Lifecycle concerns (start, join, play, pass) are modeled to allow future remote or AI player integrations.</p><p class="paragraph">#package pt.isel.reversi.core.game.data</p><h1 class="">Data Access</h1><p class="paragraph">Encapsulates persistence contracts and a lightweight local file implementation using a line‑oriented plain text format. It standardizes outcome reporting with typed result codes and colored CLI formatting while remaining decoupled from the core game rules. Responsibilities include translating domain state to/from a canonical textual representation and validating structural integrity (headers, piece chronology, turn alternation hints).</p><p class="paragraph">#package pt.isel.reversi.core.game.localgda</p><h1 class="">Local GDA</h1><p class="paragraph">Implements the concrete local filesystem persistence (text file format) for the generic data access abstraction. Complements the <code class="lang-kotlin">pt.isel.reversi.core.game.data</code> contracts by providing a human‑readable, append‑oriented storage strategy used by the CLI and tests. Suitable for development and teaching; replaceable by alternative implementations (network / database) without touching domain logic.</p><p class="paragraph">#package pt.isel.reversi.cli</p><h1 class="">CLI</h1><p class="paragraph">Hosts the command‑line presentation & interaction layer: parsing user intent, rendering board snapshots, and routing validated commands into the game abstraction. It focuses on progressive disclosure of information (e.g., optional target hints) and aims to remain scriptable and testable without side‑effects beyond standard IO.</p><p class="paragraph">#package pt.isel.reversi.cli.commands</p><h1 class="">Commands</h1><p class="paragraph">Groups discrete user operations (start, join, move, pass, help, quit) under cohesive command objects. Emphasizes clear feedback, argument validation, and future extensibility (adding commands without modifying existing logic). Avoids embedding persistence or rendering concerns directly.</p><p class="paragraph">#package pt.isel.reversi</p><h1 class="">Core Entry</h1><p class="paragraph">Provides the application bootstrap: wiring dependencies, selecting configured implementations (e.g., local data access), and delegating control to the CLI loop. Serves as the integration point for embedding this module into alternate front‑ends (GUI, web service) or automated test harnesses.</p><h2 class="">Design Notes</h2><ul><li><p class="paragraph">Immutability: Core structures (Board, Piece) return new instances, simplifying reasoning and potential concurrency.</p></li><li><p class="paragraph">Small Surface: Interfaces (GameImpl, GameLogicImpl, GameDataAccessImpl) concentrate on intent, enabling alternative implementations (AI strategies, remote persistence) without refactoring callers.</p></li><li><p class="paragraph">Explicit Outcomes: Data access uses structured result codes rather than exceptions for expected domain states (missing data, invalid format), aiding CLI feedback & tooling.</p></li><li><p class="paragraph">Progressive Enhancement: The current feature set is a foundation; logic expansion (legal move generation, scoring, endgame detection) is intentionally modular.</p></li></ul></div></div>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><p class="paragraph">This module implements the Reversi game with a focus on modularity, clarity, and extensibility. The architecture is divided into distinct packages to separate responsibilities, facilitating maintenance, testing, and project evolution.</p><p class="paragraph">It provides a clean core domain (board, players, game state & logic), a CLI layer, and a simple file‑based persistence component.</p></div></div>
   </div>
   <h2 class="">Packages</h2>
   <div class="table"><a data-name="1681882133%2FPackages%2F769193423" anchor-label="pt.isel.reversi" id="1681882133%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
@@ -83,7 +83,9 @@
             </div>
           </div>
         </div>
-        <div></div>
+        <div><span class="brief-comment"><a data-name="1681882133%2FPackages%2F769193423" anchor-label="pt.isel.reversi" id="1681882133%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Provides the application entry point and composition root: wires dependencies, selects implementations (e.g., local data access), and starts the CLI loop. Acts as the integration point for alternative front‑ends.</p>
+          </span></div>
       </div>
     </div>
 <a data-name="-1304438201%2FPackages%2F769193423" anchor-label="pt.isel.reversi.cli" id="-1304438201%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
@@ -101,7 +103,9 @@
             </div>
           </div>
         </div>
-        <div></div>
+        <div><span class="brief-comment"><a data-name="-1304438201%2FPackages%2F769193423" anchor-label="pt.isel.reversi.cli" id="-1304438201%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Hosts the command‑line interface: parses user input, renders board snapshots, and routes validated commands to the game services. Designed to be scriptable and testable using standard IO.</p>
+          </span></div>
       </div>
     </div>
 <a data-name="-130744749%2FPackages%2F769193423" anchor-label="pt.isel.reversi.cli.commands" id="-130744749%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
@@ -119,7 +123,9 @@
             </div>
           </div>
         </div>
-        <div></div>
+        <div><span class="brief-comment"><a data-name="-130744749%2FPackages%2F769193423" anchor-label="pt.isel.reversi.cli.commands" id="-130744749%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Groups discrete user operations (e.g., start/new, join/load, move, pass, help, quit) under cohesive command objects. Emphasizes clear feedback and argument validation while delegating game rules to the core.</p>
+          </span></div>
       </div>
     </div>
 <a data-name="-366071276%2FPackages%2F769193423" anchor-label="pt.isel.reversi.core.board" id="-366071276%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
@@ -137,7 +143,9 @@
             </div>
           </div>
         </div>
-        <div></div>
+        <div><span class="brief-comment"><a data-name="-366071276%2FPackages%2F769193423" anchor-label="pt.isel.reversi.core.board" id="-366071276%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Models the board (grid), coordinates and piece placement rules. Provides operations to evaluate and apply moves, flip affected pieces, and derive the initial setup according to standard Reversi. Validation ensures moves are within bounds and conform to the game rules.</p>
+          </span></div>
       </div>
     </div>
 <a data-name="-1435700472%2FPackages%2F769193423" anchor-label="pt.isel.reversi.core.game" id="-1435700472%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
@@ -155,7 +163,9 @@
             </div>
           </div>
         </div>
-        <div></div>
+        <div><span class="brief-comment"><a data-name="-1435700472%2FPackages%2F769193423" anchor-label="pt.isel.reversi.core.game" id="-1435700472%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Defines the high‑level game orchestration (turns, move validation, pass, termination) and the composition of core elements (board, players). Remains UI‑agnostic and persistence‑agnostic, exposing a small set of operations to control the game flow.</p>
+          </span></div>
       </div>
     </div>
 <a data-name="-2103932626%2FPackages%2F769193423" anchor-label="pt.isel.reversi.core.game.exceptions" id="-2103932626%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
@@ -173,7 +183,9 @@
             </div>
           </div>
         </div>
-        <div></div>
+        <div><span class="brief-comment"><a data-name="-2103932626%2FPackages%2F769193423" anchor-label="pt.isel.reversi.core.game.exceptions" id="-2103932626%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Defines domain‑specific exceptions to signal rule violations or invalid operations in a controlled manner, keeping error handling separate from the normal flow.</p>
+          </span></div>
       </div>
     </div>
 <a data-name="-1468259133%2FPackages%2F769193423" anchor-label="pt.isel.reversi.core.game.localgda" id="-1468259133%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
@@ -191,7 +203,9 @@
             </div>
           </div>
         </div>
-        <div></div>
+        <div><span class="brief-comment"><a data-name="-1468259133%2FPackages%2F769193423" anchor-label="pt.isel.reversi.core.game.localgda" id="-1468259133%2FPackages%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+            <p class="paragraph">Provides a concrete local filesystem implementation for the data access contracts, using a simple, human‑readable text format. Intended for development and testing; replaceable by alternative implementations without changing domain logic.</p>
+          </span></div>
       </div>
     </div>
   </div>
