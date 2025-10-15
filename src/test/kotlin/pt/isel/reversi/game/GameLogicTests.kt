@@ -247,6 +247,34 @@ class GameLogicTests {
 
     @Test
     /*
+          1 2 3 4
+        1 B W B .
+        2 . W . W
+        3 . . B W
+        4 . . B B
+     */
+    fun `isValidMove should return false when myPiece have occupied position`() {
+        val coordinate = Coordinates(1, 4)
+        var board = Board(4).addPiece(Coordinates(3, 3), BLACK)
+
+        board = board.addPiece(Coordinates(1, 1), BLACK)
+        board = board.addPiece(Coordinates(1, 2), WHITE)
+        board = board.addPiece(Coordinates(1, 3), BLACK)
+        board = board.addPiece(Coordinates(2, 4), WHITE)
+        board = board.addPiece(Coordinates(2, 2), WHITE)
+        board = board.addPiece(Coordinates(3, 4), WHITE)
+        board = board.addPiece(Coordinates(4, 3), BLACK)
+        board = board.addPiece(Coordinates(4, 4), BLACK)
+        board = board.addPiece(Coordinates(1, 4), BLACK)
+
+        val uut = GameLogic().isValidMove(board, Piece(coordinate, BLACK))
+        assert(!uut)
+        val uut2 = GameLogic().isValidMove(board, Piece(coordinate, WHITE))
+        assert(!uut2)
+    }
+
+    @Test
+    /*
         1 2 3 4
       1 B W W .
       2 . W . W
@@ -348,6 +376,34 @@ class GameLogicTests {
 
     @Test
             /*
+             1 2 3 4
+           1 . W W B
+           2 . W . W
+           3 . B B .
+           4 . . B B
+          */
+    fun `play should throw InvalidPlay exception when position is already occupied` () {
+        var board = Board(4).addPiece(Coordinates(1, 2), WHITE)
+        board = board.addPiece(Coordinates(2, 2), WHITE)
+        board = board.addPiece(Coordinates(2, 4), WHITE)
+        board = board.addPiece(Coordinates(4, 3), BLACK)
+        board = board.addPiece(Coordinates(4, 4), BLACK)
+        board = board.addPiece(Coordinates(1, 3), WHITE)
+        board = board.addPiece(Coordinates(3, 2), BLACK)
+        board = board.addPiece(Coordinates(1, 4), BLACK)
+        board = board.addPiece(Coordinates(3, 3), BLACK)
+
+        val myPiece = Piece(Coordinates(1, 1), BLACK)
+
+        board = board.addPiece(myPiece.coordinate,myPiece.value)
+
+        assertFailsWith<InvalidPlay> {
+            val uut = GameLogic().play(board, myPiece)
+        }
+    }
+
+    @Test
+            /*
               1 2 3 4
             1 . W W B
             2 . W . W
@@ -365,11 +421,14 @@ class GameLogicTests {
         board = board.addPiece(Coordinates(1, 4), BLACK)
         board = board.addPiece(Coordinates(3, 3), BLACK)
 
-        var expectedBoard = board.changePiece(Coordinates(1, 2))
+        val myPiece = Piece(Coordinates(1, 1), BLACK)
+
+        var expectedBoard = board.addPiece(myPiece.coordinate, myPiece.value)
+        expectedBoard = expectedBoard.changePiece(Coordinates(1, 2))
         expectedBoard = expectedBoard.changePiece(Coordinates(1, 3))
         expectedBoard = expectedBoard.changePiece(Coordinates(2, 2))
 
-        val uut = GameLogic().play(board, Piece(Coordinates(1, 1), BLACK))
+        val uut = GameLogic().play(board, myPiece)
 
         assert(uut == expectedBoard)
     }
