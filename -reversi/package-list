@@ -22,12 +22,13 @@ $dokka.location:pt.isel.reversi.core.board/Board/addPiece/#kotlin.Int#pt.isel.re
 $dokka.location:pt.isel.reversi.core.board/Board/addPiece/#pt.isel.reversi.core.board.Coordinate#pt.isel.reversi.core.board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/add-piece.html
 $dokka.location:pt.isel.reversi.core.board/Board/changePiece/#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/change-piece.html
 $dokka.location:pt.isel.reversi.core.board/Board/changePiece/#pt.isel.reversi.core.board.Coordinate/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/change-piece.html
+$dokka.location:pt.isel.reversi.core.board/Board/checkPosition/#pt.isel.reversi.core.board.Coordinate/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/check-position.html
 $dokka.location:pt.isel.reversi.core.board/Board/get/#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/get.html
 $dokka.location:pt.isel.reversi.core.board/Board/get/#pt.isel.reversi.core.board.Coordinate/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/get.html
 $dokka.location:pt.isel.reversi.core.board/Board/iterator/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/iterator.html
 $dokka.location:pt.isel.reversi.core.board/Board/side/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/side.html
 $dokka.location:pt.isel.reversi.core.board/Board/startPieces/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/start-pieces.html
-$dokka.location:pt.isel.reversi.core.board/Board/toCoordinates/kotlin.Int#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/to-coordinates.html
+$dokka.location:pt.isel.reversi.core.board/Board/toCoordinate/kotlin.Int#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/to-coordinate.html
 $dokka.location:pt.isel.reversi.core.board/Coordinate///PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-coordinate/index.html
 $dokka.location:pt.isel.reversi.core.board/Coordinate/Coordinate/#kotlin.Int#kotlin.Char/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-coordinate/-coordinate.html
 $dokka.location:pt.isel.reversi.core.board/Coordinate/Coordinate/#kotlin.Int#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-coordinate/-coordinate.html
@@ -40,6 +41,7 @@ $dokka.location:pt.isel.reversi.core.board/Coordinate/row/#/PointingToDeclaratio
 $dokka.location:pt.isel.reversi.core.board/Piece///PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-piece/index.html
 $dokka.location:pt.isel.reversi.core.board/Piece/Piece/#pt.isel.reversi.core.board.Coordinate#pt.isel.reversi.core.board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-piece/-piece.html
 $dokka.location:pt.isel.reversi.core.board/Piece/coordinate/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-piece/coordinate.html
+$dokka.location:pt.isel.reversi.core.board/Piece/swap/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-piece/swap.html
 $dokka.location:pt.isel.reversi.core.board/Piece/value/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-piece/value.html
 $dokka.location:pt.isel.reversi.core.board/PieceType.BLACK///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-reversi/pt.isel.reversi.core.board/-piece-type/-b-l-a-c-k/index.html
 $dokka.location:pt.isel.reversi.core.board/PieceType.Companion///PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-piece-type/-companion/index.html
@@ -61,6 +63,8 @@ $dokka.location:pt.isel.reversi.core.game.exceptions/InvalidGameWriteException/m
 $dokka.location:pt.isel.reversi.core.game.exceptions/InvalidPieceInFileException///PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-piece-in-file-exception/index.html
 $dokka.location:pt.isel.reversi.core.game.exceptions/InvalidPieceInFileException/InvalidPieceInFileException/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-piece-in-file-exception/-invalid-piece-in-file-exception.html
 $dokka.location:pt.isel.reversi.core.game.exceptions/InvalidPieceInFileException/message/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-piece-in-file-exception/message.html
+$dokka.location:pt.isel.reversi.core.game.exceptions/InvalidPlay///PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-play/index.html
+$dokka.location:pt.isel.reversi.core.game.exceptions/InvalidPlay/InvalidPlay/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-play/-invalid-play.html
 $dokka.location:pt.isel.reversi.core.game.exceptions/InvalidSideInFileException///PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-side-in-file-exception/index.html
 $dokka.location:pt.isel.reversi.core.game.exceptions/InvalidSideInFileException/InvalidSideInFileException/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-side-in-file-exception/-invalid-side-in-file-exception.html
 $dokka.location:pt.isel.reversi.core.game.exceptions/InvalidSideInFileException/message/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.exceptions/-invalid-side-in-file-exception/message.html
@@ -112,6 +116,13 @@ $dokka.location:pt.isel.reversi.core.game/GameImpl/refresh/#/PointingToDeclarati
 $dokka.location:pt.isel.reversi.core.game/GameImpl/setTargetMode/#kotlin.Boolean/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-impl/set-target-mode.html
 $dokka.location:pt.isel.reversi.core.game/GameImpl/start/#pt.isel.reversi.core.board.PieceType#kotlin.String?/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-impl/start.html
 $dokka.location:pt.isel.reversi.core.game/GameImpl/target/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-impl/target.html
+$dokka.location:pt.isel.reversi.core.game/GameLogic///PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-logic/index.html
+$dokka.location:pt.isel.reversi.core.game/GameLogic/GameLogic/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-logic/-game-logic.html
+$dokka.location:pt.isel.reversi.core.game/GameLogic/findAround/#pt.isel.reversi.core.board.Board#pt.isel.reversi.core.board.Piece#pt.isel.reversi.core.board.PieceType?/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-logic/find-around.html
+$dokka.location:pt.isel.reversi.core.game/GameLogic/getAvailablePlays/#pt.isel.reversi.core.board.Board#pt.isel.reversi.core.board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-logic/get-available-plays.html
+$dokka.location:pt.isel.reversi.core.game/GameLogic/getCapturablePieces/#pt.isel.reversi.core.board.Board#pt.isel.reversi.core.board.Piece#pt.isel.reversi.core.board.Coordinate/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-logic/get-capturable-pieces.html
+$dokka.location:pt.isel.reversi.core.game/GameLogic/isValidMove/#pt.isel.reversi.core.board.Board#pt.isel.reversi.core.board.Piece/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-logic/is-valid-move.html
+$dokka.location:pt.isel.reversi.core.game/GameLogic/play/#pt.isel.reversi.core.board.Board#pt.isel.reversi.core.board.Piece/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-logic/play.html
 $dokka.location:pt.isel.reversi.core.game/GameLogicImpl///PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-logic-impl/index.html
 $dokka.location:pt.isel.reversi.core.game/GameLogicImpl/getAvailablePlays/#pt.isel.reversi.core.board.Board#pt.isel.reversi.core.board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-logic-impl/get-available-plays.html
 $dokka.location:pt.isel.reversi.core.game/GameLogicImpl/play/#pt.isel.reversi.core.board.Board#kotlin.Int#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-game-logic-impl/play.html
