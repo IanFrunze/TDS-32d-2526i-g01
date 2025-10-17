@@ -45,7 +45,7 @@ class GameLogicTests {
             Piece(Coordinates(3, 1), BLACK),
             Coordinates(0, 1)
         )
-        assert(uut2.isEmpty())
+        assert(uut3.isEmpty())
 
         val uut4 = GameLogic().getCapturablePieces(
             board,
@@ -385,8 +385,10 @@ class GameLogicTests {
 
 
         assertFailsWith<InvalidPlay> {
-            val uut = GameLogic().play(board, Piece(Coordinates(3, 3), WHITE))
-            val uut2 = GameLogic().play(board, Piece(Coordinates(1, 4), BLACK))
+            GameLogic().play(board, Piece(Coordinates(3, 3), WHITE))
+        }
+        assertFailsWith<InvalidPlay> {
+            GameLogic().play(board, Piece(Coordinates(1, 4), BLACK))
         }
     }
 
