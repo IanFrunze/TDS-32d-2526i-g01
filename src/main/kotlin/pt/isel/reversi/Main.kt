@@ -12,9 +12,6 @@ fun printUsage() {
 }
 
 fun main(args: Array<String>) {
-    if (args.isEmpty())
-        return printUsage()
-
     val debug = args.contains("--debug")
     val runCli = args.contains("--cli")
     val runApp = args.contains("--app")
@@ -25,7 +22,7 @@ fun main(args: Array<String>) {
     }
 
     if (runCli || !runApp) {
-        val cli = CLI().setDebug(debug)
+        val cli = CLI(debug)
         cli.startLoop()
     }
     else

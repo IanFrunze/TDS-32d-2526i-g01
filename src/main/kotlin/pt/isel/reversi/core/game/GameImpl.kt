@@ -1,6 +1,7 @@
 package pt.isel.reversi.core.game
 
 import pt.isel.reversi.core.board.Board
+import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.PieceType
 
 /**
@@ -17,7 +18,7 @@ interface GameImpl {
     val currGameName: String?
 
     /** The current board state. */
-    val board: Board
+    val board: Board?
 
     /** Indicates if target mode is enabled. */
     val target: Boolean
@@ -31,30 +32,14 @@ interface GameImpl {
      * @param col The column to play.
      * @return The new game state after the move, or null if invalid.
      */
-    fun play(row: Int, col: Int): GameImpl?
-
-    /**
-     * Starts a new game with the specified piece and optional name.
-     * @param piece The piece type for the first player.
-     * @param name Optional name for the game.
-     * @return The new game state, or null if invalid.
-     */
-    fun start(piece: PieceType, name: String? = null): GameImpl?
+    fun play(coordinate: Coordinate): GameImpl
 
     /**
      * Gets the available piece options for a player name.
      * @param name The player's name.
      * @return List of available piece types.
      */
-    fun pieceOptions(name: String): List<PieceType>
-
-    /**
-     * Joins a player to the game with the specified name and piece.
-     * @param name The player's name.
-     * @param piece The piece type.
-     * @return The new game state, or null if invalid.
-     */
-    fun join(name: String, piece: PieceType): GameImpl?
+    fun pieceOptions(): List<PieceType>
 
     /**
      * Sets the target mode for the game.
@@ -67,7 +52,12 @@ interface GameImpl {
      * Gets the available plays for the current player.
      * @return List of available (row, column) pairs.
      */
-    fun getAvailablePlays(): List<Pair<Int, Int>>
+    fun getAvailablePlays(): List<Coordinate>
+
+    /**
+     * Starts a new game.
+     */
+    fun startNewGame()
 
     /**
      * Passes the current turn.
@@ -85,4 +75,13 @@ interface GameImpl {
      * @return The board.
      */
     fun poopBoard(): Board
+
+    fun copy(
+        dataAccess: GDAImpl = this.dataAccess,
+        players: List<Player> = this.players,
+        currGameName: String? = this.currGameName,
+        board: Board? = this.board,
+        target: Boolean = this.target,
+        isLocal: Boolean = this.isLocal
+    ): GameImpl
 }

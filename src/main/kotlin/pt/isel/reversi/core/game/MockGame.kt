@@ -17,23 +17,15 @@ open class MockGame(
     override val dataAccess: GDAImpl,
     override val players: List<Player>,
     override val currGameName: String?,
-    override val board: Board,
+    override val board: Board?,
     override val target: Boolean,
     override val isLocal: Boolean
 ) : GameImpl {
-    override fun play(row: Int, col: Int): GameImpl? {
+    override fun play(row: Int, col: Int): GameImpl {
         TODO("Not yet implemented")
     }
 
-    override fun start(piece: PieceType, name: String?): GameImpl? {
-        TODO("Not yet implemented")
-    }
-
-    override fun pieceOptions(name: String): List<PieceType> {
-        TODO("Not yet implemented")
-    }
-
-    override fun join(name: String, piece: PieceType): GameImpl? {
+    override fun pieceOptions(): List<PieceType> {
         TODO("Not yet implemented")
     }
 
@@ -60,13 +52,13 @@ open class MockGame(
     /**
      * Convenience copy function to mutate selected fields for tests.
      */
-    fun copy(
-        dataAccess: GDAImpl = this.dataAccess,
-        players: List<Player> = this.players,
-        currGameName: String? = this.currGameName,
-        board: Board = this.board,
-        target: Boolean = this.target,
-        isLocal: Boolean = this.isLocal
+    override fun copy(
+        dataAccess: GDAImpl,
+        players: List<Player>,
+        currGameName: String?,
+        board: Board?,
+        target: Boolean,
+        isLocal: Boolean
     ) = MockGame(dataAccess, players, currGameName, board, target, isLocal)
 
     /**

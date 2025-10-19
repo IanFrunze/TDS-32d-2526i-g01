@@ -4,8 +4,7 @@ import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.game.exceptions.InvalidPlay
-import kotlin.collections.forEach
+import pt.isel.reversi.core.game.exceptions.InvalidPlayException
 
 class GameLogic {
     /**
@@ -15,7 +14,7 @@ class GameLogic {
         * @param myPiece The piece being placed on the board.
         * @return The new state of the board after the play.
         * @throws IllegalArgumentException if the position is out of bounds
-        * @throws InvalidPlay if the play is not valid (when no pieces are captured or position is occupied)
+        * @throws InvalidPlayException if the play is not valid (when no pieces are captured or position is occupied)
         */
     fun play(
         board: Board,
@@ -24,7 +23,7 @@ class GameLogic {
         board.checkPosition(myPiece.coordinate)
         board[myPiece.coordinate]?.let {
             //if != null, position is occupied
-            throw InvalidPlay("Invalid play, position already occupied: $myPiece")
+            throw InvalidPlayException("Invalid play, position already occupied: $myPiece")
         }
         //Get all opponent pieces around (1 cell away in any direction) of myPiece
         val opponentPieces = findAround(board, myPiece, myPiece.value.swap())
@@ -37,7 +36,7 @@ class GameLogic {
         }
 
         //If no capturable pieces, the play is invalid
-        if (capturablePieces.isEmpty()) throw InvalidPlay("Invalid play: $myPiece")
+        if (capturablePieces.isEmpty()) throw InvalidPlayException("Invalid play: $myPiece")
 
         //Create a new board with myPiece added and all capturable pieces swapped
         val newPieces = board.map {piece ->
