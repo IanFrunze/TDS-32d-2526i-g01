@@ -1,6 +1,5 @@
 package pt.isel.reversi.core.board
 
-import kotlin.collections.find
 /**
  * Represents a board game grid.
  *
