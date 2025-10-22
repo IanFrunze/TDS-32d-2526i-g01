@@ -5,6 +5,7 @@ import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.game.exceptions.InvalidGameException
 import pt.isel.reversi.core.game.exceptions.InvalidPlayException
 
 /**
@@ -25,11 +26,22 @@ open class Game(
     override val currGameName: String?,
     override val board: Board?
 ) : GameImpl {
+    /**
+     * Plays a move at the specified coordinate.
+     * Saves the piece to data access if the game is not local.
+     * Only check player turn if it is a not local game.
+     * @param coordinate The (row, column) coordinate for the move.
+     * @return The new game state after the move.
+     * @throws InvalidPlayException if it's not the player's turn or if the play is invalid.
+     * @throws IllegalArgumentException if the position is out of bounds.
+     * @throws InvalidGameException if the game is not started yet (board is null).
+     */
     override fun play(coordinate: Coordinate): GameImpl {
-        var newBoard = board ?: throw InvalidPlayException(
-            message = "Game is not started yet."
+        var newBoard = board ?: throw InvalidGameException(
+            message = "Game is not started yet (board is null)."
         )
 
+        //if it is not a local game, and it is not the player's turn
         if (players.size == 1 && players[0].type != playerTurn) {
             throw InvalidPlayException(
                 message = "It's not your turn"
@@ -45,6 +57,7 @@ open class Game(
         }
         val nextPlayerTurn = playerTurn.swap()
 
+        // save the piece to the data access if game is not local
         if (currGameName != null) {
             dataAccess.postPiece(currGameName!!, piece)
         }
@@ -56,27 +69,52 @@ open class Game(
         )
     }
 
+    /**
+     * Gets the available piece options in the data access for the current game.
+     * if the game is local (currGameName is null), returns an empty list.
+     * @return List of available piece types.
+     * @throws java.io.IOException if there is an error accessing the data.
+     */
     override fun pieceOptions(): List<PieceType> {
         if (currGameName == null) return emptyList()
         return dataAccess.getAvailablePieces(currGameName!!)
     }
 
+    /**
+     * Sets the target mode for the game.
+     * @param target True to enable target mode.
+     * @return The updated game state.
+     */
     override fun setTargetMode(target: Boolean): GameImpl =
         this.copy(target = target)
 
+    /** Gets the available plays for the current player.
+     * If it is not a local game, and it is not the player's turn, returns an empty list.
+     * @return List of available plays.
+     * @throws InvalidGameException if the game is not started yet (board is null).
+     */
     override fun getAvailablePlays(): List<Coordinate> {
+        // if it is not a local game, and it is not the player's turn
         if (players.size == 1 && players[0].type != playerTurn) {
             return emptyList()
         }
 
         return GameLogic().getAvailablePlays(
-            board = board ?: throw InvalidPlayException(
-                message = "Game is not started yet."
+            board = board ?: throw InvalidGameException(
+                message = "Game is not started yet (board is null)."
             ),
             myPieceType = playerTurn
         )
     }
 
+    /**
+     * Starts a new game.
+     * @param side The side length of the board.
+     * @param players The list of players.
+     * @param firstTurn The piece type of the player who goes first.
+     * @param currGameName The current game name.
+     * @return The new game state.
+     */
     override fun startNewGame(
         side: Int,
         players: List<Player>,
