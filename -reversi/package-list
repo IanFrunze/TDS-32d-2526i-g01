@@ -24,7 +24,6 @@ $dokka.location:pt.isel.reversi.cli/CLI/extraCommands/#/PointingToDeclaration/-
 $dokka.location:pt.isel.reversi.cli/CLI/startLoop/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/start-loop.html
 $dokka.location:pt.isel.reversi.cli/CLI/welcomeMessage/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/welcome-message.html
 $dokka.location:pt.isel.reversi.core.board////PointingToDeclaration/-reversi/pt.isel.reversi.core.board/index.html
-$dokka.location:pt.isel.reversi.core.board//DEFAULT_SIDE/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-d-e-f-a-u-l-t_-s-i-d-e.html
 $dokka.location:pt.isel.reversi.core.board/Board///PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/index.html
 $dokka.location:pt.isel.reversi.core.board/Board/Board/#kotlin.Int#kotlin.collections.List[pt.isel.reversi.core.board.Piece]#kotlin.Int#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/-board.html
 $dokka.location:pt.isel.reversi.core.board/Board/addPiece/#kotlin.Int#pt.isel.reversi.core.board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/add-piece.html
@@ -104,7 +103,6 @@ $dokka.location:pt.isel.reversi.core.game.localgda/LocalGDA/postGame/#kotlin.Str
 $dokka.location:pt.isel.reversi.core.game.localgda/LocalGDA/postPass/#kotlin.String#pt.isel.reversi.core.board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-local-g-d-a/post-pass.html
 $dokka.location:pt.isel.reversi.core.game.localgda/LocalGDA/postPiece/#kotlin.String#pt.isel.reversi.core.board.Piece/PointingToDeclaration/-reversi/pt.isel.reversi.core.game.localgda/-local-g-d-a/post-piece.html
 $dokka.location:pt.isel.reversi.core.game////PointingToDeclaration/-reversi/pt.isel.reversi.core.game/index.html
-$dokka.location:pt.isel.reversi.core.game//firstPlayerTurn/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/first-player-turn.html
 $dokka.location:pt.isel.reversi.core.game/GDAImpl///PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-g-d-a-impl/index.html
 $dokka.location:pt.isel.reversi.core.game/GDAImpl/getAvailablePieces/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-g-d-a-impl/get-available-pieces.html
 $dokka.location:pt.isel.reversi.core.game/GDAImpl/getBoard/#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.core.game/-g-d-a-impl/get-board.html
@@ -171,6 +169,7 @@ $dokka.location:pt.isel.reversi.core.game/Player/type/#/PointingToDeclaration/-
 $dokka.location:pt.isel.reversi.core////PointingToDeclaration/-reversi/pt.isel.reversi.core/index.html
 $dokka.location:pt.isel.reversi.core/Environment///PointingToDeclaration/-reversi/pt.isel.reversi.core/-environment/index.html
 $dokka.location:pt.isel.reversi.core/Environment/BOARD_SIDE/#/PointingToDeclaration/-reversi/pt.isel.reversi.core/-environment/-b-o-a-r-d_-s-i-d-e.html
+$dokka.location:pt.isel.reversi.core/Environment/firstPlayerTurn/#/PointingToDeclaration/-reversi/pt.isel.reversi.core/-environment/first-player-turn.html
 $dokka.location:pt.isel.reversi////PointingToDeclaration/-reversi/pt.isel.reversi/index.html
 $dokka.location:pt.isel.reversi//main/#kotlin.Array[kotlin.String]/PointingToDeclaration/-reversi/pt.isel.reversi/main.html
 $dokka.location:pt.isel.reversi//printUsage/#/PointingToDeclaration/-reversi/pt.isel.reversi/print-usage.html
