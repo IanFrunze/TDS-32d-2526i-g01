@@ -1,7 +1,5 @@
 package pt.isel.reversi.core.board
 
-// TODO: organize const values
-const val DEFAULT_SIDE = 8
 /**
  * Represents a coordinate on the board.
  * @property row The row index (1-based).

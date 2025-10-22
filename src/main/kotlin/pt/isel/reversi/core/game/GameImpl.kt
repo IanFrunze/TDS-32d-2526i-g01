@@ -1,8 +1,9 @@
 package pt.isel.reversi.core.game
 
+import pt.isel.reversi.core.Environment.BOARD_SIDE
+import pt.isel.reversi.core.Environment.firstPlayerTurn
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
-import pt.isel.reversi.core.board.DEFAULT_SIDE
 import pt.isel.reversi.core.board.PieceType
 
 /**
@@ -56,7 +57,7 @@ interface GameImpl {
      * Starts a new game.
      */
     fun startNewGame(
-        side: Int = DEFAULT_SIDE,
+        side: Int = BOARD_SIDE,
         players: List<Player>,
         firstTurn: PieceType = firstPlayerTurn,
         currGameName: String? = null,

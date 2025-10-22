@@ -1,13 +1,12 @@
 package pt.isel.reversi.core.game
 
+import pt.isel.reversi.core.Environment.firstPlayerTurn
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.game.exceptions.InvalidPlayException
 
-// TODO: Organize const values
-val firstPlayerTurn = PieceType.BLACK
 /**
  * Lightweight test/dummy implementation of [GameImpl] used for data access and integration tests.
  *

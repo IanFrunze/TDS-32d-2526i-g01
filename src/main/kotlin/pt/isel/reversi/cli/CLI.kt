@@ -6,7 +6,7 @@ import pt.isel.reversi.core.Environment
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.game.Game
 import pt.isel.reversi.core.game.GameImpl
-import pt.isel.reversi.core.game.firstPlayerTurn
+import pt.isel.reversi.core.Environment.firstPlayerTurn
 import pt.isel.reversi.core.game.localgda.LocalGDA
 import pt.rafap.ktflag.CommandParser
 import pt.rafap.ktflag.cmd.CommandImpl

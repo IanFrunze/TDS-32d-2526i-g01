@@ -449,6 +449,7 @@ class GameLogicTests {
         val uut = GameLogic().play(board, myPiece)
 
         uut.forEachIndexed { idx,piece ->
+
             assert(piece.coordinate == correctSequence[idx])
         }
     }
