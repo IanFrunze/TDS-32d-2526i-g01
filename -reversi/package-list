@@ -25,7 +25,7 @@ $dokka.location:pt.isel.reversi.cli/CLI/startLoop/#/PointingToDeclaration/-reve
 $dokka.location:pt.isel.reversi.cli/CLI/welcomeMessage/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/welcome-message.html
 $dokka.location:pt.isel.reversi.core.board////PointingToDeclaration/-reversi/pt.isel.reversi.core.board/index.html
 $dokka.location:pt.isel.reversi.core.board/Board///PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/index.html
-$dokka.location:pt.isel.reversi.core.board/Board/Board/#kotlin.Int#kotlin.collections.List[pt.isel.reversi.core.board.Piece]#kotlin.Int#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/-board.html
+$dokka.location:pt.isel.reversi.core.board/Board/Board/#kotlin.Int#kotlin.collections.List[pt.isel.reversi.core.board.Piece]/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/-board.html
 $dokka.location:pt.isel.reversi.core.board/Board/addPiece/#kotlin.Int#pt.isel.reversi.core.board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/add-piece.html
 $dokka.location:pt.isel.reversi.core.board/Board/addPiece/#pt.isel.reversi.core.board.Coordinate#pt.isel.reversi.core.board.PieceType/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/add-piece.html
 $dokka.location:pt.isel.reversi.core.board/Board/addPiece/#pt.isel.reversi.core.board.Piece/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/add-piece.html
