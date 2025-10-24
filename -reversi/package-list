@@ -40,6 +40,8 @@ $dokka.location:pt.isel.reversi.core.board/Board/startPieces/#/PointingToDeclara
 $dokka.location:pt.isel.reversi.core.board/Board/toCoordinate/kotlin.Int#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/to-coordinate.html
 $dokka.location:pt.isel.reversi.core.board/Board/totalBlackPieces/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/total-black-pieces.html
 $dokka.location:pt.isel.reversi.core.board/Board/totalWhitePieces/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-board/total-white-pieces.html
+$dokka.location:pt.isel.reversi.core.board/Coordinate.Companion///PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-coordinate/-companion/index.html
+$dokka.location:pt.isel.reversi.core.board/Coordinate.Companion/allDirection/#/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-coordinate/-companion/all-direction.html
 $dokka.location:pt.isel.reversi.core.board/Coordinate///PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-coordinate/index.html
 $dokka.location:pt.isel.reversi.core.board/Coordinate/Coordinate/#kotlin.Int#kotlin.Char/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-coordinate/-coordinate.html
 $dokka.location:pt.isel.reversi.core.board/Coordinate/Coordinate/#kotlin.Int#kotlin.Int/PointingToDeclaration/-reversi/pt.isel.reversi.core.board/-coordinate/-coordinate.html
