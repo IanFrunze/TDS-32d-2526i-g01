@@ -18,9 +18,10 @@ $dokka.location:pt.isel.reversi.cli.commands/PlayCmd/execute/#kotlin.Array[kotli
 $dokka.location:pt.isel.reversi.cli.commands/PlayCmd/info/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli.commands/-play-cmd/info.html
 $dokka.location:pt.isel.reversi.cli////PointingToDeclaration/-reversi/pt.isel.reversi.cli/index.html
 $dokka.location:pt.isel.reversi.cli/CLI///PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/index.html
-$dokka.location:pt.isel.reversi.cli/CLI/CLI/#kotlin.Boolean#kotlin.Array[pt.rafap.ktflag.cmd.CommandImpl[pt.isel.reversi.core.game.GameImpl]]#kotlin.String/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/-c-l-i.html
+$dokka.location:pt.isel.reversi.cli/CLI/CLI/#kotlin.Array[pt.rafap.ktflag.cmd.CommandImpl[pt.isel.reversi.core.game.GameImpl]]#kotlin.Boolean#kotlin.String#kotlin.Array[pt.rafap.ktflag.cmd.CommandImpl[pt.isel.reversi.core.game.GameImpl]]/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/-c-l-i.html
+$dokka.location:pt.isel.reversi.cli/CLI/commands/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/commands.html
 $dokka.location:pt.isel.reversi.cli/CLI/debug/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/debug.html
-$dokka.location:pt.isel.reversi.cli/CLI/extraCommands/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/extra-commands.html
+$dokka.location:pt.isel.reversi.cli/CLI/debugCommands/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/debug-commands.html
 $dokka.location:pt.isel.reversi.cli/CLI/startLoop/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/start-loop.html
 $dokka.location:pt.isel.reversi.cli/CLI/welcomeMessage/#/PointingToDeclaration/-reversi/pt.isel.reversi.cli/-c-l-i/welcome-message.html
 $dokka.location:pt.isel.reversi.core.board////PointingToDeclaration/-reversi/pt.isel.reversi.core.board/index.html
@@ -175,6 +176,8 @@ $dokka.location:pt.isel.reversi.core/Environment///PointingToDeclaration/-rever
 $dokka.location:pt.isel.reversi.core/Environment/BOARD_SIDE/#/PointingToDeclaration/-reversi/pt.isel.reversi.core/-environment/-b-o-a-r-d_-s-i-d-e.html
 $dokka.location:pt.isel.reversi.core/Environment/firstPlayerTurn/#/PointingToDeclaration/-reversi/pt.isel.reversi.core/-environment/first-player-turn.html
 $dokka.location:pt.isel.reversi////PointingToDeclaration/-reversi/pt.isel.reversi/index.html
+$dokka.location:pt.isel.reversi//editLines/#okio.Path#kotlin.Function1[kotlin.String,kotlin.String]/PointingToDeclaration/-reversi/pt.isel.reversi/edit-lines.html
+$dokka.location:pt.isel.reversi//main/#/PointingToDeclaration/-reversi/pt.isel.reversi/main.html
 $dokka.location:pt.isel.reversi//main/#kotlin.Array[kotlin.String]/PointingToDeclaration/-reversi/pt.isel.reversi/main.html
 $dokka.location:pt.isel.reversi//printUsage/#/PointingToDeclaration/-reversi/pt.isel.reversi/print-usage.html
 pt.isel.reversi
