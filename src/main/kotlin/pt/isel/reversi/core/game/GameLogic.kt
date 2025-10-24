@@ -36,7 +36,8 @@ class GameLogic {
         }
 
         //If no capturable pieces, the play is invalid
-        if (capturablePieces.isEmpty()) throw InvalidPlayException("Invalid play: $myPiece")
+        if (capturablePieces.isEmpty())
+            throw InvalidPlayException("Invalid play: ${myPiece.coordinate.row} ${myPiece.coordinate.col}")
 
         //Create a new board with myPiece added and all capturable pieces swapped
         var newBoard: Board = board.changePiece(capturablePieces[0])
