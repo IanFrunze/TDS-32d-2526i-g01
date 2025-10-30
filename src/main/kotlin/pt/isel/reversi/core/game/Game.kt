@@ -29,20 +29,18 @@ open class Game(
     override val countPass: Int = 0,
 ) : GameImpl {
 
-    constructor(): this(
-                dataAccess = DATA_ACCESS,
-                players = emptyList(),
-                target = false,
-                playerTurn = First_Player_TURN,
-                currGameName = null,
-                board = null,
-            )
+    constructor() : this(
+        dataAccess = DATA_ACCESS,
+        players = emptyList(),
+        target = false,
+        playerTurn = First_Player_TURN,
+        currGameName = null,
+        board = null,
+    )
 
-    fun isStarted(): Boolean {
-        if (board == null) return false
-        if (players.isEmpty()) return false
-        return true
-    }
+    fun isStarted(): Boolean =
+        board != null && players.isNotEmpty()
+
     /**
      * Plays a move at the specified coordinate.
      * Saves the piece to data access if the game is not local.
@@ -54,11 +52,10 @@ open class Game(
      * @throws InvalidGameException if the game is not started yet (board is null).
      */
     override fun play(coordinate: Coordinate): GameImpl {
-        if (!isStarted()) throw InvalidGameException(
+        var newBoard = if (!isStarted()) throw InvalidGameException(
             "Game is not started yet (board is null or players are empty)."
-        )
+        ) else board as Board
 
-        var newBoard = board as Board
 
         //if it has only one player and is not his turn
         if (players.size == 1 && players[0].type != playerTurn) {
@@ -69,7 +66,7 @@ open class Game(
 
         newBoard = GameLogic().play(newBoard, myPiece = piece)
 
-        val newPlayers = players.map {it.refresh(newBoard)}
+        val newPlayers = players.map { it.refresh(newBoard) }
 
         val nextPlayerTurn = playerTurn.swap()
 
@@ -99,10 +96,14 @@ open class Game(
      * @throws java.io.IOException if there is an error accessing the data.
      */
     override fun pieceOptions(): List<PieceType> {
-        val tempCurrGameName = currGameName ?: return emptyList()
-        return dataAccess.getAvailablePieces(tempCurrGameName)
+        val tempCurrGameName = currGameName
+        return when {
+            tempCurrGameName != null -> dataAccess.getAvailablePieces(tempCurrGameName)
+            players.size == 1 -> players.map { it.type.swap() }
+            players.isEmpty() -> PieceType.entries
+            else -> emptyList()
+        }
     }
-
     /**
      * Sets the target mode for the game.
      * @param target True to enable target mode.
@@ -117,15 +118,17 @@ open class Game(
      * @throws InvalidGameException if the game is not started yet (board is null).
      */
     override fun getAvailablePlays(): List<Coordinate> {
+        if (!isStarted()) throw InvalidGameException(
+            message = "Game is not started yet (board is null)."
+        )
+
         // if it is not a local game, and it is not the player's turn
         if (players.size == 1 && players[0].type != playerTurn) {
             return emptyList()
         }
 
         return GameLogic().getAvailablePlays(
-            board = board ?: throw InvalidGameException(
-                message = "Game is not started yet (board is null)."
-            ),
+            board = board as Board,
             myPieceType = playerTurn
         )
     }
@@ -147,13 +150,17 @@ open class Game(
         val board = Board(side).startPieces()
         return this.copy(
             board = board,
-            players = players.map {it.refresh(board)},
+            players = players.map { it.refresh(board) },
             currGameName = currGameName,
             playerTurn = firstTurn
         )
     }
 
     override fun pass(): GameImpl {
+        if (!isStarted()) throw InvalidGameException(
+            message = "Game is not started yet (board is null or players are empty)."
+        )
+
         if (players.size == 1 && players[0].type != playerTurn) {
             throw InvalidPlayException(
                 message = "It's not your turn"

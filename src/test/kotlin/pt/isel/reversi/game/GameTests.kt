@@ -140,4 +140,43 @@ class GameTests {
             uut.play(Coordinate(1,2))
         }
     }
+
+    @Test
+    fun `pieceOptions in local game with 1 player return inverted pieces`() {
+        val expectedType = listOf(PieceType.BLACK)
+        val uut = Game().startNewGame(
+            side = 4,
+            players = listOf(Player(PieceType.WHITE)),
+            firstTurn = PieceType.BLACK,
+            currGameName = null,
+        )
+
+        assertEquals(expectedType, uut.pieceOptions())
+    }
+
+    @Test
+    fun `pieceOptions in local game with 2 players return emptyList`() {
+        val expectedType = emptyList<PieceType>()
+        val uut = Game().startNewGame(
+            side = 4,
+            players = listOf(Player(PieceType.BLACK), Player(PieceType.WHITE)),
+            firstTurn = PieceType.BLACK,
+            currGameName = null,
+        )
+
+        assertEquals(expectedType, uut.pieceOptions())
+    }
+
+    @Test
+    fun `pieceOptions in local game with no players return all piece types`() {
+        val expectedType = listOf(PieceType.BLACK, PieceType.WHITE)
+        val uut = Game().startNewGame(
+            side = 4,
+            players = emptyList(),
+            firstTurn = PieceType.BLACK,
+            currGameName = null,
+        )
+
+        assertEquals(expectedType, uut.pieceOptions())
+    }
 }
