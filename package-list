@@ -10,3 +10,5 @@ pt.isel.reversi.core.board
 pt.isel.reversi.core.game
 pt.isel.reversi.core.game.exceptions
 pt.isel.reversi.core.game.localgda
+module:reversi-storage
+pt.isel.reversi.storage
