@@ -1,0 +1,12 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:reversi-cli
+pt.isel.reversi.cli
+pt.isel.reversi.cli.commands
+module:reversi-core
+pt.isel.reversi.core
+pt.isel.reversi.core.board
+pt.isel.reversi.core.game
+pt.isel.reversi.core.game.exceptions
+pt.isel.reversi.core.game.localgda
