@@ -94,7 +94,7 @@
   <div class="breadcrumbs"></div>
   <div class="cover ">
     <h1 class="cover"><span><span>reversi-cli</span></span></h1>
-    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><p class="paragraph">This module implements the core domain logic and persistence contracts.</p></div></div>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><p class="paragraph">This module is responsible for the command‑line interface of the Reversi game. It handles user input parsing, game state rendering, and command routing to the core game services. This design is based on the library <a href="https://github.com/rafapear/KtFlag">KtFlag</a> for command parsing. THis library removes a lot of boilerplate code and allows us to focus on the core logic of the CLI. In the bellows sections, we detail the main packages.</p><p class="paragraph"><img alt="Cli Architecture" src="../images/UML_Structure_CLI.png"></p></div></div>
   </div>
   <h2 class="">Packages</h2>
   <div class="table"><a data-name="-1304438201%2FPackages%2F-1540045439" anchor-label="pt.isel.reversi.cli" id="-1304438201%2FPackages%2F-1540045439" data-filterable-set=":reversi-cli:dokkaHtmlPartial/main"></a>
@@ -133,7 +133,7 @@
           </div>
         </div>
         <div><span class="brief-comment"><a data-name="-130744749%2FPackages%2F-1540045439" anchor-label="pt.isel.reversi.cli.commands" id="-130744749%2FPackages%2F-1540045439" data-filterable-set=":reversi-cli:dokkaHtmlPartial/main"></a>
-            <p class="paragraph">Groups discrete user operations (e.g., start/new, join/load, move, pass, help, quit) under cohesive command objects. Emphasizes clear feedback and argument validation while delegating game rules to the core.</p>
+            <p class="paragraph">Defines the command structure, parsing logic, and validation for user inputs. Each command corresponds to a specific game action (e.g., start, move, pass, show). Utilizes KtFlag to streamline argument parsing and error handling.</p>
           </span></div>
       </div>
     </div>

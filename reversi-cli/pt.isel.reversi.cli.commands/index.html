@@ -94,7 +94,7 @@
   <div class="breadcrumbs"><a href="../index.html">reversi-cli</a><span class="delimiter">/</span><span class="current">pt.isel.reversi.cli.commands</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
-    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><h2 class="">Overview</h2><p class="paragraph">Groups discrete user operations (e.g., start/new, join/load, move, pass, help, quit) under cohesive command objects. Emphasizes clear feedback and argument validation while delegating game rules to the core.</p><h3 class="">Responsibilities</h3><ul><li><p class="paragraph">Command parsing and validation</p></li><li><p class="paragraph">Error reporting with actionable guidance</p></li><li><p class="paragraph">Extensibility for new commands</p></li></ul></div></div>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><h2 class="">Overview</h2><p class="paragraph">Defines the command structure, parsing logic, and validation for user inputs. Each command corresponds to a specific game action (e.g., start, move, pass, show). Utilizes KtFlag to streamline argument parsing and error handling.</p><h2 class="">Example of a command</h2><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">object ExampleCmd : CommandImpl&lt;Game&gt;() {<br>    override val info: CommandInfo = CommandInfo(<br>        title = "Example Command",<br>        description = "An example command that demonstrates structure.",<br>        longDescription = "This command serves as a template for creating new commands.",<br>        aliases = listOf("ex", "example"),<br>        usage = "example",<br>        minArgs = 0,<br>        maxArgs = 0<br>    )<br><br>    override fun execute(<br>        vararg args: String,<br>        context: Game?<br>    ): CommandResult&lt;Game&gt; {<br>        println("Executing example command...")<br><br>        return CommandResult.SUCCESS("Example command executed successfully", context)<br>    }<br><br>}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">This structure allows for easy addition of new commands by defining their info and execution logic.</p><blockquote class="quotation"><p class="paragraph">⚠️ <strong>Note:</strong> If you want to better explore <code class="lang-kotlin">KtFlag</code>, check the <a href="https://github.com/rafapear/KtFlag">KtFlag repository</a></p></blockquote></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button></div>
@@ -111,7 +111,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-exit-cmd/index.html">ExitCmd</a> : <span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game-impl/index.html">GameImpl</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Command to exit the application.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-exit-cmd/index.html">ExitCmd</a> : <span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Command to exit the application.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -126,7 +126,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-join-cmd/index.html">JoinCmd</a> : <span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game-impl/index.html">GameImpl</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Command to join a game.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-join-cmd/index.html">JoinCmd</a> : <span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Command to join a game.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -141,7 +141,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-new-cmd/index.html">NewCmd</a> : <span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game-impl/index.html">GameImpl</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Command to create a new game with the specified first player.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-new-cmd/index.html">NewCmd</a> : <span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Command to create a new game with the specified first player.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -156,7 +156,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-pass-cmd/index.html">PassCmd</a> : <span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game-impl/index.html">GameImpl</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Command to do a pass in a game.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-pass-cmd/index.html">PassCmd</a> : <span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Command to do a pass in a game.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -171,7 +171,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-play-cmd/index.html">PlayCmd</a> : <span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game-impl/index.html">GameImpl</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Command to do a play in a game.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-play-cmd/index.html">PlayCmd</a> : <span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Command to do a play in a game.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -186,7 +186,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-show-cmd/index.html">ShowCmd</a> : <span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game-impl/index.html">GameImpl</a><span class="token operator">&gt; </span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-show-cmd/index.html">ShowCmd</a> : <span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token operator">&gt; </span></div></div></div>
                 </div>
               </div>
             </div>
