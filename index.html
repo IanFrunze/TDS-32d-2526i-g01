@@ -99,14 +99,14 @@
           <p class="paragraph">Structured result codes for persistence feedback</p>
         </li>
         <li>
-          <p class="paragraph">Unit tests (board + data access layer)</p>
+          <p class="paragraph">Unit tests (board and data access layer)</p>
         </li>
         <li>
           <p class="paragraph">Generated documentation (Dokka) with curated package overviews</p>
         </li>
       </ul>
-      <h2 class="">Structure Image</h2>
-      <p class="paragraph"><img alt="Module Structure" src="UML_Structure.drawio.png"></p>
+      <h2 class="">Project Structure</h2>
+      <p class="paragraph"><img alt="Project Structure" src="images/UML_Structure.drawio.png"></p>
       <h2 class="">Quick Start</h2>
       <div class="sample-container">
         <pre><code class="block lang-bash" theme="idea"># Build (includes fat JAR and docs)<br>./gradlew build<br><br># Run (fat jar contains dependencies)<br>java -jar build/libs/Reversi-0.0.1-all.jar --cli</code></pre>
@@ -129,33 +129,34 @@
         </thead>
         <tbody>
           <tr>
-            <td><code class="org.jetbrains.dokka.pages.commenttable@535891ec lang-kotlin">pt.isel.reversi.core.board</code></td>
+            <td><code class="org.jetbrains.dokka.pages.commenttable@73cef519 lang-kotlin">pt.isel.reversi.core.board</code></td>
             <td>Board, coordinates, piece types & safe transformation operations</td>
           </tr>
           <tr>
-            <td><code class="org.jetbrains.dokka.pages.commenttable@535891ec lang-kotlin">pt.isel.reversi.core.game</code></td>
+            <td><code class="org.jetbrains.dokka.pages.commenttable@73cef519 lang-kotlin">pt.isel.reversi.core.game</code></td>
             <td>Game interfaces, player representation, logic contracts</td>
           </tr>
           <tr>
-            <td><code class="org.jetbrains.dokka.pages.commenttable@535891ec lang-kotlin">pt.isel.reversi.core.game.localgda</code></td>
-            <td>Concrete local text-file persistence (<code class="org.jetbrains.dokka.pages.commenttable@535891ec lang-kotlin">LocalGDA</code>)</td>
+            <td><code class="org.jetbrains.dokka.pages.commenttable@73cef519 lang-kotlin">pt.isel.reversi.core.game.localgda</code></td>
+            <td>Concrete local text-file persistence (<code class="org.jetbrains.dokka.pages.commenttable@73cef519 lang-kotlin">LocalGDA</code>)</td>
           </tr>
           <tr>
-            <td><code class="org.jetbrains.dokka.pages.commenttable@535891ec lang-kotlin">pt.isel.reversi.cli</code></td>
+            <td><code class="org.jetbrains.dokka.pages.commenttable@73cef519 lang-kotlin">pt.isel.reversi.cli</code></td>
             <td>CLI loop & rendering utilities</td>
           </tr>
           <tr>
-            <td><code class="org.jetbrains.dokka.pages.commenttable@535891ec lang-kotlin">pt.isel.reversi.cli.commands</code></td>
+            <td><code class="org.jetbrains.dokka.pages.commenttable@73cef519 lang-kotlin">pt.isel.reversi.cli.commands</code></td>
             <td>Discrete command handlers for user actions</td>
           </tr>
         </tbody>
       </table>
+      <p class="paragraph"><img alt="Module Structure" src="images/Module_Structure.drawio.png"></p>
       <p class="paragraph">For in-depth narrative descriptions see <code class="lang-kotlin">Module.md</code> (also surfaced in generated Dokka docs).</p>
       <h2 class="">Local Persistence (LocalGDA)</h2>
       <p class="paragraph"><code class="lang-kotlin">LocalGDA</code> stores each game in a single UTF-8 text file with a deterministic, human-readable structure. The file is line-oriented and intentionally simple so it can be inspected and edited by hand if needed.</p>
       <p class="paragraph">Supported line kinds (order is flexible for headers; moves/passes are chronological):</p>
       <div class="sample-container">
-        <pre><code class="block lang-kotlin" theme="idea">availablePieces: SYMBOL(|SYMBOL)*   # available piece symbols separated by '|', e.g. &quot;#|@&quot;<br>side: N                              # integer board side (even, e.g. 8)<br>player: SYMBOL points playsLeft      # optional player lines<br>piece: row col SYMBOL                # a played piece; row and col are integers<br>pass: SYMBOL                         # a pass for the player with the given symbol</code></pre>
+        <pre><code class="block lang-kotlin" theme="idea">availablePieces: SYMBOL(|SYMBOL)*    # available piece symbols separated by '|', e.g. &quot;#|@&quot;<br>side: N                              # integer board side (even, e.g. 8)<br>player: SYMBOL points playsLeft      # optional player lines<br>piece: row col SYMBOL                # a played piece; row and col are integers<br>pass: SYMBOL                         # a pass for the player with the given symbol</code></pre>
 <span class="top-right-position"><span class="copy-icon"></span>
           <div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div>
         </span></div>
@@ -234,15 +235,15 @@
         <tbody>
           <tr>
             <td>Add AI player</td>
-            <td>Implement strategy inside a new logic class conforming to <code class="org.jetbrains.dokka.pages.commenttable@535891ec lang-kotlin">GameLogicImpl</code> (future)</td>
+            <td>Implement strategy inside a new logic class conforming to <code class="org.jetbrains.dokka.pages.commenttable@73cef519 lang-kotlin">GameLogicImpl</code> (future)</td>
           </tr>
           <tr>
             <td>Remote persistence</td>
-            <td>Provide another <code class="org.jetbrains.dokka.pages.commenttable@535891ec lang-kotlin">GDAImpl</code> (e.g., HTTP or DB) and inject at bootstrap</td>
+            <td>Provide another <code class="org.jetbrains.dokka.pages.commenttable@73cef519 lang-kotlin">GDAImpl</code> (e.g., HTTP or DB) and inject at bootstrap</td>
           </tr>
           <tr>
             <td>Rich CLI feedback</td>
-            <td>Leverage <code class="org.jetbrains.dokka.pages.commenttable@535891ec lang-kotlin">toStringColored()</code> on results; add command output adapters</td>
+            <td>Leverage <code class="org.jetbrains.dokka.pages.commenttable@73cef519 lang-kotlin">toStringColored()</code> on results; add command output adapters</td>
           </tr>
           <tr>
             <td>GUI / Web UI</td>
@@ -320,7 +321,9 @@
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1833363468%2FMain%2F0"></span>
                 <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
               </span></span></div>
-          <div><span class="brief-comment"></span></div>
+          <div><span class="brief-comment">
+              <p class="paragraph">This module implements the core domain logic and persistence contracts.</p>
+            </span></div>
         </div>
       </div>
 <a data-name="2080261359%2FMain%2F0" anchor-label="reversi-core" id="2080261359%2FMain%2F0" data-filterable-set=""></a>
@@ -342,7 +345,9 @@
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1012541063%2FMain%2F0"></span>
                 <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
               </span></span></div>
-          <div><span class="brief-comment"></span></div>
+          <div><span class="brief-comment">
+              <p class="paragraph">This module implements the core domain logic and persistence contracts.</p>
+            </span></div>
         </div>
       </div>
     </div>
