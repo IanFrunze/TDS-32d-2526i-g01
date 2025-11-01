@@ -5,7 +5,7 @@ import kotlin.test.assertFailsWith
 
 class CoordinateTests {
     @Test
-    fun `Create Coordinate with col as Char outside range fails`() {
+    fun `Create Coordinate with col (Char) outside range fails`() {
         assertFailsWith<IllegalArgumentException> {
             Coordinate(3, '1')
             Coordinate(5, '@')
@@ -14,7 +14,7 @@ class CoordinateTests {
     }
 
     @Test
-    fun `Create Coordinate with col as Char`() {
+    fun `Create Coordinate with col (Char)`() {
         val coord1 = Coordinate(3, 'a')
         assert(coord1.row == 3 && coord1.col == 1)
 

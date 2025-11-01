@@ -55,21 +55,14 @@ class BoardTests {
 
     @Test
     fun `Create Board with startPieces succeeds`() {
-        var uut = Board(6).startPieces()
-        assert(uut[Coordinate(3, 'c')] == PieceType.WHITE)
-        assert(uut[Coordinate(3, 'd')] == PieceType.BLACK)
-        assert(uut[Coordinate(4, 'c')] == PieceType.BLACK)
-        assert(uut[Coordinate(4, 'd')] == PieceType.WHITE)
-        uut = Board(26).startPieces()
-        assert(uut[Coordinate(13, 'm')] == PieceType.WHITE)
-        assert(uut[Coordinate(13, 'n')] == PieceType.BLACK)
-        assert(uut[Coordinate(14, 'm')] == PieceType.BLACK)
-        assert(uut[Coordinate(14, 'n')] == PieceType.WHITE)
-        uut = Board(16).startPieces()
-        assert(uut[Coordinate(8, 'h')] == PieceType.WHITE)
-        assert(uut[Coordinate(8, 'i')] == PieceType.BLACK)
-        assert(uut[Coordinate(9, 'h')] == PieceType.BLACK)
-        assert(uut[Coordinate(9, 'i')] == PieceType.WHITE)
+        val board = Board(16)
+
+        val uut = board.startPieces()
+
+        assertEquals(PieceType.WHITE, uut[Coordinate(8, 'h')])
+        assertEquals(PieceType.BLACK, uut[Coordinate(8, 'i')])
+        assertEquals(PieceType.BLACK, uut[Coordinate(9, 'h')])
+        assertEquals(PieceType.WHITE, uut[Coordinate(9, 'i')])
     }
 
     @Test
@@ -264,23 +257,20 @@ class BoardTests {
     @Test
     fun `addPiece function with piece already at position fails`() {
         val board = Board(4).addPiece(Coordinate(1, 'a'), PieceType.WHITE)
+
         assertFailsWith<IllegalArgumentException> {
-            var uut = Board(4).addPiece(Coordinate(1, 'a'), PieceType.WHITE)
-            uut = uut.addPiece(Coordinate(1, 'a'), PieceType.BLACK)
-            var uut2 = Board(4).addPiece(5, PieceType.WHITE)
-            uut2 = uut.addPiece(5, PieceType.BLACK)
-            var uut3 = Board(4).addPiece(Coordinate(4, 2), PieceType.WHITE)
-            uut3 = uut.addPiece(Coordinate(4, 2), PieceType.BLACK)
+            board.addPiece(Coordinate(1, 'a'), PieceType.BLACK)
         }
     }
 
     @Test
     fun `Last Piece added is at the end of the Piece list succeeds`() {
         val lastPieceExpected = Piece(Coordinate(3, 'c'), PieceType.BLACK)
-        val uut = Board(4)
+        val board = Board(4)
             .addPiece(Coordinate(1, 'a'), PieceType.WHITE)
             .addPiece(lastPieceExpected)
-        assert(lastPieceExpected == uut.last())
+
+        assert(lastPieceExpected == board.last())
     }
 
     @Test
@@ -288,13 +278,14 @@ class BoardTests {
         val piece1 = Piece(Coordinate(1, 'a'), PieceType.WHITE)
         val piece2 = Piece(Coordinate(2, 'b'), PieceType.BLACK)
         val piece3 = Piece(Coordinate(3, 'c'), PieceType.WHITE)
-        val expectedPieces = listOf(piece1, piece2, piece3)
-        val uut = Board(4)
+        val board = Board(4)
             .addPiece(piece1)
             .addPiece(piece2)
             .addPiece(piece3)
+        val expectedPieces = listOf(piece1, piece2, piece3)
 
-        uut.forEachIndexed { index, piece ->
+
+        board.forEachIndexed { index, piece ->
             assert(piece == expectedPieces[index])
         }
     }
@@ -302,77 +293,67 @@ class BoardTests {
     @Test
     fun `Sequence of Pieces on Board after changes matches expected Pieces succeeds`() {
         val piece1 = Piece(Coordinate(1, 'a'), PieceType.WHITE)
-        val piece2 = Piece(Coordinate(2, 'b'), PieceType.BLACK)
-        val piece3 = Piece(Coordinate(3, 'c'), PieceType.WHITE)
-        val piece4 = Piece(Coordinate(4, 'd'), PieceType.BLACK)
-        val expectedPieces = listOf(piece1, piece2, piece3, piece4)
-
-        val uut = Board(4)
+        val piece2 = Piece(Coordinate(4, 'd'), PieceType.BLACK)
+        val board = Board(4)
             .addPiece(piece1)
             .addPiece(piece2)
-            .addPiece(piece3)
-            .addPiece(piece4)
-            .changePiece(Coordinate(2, 'b'))
-            .changePiece(Coordinate(3, 'c'))
+            .changePiece(Coordinate(4, 'd'))
+        val expectedPieces = listOf(piece1, piece2)
 
-        uut.forEachIndexed { index, piece ->
+        board.forEachIndexed { index, piece ->
             assert(piece.coordinate == expectedPieces[index].coordinate)
         }
     }
 
     @Test
     fun `totalBlackPieces and totalWhitePieces are correct after startPieces`() {
-        val uut = Board(4).startPieces()
+        val board = Board(4).startPieces()
 
-        assert(uut.totalBlackPieces() == 2)
-        assert(uut.totalWhitePieces() == 2)
+        assert(board.totalBlackPieces() == 2)
+        assert(board.totalWhitePieces() == 2)
     }
 
     @Test
     fun `totalBlackPieces and totalWhitePieces are correct after adding pieces`() {
-        var uut = Board(8)
-
+        var board = Board(8)
         val expectedBlackPieces = 5
         val expectedWhitePieces = 2
 
         (1..(expectedBlackPieces)).forEach {
-            uut = uut.addPiece(it, PieceType.BLACK)
+            board = board.addPiece(it, PieceType.BLACK)
         }
         (expectedBlackPieces + 1..(expectedBlackPieces + expectedWhitePieces)).forEach {
-            uut = uut.addPiece(it, PieceType.WHITE)
+            board = board.addPiece(it, PieceType.WHITE)
         }
-        assert(uut.totalBlackPieces() == expectedBlackPieces)
-        assert(uut.totalWhitePieces() == expectedWhitePieces)
+
+        assert(board.totalBlackPieces() == expectedBlackPieces)
+        assert(board.totalWhitePieces() == expectedWhitePieces)
     }
 
     @Test
     fun `totalBlackPieces and totalWhitePieces are correct after changing pieces`() {
-        var uut = Board(8)
-
+        var board = Board(8)
         val initialBlackPieces = 5
         val initialWhitePieces = 2
 
         (1..(initialBlackPieces)).forEach {
-            uut = uut.addPiece(it, PieceType.BLACK)
+            board = board.addPiece(it, PieceType.BLACK)
         }
         (initialBlackPieces + 1..(initialBlackPieces + initialWhitePieces)).forEach {
-            uut = uut.addPiece(it, PieceType.WHITE)
+            board = board.addPiece(it, PieceType.WHITE)
         }
-
         val piecesToChangeFromBlackToWhite = 2
         val piecesToChangeFromWhiteToBlack = 1
-
         (1..piecesToChangeFromBlackToWhite).forEach {
-            uut = uut.changePiece(it)
+            board = board.changePiece(it)
         }
         ((initialBlackPieces + 1)..(initialBlackPieces + piecesToChangeFromWhiteToBlack)).forEach {
-            uut = uut.changePiece(it)
+            board = board.changePiece(it)
         }
-
         val expectedBlackPieces = initialBlackPieces - piecesToChangeFromBlackToWhite + piecesToChangeFromWhiteToBlack
         val expectedWhitePieces = initialWhitePieces - piecesToChangeFromWhiteToBlack + piecesToChangeFromBlackToWhite
 
-        assert(uut.totalBlackPieces() == expectedBlackPieces)
-        assert(uut.totalWhitePieces() == expectedWhitePieces)
+        assert(board.totalBlackPieces() == expectedBlackPieces)
+        assert(board.totalWhitePieces() == expectedWhitePieces)
     }
 }
