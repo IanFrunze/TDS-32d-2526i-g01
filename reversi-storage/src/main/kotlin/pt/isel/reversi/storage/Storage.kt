@@ -17,7 +17,7 @@ interface Storage<K, T, U> {
      * Creates a new entity identified by [id].
      * @throws Exception if already exists an entity with the given [id].
      */
-    fun new(id: K): T
+    fun new(id: K, factory: () -> T): T
 
     /** Returns the entity associated with [id], or null if not found. */
     fun load(id: K): T?

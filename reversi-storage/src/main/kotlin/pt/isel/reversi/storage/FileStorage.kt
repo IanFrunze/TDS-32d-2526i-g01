@@ -10,28 +10,29 @@ import okio.Path.Companion.toPath
  *
  * @param T Type of the domain entity
  * @param folder Folder where the file will be stored
- * @param factory Function that returns a class object of type T
  */
-class FileStorage<T>(
+data class FileStorage<T>(
     private val folder: String,
-    private val factory: (String) -> T,
     override val serializer: Serializer<T, String>
 ) : Storage<String, T, String> {
 
     /** Storage file path for entity identified by [id]. */
     private fun path(id: String) = "$folder/$id.txt".toPath()
 
-    override fun new(id: String): T {
+    override fun new(id: String, factory: () -> T): T {
         val fs = FileSystem.SYSTEM
 
         require(!fs.exists(path(id))) { "There is already an entity with given id '$id'" }
 
-        val obj = factory(id)
+        val obj = factory()
         val objStr = serializer.serialize(obj)
+
+        path(id).parent?.let { fs.createDirectories(it) }
 
         fs.write(path(id), true) {
             writeUtf8(objStr)
         }
+
         return obj
     }
 

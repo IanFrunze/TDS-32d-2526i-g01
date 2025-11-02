@@ -1,6 +1,6 @@
-import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
+import org.jetbrains.dokka.gradle.DokkaTaskPartial
 
 plugins {
     kotlin("jvm") version "2.1.20" apply false

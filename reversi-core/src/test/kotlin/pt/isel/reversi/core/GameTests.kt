@@ -1,8 +1,5 @@
-package pt.isel.reversi.core.game
+package pt.isel.reversi.core
 
-import pt.isel.reversi.core.FILE_DATA_ACCESS
-import pt.isel.reversi.core.Game
-import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.PieceType
