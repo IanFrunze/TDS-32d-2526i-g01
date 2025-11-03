@@ -13,9 +13,8 @@ data class Board(
     val side: Int,
     private val pieces: List<Piece> = emptyList(),
 ) : Iterable<Piece> {
-    private val totalBlackPieces: Int
-    private val totalWhitePieces: Int
-
+    val totalBlackPieces: Int
+    val totalWhitePieces: Int
 
     /**
      * Initializes the board and validates its properties.
@@ -42,18 +41,6 @@ data class Board(
         totalBlackPieces = countBlackPieces
         totalWhitePieces = countWhitePieces
     }
-
-    /**
-     * Gets the total number of black pieces on the board.
-     * @return The total number of black pieces.
-     */
-    fun totalBlackPieces(): Int = totalBlackPieces
-
-    /**
-     * Gets the total number of white pieces on the board.
-     * @return The total number of white pieces.
-     */
-    fun totalWhitePieces(): Int = totalWhitePieces
 
     /**
      * Converts a linear index to a Coordinate on the board.
