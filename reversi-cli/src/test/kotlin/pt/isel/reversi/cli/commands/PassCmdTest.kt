@@ -7,6 +7,7 @@ import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.newGameForTest
 import pt.isel.reversi.core.startNewGame
 import pt.isel.reversi.core.storage.GameState
 import pt.rafap.ktflag.cmd.CommandResultType
@@ -17,18 +18,14 @@ class PassCmdTest {
     @Test
     fun `Test PassCmd execution`() {
         val result = PassCmd.executeWrapper(
-            context = Game(
-                target = false,
-                gameState = GameState(
-                    players = listOf(
-                        Player(PieceType.BLACK),
-                    ),
-                    board = Board(4)
-                        .addPiece(Piece(Coordinate(1, 1), PieceType.BLACK))
-                        .addPiece(Piece(Coordinate(1, 2), PieceType.BLACK)),
-                    lastPlayer = PieceType.WHITE,
+            context = newGameForTest(
+                players = listOf(
+                    Player(PieceType.BLACK),
                 ),
-                currGameName = null,
+                board = Board(4)
+                    .addPiece(Piece(Coordinate(1, 1), PieceType.BLACK))
+                    .addPiece(Piece(Coordinate(1, 2), PieceType.BLACK)),
+                lastPlayer = PieceType.WHITE
             )
         )
         assert(result.type == CommandResultType.SUCCESS) {
