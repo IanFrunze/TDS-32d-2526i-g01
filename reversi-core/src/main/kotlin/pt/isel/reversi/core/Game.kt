@@ -19,13 +19,12 @@ import pt.isel.reversi.storage.Storage
  */
 @Suppress("unused")
 data class Game(
+    private val storage: Storage<String, GameState, String> = STORAGE,
     val target: Boolean,
     val currGameName: String?,
     val gameState: GameState?,
     val countPass: Int = 0,
 ) {
-
-    val storage: Storage<String, GameState, String> = STORAGE
 
     constructor() : this(
         target = false,
@@ -365,3 +364,18 @@ fun loadGame(
         currGameName = gameName,
     )
 }
+
+fun newGameForTest(
+    board: Board,
+    players: List<Player>,
+    lastPlayer: PieceType,
+    currGameName: String? = null,
+): Game = Game(
+    target = false,
+    currGameName = currGameName,
+    gameState = GameState(
+        board = board,
+        players = players,
+        lastPlayer = lastPlayer
+    )
+)
