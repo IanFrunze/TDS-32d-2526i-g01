@@ -103,30 +103,21 @@ v0.1.0        </div>
       <h2 class="">Documentation Site</h2>
       <p class="paragraph">A full HTML version of the generated documentation is available online:<br><a href="https://rafapear.github.io/Reversi-Grupo1/index.html">Reversi Documentation</a></p>
       <h2 class="">Quick Start</h2>
-      <p class="paragraph">On Unix / macOS:</p>
+      <p class="paragraph">For the CLI version Run:</p>
       <div class="sample-container">
-        <pre><code class="block lang-bash" theme="idea">./gradlew build</code></pre>
+        <pre><code class="block lang-bash" theme="idea">./gradlew reversiCliJar</code></pre>
 <span class="top-right-position"><span class="copy-icon"></span>
           <div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div>
         </span></div>
-      <p class="paragraph">On Windows (cmd.exe):</p>
+      <p class="paragraph">Then, run the produced module jar (paths vary depending on build):</p>
       <div class="sample-container">
-        <pre><code class="block lang-cmd" theme="idea">gradlew.bat build</code></pre>
+        <pre><code class="block lang-bash" theme="idea">java -jar build/libs/reversi-cli-v*.*.*.jar</code></pre>
 <span class="top-right-position"><span class="copy-icon"></span>
           <div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div>
         </span></div>
-      <p class="paragraph">Run the CLI (from repository root):</p>
-      <div class="sample-container">
-        <pre><code class="block lang-cmd" theme="idea">gradlew.bat :reversi-cli:run --args=&quot;--cli&quot;</code></pre>
-<span class="top-right-position"><span class="copy-icon"></span>
-          <div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div>
-        </span></div>
-      <p class="paragraph">Or run the produced module jar (paths vary depending on build):</p>
-      <div class="sample-container">
-        <pre><code class="block lang-cmd" theme="idea">java -jar reversi-cli/build/libs/reversi-cli.jar</code></pre>
-<span class="top-right-position"><span class="copy-icon"></span>
-          <div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div>
-        </span></div>
+      <blockquote class="quotation">
+        <p class="paragraph">Note: change <code class="lang-kotlin">v*.*.*</code> to the actual version number.</p>
+      </blockquote>
       <h2 class="">Project Structure</h2>
       <p class="paragraph">The project is split in three modules (core, storage and cli). See the <code class="lang-kotlin">reversi-core</code>, <code class="lang-kotlin">reversi-storage</code> and <code class="lang-kotlin">reversi-cli</code> folders for implementation details and tests.</p>
       <h2 class="">Testing</h2>
