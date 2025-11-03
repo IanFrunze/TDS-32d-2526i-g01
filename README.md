@@ -13,6 +13,11 @@ separation of concerns, explicit domain modeling, and pluggable persistence.
 - `reversi-storage` — simple local filesystem storage implementation (text files)
 - `reversi-cli` — small command-line client to play the game
 
+## Documentation Site
+
+A full HTML version of the generated documentation is available online:  
+[Reversi Documentation](https://rafapear.github.io/Reversi-Grupo1/index.html)
+
 ## Quick Start
 
 On Unix / macOS:
