@@ -1,1 +1,1 @@
-sourceset_dependencies = '{":reversi-storage:dokkaHtmlPartial/main":[],":reversi-cli:dokkaHtmlPartial/main":[],":reversi-core:dokkaHtmlPartial/main":[]}'
+sourceset_dependencies = '{":reversi-storage:dokkaHtmlPartial/main":[],":reversi-utils:dokkaHtmlPartial/main":[],":reversi-cli:dokkaHtmlPartial/main":[],":reversi-core:dokkaHtmlPartial/main":[]}'

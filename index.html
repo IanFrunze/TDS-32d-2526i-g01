@@ -102,6 +102,8 @@ v0.1.0        </div>
       </ul>
       <h2 class="">Documentation Site</h2>
       <p class="paragraph">A full HTML version of the generated documentation is available online:<br><a href="https://isel-leic-tds.github.io/32d-2526i-g01-muyloco/">Reversi Documentation</a></p>
+      <h2 class="">Module Structure</h2>
+      <p class="paragraph"><img alt="Module Structure" src="images/Module_Structure.png"></p>
       <h2 class="">Quick Start</h2>
       <p class="paragraph">For the CLI version Run:</p>
       <div class="sample-container">
@@ -120,6 +122,7 @@ v0.1.0        </div>
       </blockquote>
       <h2 class="">Project Structure</h2>
       <p class="paragraph">The project is split in three modules (core, storage and cli). See the <code class="lang-kotlin">reversi-core</code>, <code class="lang-kotlin">reversi-storage</code> and <code class="lang-kotlin">reversi-cli</code> folders for implementation details and tests.</p>
+      <p class="paragraph"><img alt="Project Structure" src="images/UML_Structure.png"></p>
       <h2 class="">Testing</h2>
       <p class="paragraph">Run the test suite:</p>
       <div class="sample-container">
@@ -174,6 +177,19 @@ v0.1.0        </div>
               </span></span></div>
           <div><span class="brief-comment">
               <p class="paragraph">This module implements simple local filesystem persistence for game snapshots used by the core model. It provides an implementation of the generic <code class="lang-kotlin">Storage&lt;K,T,U&gt;</code> contract (<code class="lang-kotlin">FileStorage</code>) together with text-based serializers for core types (board, piece, players and game state).</p>
+            </span></div>
+        </div>
+      </div>
+<a data-name="-209301309%2FMain%2F0" anchor-label="reversi-utils" id="-209301309%2FMain%2F0" data-filterable-set=""></a>
+      <div class="table-row">
+        <div class="main-subrow ">
+          <div class="w-100"><span class="inline-flex">
+              <div><a href="reversi-utils/index.html">reversi-utils</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-209301309%2FMain%2F0"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div><span class="brief-comment">
+              <p class="paragraph">This module groups reusable utilities used by the various Reversi modules (core, cli, storage, ...). It provides helpers for loading configuration, environment constants and simple contracts to ease initialization and reading/writing configuration files.</p>
             </span></div>
         </div>
       </div>

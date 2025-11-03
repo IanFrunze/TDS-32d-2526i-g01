@@ -12,3 +12,5 @@ pt.isel.reversi.core.storage
 pt.isel.reversi.core.storage.serializers
 module:reversi-storage
 pt.isel.reversi.storage
+module:reversi-utils
+pt.isel.reversi.utils
