@@ -16,7 +16,7 @@ separation of concerns, explicit domain modeling, and pluggable persistence.
 ## Documentation Site
 
 A full HTML version of the generated documentation is available online:  
-[Reversi Documentation](https://rafapear.github.io/Reversi-Grupo1/index.html)
+[Reversi Documentation](https://isel-leic-tds.github.io/32d-2526i-g01-muyloco/)
 
 ## Quick Start
 
