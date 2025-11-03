@@ -43,16 +43,16 @@ The project is split in three modules (core, storage and cli). See the `reversi-
 
 Run the test suite:
 
-```cmd
-gradlew.bat test
+```bash
+./gradlew test
 ```
 
 ## Documentation
 
 Generate Dokka multi-module HTML:
 
-```cmd
-gradlew.bat dokkaHtmlMultiModule
+```bash
+./gradlew dokkaHtmlMultiModule
 ```
 
 Output: `build/dokka/htmlMultiModule/index.html`
