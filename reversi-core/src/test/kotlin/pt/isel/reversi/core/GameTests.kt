@@ -254,7 +254,7 @@ class GameTests {
             val expectedBoard = Board(4).startPieces()
             val expectedLastPlayer = PieceType.WHITE
 
-            val initialGame = startNewGame(
+            startNewGame(
                 side = 4,
                 players = listOf(Player(PieceType.BLACK)),
                 firstTurn = PieceType.BLACK,
