@@ -1,15 +1,11 @@
 package pt.isel.reversi.cli.commands
 
-import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.Player
-import pt.isel.reversi.core.STORAGE
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.newGameForTest
-import pt.isel.reversi.core.startNewGame
-import pt.isel.reversi.core.storage.GameState
 import pt.rafap.ktflag.cmd.CommandResultType
 import kotlin.test.Test
 

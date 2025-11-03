@@ -12,7 +12,7 @@ class PlayCmdTest {
     fun `Test PlayCmd execution`() {
         val result = PlayCmd.executeWrapper(
             "3", "4",
-            context = startNewGame(players = listOf(Player(PieceType.BLACK)))
+            context = startNewGame(players = listOf(Player(PieceType.BLACK)), firstTurn = PieceType.BLACK)
         )
         assert(result.type == CommandResultType.SUCCESS) {
             "Expected SUCCESS but got ${result.type} with message: ${result.message}"

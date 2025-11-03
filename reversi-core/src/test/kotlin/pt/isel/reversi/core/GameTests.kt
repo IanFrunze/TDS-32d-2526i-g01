@@ -215,7 +215,8 @@ class GameTests {
                 players = listOf(
                     Player(PieceType.BLACK),
                 ),
-                currGameName = "testGame"
+                currGameName = "testGame",
+                firstTurn = PieceType.BLACK,
             ).copy(
                 gameState = GameState(
                     players = listOf(

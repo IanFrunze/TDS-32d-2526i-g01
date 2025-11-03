@@ -1,6 +1,6 @@
 rootProject.name = "reversi"
 
-include("reversi-core", "reversi-cli", "reversi-storage")
+include("reversi-core", "reversi-cli", "reversi-storage", "reversi-utils")
 
 pluginManagement {
     repositories {
@@ -10,3 +10,10 @@ pluginManagement {
     }
 }
 
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+        maven("https://jitpack.io")
+    }
+}
