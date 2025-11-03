@@ -17,6 +17,7 @@ import pt.isel.reversi.storage.Storage
  *
  * Note: This class is intentionally minimal and not suitable for exercising game logic.
  */
+@Suppress("unused")
 data class Game(
     val storage: Storage<String, GameState, String>,
     val target: Boolean,
@@ -331,7 +332,7 @@ fun loadGame(
     val storage = STORAGE
     val loadedState = storage.load(gameName)
         ?: throw InvalidFileException(
-            message = "Failed to load game state from storage: $gameName"
+            message = "$gameName does not exist"
         )
 
     val myPieceType =
