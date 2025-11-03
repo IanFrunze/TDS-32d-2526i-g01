@@ -4,10 +4,16 @@ import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.storage.serializers.GameStateSerializer
 import pt.isel.reversi.storage.FileStorage
 
-// TODO: RENAME THIS TO DEFAULT_...
+/** Default board side length used by the CLI and tests. */
 const val BOARD_SIDE = 8
+
+/** Default piece type for the first player. */
 val First_Player_TURN = PieceType.BLACK
 
+/**
+ * Default file-based storage used by the simple demo runner and tests. The folder is relative to the working
+ * directory and defaults to `saves`.
+ */
 val FILE_DATA_ACCESS = FileStorage(
     folder = "saves",
     serializer = GameStateSerializer()
