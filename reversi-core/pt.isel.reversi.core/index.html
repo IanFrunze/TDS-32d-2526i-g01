@@ -94,6 +94,7 @@
   <div class="breadcrumbs"><a href="../index.html">reversi-core</a><span class="delimiter">/</span><span class="current">pt.isel.reversi.core</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><h2 class="">Overview</h2><p class="paragraph">Provides the main game types and coordination layer. The module contains small, focused components that model the board, pieces, players and the game orchestration. It is intentionally free of any I/O concerns so it can be used by CLI, GUI or test code without modification.</p><h3 class="">Key classes</h3><ul><li><p class="paragraph">Game — lightweight, immutable carrier for a game session. Orchestrates moves, passes and state transitions.</p></li><li><p class="paragraph">GameLogic — pure logic that validates moves, computes captures and available plays.</p></li><li><p class="paragraph">Player — represents a player and provides helper methods to refresh points and swap piece type.</p></li></ul><h3 class="">Responsibilities</h3><ul><li><p class="paragraph">Representing the board, pieces, coordinates and piece types as immutable data types</p></li><li><p class="paragraph">Enforcing move validation and piece capture rules (Reversi)</p></li><li><p class="paragraph">Providing deterministic, testable transformations that return new board/game instances</p></li><li><p class="paragraph">Defining small storage-friendly DTOs (GameState) used by the storage module</p></li></ul></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="PROPERTY,EXTENSION_PROPERTY">Properties</button></div>
@@ -159,7 +160,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-b-o-a-r-d_-s-i-d-e.html">BOARD_SIDE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">8</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-b-o-a-r-d_-s-i-d-e.html">BOARD_SIDE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">8</span></div><div class="brief "><p class="paragraph">Default board side length used by the CLI and tests.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -174,7 +175,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-f-i-l-e_-d-a-t-a_-a-c-c-e-s-s.html">FILE_DATA_ACCESS</a><span class="token operator">: </span><a href="../../reversi-storage/pt.isel.reversi.storage/-file-storage/index.html">FileStorage</a><span class="token operator">&lt;</span><a href="../pt.isel.reversi.core.storage/-game-state/index.html">GameState</a><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-f-i-l-e_-d-a-t-a_-a-c-c-e-s-s.html">FILE_DATA_ACCESS</a><span class="token operator">: </span><a href="../../reversi-storage/pt.isel.reversi.storage/-file-storage/index.html">FileStorage</a><span class="token operator">&lt;</span><a href="../pt.isel.reversi.core.storage/-game-state/index.html">GameState</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Default file-based storage used by the simple demo runner and tests. The folder is relative to the working directory and defaults to <code class="lang-kotlin">saves</code>.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -189,7 +190,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-first_-player_-t-u-r-n.html">First_Player_TURN</a><span class="token operator">: </span><a href="../pt.isel.reversi.core.board/-piece-type/index.html">PieceType</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-first_-player_-t-u-r-n.html">First_Player_TURN</a><span class="token operator">: </span><a href="../pt.isel.reversi.core.board/-piece-type/index.html">PieceType</a></div><div class="brief "><p class="paragraph">Default piece type for the first player.</p></div></div></div>
                 </div>
               </div>
             </div>

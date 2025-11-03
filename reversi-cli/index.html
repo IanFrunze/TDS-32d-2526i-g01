@@ -94,7 +94,7 @@
   <div class="breadcrumbs"></div>
   <div class="cover ">
     <h1 class="cover"><span><span>reversi-cli</span></span></h1>
-    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><p class="paragraph">This module is responsible for the command‑line interface of the Reversi game. It handles user input parsing, game state rendering, and command routing to the core game services. This design is based on the library <a href="https://github.com/rafapear/KtFlag">KtFlag</a> for command parsing. THis library removes a lot of boilerplate code and allows us to focus on the core logic of the CLI. In the bellows sections, we detail the main packages.</p><p class="paragraph"><img alt="Cli Architecture" src="../images/UML_Structure_CLI.png"></p></div></div>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli:dokkaHtmlPartial/main"><p class="paragraph">This module provides a small, scriptable command-line interface to play the Reversi game using the core model and the local storage implementation. It depends on <code class="lang-kotlin">pt.rafap.ktflag</code> to implement a compact, testable command framework.</p><p class="paragraph"><img alt="Cli Architecture" src="../images/UML_Structure_CLI.png"></p></div></div>
   </div>
   <h2 class="">Packages</h2>
   <div class="table"><a data-name="-1304438201%2FPackages%2F-1540045439" anchor-label="pt.isel.reversi.cli" id="-1304438201%2FPackages%2F-1540045439" data-filterable-set=":reversi-cli:dokkaHtmlPartial/main"></a>
@@ -113,7 +113,7 @@
           </div>
         </div>
         <div><span class="brief-comment"><a data-name="-1304438201%2FPackages%2F-1540045439" anchor-label="pt.isel.reversi.cli" id="-1304438201%2FPackages%2F-1540045439" data-filterable-set=":reversi-cli:dokkaHtmlPartial/main"></a>
-            <p class="paragraph">Hosts the command‑line interface: parses user input, renders board snapshots, and routes validated commands to the game services. Designed to be scriptable and testable using standard IO.</p>
+            <p class="paragraph">Hosts the CLI loop, command parsing and rendering utilities. The CLI is designed to be minimal and driven by plain standard input/output which makes it easy to script and test.</p>
           </span></div>
       </div>
     </div>
@@ -133,7 +133,7 @@
           </div>
         </div>
         <div><span class="brief-comment"><a data-name="-130744749%2FPackages%2F-1540045439" anchor-label="pt.isel.reversi.cli.commands" id="-130744749%2FPackages%2F-1540045439" data-filterable-set=":reversi-cli:dokkaHtmlPartial/main"></a>
-            <p class="paragraph">Defines the command structure, parsing logic, and validation for user inputs. Each command corresponds to a specific game action (e.g., start, move, pass, show). Utilizes KtFlag to streamline argument parsing and error handling.</p>
+            <p class="paragraph">Contains concrete command handlers used by the CLI. Each command is implemented as an object extending the <code class="lang-kotlin">CommandImpl&lt;Game&gt;</code> contract provided by <code class="lang-kotlin">KtFlag</code>.</p>
           </span></div>
       </div>
     </div>

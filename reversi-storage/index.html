@@ -94,7 +94,7 @@
   <div class="breadcrumbs"></div>
   <div class="cover ">
     <h1 class="cover"><span><span>reversi-storage</span></span></h1>
-    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-storage:dokkaHtmlPartial/main"><p class="paragraph">This module implements the core domain logic and persistence contracts. The logic in this module was inspired by our teacher implementation of SlidingPuzzle storage.</p></div></div>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-storage:dokkaHtmlPartial/main"><p class="paragraph">This module implements simple local filesystem persistence for game snapshots used by the core model. It provides an implementation of the generic <code class="lang-kotlin">Storage&lt;K,T,U&gt;</code> contract (<code class="lang-kotlin">FileStorage</code>) together with text-based serializers for core types (board, piece, players and game state).</p><p class="paragraph"><img alt="Reversi Storage Architecture" src="../images/UML_Structure_storage.png"></p></div></div>
   </div>
   <h2 class="">Packages</h2>
   <div class="table"><a data-name="234399074%2FPackages%2F472555910" anchor-label="pt.isel.reversi.storage" id="234399074%2FPackages%2F472555910" data-filterable-set=":reversi-storage:dokkaHtmlPartial/main"></a>
@@ -112,7 +112,9 @@
             </div>
           </div>
         </div>
-        <div></div>
+        <div><span class="brief-comment"><a data-name="234399074%2FPackages%2F472555910" anchor-label="pt.isel.reversi.storage" id="234399074%2FPackages%2F472555910" data-filterable-set=":reversi-storage:dokkaHtmlPartial/main"></a>
+            <p class="paragraph">Implements persistence using plain text files placed in a <code class="lang-kotlin">saves</code> folder by default. The storage code is intentionally simple: domain objects are converted to a textual representation via <code class="lang-kotlin">Serializer</code> implementations and written to files. This approach favors human-readable saves that are easy to debug and test.</p>
+          </span></div>
       </div>
     </div>
   </div>

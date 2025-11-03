@@ -94,6 +94,7 @@
   <div class="breadcrumbs"></div>
   <div class="cover ">
     <h1 class="cover"><span><span>reversi-core</span></span></h1>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><p class="paragraph">This module contains the immutable core domain model and game logic for the Reversi game. It is UI‑agnostic and persistence‑agnostic and exposes plain Kotlin data types and pure functions that implement the rules of the game.</p><p class="paragraph"><img alt="Reversi Core Architecture" src="../images/UML_Structure_core.png"></p></div></div>
   </div>
   <h2 class="">Packages</h2>
   <div class="table"><a data-name="495849500%2FPackages%2F1146870434" anchor-label="pt.isel.reversi.core" id="495849500%2FPackages%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
@@ -111,7 +112,9 @@
             </div>
           </div>
         </div>
-        <div></div>
+        <div><span class="brief-comment"><a data-name="495849500%2FPackages%2F1146870434" anchor-label="pt.isel.reversi.core" id="495849500%2FPackages%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
+            <p class="paragraph">Provides the main game types and coordination layer. The module contains small, focused components that model the board, pieces, players and the game orchestration. It is intentionally free of any I/O concerns so it can be used by CLI, GUI or test code without modification.</p>
+          </span></div>
       </div>
     </div>
 <a data-name="-366071276%2FPackages%2F1146870434" anchor-label="pt.isel.reversi.core.board" id="-366071276%2FPackages%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
@@ -130,7 +133,7 @@
           </div>
         </div>
         <div><span class="brief-comment"><a data-name="-366071276%2FPackages%2F1146870434" anchor-label="pt.isel.reversi.core.board" id="-366071276%2FPackages%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
-            <p class="paragraph">Models the board (grid), coordinates, and piece placement rules. Provides operations to evaluate and apply moves, flip affected pieces, and derive the initial setup according to standard Reversi. Validation ensures moves are within bounds and conform to the game rules.</p>
+            <p class="paragraph">Contains the board model and related primitives used to represent the game grid and pieces.</p>
           </span></div>
       </div>
     </div>
@@ -149,7 +152,9 @@
             </div>
           </div>
         </div>
-        <div></div>
+        <div><span class="brief-comment"><a data-name="980694938%2FPackages%2F1146870434" anchor-label="pt.isel.reversi.core.exceptions" id="980694938%2FPackages%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
+            <p class="paragraph">Domain-specific exceptions that signal invalid operations or corrupted persisted files (for example: malformed board or piece entries). These exceptions are thrown by the core logic or by the serializers when encountering invalid data.</p>
+          </span></div>
       </div>
     </div>
 <a data-name="928137833%2FPackages%2F1146870434" anchor-label="pt.isel.reversi.core.storage" id="928137833%2FPackages%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
@@ -167,7 +172,9 @@
             </div>
           </div>
         </div>
-        <div></div>
+        <div><span class="brief-comment"><a data-name="928137833%2FPackages%2F1146870434" anchor-label="pt.isel.reversi.core.storage" id="928137833%2FPackages%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
+            <p class="paragraph">Lightweight DTO used to persist/restore games produced by the core module. Serializers living under <code class="lang-kotlin">core.storage.serializers</code> convert core types to/from a compact text format used by the storage module.</p>
+          </span></div>
       </div>
     </div>
 <a data-name="584153692%2FPackages%2F1146870434" anchor-label="pt.isel.reversi.core.storage.serializers" id="584153692%2FPackages%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
