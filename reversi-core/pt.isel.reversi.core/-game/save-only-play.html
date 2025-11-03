@@ -2,7 +2,7 @@
 <html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>isStarted</title>
+    <title>saveOnlyPlay</title>
 <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
     <script>document.documentElement.classList.replace("no-js","js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
@@ -41,7 +41,7 @@
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">0.0.1
+        <div class="library-version" id="library-version">v0.1.0
         </div>
         <div class="navigation-controls">
         <div class="filter-section filter-section_loading" id="filter-section">
@@ -90,12 +90,12 @@
                 </div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="member" id="content" pageids="reversi-core::pt.isel.reversi.core/Game/isStarted/#/PointingToDeclaration//1146870434">
-  <div class="breadcrumbs"><a href="../../index.html">reversi-core</a><span class="delimiter">/</span><a href="../index.html">pt.isel.reversi.core</a><span class="delimiter">/</span><a href="index.html">Game</a><span class="delimiter">/</span><span class="current">isStarted</span></div>
+<div class="main-content" data-page-type="member" id="content" pageids="reversi-core::pt.isel.reversi.core/Game/saveOnlyPlay/#pt.isel.reversi.core.storage.GameState/PointingToDeclaration//1146870434">
+  <div class="breadcrumbs"><a href="../../index.html">reversi-core</a><span class="delimiter">/</span><a href="../index.html">pt.isel.reversi.core</a><span class="delimiter">/</span><a href="index.html">Game</a><span class="delimiter">/</span><span class="current">saveOnlyPlay</span></div>
   <div class="cover ">
-    <h1 class="cover"><span>is</span><wbr><span><span>Started</span></span></h1>
+    <h1 class="cover"><span>save</span><wbr><span>Only</span><wbr><span><span>Play</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="is-started.html"><span class="token function">isStarted</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="save-only-play.html"><span class="token function">saveOnlyPlay</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">gs<span class="token operator">: </span><a href="../../pt.isel.reversi.core.storage/-game-state/index.html">GameState</a></span></span><span class="token punctuation">)</span></div><p class="paragraph">Saves only the play-related state (board and last player) to storage. Keeps the existing players in storage unchanged. It is recommended to use this method during gameplay to save progress. Only applicable for not local games (players size must be 1).</p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":reversi-core:dokkaHtmlPartial/main" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>gs</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The current game state to save.</p></div></div></div></div></div><h4 class="">Throws</h4><div class="table"><div class="table-row" data-filterable-current=":reversi-core:dokkaHtmlPartial/main" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../pt.isel.reversi.core.exceptions/-invalid-game-exception/index.html"><span>Invalid</span><wbr><span>Game</span><wbr><span><span>Exception</span></span></a></div></span></div><div><div class="title"><p class="paragraph">if the game is local or not started yet.</p></div></div></div></div><div class="table-row" data-filterable-current=":reversi-core:dokkaHtmlPartial/main" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../../pt.isel.reversi.core.exceptions/-invalid-file-exception/index.html"><span>Invalid</span><wbr><span>File</span><wbr><span><span>Exception</span></span></a></div></span></div><div><div class="title"><p class="paragraph">if the current game name is null or loading fails.</p></div></div></div></div></div></div></div>
 </div>
     <div class="footer">
         <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>

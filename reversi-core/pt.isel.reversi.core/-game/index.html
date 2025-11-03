@@ -41,7 +41,7 @@
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">0.0.1
+        <div class="library-version" id="library-version">v0.1.0
         </div>
         <div class="navigation-controls">
         <div class="filter-section filter-section_loading" id="filter-section">
@@ -94,24 +94,24 @@
   <div class="breadcrumbs"><a href="../../index.html">reversi-core</a><span class="delimiter">/</span><a href="../index.html">pt.isel.reversi.core</a><span class="delimiter">/</span><span class="current">Game</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Game</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">Game</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>storage<span class="token operator">: </span><a href="../../../reversi-storage/pt.isel.reversi.storage/-storage/index.html">Storage</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="../../pt.isel.reversi.core.storage/-game-state/index.html">GameState</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>players<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-player/index.html">Player</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>target<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>playerTurn<span class="token operator">: </span><a href="../../pt.isel.reversi.core.board/-piece-type/index.html">PieceType</a><span class="token operator"> = </span>First_Player_TURN<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>currGameName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>board<span class="token operator">: </span><a href="../../pt.isel.reversi.core.board/-board/index.html">Board</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>countPass<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></span></span><span class="token punctuation">)</span></div><p class="paragraph">Lightweight test/dummy implementation of <a href="index.html">Game</a> used for data access and integration tests.</p><p class="paragraph">Only acts as a structural carrier for required properties; behavioural methods are left as TODOs so they surface if accidentally invoked in logic outside targeted tests. Use the nested helper subclasses to build simple game states for tests (empty, one player or two players).</p><p class="paragraph">Note: This class is intentionally minimal and not suitable for exercising game logic.</p></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">Game</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>storage<span class="token operator">: </span><a href="../../../reversi-storage/pt.isel.reversi.storage/-storage/index.html">Storage</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="../../pt.isel.reversi.core.storage/-game-state/index.html">GameState</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>target<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>currGameName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>gameState<span class="token operator">: </span><a href="../../pt.isel.reversi.core.storage/-game-state/index.html">GameState</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>countPass<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></span></span><span class="token punctuation">)</span></div><p class="paragraph">Lightweight test/dummy implementation of <a href="index.html">Game</a> used for data access and integration tests.</p><p class="paragraph">Only acts as a structural carrier for required properties; behavioural methods are left as TODOs so they surface if accidentally invoked in logic outside targeted tests. Use the nested helper subclasses to build simple game states for tests (empty, one player or two players).</p><p class="paragraph">Note: This class is intentionally minimal and not suitable for exercising game logic.</p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="CONSTRUCTOR">
         <h2 class="">Constructors</h2>
-        <div class="table"><a data-name="-1535256511%2FConstructors%2F1146870434" anchor-label="Game" id="-1535256511%2FConstructors%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
+        <div class="table"><a data-name="550485256%2FConstructors%2F1146870434" anchor-label="Game" id="550485256%2FConstructors%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
           <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":reversi-core:dokkaHtmlPartial/main" data-filterable-set=":reversi-core:dokkaHtmlPartial/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-game.html"><span><span>Game</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1535256511%2FConstructors%2F1146870434"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="550485256%2FConstructors%2F1146870434"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">storage<span class="token operator">: </span><a href="../../../reversi-storage/pt.isel.reversi.storage/-storage/index.html">Storage</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="../../pt.isel.reversi.core.storage/-game-state/index.html">GameState</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">players<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-player/index.html">Player</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">target<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">playerTurn<span class="token operator">: </span><a href="../../pt.isel.reversi.core.board/-piece-type/index.html">PieceType</a><span class="token operator"> = </span>First_Player_TURN<span class="token punctuation">, </span></span><span class="parameter ">currGameName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">board<span class="token operator">: </span><a href="../../pt.isel.reversi.core.board/-board/index.html">Board</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">countPass<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">storage<span class="token operator">: </span><a href="../../../reversi-storage/pt.isel.reversi.storage/-storage/index.html">Storage</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="../../pt.isel.reversi.core.storage/-game-state/index.html">GameState</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">target<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">currGameName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">gameState<span class="token operator">: </span><a href="../../pt.isel.reversi.core.storage/-game-state/index.html">GameState</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">countPass<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -120,22 +120,7 @@
       </div>
       <div data-togglable="PROPERTY">
         <h2 class="">Properties</h2>
-        <div class="table"><a data-name="-795921057%2FProperties%2F1146870434" anchor-label="board" id="-795921057%2FProperties%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":reversi-core:dokkaHtmlPartial/main" data-filterable-set=":reversi-core:dokkaHtmlPartial/main">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="board.html"><span><span>board</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-795921057%2FProperties%2F1146870434"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="board.html">board</a><span class="token operator">: </span><a href="../../pt.isel.reversi.core.board/-board/index.html">Board</a><span class="token operator">?</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-175374395%2FProperties%2F1146870434" anchor-label="countPass" id="-175374395%2FProperties%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
+        <div class="table"><a data-name="-175374395%2FProperties%2F1146870434" anchor-label="countPass" id="-175374395%2FProperties%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
           <div class="table-row" data-filterable-current=":reversi-core:dokkaHtmlPartial/main" data-filterable-set=":reversi-core:dokkaHtmlPartial/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
@@ -165,32 +150,17 @@
               </div>
             </div>
           </div>
-<a data-name="-1584099821%2FProperties%2F1146870434" anchor-label="players" id="-1584099821%2FProperties%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
+<a data-name="-487176538%2FProperties%2F1146870434" anchor-label="gameState" id="-487176538%2FProperties%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
           <div class="table-row" data-filterable-current=":reversi-core:dokkaHtmlPartial/main" data-filterable-set=":reversi-core:dokkaHtmlPartial/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="players.html"><span><span>players</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1584099821%2FProperties%2F1146870434"></span>
+                  <div><a href="game-state.html"><span>game</span><wbr><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-487176538%2FProperties%2F1146870434"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="players.html">players</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-player/index.html">Player</a><span class="token operator">&gt;</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="58225079%2FProperties%2F1146870434" anchor-label="playerTurn" id="58225079%2FProperties%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":reversi-core:dokkaHtmlPartial/main" data-filterable-set=":reversi-core:dokkaHtmlPartial/main">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="player-turn.html"><span>player</span><wbr><span><span>Turn</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="58225079%2FProperties%2F1146870434"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="player-turn.html">playerTurn</a><span class="token operator">: </span><a href="../../pt.isel.reversi.core.board/-piece-type/index.html">PieceType</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="game-state.html">gameState</a><span class="token operator">: </span><a href="../../pt.isel.reversi.core.storage/-game-state/index.html">GameState</a><span class="token operator">?</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -244,21 +214,6 @@
               </div>
             </div>
           </div>
-<a data-name="-740680338%2FFunctions%2F1146870434" anchor-label="isStarted" id="-740680338%2FFunctions%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":reversi-core:dokkaHtmlPartial/main" data-filterable-set=":reversi-core:dokkaHtmlPartial/main">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="is-started.html"><span>is</span><wbr><span><span>Started</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-740680338%2FFunctions%2F1146870434"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="is-started.html"><span class="token function">isStarted</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
 <a data-name="345299460%2FFunctions%2F1146870434" anchor-label="pass" id="345299460%2FFunctions%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
           <div class="table-row" data-filterable-current=":reversi-core:dokkaHtmlPartial/main" data-filterable-set=":reversi-core:dokkaHtmlPartial/main">
             <div class="main-subrow keyValue ">
@@ -269,22 +224,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="pass.html"><span class="token function">pass</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Game</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-1190174939%2FFunctions%2F1146870434" anchor-label="pieceOptions" id="-1190174939%2FFunctions%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":reversi-core:dokkaHtmlPartial/main" data-filterable-set=":reversi-core:dokkaHtmlPartial/main">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="piece-options.html"><span>piece</span><wbr><span><span>Options</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1190174939%2FFunctions%2F1146870434"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="piece-options.html"><span class="token function">pieceOptions</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../pt.isel.reversi.core.board/-piece-type/index.html">PieceType</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Gets the available piece options in the data access for the current game. if the game is local (currGameName is null), returns an empty list.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="pass.html"><span class="token function">pass</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Game</a></div><div class="brief "><p class="paragraph">Passes the turn to the next player. Saves the game state if the game is not local. Only check player turn if it is a not local game.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -299,7 +239,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="play.html"><span class="token function">play</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">coordinate<span class="token operator">: </span><a href="../../pt.isel.reversi.core.board/-coordinate/index.html">Coordinate</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Game</a></div><div class="brief "><p class="paragraph">Plays a move at the specified coordinate. Saves the piece to data access if the game is not local. Only check player turn if it is a not local game.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="play.html"><span class="token function">play</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">coordinate<span class="token operator">: </span><a href="../../pt.isel.reversi.core.board/-coordinate/index.html">Coordinate</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Game</a></div><div class="brief "><p class="paragraph">Plays a move at the specified coordinate. Saves the piece to data access if the game is not local. Only check player turn if it is a not local game. And resets the pass count to 0.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -314,7 +254,37 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="refresh.html"><span class="token function">refresh</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Game</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="refresh.html"><span class="token function">refresh</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Game</a></div><div class="brief "><p class="paragraph">Refreshes the game state from storage (board and last player). Updates players to reflect the current board state. Increments the pass count if the board is unchanged but the last player has changed.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-262102842%2FFunctions%2F1146870434" anchor-label="saveGame" id="-262102842%2FFunctions%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":reversi-core:dokkaHtmlPartial/main" data-filterable-set=":reversi-core:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="save-game.html"><span>save</span><wbr><span><span>Game</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-262102842%2FFunctions%2F1146870434"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="save-game.html"><span class="token function">saveGame</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Saves the current game state to storage. Saves the player in storage if not already present (makes available this player for future loads). It is recommended to use this method only to save the game at the end. Only applicable for not local games (players size must be 1).</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1000510720%2FFunctions%2F1146870434" anchor-label="saveOnlyPlay" id="-1000510720%2FFunctions%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":reversi-core:dokkaHtmlPartial/main" data-filterable-set=":reversi-core:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="save-only-play.html"><span>save</span><wbr><span>Only</span><wbr><span><span>Play</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1000510720%2FFunctions%2F1146870434"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="save-only-play.html"><span class="token function">saveOnlyPlay</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">gs<span class="token operator">: </span><a href="../../pt.isel.reversi.core.storage/-game-state/index.html">GameState</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Saves only the play-related state (board and last player) to storage. Keeps the existing players in storage unchanged. It is recommended to use this method during gameplay to save progress. Only applicable for not local games (players size must be 1).</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -330,21 +300,6 @@
               <div>
                 <div class="title">
                   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="set-target-mode.html"><span class="token function">setTargetMode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">target<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Game</a></div><div class="brief "><p class="paragraph">Sets the target mode for the game.</p></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-1124074520%2FFunctions%2F1146870434" anchor-label="startNewGame" id="-1124074520%2FFunctions%2F1146870434" data-filterable-set=":reversi-core:dokkaHtmlPartial/main"></a>
-          <div class="table-row" data-filterable-current=":reversi-core:dokkaHtmlPartial/main" data-filterable-set=":reversi-core:dokkaHtmlPartial/main">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="start-new-game.html"><span>start</span><wbr><span>New</span><wbr><span><span>Game</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1124074520%2FFunctions%2F1146870434"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="start-new-game.html"><span class="token function">startNewGame</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">side<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>BOARD_SIDE<span class="token punctuation">, </span></span><span class="parameter ">players<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-player/index.html">Player</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyList()<span class="token punctuation">, </span></span><span class="parameter ">firstTurn<span class="token operator">: </span><a href="../../pt.isel.reversi.core.board/-piece-type/index.html">PieceType</a><span class="token operator"> = </span>First_Player_TURN<span class="token punctuation">, </span></span><span class="parameter ">currGameName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Game</a></div><div class="brief "><p class="paragraph">Starts a new game.</p></div></div></div>
                 </div>
               </div>
             </div>
