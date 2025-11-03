@@ -165,14 +165,6 @@ data class Board(
      */
     fun addPiece(piece: Piece): Board = addPiece(piece.coordinate, piece.value)
 
-    fun addPieces(vararg pieces: Piece): Board {
-        var newBoard = this
-        pieces.forEach { piece ->
-            newBoard = newBoard.addPiece(piece)
-        }
-        return newBoard
-    }
-
     /**
      * Starts the board with the initial pieces in the center.
      * @return A list of the initial pieces.
