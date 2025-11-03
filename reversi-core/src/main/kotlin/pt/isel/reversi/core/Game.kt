@@ -271,7 +271,7 @@ data class Game(
  * @param currGameName The current game name can omit to create a local game.
  * @return The new game state.
  * @throws InvalidGameException if no players are provided.
- * @throws InvalidFileException if there is an error saving the game state.
+ * @throws Exception if already exists a game with the same name in storage.
  */
 fun startNewGame(
     side: Int = BOARD_SIDE,
@@ -296,17 +296,13 @@ fun startNewGame(
         val newGS = gs.copy(
             players = listOf(gs.players[0].swap()),
         )
+
+        STORAGE.new(currGameName) { newGS }
+
         return Game(
             storage = STORAGE,
             target = false,
-            gameState =
-                try {
-                    STORAGE.new(currGameName) { newGS }
-                    gs
-                } catch (_: Exception) {
-                    STORAGE.save(currGameName, newGS)
-                    gs
-                },
+            gameState = gs,
             currGameName = currGameName,
         )
     }
