@@ -495,4 +495,108 @@ class GameTests {
             assertEquals(PieceType.WHITE, uutW.gameState?.lastPlayer)
         }
     }
+
+    @Test
+    fun `refresh in local game returns same game`() {
+        val uut = startNewGame(
+            side = 4,
+            players = listOf(
+                Player(PieceType.BLACK),
+                Player(PieceType.WHITE)
+            ),
+            firstTurn = PieceType.BLACK,
+            currGameName = null,
+        )
+
+        val refreshedGame = uut.refresh()
+
+        assertEquals(uut, refreshedGame)
+    }
+
+    @Test
+    fun `refresh in not local game loads updated game state`() {
+        cleanup {
+            var uutB = startNewGame(
+                side = 4,
+                players = listOf(Player(PieceType.BLACK)),
+                firstTurn = PieceType.BLACK,
+                currGameName = "testGame",
+            )
+
+            var uutW = loadGame("testGame")
+
+            uutB = uutB.play(Coordinate(1, 2))
+
+            uutW = uutW.refresh()
+
+            assertEquals(uutB.gameState?.board, uutW.gameState?.board)
+            assertEquals(uutB.gameState?.lastPlayer, uutW.gameState?.lastPlayer)
+        }
+    }
+
+    @Test
+    fun `saveGame with game not started yet fails`() {
+        val game = Game()
+
+        assertFailsWith<InvalidGameException> {
+            game.saveGame()
+        }
+    }
+
+    @Test
+    fun `saveGame with players empty fails`() {
+        val uut = Game(
+            target = false,
+            gameState = GameState(
+                players = emptyList(),
+                lastPlayer = PieceType.BLACK,
+                board = Board(4).startPieces()
+            ),
+            currGameName = "testGame",
+        )
+
+        assertFailsWith<InvalidGameException> {
+            uut.saveGame()
+        }
+    }
+
+    @Test
+    fun `saveGame in not local game succeeds`() {
+        cleanup {
+            val uut = newGameForTest(
+                board = Board(4),
+                players = listOf(Player(PieceType.BLACK),Player(PieceType.WHITE)),
+                lastPlayer = PieceType.WHITE,
+                currGameName = "testGame",
+            )
+
+            uut.saveGame()
+
+            val loadedGameState = STORAGE.load("testGame")
+
+            val expectedGameState = uut.gameState?.copy(
+                players = listOf(Player(PieceType.BLACK),Player(PieceType.WHITE)),
+            )
+
+            assertEquals(expectedGameState, loadedGameState)
+        }
+    }
+
+    @Test
+    fun `saveGame in local game succeeds`() {
+        cleanup {
+            val uut = startNewGame(
+                side = 4,
+                players = listOf(Player(PieceType.BLACK),Player(PieceType.WHITE)),
+                firstTurn = PieceType.BLACK,
+                currGameName = "testGame",
+            )
+
+            uut.saveGame()
+
+            val loadedGameState = STORAGE.load("testGame")
+
+            assertEquals(uut.gameState, loadedGameState)
+        }
+    }
 }

@@ -199,18 +199,16 @@ data class Game(
      */
     fun saveGame() {
         val gs = requireStartedGame()
-        if (gs.players.size != 1)
-            throw InvalidGameException(
-                message = "Only a not local game can be saved (players size must be 1)"
-            )
 
         if (currGameName == null)
             throw InvalidFileException("Name of the current game is null")
 
         var playersInStorage = storage.load(currGameName)?.players ?: emptyList()
 
-        if (gs.players[0] !in playersInStorage) {
-            playersInStorage = playersInStorage + gs.players[0]
+        gs.players.forEach {
+            if (it !in playersInStorage) {
+                playersInStorage = playersInStorage + it
+            }
         }
 
         try {
@@ -220,7 +218,7 @@ data class Game(
                     players = playersInStorage
                 )
             )
-        } catch (_: EndGameException) {
+        } catch (_: IllegalArgumentException) {
             storage.new(
                 id = currGameName,
             ) {
