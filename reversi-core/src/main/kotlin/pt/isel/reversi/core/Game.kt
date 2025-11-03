@@ -19,7 +19,7 @@ import pt.isel.reversi.storage.Storage
  */
 @Suppress("unused")
 data class Game(
-    val storage: Storage<String, GameState, String>,
+    private val storage: Storage<String, GameState, String> = STORAGE,
     val target: Boolean,
     val currGameName: String?,
     val gameState: GameState?,
@@ -27,7 +27,6 @@ data class Game(
 ) {
 
     constructor() : this(
-        storage = STORAGE,
         target = false,
         currGameName = null,
         gameState = null,
@@ -138,6 +137,9 @@ data class Game(
         var gs = requireStartedGame()
 
         checkTurnOnNotLocalGame(gs)
+
+        if (GameLogic.getAvailablePlays(board = gs.board, myPieceType = gs.lastPlayer.swap()).isNotEmpty())
+            throw InvalidPlayException("There are available plays, cannot pass the turn")
 
         if (countPass >= 1) {
             throw EndGameException(
@@ -301,7 +303,6 @@ fun startNewGame(
         STORAGE.new(currGameName) { newGS }
 
         return Game(
-            storage = STORAGE,
             target = false,
             gameState = gs,
             currGameName = currGameName,
@@ -309,7 +310,6 @@ fun startNewGame(
     }
 
     return Game(
-        storage = STORAGE,
         target = false,
         gameState = gs,
         currGameName = currGameName,
@@ -359,9 +359,23 @@ fun loadGame(
     )
 
     return Game(
-        storage = storage,
         target = false,
         gameState = gs,
         currGameName = gameName,
     )
 }
+
+fun newGameForTest(
+    board: Board,
+    players: List<Player>,
+    lastPlayer: PieceType,
+    currGameName: String? = null,
+): Game = Game(
+    target = false,
+    currGameName = currGameName,
+    gameState = GameState(
+        board = board,
+        players = players,
+        lastPlayer = lastPlayer
+    )
+)

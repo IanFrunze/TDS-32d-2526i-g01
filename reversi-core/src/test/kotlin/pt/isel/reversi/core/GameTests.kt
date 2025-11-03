@@ -89,7 +89,6 @@ class GameTests {
             .changePiece(Coordinate(2, 2))
 
         val expectedGame = Game(
-            storage = STORAGE,
             gameState = GameState(
                 lastPlayer = PieceType.BLACK,
                 board = expectedBoard,
@@ -142,7 +141,6 @@ class GameTests {
     @Test
     fun `play with players empty fails`() {
         val uut = Game(
-            storage = STORAGE,
             target = false,
             gameState = GameState(
                 players = emptyList(),
@@ -160,7 +158,6 @@ class GameTests {
     @Test
     fun `pass in localGame when no availablePlays succeeds`() {
         val uut = Game(
-            storage = STORAGE,
             target = false,
             gameState = GameState(
                 players = listOf(
@@ -197,7 +194,6 @@ class GameTests {
     @Test
     fun `pass with players empty fails`() {
         val uut = Game(
-            storage = STORAGE,
             target = false,
             gameState = GameState(
                 players = emptyList(),
@@ -221,7 +217,6 @@ class GameTests {
                 ),
                 currGameName = "testGame"
             ).copy(
-                storage = STORAGE,
                 gameState = GameState(
                     players = listOf(
                         Player(PieceType.BLACK)
@@ -271,7 +266,6 @@ class GameTests {
 
             val loadedGame = STORAGE.load("existingGame")?.let {
                 Game(
-                    storage = STORAGE,
                     target = false,
                     gameState = it,
                     currGameName = "existingGame",
@@ -452,6 +446,53 @@ class GameTests {
             assertEquals(expectedBlackPoints, uutB.gameState?.players[0]?.points)
             assertEquals(expectedWhitePoints, uutW.gameState?.players[0]?.points)
             assertEquals(expectedPlayerTurn, uutB.gameState?.lastPlayer)
+        }
+    }
+
+    @Test
+    fun `pass in local game with available plays fails`() {
+        val uut = startNewGame(
+            side = 4,
+            players = listOf(
+                Player(PieceType.BLACK),
+                Player(PieceType.WHITE)
+            ),
+            firstTurn = PieceType.BLACK,
+            currGameName = null,
+        )
+
+        assertFailsWith<InvalidPlayException> {
+            uut.pass()
+        }
+
+        assertEquals(PieceType.WHITE, uut.gameState?.lastPlayer)
+    }
+
+    @Test
+    fun `pass in not local game with available plays fails`() {
+        cleanup {
+            var uutB = startNewGame(
+                side = 4,
+                players = listOf(Player(PieceType.BLACK)),
+                firstTurn = PieceType.BLACK,
+                currGameName = "testGame",
+            )
+
+            var uutW = loadGame("testGame")
+
+            uutB = uutB.refresh()
+            assertFailsWith<InvalidPlayException> {
+                uutB.pass()
+            }
+
+            assertEquals(PieceType.WHITE, uutB.gameState?.lastPlayer)
+
+            uutW = uutW.refresh()
+            assertFailsWith<InvalidPlayException> {
+                uutW.pass()
+            }
+
+            assertEquals(PieceType.WHITE, uutW.gameState?.lastPlayer)
         }
     }
 }
