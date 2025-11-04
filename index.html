@@ -38,6 +38,7 @@
 <link href="images/UML_Structure_storage.png">
 <link href="images/Module_Structure.png">
 <link href="images/UML_Structure_CLI.png">
+<link href="images/UML_Structure_utils.png">
 <link href="images/UML_Structure_core.png">
 </head>
 <body>
@@ -51,7 +52,7 @@
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
         <div class="library-version" id="library-version">
-v0.1.0        </div>
+v1.0.0        </div>
         <div class="navigation-controls">
             <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
                     type="button">Switch theme
@@ -99,6 +100,9 @@ v0.1.0        </div>
         <li>
           <p class="paragraph"><code class="lang-kotlin">reversi-cli</code> — small command-line client to play the game</p>
         </li>
+        <li>
+          <p class="paragraph"><code class="lang-kotlin">reversi-utils</code> —  utility functions and extensions used by other modules</p>
+        </li>
       </ul>
       <h2 class="">Documentation Site</h2>
       <p class="paragraph">A full HTML version of the generated documentation is available online:<br><a href="https://isel-leic-tds.github.io/32d-2526i-g01-muyloco/">Reversi Documentation</a></p>
@@ -107,11 +111,11 @@ v0.1.0        </div>
       <h2 class="">Quick Start</h2>
       <p class="paragraph">For the CLI version Run:</p>
       <div class="sample-container">
-        <pre><code class="block lang-bash" theme="idea">./gradlew reversiCliJar</code></pre>
+        <pre><code class="block lang-bash" theme="idea">./gradlew build</code></pre>
 <span class="top-right-position"><span class="copy-icon"></span>
           <div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div>
         </span></div>
-      <p class="paragraph">Then, run the produced module jar (paths vary depending on build):</p>
+      <p class="paragraph">Then, run the produced module jar (paths vary depending on build). To use the debug commands for testing use the <code class="lang-kotlin">--debug</code> or <code class="lang-kotlin">-d</code> flag:</p>
       <div class="sample-container">
         <pre><code class="block lang-bash" theme="idea">java -jar build/libs/reversi-cli-v*.*.*.jar</code></pre>
 <span class="top-right-position"><span class="copy-icon"></span>
@@ -121,7 +125,7 @@ v0.1.0        </div>
         <p class="paragraph">Note: change <code class="lang-kotlin">v*.*.*</code> to the actual version number.</p>
       </blockquote>
       <h2 class="">Project Structure</h2>
-      <p class="paragraph">The project is split in three modules (core, storage and cli). See the <code class="lang-kotlin">reversi-core</code>, <code class="lang-kotlin">reversi-storage</code> and <code class="lang-kotlin">reversi-cli</code> folders for implementation details and tests.</p>
+      <p class="paragraph">The project is split in four modules (core, utils, storage and cli). See the <code class="lang-kotlin">reversi-core</code>, <code class="lang-kotlin">reversi-utils</code>, <code class="lang-kotlin">reversi-storage</code> and <code class="lang-kotlin">reversi-cli</code> folders for implementation details and tests.</p>
       <p class="paragraph"><img alt="Project Structure" src="images/UML_Structure.png"></p>
       <h2 class="">Testing</h2>
       <p class="paragraph">Run the test suite:</p>
@@ -139,6 +143,334 @@ v0.1.0        </div>
         </span></div>
       <p class="paragraph">Output: <code class="lang-kotlin">build/dokka/htmlMultiModule/index.html</code></p>
       <p class="paragraph">For module-level descriptions see the <code class="lang-kotlin">MODULE.md</code> files inside each module folder which are also included in the generated documentation.</p>
+      <h2 class="">How to play (Rules)</h2>
+      <p class="paragraph">Reversi (also called Othello) is a two-player board game played on an N x N board (normally 8x8).</p>
+      <ul>
+        <li>
+          <p class="paragraph">Players are identified by pieces: Black (#) and White (@). Each piece has a symbol: '#' or '@'.</p>
+        </li>
+        <li>
+          <p class="paragraph">The game starts with four pieces placed in the center in a diagonal pattern (two Black and two White).</p>
+        </li>
+        <li>
+          <p class="paragraph">Players alternate turns. On a turn a player must place a piece of their color on an empty square such that one or more of the opponent's contiguous pieces in any of the eight directions (horizontal, vertical, diagonal) are flanked between the newly placed piece and another piece of the current player's color.</p>
+        </li>
+        <li>
+          <p class="paragraph">All flanked opponent pieces are flipped to the current player's color.</p>
+        </li>
+        <li>
+          <p class="paragraph">If a player has no legal moves, they must pass their turn. If both players have no legal moves, the game ends.</p>
+        </li>
+        <li>
+          <p class="paragraph">The winner is the player with more pieces of their color when the game ends. A draw is possible.</p>
+        </li>
+      </ul>
+      <p class="paragraph">This project implements the Reversi rules in <code class="lang-kotlin">reversi-core</code>. The CLI (<code class="lang-kotlin">reversi-cli</code>) provides an interactive command-line client to create, load, play, and save games using the <code class="lang-kotlin">reversi-storage</code> module (text files).</p>
+      <h2 class="">Playing with the CLI</h2>
+      <p class="paragraph">Start the CLI jar (after building). You can enable debug mode with <code class="lang-kotlin">--debug</code> or <code class="lang-kotlin">-d</code> to unlock additional developer commands:</p>
+      <div class="sample-container">
+        <pre><code class="block lang-bash" theme="idea">java -jar build/libs/reversi-cli-v*.*.*.jar [--debug]</code></pre>
+<span class="top-right-position"><span class="copy-icon"></span>
+          <div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div>
+        </span></div>
+      <p class="paragraph">When the CLI starts you'll see a welcome message and a prompt (configurable). The game runs in an interactive read-eval-print loop: type commands and press Enter.</p>
+      <p class="paragraph">Basic interaction contract:</p>
+      <ul>
+        <li>
+          <p class="paragraph">Context: the CLI keeps a current <code class="lang-kotlin">Game</code> context while you create/join/play.</p>
+        </li>
+        <li>
+          <p class="paragraph">Saving: creating or joining a new named game automatically saves the previous named game (if any).</p>
+        </li>
+        <li>
+          <p class="paragraph">Commands return human-readable messages and may update the in-memory <code class="lang-kotlin">Game</code> state.</p>
+        </li>
+      </ul>
+      <h3 class="">Available commands (summary)</h3>
+      <ul>
+        <li>
+          <p class="paragraph">new (n)</p>
+        </li>
+        <ul>
+          <li>
+            <p class="paragraph">Usage: <code class="lang-kotlin">new (#|@) [&lt;name&gt;]</code></p>
+          </li>
+          <li>
+            <p class="paragraph">Creates a new game. The argument is the first player symbol ('#' for Black or '@' for White). Optionally supply a game name to use persistent storage. If no name is given, the game is ephemeral (in-memory only).</p>
+          </li>
+          <li>
+            <p class="paragraph">Examples:</p>
+          </li>
+          <ul>
+            <li>
+              <p class="paragraph"><code class="lang-kotlin">new #</code> — start a local game where Black (#) starts and the opponent is the opposite color (in-memory).</p>
+            </li>
+            <li>
+              <p class="paragraph"><code class="lang-kotlin">new @ mymatch</code> — start a named game saved to disk as <code class="lang-kotlin">mymatch</code> with White (@) starting.</p>
+            </li>
+          </ul>
+        </ul>
+        <li>
+          <p class="paragraph">join (j)</p>
+        </li>
+        <ul>
+          <li>
+            <p class="paragraph">Usage: <code class="lang-kotlin">join (&lt;name&gt;) [#|@]</code></p>
+          </li>
+          <li>
+            <p class="paragraph">Loads a named saved game from storage. Optionally pass a player symbol to specify which side you control when joining a saved game.</p>
+          </li>
+          <li>
+            <p class="paragraph">Example: <code class="lang-kotlin">join mymatch @</code> — open saved game <code class="lang-kotlin">mymatch</code> and set you as White (@) if applicable.</p>
+          </li>
+        </ul>
+        <li>
+          <p class="paragraph">play (p)</p>
+        </li>
+        <ul>
+          <li>
+            <p class="paragraph">Usage: <code class="lang-kotlin">play (row) (col)</code> or <code class="lang-kotlin">play (rowcol)</code> (both integer and letter column formats supported)</p>
+          </li>
+          <li>
+            <p class="paragraph">Makes a move at the given coordinate. The CLI accepts different coordinate formats:</p>
+          </li>
+          <ul>
+            <li>
+              <p class="paragraph">Separate row and column: <code class="lang-kotlin">play 3 4</code></p>
+            </li>
+            <li>
+              <p class="paragraph">Combined row+column with a letter: <code class="lang-kotlin">play 3A</code> or <code class="lang-kotlin">play 3a</code> (letter used as column)</p>
+            </li>
+            <li>
+              <p class="paragraph">Combined digits: <code class="lang-kotlin">play 34</code> (row=3, col=4) — only when both characters are digits.</p>
+            </li>
+          </ul>
+          <li>
+            <p class="paragraph">Rows and columns are 1-based.</p>
+          </li>
+          <li>
+            <p class="paragraph">Example: <code class="lang-kotlin">play 4 5</code> or <code class="lang-kotlin">play 4A</code></p>
+          </li>
+        </ul>
+        <li>
+          <p class="paragraph">pass</p>
+        </li>
+        <ul>
+          <li>
+            <p class="paragraph">Usage: <code class="lang-kotlin">pass</code></p>
+          </li>
+          <li>
+            <p class="paragraph">Skip your turn when you have no legal moves. If the game ends (no player can move), the winner will be reported.</p>
+          </li>
+        </ul>
+        <li>
+          <p class="paragraph">show (s)</p>
+        </li>
+        <ul>
+          <li>
+            <p class="paragraph">Usage: <code class="lang-kotlin">show</code></p>
+          </li>
+          <li>
+            <p class="paragraph">Displays the current board, player scores, current player turn, and (when joined to a named game) the game name and which player is &quot;You&quot;.</p>
+          </li>
+        </ul>
+        <li>
+          <p class="paragraph">refresh (r)</p>
+        </li>
+        <ul>
+          <li>
+            <p class="paragraph">Usage: <code class="lang-kotlin">refresh</code></p>
+          </li>
+          <li>
+            <p class="paragraph">Re-reads the underlying game state (useful in multi-process scenarios) and prints the updated board.</p>
+          </li>
+        </ul>
+        <li>
+          <p class="paragraph">exit</p>
+        </li>
+        <ul>
+          <li>
+            <p class="paragraph">Usage: <code class="lang-kotlin">exit</code></p>
+          </li>
+          <li>
+            <p class="paragraph">Exits the CLI. If the current game has a name it will be saved before exit.</p>
+          </li>
+        </ul>
+      </ul>
+      <p class="paragraph">Developer / debug-only commands (available with <code class="lang-kotlin">--debug</code>):</p>
+      <ul>
+        <li>
+          <p class="paragraph">debug — extra diagnostics and internal state printing.</p>
+        </li>
+        <li>
+          <p class="paragraph">listgames — lists saved game files (helpful during development).</p>
+        </li>
+      </ul>
+      <p class="paragraph">Note: command aliases and colored help text are provided by the CLI parsing library. Use the <code class="lang-kotlin">usage</code> shown in the command help to learn more.</p>
+      <h2 class="">CLI configuration files</h2>
+      <p class="paragraph">Configuration is stored under the <code class="lang-kotlin">config/</code> folder. Two important files are created automatically with sensible defaults if missing:</p>
+      <ul>
+        <li>
+          <p class="paragraph"><code class="lang-kotlin">config/reversi-cli.properties</code></p>
+        </li>
+        <ul>
+          <li>
+            <p class="paragraph">Controls the CLI appearance and messages (prompt, colors, welcome message).</p>
+          </li>
+          <li>
+            <p class="paragraph">Relevant keys (defaults shown) — these are read by <code class="lang-kotlin">reversi-cli</code>'s <code class="lang-kotlin">CliConfig</code>:</p>
+          </li>
+          <ul>
+            <li>
+              <p class="paragraph"><code class="lang-kotlin">WELCOME_MESSAGE</code> — default: &quot;Welcome to Reversi!&quot;</p>
+            </li>
+            <li>
+              <p class="paragraph"><code class="lang-kotlin">PROMPT</code> — default: &quot;> &quot;</p>
+            </li>
+            <li>
+              <p class="paragraph"><code class="lang-kotlin">PROMPT_COLOR</code>, <code class="lang-kotlin">TEXT_COLOR</code>, <code class="lang-kotlin">ERROR_COLOR</code>, <code class="lang-kotlin">WARNING_COLOR</code>, <code class="lang-kotlin">INFO_COLOR</code>, <code class="lang-kotlin">HELP_USAGE_COLOR</code>, <code class="lang-kotlin">HELP_ALIAS_COLOR</code>, <code class="lang-kotlin">HELP_DESC_COLOR</code> — color names used by the styling library (defaults are ANSI color constants).</p>
+            </li>
+          </ul>
+          <li>
+            <p class="paragraph">The CLI writes the default file when it is missing, so you can safely edit the generated <code class="lang-kotlin">config/reversi-cli.properties</code> to customize colors and prompt.</p>
+          </li>
+        </ul>
+        <li>
+          <p class="paragraph"><code class="lang-kotlin">config/reversi-core.properties</code></p>
+        </li>
+        <ul>
+          <li>
+            <p class="paragraph">Used by core components; this file is created when the core configuration loader runs. It contains settings that may affect game persistence or other core behaviors. See <code class="lang-kotlin">reversi-core/src/main/kotlin/pt/isel/reversi/core/CoreConfig.kt</code> for specific entries and defaults.</p>
+          </li>
+        </ul>
+      </ul>
+      <p class="paragraph">The config loader used across the project is <code class="lang-kotlin">reversi-utils</code>'s <code class="lang-kotlin">ConfigLoader</code>, which creates the file with default keys and loads them into a typed <code class="lang-kotlin">Config</code> object.</p>
+      <h2 class="">Game save file structure (storage format)</h2>
+      <p class="paragraph">Saved games are plain text files stored by <code class="lang-kotlin">reversi-storage</code>'s <code class="lang-kotlin">FileStorage</code> implementation. Each saved game uses a filename of the form <code class="lang-kotlin">&lt;name&gt;.txt</code> and by default is placed in the <code class="lang-kotlin">saves/</code> folder. The default folder can be changed via <code class="lang-kotlin">config/reversi-core.properties</code> using the key <code class="lang-kotlin">SAVES_FOLDER</code> (default: <code class="lang-kotlin">saves</code>).</p>
+      <p class="paragraph">The on-disk format is produced by <code class="lang-kotlin">reversi-core</code> serializers; it's line-oriented and human-readable. A saved game file consists of the following parts (in order):</p>
+      <ol>
+        <li>
+          <p class="paragraph">Players line (first line)</p>
+        </li>
+        <ul>
+          <li>
+            <p class="paragraph">Contains zero or more serialized players separated by <code class="lang-kotlin">;</code> and terminated with a newline.</p>
+          </li>
+          <li>
+            <p class="paragraph">Player format: <code class="lang-kotlin">&lt;symbol&gt;,&lt;points&gt;</code> (e.g. <code class="lang-kotlin">#,12</code> or <code class="lang-kotlin">@,5</code>).</p>
+          </li>
+          <li>
+            <p class="paragraph">Example: <code class="lang-kotlin">#,12;@,5;</code> (note the trailing separator and ending newline)</p>
+          </li>
+        </ul>
+        <li>
+          <p class="paragraph">Last player line (second line)</p>
+        </li>
+        <ul>
+          <li>
+            <p class="paragraph">A single character representing the last player's piece symbol (e.g. <code class="lang-kotlin">#</code> or <code class="lang-kotlin">@</code>) followed by newline.</p>
+          </li>
+          <li>
+            <p class="paragraph">This indicates who performed the most recent move; the next turn belongs to the opposite color.</p>
+          </li>
+        </ul>
+        <li>
+          <p class="paragraph">Winner line (third line)</p>
+        </li>
+        <ul>
+          <li>
+            <p class="paragraph">If the game has a winner, this line contains the serialized <code class="lang-kotlin">Player</code> (same format as players above). If there is no winner yet, this line is empty (just a newline).</p>
+          </li>
+        </ul>
+        <li>
+          <p class="paragraph">Board lines (starting at fourth line)</p>
+        </li>
+        <ul>
+          <li>
+            <p class="paragraph">The board serializer writes the board as multiple lines. The very first board line is the board side (an integer, e.g. <code class="lang-kotlin">8</code> for an 8x8 board).</p>
+          </li>
+          <li>
+            <p class="paragraph">Subsequent lines each encode a single piece in the format: <code class="lang-kotlin">row,col,symbol</code></p>
+          </li>
+          <ul>
+            <li>
+              <p class="paragraph"><code class="lang-kotlin">row</code> and <code class="lang-kotlin">col</code> are integers (1-based coordinates), and <code class="lang-kotlin">symbol</code> is the piece symbol (<code class="lang-kotlin">#</code> or <code class="lang-kotlin">@</code>).</p>
+            </li>
+          </ul>
+          <li>
+            <p class="paragraph">Example board section for a small board:</p>
+            <div class="sample-container">
+              <pre><code class="block lang-text" theme="idea">8<br>4,4,@<br>4,5,#<br>5,4,#<br>5,5,@</code></pre>
+<span class="top-right-position"><span class="copy-icon"></span>
+                <div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div>
+              </span></div>
+          </li>
+        </ul>
+      </ol>
+      <p class="paragraph">Putting it all together, a minimal saved game file could look like:</p>
+      <div class="sample-container">
+        <pre><code class="block lang-text" theme="idea">#,2;@,2;<br>#<br><br>8<br>4,4,@<br>4,5,#<br>5,4,#<br>5,5,@</code></pre>
+<span class="top-right-position"><span class="copy-icon"></span>
+          <div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div>
+        </span></div>
+      <p class="paragraph">In this example:</p>
+      <ul>
+        <li>
+          <p class="paragraph">two players (# and @) with 2 points each are recorded on the first line;</p>
+        </li>
+        <li>
+          <p class="paragraph"><code class="lang-kotlin">#</code> is the last player who moved; the winner line is empty;</p>
+        </li>
+        <li>
+          <p class="paragraph">the board is 8x8 and lists the four central pieces.</p>
+        </li>
+      </ul>
+      <p class="paragraph">The serializer and deserializer live in <code class="lang-kotlin">reversi-core/src/main/kotlin/pt/isel/reversi/core/storage/serializers/</code>:</p>
+      <ul>
+        <li>
+          <p class="paragraph"><code class="lang-kotlin">PlayerSerializer</code> — serializes <code class="lang-kotlin">&lt;symbol&gt;,&lt;points&gt;</code> lines</p>
+        </li>
+        <li>
+          <p class="paragraph"><code class="lang-kotlin">PieceTypeSerializer</code> — maps piece symbols to enum values and vice versa</p>
+        </li>
+        <li>
+          <p class="paragraph"><code class="lang-kotlin">PieceSerializer</code> — serializes individual pieces as <code class="lang-kotlin">row,col,symbol</code></p>
+        </li>
+        <li>
+          <p class="paragraph"><code class="lang-kotlin">BoardSerializer</code> — writes board side then pieces</p>
+        </li>
+        <li>
+          <p class="paragraph"><code class="lang-kotlin">GameStateSerializer</code> — composes the whole file (players, last player, winner, board)</p>
+        </li>
+      </ul>
+      <p class="paragraph">If a saved file is malformed the core will throw a typed exception (for example <code class="lang-kotlin">InvalidGameStateInFileException</code>) providing a helpful error message.</p>
+      <h2 class="">Where files are created</h2>
+      <ul>
+        <li>
+          <p class="paragraph">Config: <code class="lang-kotlin">config/reversi-cli.properties</code> and <code class="lang-kotlin">config/reversi-core.properties</code> are created by the <code class="lang-kotlin">ConfigLoader</code> when missing.</p>
+        </li>
+        <li>
+          <p class="paragraph">Saves: <code class="lang-kotlin">FileStorage</code> writes <code class="lang-kotlin">&lt;name&gt;.txt</code> files into the <code class="lang-kotlin">saves/</code> folder by default (configurable via <code class="lang-kotlin">config/reversi-core.properties</code> key <code class="lang-kotlin">SAVES_FOLDER</code>).</p>
+        </li>
+        <li>
+          <p class="paragraph">Saves folder default: <code class="lang-kotlin">saves</code></p>
+        </li>
+      </ul>
+      <h2 class="">Troubleshooting & tips</h2>
+      <ul>
+        <li>
+          <p class="paragraph">If commands produce <code class="lang-kotlin">Game is not defined</code> errors, create or join a game first using <code class="lang-kotlin">new</code> or <code class="lang-kotlin">join</code>.</p>
+        </li>
+        <li>
+          <p class="paragraph">To see the list of saved files (debug mode), start the CLI with <code class="lang-kotlin">--debug</code> and run the <code class="lang-kotlin">listgames</code> command.</p>
+        </li>
+        <li>
+          <p class="paragraph">If colors or prompt look odd on your terminal, edit <code class="lang-kotlin">config/reversi-cli.properties</code> and set <code class="lang-kotlin">PROMPT</code> and color entries to values supported by your terminal.</p>
+        </li>
+        <li>
+          <p class="paragraph">Saved game files are human-readable; you can inspect them directly to debug persistence issues.</p>
+        </li>
+      </ul>
     </div>
     <h2 class="">All modules:</h2>
     <div class="table"><a data-name="-1833363468%2FMain%2F0" anchor-label="reversi-cli" id="-1833363468%2FMain%2F0" data-filterable-set=""></a>
