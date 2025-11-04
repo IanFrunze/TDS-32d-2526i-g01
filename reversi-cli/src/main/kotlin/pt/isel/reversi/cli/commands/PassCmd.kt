@@ -26,11 +26,19 @@ object PassCmd : CommandImpl<Game>() {
         }
 
         try {
-            context.pass()
-            return CommandResult.SUCCESS(
-                "Turn passed successfully",
-                context
-            )
+            val game = context.pass()
+
+            return if (game.gameState?.winner == null) {
+                CommandResult.SUCCESS(
+                    "Turn passed successfully",
+                    game
+                )
+            } else {
+                CommandResult.SUCCESS(
+                    "Game over! The winner is ${game.gameState?.winner}",
+                    game
+                )
+            }
         } catch (e: Exception) {
             return ERROR(e.message ?: "Error passing turn")
         }
