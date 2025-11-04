@@ -11,8 +11,8 @@ object ListGamesCmd : CommandImpl<Game>() {
     override val info: CommandInfo =
         CommandInfo(
             title = "List Games",
-            description = "Lists all available games.",
-            longDescription = "Displays a list of all available games that can be joined or viewed.",
+            description = "[DEBUG] Lists all available games.",
+            longDescription = "[DEBUG] Displays a list of all available games that can be joined or viewed.",
             aliases = listOf("listgames", "lg"),
             usage = "listgames",
             minArgs = 0,

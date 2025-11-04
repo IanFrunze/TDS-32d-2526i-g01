@@ -17,8 +17,8 @@ import pt.rafap.ktflag.style.Colors.colorText
 object DebugCmd : CommandImpl<Game>() {
     override val info: CommandInfo = CommandInfo(
         title = "Debug",
-        description = "Debug command for testing purposes.",
-        longDescription = "A command used for debugging the application. This command is intended for development and testing purposes only.",
+        description = "[DEBUG] Debug command for testing purposes.",
+        longDescription = "[DEBUG] A command used for debugging the application. This command is intended for development and testing purposes only.",
         aliases = listOf("dbg", "debug"),
         usage = "debug",
         minArgs = 0,
