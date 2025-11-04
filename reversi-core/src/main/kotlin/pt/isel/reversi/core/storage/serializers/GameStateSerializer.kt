@@ -17,7 +17,8 @@ class GameStateSerializer : Serializer<GameState, String> {
 
     private val playersLine = 0
     private val lastPlayerLine = 1
-    private val boardStartLine = 2
+    private val winnerLine = 2
+    private val boardStartLine = 3
 
     override fun serialize(obj: GameState): String {
         requireNotNull(obj.lastPlayer) { "lastPlayer cannot be null" }
@@ -36,6 +37,10 @@ class GameStateSerializer : Serializer<GameState, String> {
         }
 
         sb.appendLine(pieceTypeSerializer.serialize(obj.lastPlayer))
+
+        if (obj.winner == null) sb.appendLine()
+        else sb.appendLine(playerSerializer.serialize(obj.winner))
+
         sb.append(boardSerializer.serialize(obj.board))
 
         return sb.toString()
@@ -44,15 +49,13 @@ class GameStateSerializer : Serializer<GameState, String> {
     private fun getPlayers(parts: List<String>): List<Player> {
         if (parts.size + 1 < playersLine) return emptyList()
         val playersLineContent = parts[playersLine]
-        if (playersLineContent.isBlank() || playersLineContent.first().isWhitespace())
-            return emptyList()
+        if (playersLineContent.isBlank() || playersLineContent.first().isWhitespace()) return emptyList()
 
         val playerStrings = playersLineContent.split(";")
         val players = mutableListOf<Player>()
 
         for (player in playerStrings) {
-            if (player.isNotBlank())
-                players += playerSerializer.deserialize(player)
+            if (player.isNotBlank()) players += playerSerializer.deserialize(player)
         }
         return players
     }
@@ -60,6 +63,12 @@ class GameStateSerializer : Serializer<GameState, String> {
     private fun getLastPlayerPart(parts: List<String>): PieceType {
         val firstLine = parts[lastPlayerLine]
         return pieceTypeSerializer.deserialize(firstLine.first())
+    }
+
+    private fun getWinnerPart(parts: List<String>): Player? {
+        val winnerLineContent = parts[winnerLine]
+        if (winnerLineContent.isBlank()) return null
+        return playerSerializer.deserialize(winnerLineContent)
     }
 
     private fun getBoardPart(parts: List<String>): Board {
@@ -73,12 +82,11 @@ class GameStateSerializer : Serializer<GameState, String> {
 
             val players = getPlayers(parts)
             val lastPlayer = getLastPlayerPart(parts)
+            val winner = getWinnerPart(parts)
             val board = getBoardPart(parts)
 
             return GameState(
-                players = players,
-                lastPlayer = lastPlayer,
-                board = board
+                players = players, lastPlayer = lastPlayer, board = board, winner = winner
             )
         } catch (e: Exception) {
             throw InvalidGameStateInFileException("Invalid game state data. Error: ${e.message}")

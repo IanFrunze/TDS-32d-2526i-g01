@@ -98,7 +98,8 @@ data class Game(
         val newGameState = GameState(
             lastPlayer = piece.value,
             board = newBoard,
-            players = refreshPlayers
+            players = refreshPlayers,
+            winner = gs.winner
         )
 
         if (currGameName != null) {

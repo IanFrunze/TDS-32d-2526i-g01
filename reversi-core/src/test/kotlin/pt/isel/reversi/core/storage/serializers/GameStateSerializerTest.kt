@@ -25,8 +25,7 @@ class GameStateSerializerTest {
             val board = Board(side, pieces)
             val currentPlayer = PieceType.entries.random()
             val players = listOf(
-                Player(PieceType.BLACK),
-                Player(PieceType.WHITE)
+                Player(PieceType.BLACK), Player(PieceType.WHITE)
             )
             val gameState = GameState(players, currentPlayer, board)
             list += gameState
@@ -36,11 +35,8 @@ class GameStateSerializerTest {
 
     val testingGameState = GameState(
         listOf(
-            Player(PieceType.BLACK),
-            Player(PieceType.WHITE)
-        ),
-        PieceType.BLACK,
-        Board(8).startPieces()
+            Player(PieceType.BLACK), Player(PieceType.WHITE)
+        ), PieceType.BLACK, Board(8).startPieces(), null
     )
 
     private fun buildStringFromGameState(state: GameState): String {
@@ -50,6 +46,9 @@ class GameStateSerializerTest {
             }
             appendLine()
             appendLine(state.lastPlayer.symbol)
+            if (state.winner != null) appendLine("${state.winner.type.symbol},${state.winner.points}")
+            else appendLine()
+
             appendLine(state.board.side)
             for (piece in state.board) {
                 appendLine("${piece.coordinate.row},${piece.coordinate.col},${piece.value.symbol}")
