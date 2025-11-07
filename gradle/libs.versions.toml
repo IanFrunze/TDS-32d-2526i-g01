@@ -1,0 +1,16 @@
+[versions]
+androidx-lifecycle = "2.9.5"
+composeHotReload = "1.0.0-rc02"
+composeMultiplatform = "1.9.1"
+junit = "4.13.2"
+kotlin = "2.2.20"
+kotlinx-coroutines = "1.10.2"
+dokka = "2.0.0"
+shadow = "8.1.1"
+
+[plugins]
+composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHotReload" }
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
