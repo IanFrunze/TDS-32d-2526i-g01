@@ -7,25 +7,23 @@ plugins {
 }
 
 dependencies {
+    // COMPOSE MODULES
     implementation(compose.desktop.currentOs)
-
-    // JetBrains Compose Material3 (já incluído no compose.material3)
     implementation(compose.runtime)
     implementation(compose.foundation)
     implementation(compose.material3)
     implementation(compose.ui)
     implementation(compose.components.resources)
     implementation(compose.components.uiToolingPreview)
+    implementation(libs.androidx.lifecycle.viewmodelCompose)
+    implementation(libs.androidx.lifecycle.runtimeCompose)
 
+    // REVERSI MODULES
     implementation(project(":reversi-core"))
     implementation(project(":reversi-utils"))
 
-    // Testes desktop
-    testImplementation(compose.desktop.uiTestJUnit4)
-}
-
-compose.resources {
-    publicResClass = true // 👈 Gera as classes "Res.*"
+    // TEST MODULE
+    testImplementation(libs.kotlin.test)
 }
 
 compose.desktop {
@@ -69,9 +67,5 @@ tasks.register<Jar>("fatJar") {
 tasks {
     build {
         dependsOn("fatJar")
-    }
-
-    jar {
-        enabled = false
     }
 }

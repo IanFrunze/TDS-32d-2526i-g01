@@ -4,6 +4,7 @@ import org.jetbrains.dokka.gradle.DokkaTaskPartial
 
 plugins {
     alias(libs.plugins.dokka)
+    alias(libs.plugins.kotlin) apply false
     alias(libs.plugins.shadow) apply false
     alias(libs.plugins.composeHotReload) apply false
     alias(libs.plugins.composeMultiplatform) apply false
@@ -27,8 +28,8 @@ allprojects {
         maven { url = uri("https://jitpack.io") }
     }
 
-    apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.dokka")
+    apply(plugin = "org.jetbrains.kotlin.jvm")
 
     tasks.withType<DokkaTaskPartial>().configureEach {
         dokkaSourceSets {

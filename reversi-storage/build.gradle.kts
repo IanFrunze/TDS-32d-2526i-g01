@@ -1,4 +1,4 @@
 dependencies {
-    implementation("com.squareup.okio:okio:3.16.2")
+    implementation(libs.okio)
     testImplementation(kotlin("test"))
 }
