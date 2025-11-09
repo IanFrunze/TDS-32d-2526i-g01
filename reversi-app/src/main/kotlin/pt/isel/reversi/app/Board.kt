@@ -78,8 +78,9 @@ fun Board() {
             Text(
                 text = "Target ${target.value}",
                 autoSize = TextAutoSize.StepBased(
-                    minFontSize = 10.sp,
-                    maxFontSize = 40.sp
+                    minFontSize = 12.sp,
+                    maxFontSize = 40.sp,
+                    stepSize = 11.sp
                 ),
             )
 
