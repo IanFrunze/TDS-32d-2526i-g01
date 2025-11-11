@@ -2,6 +2,8 @@ package pt.isel.reversi.app
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.TextAutoSize
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -48,6 +50,18 @@ fun main() = application {
                 Item("Entrar em Jogo") {
                     page.value = Page.JOIN_GAME
                 }
+                Item("Guardar Jogo") {
+                    page.value = Page.SAVE_GAME
+                }
+                Item("Definições") {
+                    page.value = Page.SETTINGS
+                }
+                Item("Menu Principal") {
+                    page.value = Page.MAIN_MENU
+                }
+                Item("Jogo Atual") {
+                    page.value = Page.GAME
+                }
                 Separator()
                 Item("Sair") {
                     exitApplication()
@@ -67,10 +81,9 @@ fun main() = application {
             }
         }
 
-
         when (page.value) {
             Page.MAIN_MENU -> MainMenu(page)
-            Page.GAME      -> GamePage(game)
+            Page.GAME      -> GamePage(page, game)
             Page.SETTINGS  -> SettingsPage(page)
             Page.ABOUT     -> AboutPage(page)
             Page.JOIN_GAME -> JoinGamePage(page, game)
@@ -81,8 +94,29 @@ fun main() = application {
 }
 
 @Composable
+fun ErrorDialog(page: MutableState<Page>, errorMessage: String, newPage: Page, onOk : () -> Unit) {
+    AlertDialog(
+        onDismissRequest = { page.value = newPage ; onOk()},
+        title = { Text("Erro") },
+        text = { Text("Ocorreu um erro: $errorMessage") },
+        confirmButton = {
+            Button(
+                onClick = {
+                    page.value = newPage
+                    onOk()
+                }
+            ) {
+                Text("OK")
+            }
+        }
+    )
+}
+
+@Composable
 fun SaveGamePage(page: MutableState<Page>, game: MutableState<Game>) {
     val gameName = remember { mutableStateOf<String?>(null) }
+    val isError = remember { mutableStateOf(false) }
+    val errorMessage = remember { mutableStateOf("") }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -104,17 +138,24 @@ fun SaveGamePage(page: MutableState<Page>, game: MutableState<Game>) {
                 if (gameName.value?.isNotBlank() ?: false) {
                     try {
                         game.value.saveGame()
-                        println("Jogo guardado como '$gameName'.")
                         page.value = Page.GAME
                     } catch (e: Exception) {
-                        println("Erro ao guardar jogo: ${e.message}")
+                        isError.value = true
+                        errorMessage.value = e.message ?: "Erro desconhecido"
                     }
                 } else {
-                    println("O nome do jogo não pode estar vazio.")
+                    isError.value = true
+                    errorMessage.value = "O nome do jogo não pode estar vazio."
                 }
             }
         ) {
             Text("Guardar")
+        }
+
+        if (isError.value) {
+            ErrorDialog(page, errorMessage.value, Page.SAVE_GAME) {
+                isError.value = false
+            }
         }
 
         Spacer(Modifier.height(10.dp))
@@ -126,8 +167,10 @@ fun SaveGamePage(page: MutableState<Page>, game: MutableState<Game>) {
 }
 
 @Composable
-fun GamePage(game: MutableState<Game>) {
+fun GamePage(page: MutableState<Page>, game: MutableState<Game>) {
     val state = game.value.gameState
+    val isError = remember { mutableStateOf(false) }
+    val errorMessage = remember { mutableStateOf("") }
 
     Row(
         modifier = Modifier
@@ -140,14 +183,14 @@ fun GamePage(game: MutableState<Game>) {
         // 🧩 Tabuleiro
         Box(
             modifier = Modifier
-                .weight(1f)
-                .aspectRatio(1f)
+                .weight(5f)
         ) {
             Board(game) { x, y ->
                 try {
                     game.value = game.value.play(Coordinate(x, y))
                 } catch (e: Exception) {
-                    println(e.message)
+                    isError.value = true
+                    errorMessage.value = e.message ?: "Erro desconhecido"
                 }
             }
         }
@@ -155,18 +198,33 @@ fun GamePage(game: MutableState<Game>) {
         // 🧑‍🤝‍🧑 Jogadores
         Column(
             modifier = Modifier
-                .weight(0.4f)
+                .weight(1f)
                 .fillMaxHeight()
                 .padding(start = 20.dp),
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
-            Text("Jogadores", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Text(
+                "Jogadores", fontWeight = FontWeight.Bold,
+                autoSize = TextAutoSize.StepBased(
+                    maxFontSize = 50.sp
+                ),
+                maxLines = 1,
+                softWrap = false,
+            )
 
             Spacer(Modifier.height(16.dp))
 
             if (state == null) {
-                Text("Sem jogo ativo", fontStyle = FontStyle.Italic)
+                Text(
+                    "Sem jogo ativo",
+                    fontStyle = FontStyle.Italic,
+                    autoSize = TextAutoSize.StepBased(
+                        maxFontSize = 50.sp
+                    ),
+                    maxLines = 1,
+                    softWrap = false,
+                )
             } else {
                 val players = listOf(
                     Player(PieceType.BLACK, state.board.totalBlackPieces),
@@ -182,16 +240,36 @@ fun GamePage(game: MutableState<Game>) {
 
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
                         modifier = Modifier.padding(vertical = 4.dp)
                     ) {
-                        Text(symbol, fontSize = 22.sp)
+                        Text(
+                            symbol,
+                            autoSize = TextAutoSize.StepBased(
+                                maxFontSize = 25.sp
+                            ),
+                            maxLines = 1,
+                            softWrap = false,
+                        )
                         Text(
                             "Peças: ${player.points}",
                             fontSize = 16.sp,
-                            fontWeight = if (isTurn) FontWeight.Bold else FontWeight.Normal
+                            fontWeight = if (isTurn) FontWeight.Bold else FontWeight.Normal,
+                            autoSize = TextAutoSize.StepBased(
+                                maxFontSize = 25.sp
+                            ),
+                            maxLines = 1,
+                            softWrap = false,
                         )
-                        Text(label, color = if (isTurn) Color.Green else Color.Unspecified)
+                        Text(
+                            label,
+                            color = if (isTurn) Color.Green else Color.Unspecified,
+                            autoSize = TextAutoSize.StepBased(
+                                maxFontSize = 25.sp
+                            ),
+                            maxLines = 1,
+                            softWrap = false,
+                        )
                     }
                 }
 
@@ -200,14 +278,18 @@ fun GamePage(game: MutableState<Game>) {
                         text = "Vencedor: ${state.winner!!.type}",
                         color = Color.Green,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp
+                        autoSize = TextAutoSize.StepBased()
                     )
                 }
             }
         }
+        if (isError.value) {
+            ErrorDialog(page = page, errorMessage = errorMessage.value, newPage = Page.GAME) {
+                isError.value = false
+            }
+        }
     }
 }
-
 
 @Composable
 fun MainMenu(page: MutableState<Page>) {
@@ -287,6 +369,8 @@ fun AboutPage(page: MutableState<Page>) {
 fun JoinGamePage(page: MutableState<Page>, game: MutableState<Game>) {
     val gameName = remember { mutableStateOf<String?>(null) }
     var desiredType: PieceType? = null
+    val isError = remember { mutableStateOf(false) }
+    val errorMessage = remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -315,8 +399,12 @@ fun JoinGamePage(page: MutableState<Page>, game: MutableState<Game>) {
 
         Button(
             onClick = {
-                try { game.value.saveGame() }
-                catch (_: Exception) {}
+                try {
+                    game.value.saveGame()
+                } catch (e: Exception) {
+                    isError.value = true
+                    errorMessage.value = e.message ?: "Erro desconhecido"
+                }
                 if (gameName.value?.isNotBlank() ?: false) {
                     try {
                         game.value = loadGame(
@@ -326,10 +414,12 @@ fun JoinGamePage(page: MutableState<Page>, game: MutableState<Game>) {
                         println("Ligado ao jogo '$gameName'.")
                         page.value = Page.GAME
                     } catch (e: Exception) {
-                        println("Erro ao carregar jogo: ${e.message}")
+                        isError.value = true
+                        errorMessage.value = e.message ?: "Erro desconhecido"
                     }
                 } else {
-                    println("O nome do jogo não pode estar vazio.")
+                    isError.value = true
+                    errorMessage.value = "O nome do jogo não pode estar vazio."
                 }
             }
         ) {
@@ -341,6 +431,12 @@ fun JoinGamePage(page: MutableState<Page>, game: MutableState<Game>) {
         Button(onClick = { page.value = Page.MAIN_MENU }) {
             Text("Voltar")
         }
+
+        if (isError.value) {
+            ErrorDialog(page, errorMessage.value, Page.JOIN_GAME) {
+                isError.value = false
+            }
+        }
     }
 }
 
@@ -349,6 +445,8 @@ fun NewGamePage(page: MutableState<Page>, game: MutableState<Game>) {
     val gameNameState = remember { mutableStateOf<String?>(null) }
     val side = BOARD_SIDE
     val firstTurnState = mutableStateOf(PieceType.BLACK)
+    val isError = remember { mutableStateOf(false) }
+    val errorMessage = remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -377,8 +475,12 @@ fun NewGamePage(page: MutableState<Page>, game: MutableState<Game>) {
 
         Button(
             onClick = {
-                try { game.value.saveGame() }
-                catch (_: Exception) {}
+                try {
+                    game.value.saveGame()
+                } catch (e: Exception) {
+                    isError.value = true
+                    errorMessage.value = e.message ?: "Erro desconhecido"
+                }
                 try {
                     game.value = if (gameNameState.value?.ifBlank { null } != null) {
                         startNewGame(
@@ -400,7 +502,8 @@ fun NewGamePage(page: MutableState<Page>, game: MutableState<Game>) {
                     println("Novo jogo '${gameNameState.value?.ifBlank { "(local)" } ?: "(local)"} ' iniciado.")
                     page.value = Page.GAME
                 } catch (e: Exception) {
-                    println("Erro ao iniciar jogo: ${e.message}")
+                    isError.value = true
+                    errorMessage.value = e.message ?: "Erro desconhecido"
                 }
             }
         ) {
@@ -411,6 +514,12 @@ fun NewGamePage(page: MutableState<Page>, game: MutableState<Game>) {
 
         Button(onClick = { page.value = Page.MAIN_MENU }) {
             Text("Voltar")
+        }
+
+        if (isError.value) {
+            ErrorDialog(page, errorMessage.value, Page.NEW_GAME) {
+                isError.value = false
+            }
         }
     }
 }

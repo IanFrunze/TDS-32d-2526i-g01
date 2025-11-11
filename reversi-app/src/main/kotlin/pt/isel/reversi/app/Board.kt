@@ -4,6 +4,7 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.Button
@@ -54,18 +55,41 @@ fun Board(game: MutableState<Game>, onCellClick: (x: Int, y: Int) -> Unit) {
         modifier = Modifier
             .fillMaxSize()
             .background(BOARD_BACKGROUND_COLOR)
-            .padding(20.dp)
-            .wrapContentSize(Alignment.Center),
+            .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        var target by remember { mutableStateOf(
-            if (game.value.target) "On" else "Off"
-        ) }
+        var target by remember {
+            mutableStateOf(
+                if (game.value.target) "On" else "Off"
+            )
+        }
+
         Row(
             modifier = Modifier
-                .aspectRatio(1f)
-                .weight(5f),
+                .weight(1f)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (game.value.currGameName != null)
+                Text(
+                    text = "Game: ${game.value.currGameName}",
+                    color = TEXT_COLOR,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    autoSize = TextAutoSize.StepBased(
+                        maxFontSize = 50.sp
+                    ),
+                    maxLines = 1,
+                    softWrap = false,
+                )
+        }
+
+        Row(
+            modifier = Modifier
+                .weight(3f)
+                .aspectRatio(1f),
         ) {
             val state = game.value.gameState
 
@@ -75,7 +99,6 @@ fun Board(game: MutableState<Game>, onCellClick: (x: Int, y: Int) -> Unit) {
 
         Row(
             modifier = Modifier
-                .fillMaxWidth()
                 .weight(1f),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
@@ -105,7 +128,7 @@ fun GameButton(label: String, onClick: () -> Unit) {
             contentColor = BUTTON_CONTENT_COLOR
         ),
         onClick = onClick,
-        shape = RoundedCornerShape(10.dp)
+        shape = RoundedCornerShape(20.dp)
     ) {
         Text(
             text = label,
@@ -132,12 +155,12 @@ fun Grid(
     val target = game.target
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            //.fillMaxSize()
             .background(BOARD_SIDE_COLOR, shape = RoundedCornerShape(12.dp))
             .padding(10.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier,
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -149,7 +172,7 @@ fun Grid(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     repeat(side) { x ->
-                        val coordinate = Coordinate(x+1, y+1)
+                        val coordinate = Coordinate(x + 1, y + 1)
                         val cellValue = board[coordinate]
                         val isTargetCell = target && game.getAvailablePlays().contains(coordinate)
                         Box(
@@ -159,30 +182,28 @@ fun Grid(
                                 .padding(2.dp)
                                 .clip(RoundedCornerShape(6.dp))
                                 .background(BOARD_MAIN_COLOR)
-                                .clickable { onCellClick(x+1, y+1) },
+                                .clickable { onCellClick(x + 1, y + 1) },
                             contentAlignment = Alignment.Center
                         ) {
                             if (cellValue != null) {
-                                when (cellValue) {
-                                    PieceType.BLACK -> Text(
-                                        text = "⚫",
-                                        color = Color.Black,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 32.sp
-                                    )
-                                    PieceType.WHITE -> Text(
-                                        text = "⚪",
-                                        color = Color.White,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 32.sp
-                                    )
+                                val color = when (cellValue) {
+                                    // Circle Shapes for pieces
+                                    PieceType.BLACK -> Color.Black
+                                    PieceType.WHITE -> Color.White
                                 }
-                            }
-                            else if (isTargetCell) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize(.8f)
+                                        .aspectRatio(1f)
+                                        .clip(CircleShape)
+                                        .background(color)
+                                )
+                            } else if (isTargetCell) {
                                 Text(
                                     text = "CAN",
                                     color = Color.Gray,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
+                                    textAlign = TextAlign.Center
                                 )
                             }
                         }
