@@ -4,6 +4,7 @@ $dokka.linkExtension:html
 module:reversi-app
 pt.isel.reversi.app
 pt.isel.reversi.app.gamePage
+pt.isel.reversi.app.mainMenu
 module:reversi-cli
 pt.isel.reversi.cli
 pt.isel.reversi.cli.commands
