@@ -4,6 +4,7 @@ $dokka.linkExtension:html
 module:reversi-app
 pt.isel.reversi.app
 pt.isel.reversi.app.corroutines
+pt.isel.reversi.app.exceptions
 pt.isel.reversi.app.gamePage
 pt.isel.reversi.app.mainMenu
 pt.isel.reversi.app.state
