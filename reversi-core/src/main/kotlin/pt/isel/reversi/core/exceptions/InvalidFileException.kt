@@ -1,5 +1,8 @@
 package pt.isel.reversi.core.exceptions
 
+import ReversiException
+
 class InvalidFileException(
-    override val message: String?
-) : Exception()
+    message: String = "The provided file is invalid or corrupted",
+    type: ErrorType
+) : ReversiException(message, type)

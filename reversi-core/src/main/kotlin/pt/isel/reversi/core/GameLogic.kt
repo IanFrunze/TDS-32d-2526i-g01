@@ -4,6 +4,7 @@ import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.InvalidPlayException
 
 /**
@@ -27,7 +28,10 @@ object GameLogic {
         board.checkPosition(myPiece.coordinate)
         board[myPiece.coordinate]?.let {
             //if != null, position is occupied
-            throw InvalidPlayException("Invalid play, position already occupied: $myPiece")
+            throw InvalidPlayException(
+                message = "Invalid play, position already occupied: $myPiece",
+                type = ErrorType.INFO
+            )
         }
         //Get all opponent pieces around (1 cell away in any direction) of myPiece
         val opponentPieces = findAround(board, myPiece, myPiece.value.swap())
@@ -41,7 +45,10 @@ object GameLogic {
 
         //If no capturable pieces, the play is invalid
         if (capturablePieces.isEmpty())
-            throw InvalidPlayException("Invalid play: ${myPiece.coordinate.row} ${myPiece.coordinate.col}")
+            throw InvalidPlayException(
+                message = "Invalid play: ${myPiece.coordinate.row} ${myPiece.coordinate.col}",
+                type = ErrorType.INFO
+            )
 
         //Create a new board with myPiece added and all capturable pieces swapped
         var newBoard: Board = board.changePiece(capturablePieces[0])

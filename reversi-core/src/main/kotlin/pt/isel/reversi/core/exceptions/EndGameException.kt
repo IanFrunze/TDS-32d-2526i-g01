@@ -1,5 +1,8 @@
 package pt.isel.reversi.core.exceptions
 
+import ReversiException
+
 class EndGameException(
-    override val message: String = "The game has ended"
-) : Exception()
+    message: String = "The game has ended",
+    type: ErrorType
+) : ReversiException(message, type)

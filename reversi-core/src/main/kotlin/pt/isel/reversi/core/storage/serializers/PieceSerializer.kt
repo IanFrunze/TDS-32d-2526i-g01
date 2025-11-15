@@ -2,6 +2,7 @@ package pt.isel.reversi.core.storage.serializers
 
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.InvalidPieceInFileException
 import pt.isel.reversi.storage.Serializer
 
@@ -24,7 +25,10 @@ class PieceSerializer : Serializer<Piece, String> {
             val value = pieceTypeSerializer.deserialize(symbol.first())
             return Piece(coordinate, value)
         } catch (e: Exception) {
-            throw InvalidPieceInFileException("Invalid piece line. Error: ${e.message}")
+            throw InvalidPieceInFileException(
+                message = "Invalid piece line. Error: ${e.message}",
+                type = ErrorType.ERROR
+            )
         }
     }
 }

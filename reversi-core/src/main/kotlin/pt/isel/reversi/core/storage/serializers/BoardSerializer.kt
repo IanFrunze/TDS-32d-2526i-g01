@@ -2,6 +2,7 @@ package pt.isel.reversi.core.storage.serializers
 
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Piece
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.InvalidBoardInFileException
 import pt.isel.reversi.storage.Serializer
 
@@ -35,7 +36,10 @@ class BoardSerializer : Serializer<Board, String> {
             }
             return Board(side, pieces)
         } catch (e: Exception) {
-            throw InvalidBoardInFileException("Invalid board data. Error: ${e.message}")
+            throw InvalidBoardInFileException(
+                message = "Invalid board data. Error: ${e.message}",
+                type = ErrorType.ERROR
+            )
         }
     }
 }

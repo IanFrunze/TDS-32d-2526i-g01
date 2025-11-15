@@ -14,6 +14,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import pt.isel.reversi.core.exceptions.ErrorType
+
+@Composable
+fun ErrorMessage(appState: MutableState<AppState>, modifier: Modifier = Modifier) {
+    when (appState.value.error?.type) {
+        ErrorType.INFO -> ToastMessage(appState, modifier)
+        ErrorType.WARNING -> ToastMessage(appState, modifier)
+        ErrorType.ERROR -> ToastMessage(appState, modifier)
+        ErrorType.CRITICAL -> ToastMessage(appState, modifier)
+        null -> return
+    }
+}
 
 @Composable
 fun ToastMessage(appState: MutableState<AppState>, modifier: Modifier = Modifier) {
@@ -24,7 +36,7 @@ fun ToastMessage(appState: MutableState<AppState>, modifier: Modifier = Modifier
         contentAlignment = Alignment.TopCenter
     ) {
         Text(
-            text = appState.value.toastMessage ?: return@Box,
+            text = appState.value.error?.message ?: return@Box,
             color = Color.White,
             modifier = Modifier
                 .background(Color.Red, shape = RoundedCornerShape(20.dp))
@@ -32,10 +44,10 @@ fun ToastMessage(appState: MutableState<AppState>, modifier: Modifier = Modifier
         )
     }
 
-    LaunchedEffect(appState.value.toastMessage) {
-        if (appState.value.toastMessage == null) return@LaunchedEffect
+    LaunchedEffect(appState.value.error?.message) {
+        if (appState.value.error?.message == null) return@LaunchedEffect
         // async wait for 2 seconds, more light than Thread.sleep
         delay(2000)
-        appState.value = setToastMessage(appState, message = null)
+        appState.value = setError(appState, error = null)
     }
 }

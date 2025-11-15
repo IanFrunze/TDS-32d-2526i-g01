@@ -4,6 +4,7 @@ import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.exceptions.EndGameException
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.InvalidFileException
 import pt.isel.reversi.core.exceptions.InvalidGameException
 import pt.isel.reversi.core.exceptions.InvalidPlayException
@@ -51,7 +52,8 @@ data class Game(
     private fun requireStartedGame(): GameState {
         if (gameState == null || gameState.players.isEmpty())
             throw InvalidGameException(
-                message = "Game is not started yet."
+                message = "Game is not started yet.",
+                type = ErrorType.INFO
             )
         return gameState
     }
@@ -63,7 +65,10 @@ data class Game(
      */
     private fun checkTurnOnNotLocalGame(gs: GameState) {
         if (gs.players.size == 1 && gs.players[0].type != gs.lastPlayer.swap()) {
-            throw InvalidPlayException("It's not your turn")
+            throw InvalidPlayException(
+                message = "It's not your turn",
+                type = ErrorType.INFO
+            )
         }
     }
 
@@ -71,7 +76,8 @@ data class Game(
         val gs = requireStartedGame()
         if (gs.winner != null) {
             throw EndGameException(
-                "The game has already ended. The winner is ${gs.winner.type.symbol} with ${gs.winner.points} points."
+                message = "The game has already ended. The winner is ${gs.winner.type.symbol} with ${gs.winner.points} points.",
+                type = ErrorType.INFO
             )
         }
     }
@@ -164,7 +170,10 @@ data class Game(
         checkTurnOnNotLocalGame(gs)
 
         if (GameLogic.getAvailablePlays(board = gs.board, myPieceType = gs.lastPlayer.swap()).isNotEmpty())
-            throw InvalidPlayException("There are available plays, cannot pass the turn")
+            throw InvalidPlayException(
+                message = "There are available plays, cannot pass the turn",
+                type = ErrorType.INFO
+            )
 
         if (countPass >= 1) {
             gs = gs.copy(
@@ -175,7 +184,10 @@ data class Game(
                     gs.board.totalWhitePieces > gs.board.totalBlackPieces ->
                         Player(PieceType.WHITE, gs.board.totalWhitePieces)
 
-                    else -> throw EndGameException("The game has ended in a draw.")
+                    else -> throw EndGameException(
+                        message = "The game has ended in a draw.",
+                        type = ErrorType.INFO
+                    )
                 }
             )
         }
@@ -208,7 +220,8 @@ data class Game(
         if (currGameName == null) return this
 
         val loadedState = storage.load(currGameName) ?: throw InvalidFileException(
-            message = "Failed to load game state from storage: $currGameName"
+            message = "Failed to load game state from storage: $currGameName",
+            type = ErrorType.WARNING
         )
 
         return this.copy(
@@ -234,7 +247,10 @@ data class Game(
         val gs = requireStartedGame()
 
         if (currGameName == null)
-            throw InvalidFileException("Name of the current game is null")
+            throw InvalidFileException(
+                message = "Name of the current game is null",
+                type = ErrorType.WARNING
+            )
 
         var playersInStorage = storage.load(currGameName)?.players ?: emptyList()
 
@@ -272,17 +288,21 @@ data class Game(
      * @throws InvalidFileException if the current game name is null or loading fails.
      */
     fun saveOnlyPlay(gs: GameState) {
-
         if (gs.players.size != 1)
             throw InvalidGameException(
-                message = "Only a not local game can be saved (players size must be 1)"
+                message = "Only a not local game can be saved (players size must be 1)",
+                type = ErrorType.WARNING
             )
 
         if (currGameName == null)
-            throw InvalidFileException("Name of the current game is null")
+            throw InvalidFileException(
+                message = "Name of the current game is null",
+                type = ErrorType.WARNING
+            )
 
         val ls = storage.load(currGameName) ?: throw InvalidFileException(
-            message = "Failed to load game state from storage: $currGameName"
+            message = "Failed to load game state from storage: $currGameName",
+            type = ErrorType.ERROR
         )
 
         storage.save(

@@ -1,5 +1,6 @@
 package pt.isel.reversi.app
 
+import ReversiException
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -27,7 +28,7 @@ import reversi.reversi_app.generated.resources.reversi
 data class AppState(
     val game: Game,
     val page: Page,
-    val toastMessage: String?,
+    val error: ReversiException?,
 )
 
 fun setGame(appState: MutableState<AppState>, game: Game) = appState.value.copy(game = game)
@@ -36,14 +37,14 @@ fun setGame(appState: MutableState<AppState>, game: Game) = appState.value.copy(
 fun setPage(appState: MutableState<AppState>, page: Page) = appState.value.copy(page = page)
 
 
-fun setToastMessage(appState: MutableState<AppState>, message: String?) = appState.value.copy(toastMessage = message)
+fun setError(appState: MutableState<AppState>, error: ReversiException?) = appState.value.copy(error = error)
 
 fun setAppState(
     appState: MutableState<AppState>,
     game: Game = appState.value.game,
     page: Page = appState.value.page,
-    toastMessage: String? = appState.value.toastMessage
-) = AppState(game, page, toastMessage)
+    error: ReversiException? = appState.value.error,
+) = AppState(game, page, error)
 
 
 fun main() = application {
@@ -63,7 +64,7 @@ fun main() = application {
                 AppState(
                     game = Game(),
                     page = Page.MAIN_MENU,
-                    toastMessage = null
+                    error = null
                 )
             )
         }
@@ -119,7 +120,8 @@ fun main() = application {
             Page.NEW_GAME -> NewGamePage(appState)
             Page.SAVE_GAME -> SaveGamePage(appState)
         }
-        appState.value.toastMessage?.let { ToastMessage(appState) }
+
+        appState.value.error?.let { ErrorMessage(appState) }
     }
 }
 
@@ -165,15 +167,11 @@ fun SaveGamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier
 
         Button(
             onClick = {
-                if (gameName.value?.isNotBlank() ?: false) {
-                    try {
-                        appState.value.game.saveGame()
-                        appState.value = setPage(appState, Page.GAME)
-                    } catch (e: Exception) {
-                        appState.value = setToastMessage(appState, e.message ?: "Erro desconhecido")
-                    }
-                } else {
-                    appState.value = setToastMessage(appState, "O nome do jogo não pode estar vazio.")
+                try {
+                    appState.value.game.saveGame()
+                    appState.value = setPage(appState, Page.GAME)
+                } catch (e: ReversiException) {
+                    appState.value = setError(appState, error = e)
                 }
             }
         ) {
@@ -284,9 +282,9 @@ fun NewGamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier)
                         }
                     )
                     println("Novo jogo '${gameNameState.value?.ifBlank { "(local)" } ?: "(local)"} ' iniciado.")
-                    appState.value = setPage( appState, Page.GAME)
-                } catch (e: Exception) {
-                    appState.value = setToastMessage( appState, e.message ?: "Erro desconhecido")
+                    appState.value = setPage(appState, Page.GAME)
+                } catch (e: ReversiException) {
+                    appState.value = setError(appState, error = e)
                 }
             }
         ) {
@@ -295,7 +293,7 @@ fun NewGamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier)
 
         Spacer(Modifier.height(10.dp))
 
-        Button(onClick = { appState.value = setPage( appState, Page.MAIN_MENU) }) {
+        Button(onClick = { appState.value = setPage(appState, Page.MAIN_MENU) }) {
             Text("Voltar")
         }
     }

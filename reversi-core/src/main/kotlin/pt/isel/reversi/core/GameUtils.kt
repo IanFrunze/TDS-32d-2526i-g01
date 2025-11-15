@@ -3,6 +3,7 @@ package pt.isel.reversi.core
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.InvalidFileException
 import pt.isel.reversi.core.exceptions.InvalidGameException
 import pt.isel.reversi.core.exceptions.InvalidPieceInFileException
@@ -28,7 +29,8 @@ fun startNewGame(
 ): Game {
     if (players.isEmpty())
         throw InvalidGameException(
-            "Need minimum one player to start the game"
+            "Need minimum one player to start the game",
+            ErrorType.WARNING
         )
 
     val board = Board(side).startPieces()
@@ -78,7 +80,8 @@ fun loadGame(
     val storage = STORAGE
     val loadedState = storage.load(gameName)
         ?: throw InvalidFileException(
-            message = "$gameName does not exist"
+            message = "$gameName does not exist",
+            type = ErrorType.ERROR
         )
 
     val myPieceType =
@@ -87,6 +90,7 @@ fun loadGame(
         else
             throw InvalidPieceInFileException(
                 message = "No players available in the loaded game: $gameName.",
+                type = ErrorType.ERROR
             )
 
     val gs = loadedState.copy(
@@ -94,6 +98,7 @@ fun loadGame(
             listOf(it)
         } ?: throw InvalidPieceInFileException(
             message = "Player with piece type ${myPieceType.symbol} is not available in the loaded game: $gameName.",
+            type = ErrorType.WARNING
         ),
     )
 

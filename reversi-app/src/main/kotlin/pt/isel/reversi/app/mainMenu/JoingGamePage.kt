@@ -1,5 +1,6 @@
 package pt.isel.reversi.app.mainMenu
 
+import ReversiException
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -56,7 +57,7 @@ fun JoinGamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier
             modifier = modifier,
             onClick = {
                 if (game.currGameName.isNullOrBlank()) {
-                    appState.value = setToastMessage(appState, message = "Insira um nome de jogo válido.")
+                    // appState.value = setError(appState, error = ) TODO implement error for empty game name
                     return@Button
                 }
                 try {
@@ -66,8 +67,8 @@ fun JoinGamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier
                     )
                     println("Ligado ao jogo '$game'.")
                     appState.value = setAppState(appState, game, Page.GAME)
-                } catch (e: Exception) {
-                    appState.value = setToastMessage(appState, e.message ?: "Erro desconhecido")
+                } catch (e: ReversiException) {
+                    appState.value = setError(appState, e)
                 }
             }
         ) {
@@ -83,7 +84,12 @@ fun JoinGamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier
 }
 
 @Composable
-fun ButtonPieceType(piece: PieceType, currentPiece: PieceType?, modifier: Modifier = Modifier, onClick: (PieceType) -> Unit) {
+fun ButtonPieceType(
+    piece: PieceType,
+    currentPiece: PieceType?,
+    modifier: Modifier = Modifier,
+    onClick: (PieceType) -> Unit
+) {
     Button(
         modifier = modifier,
         onClick = { onClick(piece) },

@@ -1,5 +1,7 @@
 package pt.isel.reversi.core.exceptions
 
+import ReversiException
+
 /**
  * Thrown when a player line in the persisted game file is malformed or contains
  * values that cannot be converted into a valid [pt.isel.reversi.core.Player].
@@ -9,5 +11,6 @@ package pt.isel.reversi.core.exceptions
  * - Points is not an integer
  */
 class InvalidPlayerInFileException(
-    override val message: String = "The player in the file is invalid"
-) : Exception()
+    message: String = "The player in the file is invalid",
+    type: ErrorType
+) : ReversiException(message, type)

@@ -1,5 +1,6 @@
 package pt.isel.reversi.app.gamePage
 
+import ReversiException
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,8 +15,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.isel.reversi.app.AppState
+import pt.isel.reversi.app.setError
 import pt.isel.reversi.app.setGame
-import pt.isel.reversi.app.setToastMessage
 import pt.isel.reversi.core.board.Coordinate
 
 @Composable
@@ -61,8 +62,8 @@ fun GamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier) {
                             appState,
                             game = appState.value.game.play(Coordinate(x, y))
                         )
-                    } catch (e: Exception) {
-                        appState.value = setToastMessage(appState, message = e.message ?: "Erro desconhecido")
+                    } catch (e: ReversiException) {
+                        appState.value = setError(appState, error = e)
                     }
                 }
             }

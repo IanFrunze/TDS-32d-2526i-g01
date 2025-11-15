@@ -1,6 +1,7 @@
 package pt.isel.reversi.core.storage.serializers
 
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.InvalidPieceTypeInFileException
 import pt.isel.reversi.storage.Serializer
 
@@ -13,6 +14,9 @@ class PieceTypeSerializer : Serializer<PieceType, Char> {
     }
 
     override fun deserialize(obj: Char): PieceType {
-        return PieceType.fromSymbol(obj) ?: throw InvalidPieceTypeInFileException()
+        return PieceType.fromSymbol(obj) ?: throw InvalidPieceTypeInFileException(
+            message = "Unknown piece type symbol: '$obj'",
+            type = ErrorType.ERROR
+        )
     }
 }
