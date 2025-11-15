@@ -1,9 +1,6 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
-$dokka.location:////PointingToDeclaration/reversi-core/[root]/index.html
-$dokka.location:/ReversiException///PointingToDeclaration/reversi-core/[root]/-reversi-exception/index.html
-$dokka.location:/ReversiException/ReversiException/#kotlin.String#pt.isel.reversi.core.exceptions.ErrorType/PointingToDeclaration/reversi-core/[root]/-reversi-exception/-reversi-exception.html
-$dokka.location:/ReversiException/type/#/PointingToDeclaration/reversi-core/[root]/-reversi-exception/type.html
+
 module:reversi-app
 pt.isel.reversi.app
 pt.isel.reversi.app.gamePage
