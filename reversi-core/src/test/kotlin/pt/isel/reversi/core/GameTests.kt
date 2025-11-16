@@ -6,6 +6,7 @@ import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.exceptions.InvalidFileException
 import pt.isel.reversi.core.exceptions.InvalidGameException
+import pt.isel.reversi.core.exceptions.InvalidNameAlreadyExists
 import pt.isel.reversi.core.exceptions.InvalidPlayException
 import pt.isel.reversi.core.storage.GameState
 import java.io.File
@@ -15,6 +16,27 @@ import kotlin.test.assertFails
 import kotlin.test.assertFailsWith
 
 class GameTests {
+
+    @Test
+    fun `startNewGame with already existing name in storage fails`() {
+        cleanup {
+            startNewGame(
+                side = 4,
+                players = listOf(Player(PieceType.BLACK)),
+                firstTurn = PieceType.BLACK,
+                currGameName = "existingGame",
+            )
+
+            assertFailsWith<InvalidNameAlreadyExists> {
+                startNewGame(
+                    side = 4,
+                    players = listOf(Player(PieceType.WHITE)),
+                    firstTurn = PieceType.WHITE,
+                    currGameName = "existingGame",
+                )
+            }
+        }
+    }
 
     fun cleanup(func: () -> Unit) {
         val conf = loadCoreConfig()
