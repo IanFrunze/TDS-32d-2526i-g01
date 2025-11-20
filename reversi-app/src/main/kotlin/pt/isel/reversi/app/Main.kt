@@ -72,7 +72,7 @@ fun main(args: Array<String>) {
             LOGGER.info("Exiting application...")
 
             try {
-                appState.value.game.saveGame()
+                appState.value.game.saveEndGame()
             } catch (e: ReversiException) {
                 LOGGER.warning("Failed to save game on exit: ${e.message}")
             }
@@ -107,6 +107,14 @@ fun main(args: Array<String>) {
     }
 }
 
+/**
+ * Page to save the current game.
+ * Save only board state and last player, not players info
+ * (for avoid conflicts, because if save players info, in current game, permit other person to play with same piece type).
+ * If the game has no name, allows the user to enter a name.
+ * If the game has a name, shows the name but does not allow editing.
+ * When the user clicks the save button, saves the game and returns to the game page.
+ */
 @Composable
 fun SaveGamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier) {
     val game = appState.value.game
@@ -136,7 +144,7 @@ fun SaveGamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier
                     game.copy(currGameName = gameName?.trim() ?: return@Button)
                 )
                 try {
-                    appState.value.game.saveGame()
+                    appState.value.game.saveOnlyBoard(gameState = appState.value.game.gameState)
                     appState.value = setPage(appState, Page.GAME)
                 } catch (e: ReversiException) {
                     appState.value = setError(appState, error = e)

@@ -38,7 +38,7 @@ val BUTTON_MAX_FONT_SIZE = 40.sp
 val BUTTON_TEXT_COLOR = TEXT_COLOR
 val BUTTON_MAIN_COLOR = Color(0xFF4CAF50)
 
-val GHOST_PIECE_ALPHA = 0.3f
+const val GHOST_PIECE_ALPHA = 0.3f
 
 @Composable
 fun DrawBoard(

@@ -30,7 +30,7 @@ object ExitCmd : CommandImpl<Game>() {
             val saveName = context.currGameName ?: askNameToSave()
             if (saveName != null) {
                 println("Saving game as '$saveName' before exit...")
-                context.copy(currGameName = saveName).saveGame()
+                context.copy(currGameName = saveName).saveEndGame()
             }
         }
         println("By byyyy")

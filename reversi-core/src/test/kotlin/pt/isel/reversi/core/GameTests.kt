@@ -255,7 +255,7 @@ class GameTests {
                 gameState = uut.gameState?.copy(
                     players = listOf(uut.gameState.players[0].swap())
                 )
-            ).saveGame()
+            ).saveEndGame()
 
             var uut2 = loadGame("testGame")
 
@@ -564,16 +564,16 @@ class GameTests {
     }
 
     @Test
-    fun `saveGame with game not started yet fails`() {
+    fun `saveEndGame with game not started yet fails`() {
         val game = Game()
 
         assertFailsWith<InvalidGameException> {
-            game.saveGame()
+            game.saveEndGame()
         }
     }
 
     @Test
-    fun `saveGame with players empty fails`() {
+    fun `saveEndGame with players empty fails`() {
         val uut = Game(
             target = false,
             gameState = GameState(
@@ -585,12 +585,12 @@ class GameTests {
         )
 
         assertFailsWith<InvalidGameException> {
-            uut.saveGame()
+            uut.saveEndGame()
         }
     }
 
     @Test
-    fun `saveGame in not local game succeeds`() {
+    fun `saveEndGame in not local game succeeds`() {
         cleanup {
             val uut = newGameForTest(
                 board = Board(4),
@@ -599,7 +599,7 @@ class GameTests {
                 currGameName = "testGame",
             )
 
-            uut.saveGame()
+            uut.saveEndGame()
 
             val loadedGameState = uut.storage.load("testGame")
 
@@ -612,7 +612,7 @@ class GameTests {
     }
 
     @Test
-    fun `saveGame in local game succeeds`() {
+    fun `saveEndGame in local game succeeds`() {
         cleanup {
             val uut = startNewGame(
                 side = 4,
@@ -621,7 +621,7 @@ class GameTests {
                 currGameName = "testGame",
             )
 
-            uut.saveGame()
+            uut.saveEndGame()
 
             val loadedGameState = uut.storage.load("testGame")
 

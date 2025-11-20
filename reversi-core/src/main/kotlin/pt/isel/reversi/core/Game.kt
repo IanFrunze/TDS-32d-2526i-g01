@@ -143,7 +143,7 @@ data class Game(
         )
 
         if (currGameName != null) {
-            saveOnlyPlay(newGameState)
+            saveOnlyBoard(newGameState)
         }
 
         return this.copy(
@@ -225,7 +225,7 @@ data class Game(
         )
 
         if (currGameName != null) {
-            saveOnlyPlay(gs)
+            saveOnlyBoard(gs)
         }
 
         return this.copy(
@@ -271,7 +271,7 @@ data class Game(
      * @throws InvalidGameException if the game is local or not started yet.
      * @throws InvalidFileException if the current game name is null.
      */
-    fun saveGame() {
+    fun saveEndGame() {
         val gs = requireStartedGame()
 
         if (currGameName == null)
@@ -311,11 +311,16 @@ data class Game(
      * Keeps the existing players in storage unchanged.
      * It is recommended to use this method during gameplay to save progress.
      * Only applicable for not local games (players size must be 1).
-     * @param gs The current game state to save.
+     * @param gameState The current game state to save.
      * @throws InvalidGameException if the game is local or not started yet.
      * @throws InvalidFileException if the current game name is null or loading fails.
      */
-    fun saveOnlyPlay(gs: GameState) {
+    fun saveOnlyBoard(gameState: GameState?) {
+        val gs = gameState ?: throw InvalidGameException(
+            message = "Game is not started yet.",
+            type = ErrorType.WARNING
+        )
+
         if (gs.players.size != 1)
             throw InvalidGameException(
                 message = "Only a not local game can be saved (players size must be 1)",
@@ -340,4 +345,6 @@ data class Game(
             )
         )
     }
+
+
 }

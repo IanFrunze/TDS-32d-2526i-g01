@@ -27,7 +27,7 @@ object NewCmd : CommandImpl<Game>() {
 
     override fun execute(vararg args: String, context: Game?): CommandResult<Game> {
         if (context != null && context.currGameName != null)
-            context.saveGame()
+            context.saveEndGame()
 
         val playerType = PieceType.entries.find { it.symbol.toString() == args[0] }
                          ?: return ERROR("First player must be one of: $pieceTypes")
