@@ -1,11 +1,18 @@
 package pt.isel.reversi.app.gamePage
 
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -83,6 +90,24 @@ fun Grid(
     ) {
         val availablePlays = game.getAvailablePlays()
 
+        val infiniteTransition = rememberInfiniteTransition()
+        val alphaAnim by infiniteTransition.animateFloat(
+            initialValue = 0.8f,
+            targetValue = 0.5f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(1000, easing = CubicBezierEasing(0.4f, 0.0f, 0.2f, 1.0f)),
+                repeatMode = RepeatMode.Reverse
+            )
+        )
+        val sizeAnim by infiniteTransition.animateFloat(
+            initialValue = 1.0f,
+            targetValue = 0.8f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(1000, easing = CubicBezierEasing(0.4f, 0.0f, 0.2f, 1.0f)),
+                repeatMode = RepeatMode.Reverse
+            )
+        )
+
         repeat(side) { y ->
             Row(
                 modifier = modifier
@@ -96,7 +121,15 @@ fun Grid(
                     val cellValue = board[coordinate]
                     val ghostPiece = if (target && availablePlays.contains(coordinate)) playerTurn else null
 
-                    cellView(coordinate, cellValue, ghostPiece, freeze, modifier = modifier.weight(1f)) {
+                    cellView(
+                        coordinate,
+                        cellValue,
+                        ghostPiece,
+                        freeze,
+                        modifier = modifier.weight(1f),
+                        radiusModifier = if (ghostPiece != null) sizeAnim else 1f,
+                        alphaModifier = if (ghostPiece != null) alphaAnim else 1f,
+                    ) {
                         onCellClick(coordinate)
                     }
                 }
@@ -124,6 +157,8 @@ fun cellView(
     ghostPiece: PieceType?,
     freeze: Boolean = false,
     modifier: Modifier = Modifier,
+    radiusModifier: Float = 1f,
+    alphaModifier: Float = 1f,
     onClick: (coordinate: Coordinate) -> Unit
 ) {
     Box(
@@ -159,9 +194,10 @@ fun cellView(
                         PieceType.WHITE -> Color.White
                     }
                     drawCircle(
-                        color = color.copy(alpha = GHOST_PIECE_ALPHA),
-                        radius = radius,
+                        color  = color.copy(alpha = GHOST_PIECE_ALPHA),
+                        radius = radius * radiusModifier,
                         center = center,
+                        alpha  = alphaModifier,
                     )
                 }
             }

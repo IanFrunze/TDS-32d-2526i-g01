@@ -27,4 +27,7 @@ interface Storage<K, T, U> {
 
     /** Deletes the entity identified by [id]. */
     fun delete(id: K)
+
+    /** Checks if there was an entity associated with [id]. */
+    fun lastModified(id: K): Long?
 }

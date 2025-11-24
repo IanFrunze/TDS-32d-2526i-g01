@@ -25,6 +25,7 @@ import pt.isel.reversi.storage.Storage
 data class Game(
     val target: Boolean = false,
     val currGameName: String? = null,
+    val lastModified: Long? = null,
     val gameState: GameState? = null,
     val countPass: Int = 0,
     val myPiece: PieceType? = null,
@@ -35,6 +36,7 @@ data class Game(
     constructor() : this(
         target = false,
         currGameName = null,
+        lastModified = null,
         gameState = null,
         countPass = 0,
         myPiece = null
@@ -247,10 +249,15 @@ data class Game(
 
         if (currGameName == null) return this
 
+        val lastModified = storage.lastModified(currGameName)
+
+        if (lastModified == this.lastModified) return this
+
         val loadedState = storage.load(currGameName) ?: throw InvalidFileException(
             message = "Failed to load game state from storage: $currGameName",
             type = ErrorType.WARNING
         )
+
 
         return this.copy(
             gameState = loadedState.copy(players = gs.players.map { it.refresh(loadedState.board) }),
@@ -259,7 +266,8 @@ data class Game(
                     && loadedState.lastPlayer != gs.lastPlayer
                 )
                     countPass + 1
-                else 0
+                else 0,
+            lastModified = lastModified
         )
     }
 
@@ -345,6 +353,4 @@ data class Game(
             )
         )
     }
-
-
 }

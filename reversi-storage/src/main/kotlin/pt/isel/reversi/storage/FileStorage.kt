@@ -68,4 +68,10 @@ data class FileStorage<T>(
 
         fs.delete(path(id))
     }
+
+    override fun lastModified(id: String): Long? {
+        val fs = FileSystem.SYSTEM
+
+        return fs.metadata(path(id)).lastModifiedAtMillis
+    }
 }
