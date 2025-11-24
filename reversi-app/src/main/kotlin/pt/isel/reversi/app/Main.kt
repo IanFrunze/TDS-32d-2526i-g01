@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.*
 import org.jetbrains.compose.resources.painterResource
 import pt.isel.reversi.app.exceptions.ErrorMessage
+import pt.isel.reversi.app.gameAudio.loadGameAudioPool
 import pt.isel.reversi.app.gamePage.GamePage
 import pt.isel.reversi.app.mainMenu.JoinGamePage
 import pt.isel.reversi.app.mainMenu.MainMenu
@@ -63,7 +65,8 @@ fun main(args: Array<String>) {
                 AppState(
                     game = Game(),
                     page = Page.MAIN_MENU,
-                    error = null
+                    error = null,
+                    audioPool = loadGameAudioPool()
                 )
             )
         }
@@ -73,6 +76,7 @@ fun main(args: Array<String>) {
 
             try {
                 appState.value.game.saveEndGame()
+                getStateAudioPool(appState).destroy()
             } catch (e: ReversiException) {
                 LOGGER.warning("Failed to save game on exit: ${e.message}")
             }
@@ -173,6 +177,24 @@ fun SettingsPage(appState: MutableState<AppState>, modifier: Modifier = Modifier
         Text("Definições", fontSize = 30.sp, fontWeight = FontWeight.Bold)
 
         Text("Opções futuras: som, tema, rede, etc.")
+        var volume by remember { mutableStateOf(0f) }
+
+        val number = if (volume == 0f) " (Default)" else if (volume == -20f) " (disabled)" else "%.1f".format(volume)
+
+        Text("Master Volume: $number",
+             fontSize = 20.sp,
+             fontWeight = FontWeight.Medium
+        )
+        Slider(value = volume, valueRange = -20f..0f, onValueChange = {
+            volume = it
+            if (volume == -20f) {
+                getStateAudioPool(appState).mute(true)
+            }
+            else {
+                getStateAudioPool(appState).mute(false)
+                getStateAudioPool(appState).setMasterVolume(volume)
+            }
+        })
 
         Spacer(Modifier.height(20.dp))
 
