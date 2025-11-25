@@ -9,6 +9,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -35,15 +36,16 @@ fun GamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier, fr
         modifier = modifier
             .fillMaxSize()
             .background(BOARD_BACKGROUND_COLOR)
-            .padding(10.dp),
+            .padding(10.dp)
     ) {
         Row(
             modifier = modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
         ) {
-            if (appState.value.game.currGameName != null && !freeze)
+            val name = appState.value.game.currGameName
+            if (name != null && !freeze)
                 Text(
-                    text = "Game: ${appState.value.game.currGameName}",
+                    text = "Game: $name",
                     color = TEXT_COLOR,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
@@ -52,6 +54,7 @@ fun GamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier, fr
                     ),
                     maxLines = 1,
                     softWrap = false,
+                    modifier = Modifier.testTag(tag = name)
                 )
         }
 
