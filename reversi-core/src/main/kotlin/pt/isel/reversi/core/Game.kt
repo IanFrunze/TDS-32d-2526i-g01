@@ -33,15 +33,6 @@ data class Game(
 ) {
     val storage: Storage<String, GameState, String> = config.STORAGE_TYPE.storage(config.SAVES_FOLDER)
 
-    constructor() : this(
-        target = false,
-        currGameName = null,
-        lastModified = null,
-        gameState = null,
-        countPass = 0,
-        myPiece = null
-    )
-
     /**
      * Reloads the core configuration.
      * @return A new Game instance with the updated configuration.

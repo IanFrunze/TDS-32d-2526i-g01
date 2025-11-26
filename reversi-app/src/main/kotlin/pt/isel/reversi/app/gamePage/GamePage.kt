@@ -43,7 +43,7 @@ fun GamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier, fr
             horizontalArrangement = Arrangement.Center,
         ) {
             val name = appState.value.game.currGameName
-            if (name != null && !freeze)
+            if (name != null && !freeze) {
                 Text(
                     text = "Game: $name",
                     color = TEXT_COLOR,
@@ -54,8 +54,9 @@ fun GamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier, fr
                     ),
                     maxLines = 1,
                     softWrap = false,
-                    modifier = Modifier.testTag(tag = name)
+                    modifier = Modifier.testTag(tag = testTagTitle(gameName = name))
                 )
+            }
         }
 
         Spacer(modifier = Modifier.height(padding))
@@ -99,7 +100,7 @@ fun GamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier, fr
                     )
                 }
 
-                Spacer(modifier = Modifier.height(padding))
+                //Spacer(modifier = Modifier.height(padding))
 
 //                GameButton("Update", freeze = freeze) {
 //                    appState.value = setGame(appState, appState.value.game.refresh())
