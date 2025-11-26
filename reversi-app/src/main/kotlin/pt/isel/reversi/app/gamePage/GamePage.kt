@@ -91,9 +91,9 @@ fun GamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier, fr
 
                 Spacer(modifier = Modifier.height(padding * 3))
 
-                val target = if (appState.value.game.target) "On" else "Off"
+                val target = appState.value.game.target
 
-                GameButton("Target $target", freeze = freeze) {
+                TargetButton(target, freeze = freeze) {
                     appState.value = setGame(
                         appState,
                         game = appState.value.game.setTargetMode(!appState.value.game.target)

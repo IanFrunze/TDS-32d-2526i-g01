@@ -22,3 +22,5 @@ fun testTagGamePage() = "game_page"
 
 fun testTagPlayerScore(player: Player) =
     "player_score_${if (player.type == PieceType.BLACK) "BLACK" else "WHITE"}_${player.points}"
+
+fun testTagTargetButtons(target: Boolean) = "game_page_target_buttons_${if (target) "ON" else "OFF"}"

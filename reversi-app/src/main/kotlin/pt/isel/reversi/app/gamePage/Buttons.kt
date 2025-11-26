@@ -7,14 +7,15 @@ import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 /** Composable button with auto-sizing text */
 @Composable
-fun GameButton(label: String, modifier: Modifier = Modifier,freeze: Boolean, onClick: () -> Unit) {
+fun TargetButton(target: Boolean, modifier: Modifier = Modifier,freeze: Boolean, onClick: () -> Unit) {
     Button(
-        modifier = modifier,
+        modifier = modifier.testTag(tag = testTagTargetButtons(target)),
         colors = buttonColors(
             containerColor = BUTTON_MAIN_COLOR,
             contentColor = BUTTON_CONTENT_COLOR
@@ -24,7 +25,7 @@ fun GameButton(label: String, modifier: Modifier = Modifier,freeze: Boolean, onC
         shape = RoundedCornerShape(20.dp)
     ) {
         Text(
-            text = label,
+            text = "Target $target",
             maxLines = 1,
             softWrap = false,
             textAlign = TextAlign.Center,
