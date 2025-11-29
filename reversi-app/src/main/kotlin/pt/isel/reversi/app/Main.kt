@@ -151,17 +151,17 @@ fun SaveGamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier
                     appState,
                     game.copy(currGameName = gameName?.trim() ?: return@Button)
                 )
-                    coroutineAppScope.launch {
-                        try {
-                            appState.value.game.saveOnlyBoard(gameState = appState.value.game.gameState)
-                            appState.value = setPage(appState, Page.GAME)
-                        } catch (e: ReversiException) {
-                            appState.value = setAppState(
-                                appState, error = e,
-                                game = game.copy(currGameName = null)
-                            )
-                        }
+                coroutineAppScope.launch {
+                    try {
+                        appState.value.game.saveOnlyBoard(gameState = appState.value.game.gameState)
+                        appState.value = setPage(appState, Page.GAME)
+                    } catch (e: ReversiException) {
+                        appState.value = setAppState(
+                            appState, error = e,
+                            game = game.copy(currGameName = null)
+                        )
                     }
+                }
             }
         ) {
             Text("Guardar")
