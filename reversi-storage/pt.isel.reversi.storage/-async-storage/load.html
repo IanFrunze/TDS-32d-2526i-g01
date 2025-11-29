@@ -2,7 +2,7 @@
 <html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>storage</title>
+    <title>load</title>
 <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
     <script>document.documentElement.classList.replace("no-js","js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
@@ -45,7 +45,7 @@
         </div>
         <div class="navigation-controls">
         <div class="filter-section filter-section_loading" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":reversi-core:dokkaHtmlPartial/main">jvm</button>
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":reversi-storage:dokkaHtmlPartial/main">jvm</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
                 <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
@@ -56,7 +56,7 @@
                     </div>
                         <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
                             <label class="checkbox">
-                                <input type="checkbox" class="checkbox--input" id=":reversi-core:dokkaHtmlPartial/main" data-filter=":reversi-core:dokkaHtmlPartial/main">
+                                <input type="checkbox" class="checkbox--input" id=":reversi-storage:dokkaHtmlPartial/main" data-filter=":reversi-storage:dokkaHtmlPartial/main">
                                 <span class="checkbox--icon"></span>
                                 jvm
                             </label>
@@ -90,12 +90,12 @@
                 </div>
             </div>
             <div id="main">
-<div class="main-content" data-page-type="member" id="content" pageids="reversi-core::pt.isel.reversi.core/Game/storage/#/PointingToDeclaration//1146870434">
-  <div class="breadcrumbs"><a href="../../index.html">reversi-core</a><span class="delimiter">/</span><a href="../index.html">pt.isel.reversi.core</a><span class="delimiter">/</span><a href="index.html">Game</a><span class="delimiter">/</span><span class="current">storage</span></div>
+<div class="main-content" data-page-type="member" id="content" pageids="reversi-storage::pt.isel.reversi.storage/AsyncStorage/load/#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration//472555910">
+  <div class="breadcrumbs"><a href="../../index.html">reversi-storage</a><span class="delimiter">/</span><a href="../index.html">pt.isel.reversi.storage</a><span class="delimiter">/</span><a href="index.html">AsyncStorage</a><span class="delimiter">/</span><span class="current">load</span></div>
   <div class="cover ">
-    <h1 class="cover"><span><span>storage</span></span></h1>
+    <h1 class="cover"><span><span>load</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="storage.html">storage</a><span class="token operator">: </span><a href="../../../reversi-storage/pt.isel.reversi.storage/-async-storage/index.html">AsyncStorage</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="../../pt.isel.reversi.core.storage/-game-state/index.html">GameState</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-storage:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="load.html"><span class="token function">load</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">id<span class="token operator">: </span><a href="index.html">K</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">T</a><span class="token operator">?</span></div><p class="paragraph">Returns the entity associated with <a href="load.html">id</a>, or null if not found.</p></div></div>
 </div>
     <div class="footer">
         <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
