@@ -10,6 +10,8 @@ import pt.isel.reversi.utils.LOGGER
 data class AudioPool(val pool: List<AudioWrapper>) {
     init {
         LOGGER.info("AudioPool created with ${pool.size} audio tracks")
+        resetBalance()
+        resetMasterVolume()
     }
 
     /**
@@ -158,11 +160,25 @@ data class AudioPool(val pool: List<AudioWrapper>) {
     }
 
     /**
+     * Resets the master volume of all audio tracks in the pool to the default value.
+     */
+    fun resetMasterVolume() {
+        pool.forEach { it.masterGainControl.resetValue() }
+    }
+
+    /**
      * Changes the balance of all audio tracks in the pool by the specified amount.
      * @param balance The amount to change the balance by.
      */
     fun changeBalance(balance: Float) {
         pool.forEach { it.balanceControl.addValue(balance) }
+    }
+
+    /**
+     * Resets the balance of all audio tracks in the pool to the default value.
+     */
+    fun resetBalance() {
+        pool.forEach { it.balanceControl.resetValue() }
     }
 
     /**
@@ -178,13 +194,7 @@ data class AudioPool(val pool: List<AudioWrapper>) {
      * @return The balance if available, null otherwise.
      */
     fun getBalance(): Float? {
-        // Check if all tracks have the same balance if not fixes the bad balance
-        val firstBalance = pool.firstOrNull()?.balanceControl?.getValue() ?: return null
-        if (pool.any { it.balanceControl.getValue() != firstBalance }) {
-            LOGGER.warning("AudioPool has inconsistent balance values, fixing to $firstBalance")
-            setBalance(firstBalance)
-        }
-        return firstBalance
+        return pool.firstOrNull()?.balanceControl?.getValue()
     }
 
     /**

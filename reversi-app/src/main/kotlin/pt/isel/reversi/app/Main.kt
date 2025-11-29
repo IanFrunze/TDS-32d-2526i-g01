@@ -30,15 +30,6 @@ import pt.isel.reversi.utils.LOGGER
 import reversi.reversi_app.generated.resources.Res
 import reversi.reversi_app.generated.resources.reversi
 
-val logArg = CommandArg(
-    name = "log",
-    aliases = arrayOf("-l"),
-    description = "If set, enables logging to a file named reversi-app.log",
-    returnsValue = false,
-    isRequired = false
-)
-val argsParser = CommandArgsParser(logArg)
-
 fun main(args: Array<String>) {
     val initializedArgs = initializeAppArgs(args) ?: return
     val (audioPool) = initializedArgs
@@ -64,7 +55,7 @@ fun main(args: Array<String>) {
             LOGGER.info("Exiting application...")
 
             try {
-                appState.value.game.saveEndGame()
+                runBlocking { appState.value.game.saveEndGame() }
                 getStateAudioPool(appState).destroy()
             } catch (e: ReversiException) {
                 LOGGER.warning("Failed to save game on exit: ${e.message}")
@@ -185,11 +176,10 @@ fun SettingsPage(appState: MutableState<AppState>, modifier: Modifier = Modifier
 
         Text("Opções futuras: som, tema, rede, etc.")
         val currentMasterVolume = getStateAudioPool(appState).getMasterVolume()
-        if (currentMasterVolume == null) LOGGER.warning("Master volume is null, using 0f as default")
         var volume by remember { mutableStateOf(currentMasterVolume ?: 0f) }
 
         // Convert volume in dB [-20, 0] to percentage [0, 100]
-        val number = if (volume == 0f) " (Default)" else if (volume == -20f) " (disabled)" else " (${volumeDbToPercent(volume, 20f, 0f)}%)"
+        val number = if (volume == 0f) " (Default)" else if (volume == -20f) " (disabled)" else " (${volumeDbToPercent(volume, -20f, 0f)}%)"
 
         Text("Master Volume: $number",
              fontSize = 20.sp,
