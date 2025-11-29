@@ -107,4 +107,63 @@ class AsyncFileStorageTest {
             }
         }
     }
+
+    @Test
+    fun `Run delete at a non existing id does not fail`() {
+        cleanup {
+            runBlocking {
+                asyncFileStorage.delete(1.toString())
+            }
+        }
+    }
+
+    @Test
+    fun `Run lastModified at a non existing id returns null`() {
+        cleanup {
+            runBlocking {
+                val lastMod = asyncFileStorage.lastModified(1.toString())
+                assert(lastMod == null)
+            }
+        }
+    }
+
+    @Test
+    fun `Run lastModified at an existing id returns correct timestamp`() {
+        cleanup {
+            runBlocking {
+                asyncFileStorage.new(1.toString()) { MockData(1, "Test1") }
+                val lastMod = asyncFileStorage.lastModified(1.toString())
+                assert(lastMod != null && lastMod > 0)
+            }
+        }
+    }
+
+    @Test
+    fun `Run lastModified after save returns updated timestamp`() {
+        cleanup {
+            runBlocking {
+                asyncFileStorage.new(1.toString()) { MockData(1, "Test1") }
+                val lastMod1 = asyncFileStorage.lastModified(1.toString())
+
+                Thread.sleep(10) // Ensure timestamp difference
+
+                asyncFileStorage.save(1.toString(), MockData(1, "UpdatedTest1"))
+                val lastMod2 = asyncFileStorage.lastModified(1.toString())
+
+                assert(lastMod2 != null && lastMod1 != null && lastMod2 > lastMod1)
+            }
+        }
+    }
+
+    @Test
+    fun `Run lastModified after delete returns null`() {
+        cleanup {
+            runBlocking {
+                asyncFileStorage.new(1.toString()) { MockData(1, "Test1") }
+                asyncFileStorage.delete(1.toString())
+                val lastMod = asyncFileStorage.lastModified(1.toString())
+                assert(lastMod == null)
+            }
+        }
+    }
 }

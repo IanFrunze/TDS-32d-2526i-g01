@@ -28,7 +28,6 @@ suspend fun startNewGame(
     firstTurn: PieceType,
     currGameName: String? = null,
 ): Game {
-    var returnGame: Game
     if (players.isEmpty())
         throw InvalidGameException(
             "Need minimum one player to start the game",
@@ -44,13 +43,13 @@ suspend fun startNewGame(
         winner = null
     )
 
-    if (currGameName != null && gs.players.size == 1) {
+    return if (currGameName != null && gs.players.size == 1) {
         val newGS = gs.copy(
             players = listOf(gs.players[0].swap().refresh(board)),
         )
 
         try {
-            returnGame = Game(
+            Game(
                 target = false,
                 gameState = gs,
                 currGameName = currGameName,
@@ -63,13 +62,12 @@ suspend fun startNewGame(
         }
     }
     else {
-        returnGame = Game(
+        Game(
             target = false,
             gameState = gs,
             currGameName = currGameName,
         )
     }
-    return returnGame
 }
 
 /**
