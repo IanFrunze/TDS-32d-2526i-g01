@@ -12,27 +12,42 @@ fun setGame(appState: MutableState<AppState>, game: Game): AppState {
 }
 
 fun setPage(appState: MutableState<AppState>, page: Page): AppState {
-    val error = appState.value.error
-    if (error != null && error.type != ErrorType.INFO) return appState.value
+    val error = checkAndClearInfoError(appState).error
+
+    if (error != null) return appState.value.copy(error = error)
+
     LOGGER.info("Set page ${page.name}")
     val backPage = setBackPage(appState, newPage = page)
-    return appState.value.copy(page = page, backPage = backPage)
+    return appState.value.copy(page = page, backPage = backPage, error = error)
 }
 
-fun setError(appState: MutableState<AppState>, error: ReversiException?): AppState {
-    LOGGER.info("Set error: ${error?.message ?: "null"}")
-    return appState.value.copy(error = error)
+private fun checkAndClearInfoError(appState: MutableState<AppState>): AppState {
+    val error = appState.value.error
+    return if (error != null && error.type == ErrorType.INFO) {
+        LOGGER.info("Clearing info error")
+        appState.value.copy(error = null)
+    } else {
+        appState.value
+    }
 }
 
 fun setAppState(
     appState: MutableState<AppState>,
     game: Game = appState.value.game,
     page: Page = appState.value.page,
-    error: ReversiException? = appState.value.error,
+    error: ReversiException? = appState.value.error
 ): AppState {
-    val appError = appState.value.error
-    if (appError != null && appError.type != ErrorType.INFO) return appState.value
-    return AppState(game, page, error, backPage = setBackPage(appState, newPage = page))
+    LOGGER.info("Set entire app state")
+    return appState.value.copy(
+        game = setGame(appState, game).game,
+        page = setPage(appState, page).page,
+        error = setError(appState, error).error
+    )
+}
+
+fun setError(appState: MutableState<AppState>, error: ReversiException?): AppState {
+    LOGGER.info("Set error: ${error?.message ?: "null"}")
+    return appState.value.copy(error = error)
 }
 
 private fun setBackPage(appState: MutableState<AppState>, newPage: Page): Page {
