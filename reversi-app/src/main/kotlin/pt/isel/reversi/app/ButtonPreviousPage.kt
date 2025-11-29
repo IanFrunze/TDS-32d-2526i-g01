@@ -37,11 +37,12 @@ fun PreviousPage(onBack: () -> Unit) {
     Box(
         modifier = Modifier.padding(start = 12.dp)
     ) {
+
         Icon(
             imageVector = Icons.AutoMirrored.Rounded.ArrowBackIos,
             contentDescription = "Back",
             modifier = Modifier
-                .size(iconSize*SCALE_MULTIPLIER)  // Anima o tamanho real
+                .size(iconSize * SCALE_MULTIPLIER)  // Anima o tamanho real
                 .graphicsLayer {
                     translationX = offsetX
                 }
