@@ -19,7 +19,7 @@ data class AudioPool(val pool: List<AudioWrapper>) {
      * @param id The ID of the audio track to play.
      */
     fun play(id: String) {
-        val track = pool.find { it.id == id } ?: return
+        val track = getAudioTrack(id) ?: return
         track.play()
     }
 
@@ -28,7 +28,7 @@ data class AudioPool(val pool: List<AudioWrapper>) {
      * @param id The ID of the audio track to stop.
      */
     fun stop(id: String) {
-        val track = pool.find { it.id == id } ?: return
+        val track = getAudioTrack(id) ?: return
         track.stop()
     }
 
@@ -37,17 +37,17 @@ data class AudioPool(val pool: List<AudioWrapper>) {
      * @param id The ID of the audio track to pause.
      */
     fun pause(id: String) {
-        val track = pool.find { it.id == id } ?: return
+        val track = getAudioTrack(id) ?: return
         track.pause()
     }
 
     /**
      * Gets the audio track with the specified ID.
      * @param id The ID of the audio track to retrieve.
-     * @return The AudioWrapper instance if found, null otherwise.
+     * @return The AudioWrapper instance if found and loaded, null otherwise.
      */
     fun getAudioTrack(id: String): AudioWrapper? {
-        return pool.find { it.id == id }
+        return pool.find { it.id == id && it.isLoaded() }
     }
 
     /**
@@ -84,7 +84,7 @@ data class AudioPool(val pool: List<AudioWrapper>) {
      * @return True if the track is playing, false otherwise.
      */
     fun isPlaying(id: String): Boolean {
-        val track = pool.find { it.id == id }
+        val track = getAudioTrack(id)
         return track?.isPlaying() ?: false
     }
 
@@ -104,7 +104,7 @@ data class AudioPool(val pool: List<AudioWrapper>) {
      * @param func The function to execute.
      */
     fun whileNotFinished(id: String, func: () -> Unit = {}) {
-        val audio = pool.find { it.id == id } ?: return
+        val audio = getAudioTrack(id) ?: return
         while (audio.isPlaying()) {
             func()
         }
@@ -128,7 +128,7 @@ data class AudioPool(val pool: List<AudioWrapper>) {
      */
 
     suspend fun whileNotFinishedAsync(id: String, func: suspend () -> Unit) {
-        val audio = pool.find { it.id == id } ?: return
+        val audio = getAudioTrack(id) ?: return
         while (audio.isPlaying()) {
             func()
             delay(10)
@@ -209,7 +209,10 @@ data class AudioPool(val pool: List<AudioWrapper>) {
      * Checks if all audio tracks in the pool are stopped.
      * @return True if all tracks are stopped, false otherwise.
      */
-    fun isPoolStopped(): Boolean = pool.all { !it.isPlaying() }
+    fun isPoolStopped(): Boolean = pool.all {
+        !it.isPlaying()
+    }
+
 
     companion object {
         /**
