@@ -241,8 +241,10 @@ data class Game(
 
         return this.copy(
             gameState = loadedState.copy(players = gs.players.map { it.refresh(loadedState.board) }),
-            countPass = if (loadedState.board == gs.board && loadedState.lastPlayer != gs.lastPlayer) countPass + 1
-            else 0,
+            countPass = if (loadedState.board == gs.board && loadedState.lastPlayer != gs.lastPlayer)
+                countPass + 1
+            else
+                0,
             lastModified = lastModified
         )
     }

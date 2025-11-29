@@ -32,7 +32,6 @@ import pt.rafap.ktflag.cmd.args.CommandArgsParser
 import reversi.reversi_app.generated.resources.Res
 import reversi.reversi_app.generated.resources.reversi
 
-
 val logArg = CommandArg(
     name = "log",
     aliases = arrayOf("-l"),
@@ -152,17 +151,17 @@ fun SaveGamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier
                     appState,
                     game.copy(currGameName = gameName?.trim() ?: return@Button)
                 )
-                try {
                     coroutineAppScope.launch {
-                        appState.value.game.saveOnlyBoard(gameState = appState.value.game.gameState)
-                        appState.value = setPage(appState, Page.GAME)
+                        try {
+                            appState.value.game.saveOnlyBoard(gameState = appState.value.game.gameState)
+                            appState.value = setPage(appState, Page.GAME)
+                        } catch (e: ReversiException) {
+                            appState.value = setAppState(
+                                appState, error = e,
+                                game = game.copy(currGameName = null)
+                            )
+                        }
                     }
-                } catch (e: ReversiException) {
-                    appState.value = setAppState(
-                        appState, error = e,
-                        game = game.copy(currGameName = null)
-                    )
-                }
             }
         ) {
             Text("Guardar")

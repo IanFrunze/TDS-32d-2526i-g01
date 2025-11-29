@@ -71,15 +71,15 @@ fun GamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier, fr
             ) {
 
                 DrawBoard(appState.value.game, freeze = freeze) { coordinate ->
-                    try {
-                        coroutineAppScope.launch {
+                    coroutineAppScope.launch {
+                        try {
                             appState.value = setGame(
                                 appState,
                                 game = appState.value.game.play(coordinate)
                             )
+                        } catch (e: ReversiException) {
+                            appState.value = setError(appState, error = e)
                         }
-                    } catch (e: ReversiException) {
-                        appState.value = setError(appState, error = e)
                     }
                 }
             }

@@ -62,11 +62,13 @@ suspend fun startNewGame(
             )
         }
     }
-    else returnGame = Game(
-        target = false,
-        gameState = gs,
-        currGameName = currGameName,
-    )
+    else {
+        returnGame = Game(
+            target = false,
+            gameState = gs,
+            currGameName = currGameName,
+        )
+    }
     return returnGame
 }
 
