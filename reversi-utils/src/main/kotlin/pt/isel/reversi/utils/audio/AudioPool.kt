@@ -72,7 +72,7 @@ data class AudioPool(val pool: List<AudioWrapper>) {
      * Destroys the audio pool by closing all audio clips.
      */
     fun destroy() {
-        pool.forEach { it.clip.close() }
+        pool.forEach { it.close() }
     }
 
     /**

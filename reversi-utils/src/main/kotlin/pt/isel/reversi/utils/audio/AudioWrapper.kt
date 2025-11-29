@@ -74,6 +74,13 @@ data class AudioWrapper(
         if (modifier.closeOnFinish) clip.close()
     }
 
+    /**
+     * Closes the audio clip, releasing any system resources associated with it.
+     */
+    fun close() {
+        clip.close()
+    }
+
     companion object {
         /**
          * Loads an audio clip from the specified URL and applies the given modifier.
