@@ -38,7 +38,7 @@ object JoinCmd : CommandImpl<Game>() {
         if (pTypeArg != null && pType == null)
             return CommandResult.ERROR("Invalid piece type symbol provided: '$pTypeArg'.")
 
-        val game = runBlocking{ loadGame(name, pType) }
+        val game = runBlocking { loadGame(name, pType) }
 
         println(ShowCmd.executeWrapper(context = game).message)
 

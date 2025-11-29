@@ -42,7 +42,7 @@ class GameTests {
     fun cleanup(func: suspend () -> Unit) {
         val conf = loadCoreConfig()
         File(conf.SAVES_FOLDER).deleteRecursively()
-        runBlocking{ func() }
+        runBlocking { func() }
         File(conf.SAVES_FOLDER).deleteRecursively()
     }
 
@@ -89,7 +89,7 @@ class GameTests {
      */
     @Test
     fun `play with 1 player in local game fails`() {
-        cleanup{
+        cleanup {
             val uut = startNewGame(
                 side = 4,
                 players = listOf(Player(PieceType.BLACK)),
@@ -189,7 +189,7 @@ class GameTests {
 
     @Test
     fun `pass in localGame when no availablePlays succeeds`() {
-        cleanup{
+        cleanup {
             var uut = Game(
                 target = false,
                 gameState = GameState(
@@ -221,7 +221,7 @@ class GameTests {
     @Test
 
     fun `pass with game not started yet fails`() {
-        cleanup{
+        cleanup {
             val game = Game()
             assertFailsWith<InvalidGameException> {
                 game.pass()
@@ -231,7 +231,7 @@ class GameTests {
 
     @Test
     fun `pass with players empty fails`() {
-        cleanup{
+        cleanup {
             val uut = Game(
                 target = false,
                 gameState = GameState(
@@ -326,7 +326,7 @@ class GameTests {
 
     @Test
     fun `startNewGame in local game with 2 players succeeds`() {
-        cleanup{
+        cleanup {
             val uut = startNewGame(
                 side = 4,
                 players = listOf(Player(PieceType.BLACK), Player(PieceType.WHITE)),
@@ -346,7 +346,7 @@ class GameTests {
 
     @Test
     fun `startNewGame with empty players fails`() {
-        cleanup{
+        cleanup {
             assertFailsWith<InvalidGameException> {
                 startNewGame(
                     side = 4,
@@ -360,7 +360,7 @@ class GameTests {
 
     @Test
     fun `startNewGame in local game with 1 player succeeds`() {
-        cleanup{
+        cleanup {
             val uut = startNewGame(
                 side = 4,
                 players = listOf(Player(PieceType.BLACK)),
@@ -605,7 +605,7 @@ class GameTests {
 
     @Test
     fun `saveEndGame with players empty fails`() {
-        cleanup{
+        cleanup {
             val uut = Game(
                 target = false,
                 gameState = GameState(

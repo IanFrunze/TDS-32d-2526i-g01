@@ -29,7 +29,7 @@ object RefreshCmd : CommandImpl<Game>() {
         if (context == null)
             return CommandResult.ERROR("Game is not defined. Cannot show game state.")
 
-        val refreshed = runBlocking{ context.refresh() }
+        val refreshed = runBlocking { context.refresh() }
 
         val show = ShowCmd.executeWrapper(context = refreshed).message
 

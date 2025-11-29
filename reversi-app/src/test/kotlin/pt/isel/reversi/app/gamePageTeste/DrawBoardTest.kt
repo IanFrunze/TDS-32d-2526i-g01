@@ -17,7 +17,7 @@ class DrawBoardTest {
     fun `DrawBoard test if all cells are displayed`() = runComposeUiTest {
         val expectedSide = 4
         setContent {
-            val game = runBlocking{
+            val game = runBlocking {
                 startNewGame(
                     side = expectedSide,
                     players = listOf(Player(type = PieceType.BLACK)),

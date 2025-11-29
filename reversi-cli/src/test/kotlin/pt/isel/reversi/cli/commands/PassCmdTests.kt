@@ -18,7 +18,7 @@ class PassCmdTests {
     @Test
     fun `PassCmd succeeds when called with a started game`() {
         // Use a simple started game using startNewGame helper
-        val g = runBlocking{
+        val g = runBlocking {
             startNewGame(
                 players = listOf(Player(PieceType.BLACK)),
                 firstTurn = PieceType.BLACK

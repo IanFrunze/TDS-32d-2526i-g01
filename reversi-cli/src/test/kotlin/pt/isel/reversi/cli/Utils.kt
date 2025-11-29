@@ -9,7 +9,7 @@ fun cleanup(func: suspend () -> Unit) {
     val conf = loadCoreConfig()
     File(CONFIG_FOLDER).deleteRecursively()
     File(conf.SAVES_FOLDER).deleteRecursively()
-    runBlocking{ func() }
+    runBlocking { func() }
     File(CONFIG_FOLDER).deleteRecursively()
     File(conf.SAVES_FOLDER).deleteRecursively()
 }
