@@ -22,7 +22,7 @@ import pt.isel.reversi.core.storage.GameState
  * @throws InvalidGameException if no players are provided.
  * @throws Exception if already exists a game with the same name in storage.
  */
-fun startNewGame(
+suspend fun startNewGame(
     side: Int = loadCoreConfig().BOARD_SIDE,
     players: List<Player>,
     firstTurn: PieceType,
@@ -43,13 +43,13 @@ fun startNewGame(
         winner = null
     )
 
-    if (currGameName != null && gs.players.size == 1) {
+    return if (currGameName != null && gs.players.size == 1) {
         val newGS = gs.copy(
             players = listOf(gs.players[0].swap().refresh(board)),
         )
 
         try {
-            return Game(
+            Game(
                 target = false,
                 gameState = gs,
                 currGameName = currGameName,
@@ -61,12 +61,13 @@ fun startNewGame(
             )
         }
     }
-
-    return Game(
-        target = false,
-        gameState = gs,
-        currGameName = currGameName,
-    )
+    else {
+        Game(
+            target = false,
+            gameState = gs,
+            currGameName = currGameName,
+        )
+    }
 }
 
 /**
@@ -79,7 +80,7 @@ fun startNewGame(
  * @throws InvalidFileException if there is an error loading the game state.
  * @throws InvalidPieceInFileException if the specified piece type is not found in the loaded game.
  */
-fun loadGame(
+suspend fun loadGame(
     gameName: String,
     desiredType: PieceType? = null,
 ): Game {

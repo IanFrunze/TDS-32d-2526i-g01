@@ -13,6 +13,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.painterResource
 import pt.isel.reversi.app.exceptions.ErrorMessage
 import pt.isel.reversi.app.gamePage.GamePage
@@ -29,7 +31,6 @@ import pt.rafap.ktflag.cmd.args.CommandArg
 import pt.rafap.ktflag.cmd.args.CommandArgsParser
 import reversi.reversi_app.generated.resources.Res
 import reversi.reversi_app.generated.resources.reversi
-
 
 val logArg = CommandArg(
     name = "log",
@@ -66,7 +67,7 @@ fun main(args: Array<String>) {
             LOGGER.info("Exiting application...")
 
             try {
-                appState.value.game.saveEndGame()
+                runBlocking { appState.value.game.saveEndGame() }
             } catch (e: ReversiException) {
                 LOGGER.warning("Failed to save game on exit: ${e.message}")
             }
@@ -125,6 +126,7 @@ fun main(args: Array<String>) {
 fun SaveGamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier) {
     val game = appState.value.game
     var gameName by remember { mutableStateOf(game.currGameName) }
+    val coroutineAppScope = rememberCoroutineScope()
     GamePage(appState, freeze = true)
     Column(
         modifier = modifier
@@ -149,14 +151,16 @@ fun SaveGamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier
                     appState,
                     game.copy(currGameName = gameName?.trim() ?: return@Button)
                 )
-                try {
-                    appState.value.game.saveOnlyBoard(gameState = appState.value.game.gameState)
-                    appState.value = setPage(appState, Page.GAME)
-                } catch (e: ReversiException) {
-                    appState.value = setAppState(
-                        appState, error = e,
-                        game = game.copy(currGameName = null)
-                    )
+                coroutineAppScope.launch {
+                    try {
+                        appState.value.game.saveOnlyBoard(gameState = appState.value.game.gameState)
+                        appState.value = setPage(appState, Page.GAME)
+                    } catch (e: ReversiException) {
+                        appState.value = setAppState(
+                            appState, error = e,
+                            game = game.copy(currGameName = null)
+                        )
+                    }
                 }
             }
         ) {
