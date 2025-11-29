@@ -2,6 +2,7 @@ package pt.isel.reversi.app.state
 
 import androidx.compose.runtime.MutableState
 import pt.isel.reversi.core.Game
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.utils.LOGGER
 
@@ -11,6 +12,8 @@ fun setGame(appState: MutableState<AppState>, game: Game): AppState {
 }
 
 fun setPage(appState: MutableState<AppState>, page: Page): AppState {
+    val error = appState.value.error
+    if (error != null && error.type != ErrorType.INFO) return appState.value
     LOGGER.info("Set page ${page.name}")
     val backPage = setBackPage(appState, newPage = page)
     return appState.value.copy(page = page, backPage = backPage)
@@ -26,7 +29,11 @@ fun setAppState(
     game: Game = appState.value.game,
     page: Page = appState.value.page,
     error: ReversiException? = appState.value.error,
-) = AppState(game, page, error, backPage = setBackPage(appState, newPage = page))
+): AppState {
+    val appError = appState.value.error
+    if (appError != null && appError.type != ErrorType.INFO) return appState.value
+    return AppState(game, page, error, backPage = setBackPage(appState, newPage = page))
+}
 
 private fun setBackPage(appState: MutableState<AppState>, newPage: Page): Page {
     val page = appState.value.page
