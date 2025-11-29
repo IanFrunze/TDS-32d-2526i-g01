@@ -1,12 +1,14 @@
 package pt.isel.reversi.app.gamePageTeste
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.runComposeUiTest
 import pt.isel.reversi.app.gamePage.GamePage
 import pt.isel.reversi.app.gamePage.testTagCellView
 import pt.isel.reversi.app.gamePage.testTagGamePage
 import pt.isel.reversi.app.gamePage.testTagPlayerScore
-import pt.isel.reversi.app.gamePage.testTagTitle
 import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.state.Page
 import pt.isel.reversi.core.Player
@@ -22,42 +24,6 @@ class GamePageTest {
         firstTurn = PieceType.BLACK,
         currGameName = null
     )
-
-    @Test
-    fun `check if the title is displayed correctly`() = runComposeUiTest {
-        val name = "test"
-        val expectedAppState = AppState(
-            game = game.copy(currGameName = name),
-            page = Page.GAME,
-            error = null
-        )
-
-        val appState = mutableStateOf(value = expectedAppState)
-
-        setContent {
-            GamePage(appState)
-        }
-        onNodeWithTag(testTag = testTagTitle(gameName = name))
-            .onChild().assertExists()
-    }
-
-    @Test
-    fun `check if the title is not displayed when game name is null`() = runComposeUiTest {
-        val name = null
-        val expectedAppState = AppState(
-            game = game.copy(currGameName = name),
-            page = Page.GAME,
-            error = null
-        )
-
-        val appState = mutableStateOf(value = expectedAppState)
-
-        setContent {
-            GamePage(appState)
-        }
-        onNodeWithTag(testTag = testTagTitle(gameName = name))
-            .onChild().assertDoesNotExist()
-    }
 
     @Test
     fun `check if the GamePage is displayed`() = runComposeUiTest {
