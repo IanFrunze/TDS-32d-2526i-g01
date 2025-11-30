@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import pt.isel.reversi.app.HIT_SOUND
 import pt.isel.reversi.app.PreviousPage
 import pt.isel.reversi.app.ScaffoldView
@@ -75,7 +76,6 @@ fun JoinGamePage(
     appState: MutableState<AppState>,
     modifier: Modifier = Modifier,
 ) {
-    val coroutineAppScope = rememberCoroutineScope()
     newOrJoinGamePage(appState, modifier, "Entrar num Jogo") { game ->
         val currGameName = game.currGameName
         if (currGameName.isNullOrBlank()) {
@@ -88,8 +88,7 @@ fun JoinGamePage(
             )
             return@newOrJoinGamePage
         }
-
-        coroutineAppScope.launch {
+        runBlocking {
             try {
                 val loadedGame = loadGame(
                     gameName = currGameName.trim(),

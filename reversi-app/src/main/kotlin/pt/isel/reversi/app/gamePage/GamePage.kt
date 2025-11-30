@@ -24,7 +24,7 @@ fun GamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier, fr
     LaunchedEffect(appState.value.page) {
         val game = appState.value.game
         if (game.currGameName != null && game.gameState?.players?.size != 2) {
-            launchGameRefreshCoroutine(250L, appState)
+            launchGameRefreshCoroutine(50L, appState)
         }
 
         val audioPool = getStateAudioPool(appState)
@@ -34,7 +34,6 @@ fun GamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier, fr
             audioPool.play(MEGALOVANIA)
         }
     }
-
 
     val name = appState.value.game.currGameName?.let { "Game: $it" }
 
