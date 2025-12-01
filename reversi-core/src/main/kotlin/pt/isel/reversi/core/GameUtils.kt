@@ -22,7 +22,7 @@ fun loadStorageFromConfig() =
  * @param currGameName The current game name can omit to create a local game.
  * @return The new game state.
  * @throws InvalidGameException if no players are provided.
- * @throws Exception if already exists a game with the same name in storage.
+ * @throws InvalidNameAlreadyExists if already exists a game with the same name in storage.
  */
 suspend fun startNewGame(
     side: Int = loadCoreConfig().BOARD_SIDE,

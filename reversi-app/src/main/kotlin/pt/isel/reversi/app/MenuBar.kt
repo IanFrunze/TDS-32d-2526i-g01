@@ -6,7 +6,6 @@ import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.MenuBar
 import pt.isel.reversi.app.state.*
 import pt.isel.reversi.core.Game
-import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.utils.LOGGER
 
 @Composable
@@ -55,7 +54,7 @@ fun FrameWindowScope.MakeMenuBar(appState: MutableState<AppState>, exitAction: (
                         appState.value.game.reloadConfig()
                     )
                     LOGGER.info("Config recarregada com sucesso.")
-                } catch (e: ReversiException) {
+                } catch (e: Exception) {
                     appState.value = setError(appState, error = e)
                 }
             }

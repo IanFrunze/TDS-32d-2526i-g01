@@ -25,7 +25,6 @@ import pt.isel.reversi.app.mainMenu.NewGamePage
 import pt.isel.reversi.app.state.*
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.exceptions.ErrorType
-import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.core.stringifyBoard
 import pt.isel.reversi.utils.LOGGER
 import reversi.reversi_app.generated.resources.Res
@@ -58,7 +57,7 @@ fun main(args: Array<String>) {
             try {
                 runBlocking { appState.value.game.saveEndGame() }
                 getStateAudioPool(appState).destroy()
-            } catch (e: ReversiException) {
+            } catch (e: Exception) {
                 LOGGER.warning("Failed to save game on exit: ${e.message}")
             }
 
@@ -78,11 +77,11 @@ fun main(args: Array<String>) {
 
             when (appState.value.page) {
                 Page.MAIN_MENU -> MainMenu(appState)
-                Page.GAME      -> GamePage(appState)
-                Page.SETTINGS  -> SettingsPage(appState)
-                Page.ABOUT     -> AboutPage(appState)
+                Page.GAME -> GamePage(appState)
+                Page.SETTINGS -> SettingsPage(appState)
+                Page.ABOUT -> AboutPage(appState)
                 Page.JOIN_GAME -> JoinGamePage(appState)
-                Page.NEW_GAME  -> NewGamePage(appState)
+                Page.NEW_GAME -> NewGamePage(appState)
                 Page.SAVE_GAME -> SaveGamePage(appState)
             }
         }
@@ -153,7 +152,7 @@ fun SaveGamePage(appState: MutableState<AppState>) {
                         try {
                             appState.value.game.saveOnlyBoard(gameState = appState.value.game.gameState)
                             appState.value = setPage(appState, Page.GAME)
-                        } catch (e: ReversiException) {
+                        } catch (e: Exception) {
                             appState.value = setAppState(
                                 appState, error = e,
                                 game = game.copy(currGameName = null)
@@ -188,13 +187,17 @@ fun SettingsPage(appState: MutableState<AppState>, modifier: Modifier = Modifier
             var volume by remember { mutableStateOf(currentMasterVolume ?: 0f) }
 
             // Convert volume in dB [-20, 0] to percentage [0, 100]
-            val number = if (volume == 0f) " (Default)" else if (volume == -20f) " (disabled)" else " (${
-                volumeDbToPercent(
-                    volume,
-                    -20f,
-                    0f
-                )
-            }%)"
+            val number = when (volume) {
+                0f -> " (Default)"
+                -20f -> " (disabled)"
+                else -> " (${
+                    volumeDbToPercent(
+                        volume,
+                        -20f,
+                        0f
+                    )
+                }%)"
+            }
 
             Text(
                 "Master Volume: $number",
