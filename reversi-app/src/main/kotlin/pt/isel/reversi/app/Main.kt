@@ -22,6 +22,7 @@ import pt.isel.reversi.app.pages.MainMenu
 import pt.isel.reversi.app.pages.NewGamePage
 import pt.isel.reversi.app.pages.game.GamePage
 import pt.isel.reversi.app.pages.lobby.LobbyMenu
+import pt.isel.reversi.app.pages.lobby.LobbyViewModel
 import pt.isel.reversi.app.state.*
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.exceptions.ErrorType
@@ -71,6 +72,7 @@ fun main(args: Array<String>) {
             icon = painterResource(Res.drawable.reversi),
             state = windowState,
         ) {
+            val scope = rememberCoroutineScope()
 
             window.minimumSize = java.awt.Dimension(600, 700)
 
@@ -84,7 +86,7 @@ fun main(args: Array<String>) {
                     Page.ABOUT -> AboutPage(appState)
                     Page.NEW_GAME -> NewGamePage(appState)
                     Page.SAVE_GAME -> SaveGamePage(appState)
-                    Page.LOBBY -> LobbyMenu(appState)
+                    Page.LOBBY -> LobbyMenu( LobbyViewModel(scope, appState) )
                 }
             }
         }

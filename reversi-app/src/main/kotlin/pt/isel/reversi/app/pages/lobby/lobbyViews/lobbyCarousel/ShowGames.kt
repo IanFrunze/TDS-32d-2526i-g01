@@ -1,4 +1,4 @@
-package pt.isel.reversi.app.pages.lobby.showGames
+package pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
@@ -27,13 +27,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import pt.isel.reversi.app.pages.lobby.LobbyViewModel
-import pt.isel.reversi.app.pages.lobby.showGames.drawCard.GameCard
+import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.drawCard.GameCard
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.utils.LOGGER
 import kotlin.math.absoluteValue
@@ -226,7 +227,7 @@ private fun BoxWithConstraintsScope.LobbyCarousel(
 
 @Composable
 private fun BoxScope.NavButton(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    icon: ImageVector,
     alignment: Alignment,
     onClick: () -> Unit
 ) {

@@ -1,4 +1,4 @@
-package pt.isel.reversi.app.pages.lobby.showGames.drawCard
+package pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.drawCard
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background

@@ -1,4 +1,4 @@
-package pt.isel.reversi.app.pages.lobby.showGames.drawCard
+package pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.drawCard
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.isel.reversi.app.pages.lobby.CARD_BG
-import pt.isel.reversi.app.pages.lobby.showGames.CardStatus
+import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.CardStatus
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType

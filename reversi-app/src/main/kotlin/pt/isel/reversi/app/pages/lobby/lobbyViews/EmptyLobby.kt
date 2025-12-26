@@ -1,4 +1,4 @@
-package pt.isel.reversi.app.pages.lobby
+package pt.isel.reversi.app.pages.lobby.lobbyViews
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer

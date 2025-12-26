@@ -1,4 +1,4 @@
-package pt.isel.reversi.app.pages.lobby.showGames
+package pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel
 
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults

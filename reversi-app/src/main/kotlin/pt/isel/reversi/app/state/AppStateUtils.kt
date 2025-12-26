@@ -14,7 +14,7 @@ fun MutableState<AppState>.setGame(game: Game) {
     value = value.copy(game = game)
 }
 
-fun MutableState<AppState>.setPage(page: Page) {
+fun MutableState<AppState>.setPage(page: Page, backPage: Page? = null) {
     if (page == value.page) {
         LOGGER.info("Page is the same: ${page.name}, no changes made")
         return
@@ -24,7 +24,11 @@ fun MutableState<AppState>.setPage(page: Page) {
 
     if (error != null) return
 
-    autoBackPage(page)
+    if (backPage != null) {
+        setBackPage(value.page)
+    } else {
+        autoBackPage(page)
+    }
     LOGGER.info("Set page ${page.name}")
     value = value.copy(page = page, error = error)
 }
@@ -47,17 +51,15 @@ fun MutableState<AppState>.setAppState(
     LOGGER.info("Set entire app state")
 
     if (page != value.page) {
-        setPage(page)
+        setPage(page, backPage)
     } else {
-        value
+        if (backPage != null) {
+            setBackPage(backPage)
+        }
     }
 
-    if (error !is ReversiException )
-        setError(error?.toReversiException(ErrorType.CRITICAL))
-
-    if (backPage != null) {
-        setBackPage(backPage)
-    }
+    if (error !is ReversiException && error != null)
+        setError(error.toReversiException(ErrorType.CRITICAL))
 
     value = value.copy(
         game = game,
