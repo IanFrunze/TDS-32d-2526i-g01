@@ -21,7 +21,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -66,15 +70,42 @@ fun ColumnScope.ShowGames(
     buttonRefresh: @Composable () -> Unit = {},
     onGameClick: (Game) -> Unit
 ) {
-    val pagerState = rememberPagerState(pageCount = { games.size })
+    val gamesToShow = remember { mutableStateListOf<Game>() }
+    var searchQuery by remember { mutableStateOf("") }
+    val pagerState = rememberPagerState(pageCount = { gamesToShow.size })
     val scope = rememberCoroutineScope()
 
+    LaunchedEffect(games) {
+        val filtered = if (searchQuery.isEmpty()) {
+            games
+        } else {
+            games.filter { it.currGameName?.contains(searchQuery, ignoreCase = true) == true }
+        }
+        gamesToShow.clear()
+        gamesToShow.addAll(filtered)
+    }
+
     Row {
-        Search {
+        Search { query ->
+            searchQuery = query
             scope.launch {
-                val foundGame = games.find { game -> game.currGameName == it } ?: return@launch
-                val page = games.indexOf(foundGame)
-                pagerState.animateScroll(page)
+                val foundGames =
+                    games.filter { game ->
+                        game.currGameName?.contains(query, ignoreCase = true) == true
+                    }
+                LOGGER.info("Search query: '$query' - Found games: ${foundGames.size}")
+                if (query.isEmpty()) {
+                    gamesToShow.clear()
+                    gamesToShow.addAll(games)
+                } else if (foundGames.isNotEmpty()) {
+                    gamesToShow.clear()
+                    gamesToShow.addAll(foundGames)
+                }
+                else {
+                    gamesToShow.clear()
+                    LOGGER.info("No games found for query: '$query'")
+                }
+                pagerState.scrollToPage(0)
             }
         }
 
@@ -87,7 +118,7 @@ fun ColumnScope.ShowGames(
         LobbyCarousel(
             currentGameName = currentGameName,
             pagerState = pagerState,
-            games = games,
+            games = gamesToShow,
             viewModel = viewModel,
         ) { game, page ->
             scope.launch {
@@ -98,7 +129,7 @@ fun ColumnScope.ShowGames(
             }
         }
 
-        if (games.size > 1) {
+        if (gamesToShow.size > 1) {
             if (pagerState.currentPage > 0) {
                 NavButton(
                     icon = Icons.AutoMirrored.Rounded.ArrowBackIos,
@@ -110,7 +141,7 @@ fun ColumnScope.ShowGames(
                     }
                 )
             }
-            if (pagerState.currentPage < games.size - 1) {
+            if (pagerState.currentPage < gamesToShow.size - 1) {
                 NavButton(
                     icon = Icons.AutoMirrored.Rounded.ArrowForwardIos,
                     alignment = Alignment.CenterEnd,
@@ -122,6 +153,14 @@ fun ColumnScope.ShowGames(
                 )
             }
         }
+        else if (gamesToShow.isEmpty()) {
+            Text(
+                text = "Nenhum jogo encontrado",
+                fontSize = 18.sp,
+                color = Color.White.copy(alpha = 0.6f),
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
     }
 
 
@@ -131,10 +170,10 @@ fun ColumnScope.ShowGames(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        PageIndicators(games.size, pagerState.currentPage)
+        PageIndicators(gamesToShow.size, pagerState.currentPage)
         Spacer(Modifier.height(8.dp))
         Text(
-            text = "${pagerState.currentPage + 1} de ${games.size}",
+            text = "${pagerState.currentPage + 1} de ${gamesToShow.size}",
             fontSize = 14.sp,
             color = Color.White.copy(alpha = 0.6f)
         )
@@ -184,27 +223,34 @@ private fun BoxWithConstraintsScope.LobbyCarousel(
             else -> CardStatus.CORRUPTED
         }
 
-        LaunchedEffect(game.currGameName) {
+        LaunchedEffect(
+            pagerState.currentPage,
+            game.currGameName,
+            cardState
+        ) {
+            if (page != pagerState.currentPage) return@LaunchedEffect
+
             val gameName = game.currGameName
+            LOGGER.info("lobbyCarousel: Refresh iniciado para $gameName")
+
+            val delayMillis = when (cardState) {
+                CardStatus.EMPTY,
+                CardStatus.CURRENT_GAME -> 100L
+                CardStatus.WAITING_FOR_PLAYERS -> 500L
+                CardStatus.FULL -> 15_000L
+                CardStatus.CORRUPTED -> 20_000L
+            }
+
             try {
-                LOGGER.info("lobbyCarousel: Iniciada corrotina de refresh do jogo: $gameName")
-                while (isActive) {
+                while (isActive && page == pagerState.currentPage) {
                     viewModel.refreshGame(game)
-
-                    val delayMillis = when (cardState) {
-                        CardStatus.EMPTY -> 100L
-                        CardStatus.WAITING_FOR_PLAYERS -> 500L
-                        CardStatus.FULL -> 15_000L
-                        CardStatus.CORRUPTED -> 20_000L
-                        CardStatus.CURRENT_GAME -> 100L
-                    }
-
                     delay(delayMillis)
                 }
             } finally {
-                LOGGER.info("lobbyCarousel: Terminada corrotina de refresh do jogo: $gameName")
+                LOGGER.info("lobbyCarousel: Refresh terminado para $gameName")
             }
         }
+
 
         GameCard(
             game = game,

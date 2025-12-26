@@ -17,7 +17,6 @@ dependencies {
     implementation(compose.components.uiToolingPreview)
     implementation(libs.androidx.lifecycle.viewmodelCompose)
     implementation(libs.androidx.lifecycle.runtimeCompose)
-    //implementation(libs.androidx.material3.desktop)
 
     @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
     implementation(compose.uiTest)
