@@ -40,10 +40,10 @@ fun ReversiScope.DrawBoard(
     Box(
         modifier = modifier
             .aspectRatio(1f)
+            .dropShadow(shadow = Shadow(radius = 12.dp), shape = RoundedCornerShape(12.dp))
             .background(getTheme().boardSideColor, shape = RoundedCornerShape(12.dp))
-            .padding(all = 6.dp)
+            .padding(all = 2.dp)
             .clip(RoundedCornerShape(12.dp))
-            .testTag(tag = testTagBoard())
     ) {
 
         val state = game.gameState
