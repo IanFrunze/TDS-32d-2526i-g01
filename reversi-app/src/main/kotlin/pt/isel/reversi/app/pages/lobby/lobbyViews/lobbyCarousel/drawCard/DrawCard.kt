@@ -63,10 +63,6 @@ fun ReversiScope.GameCard(
         ) {
             HeaderBadge(statusText, statusColor, name)
 
-            BoardPreview(
-                board = state.board, modifier = Modifier.weight(4f).padding(vertical = 12.dp)
-            )
-
             ScorePanel(Modifier, state.board)
         }
     }
