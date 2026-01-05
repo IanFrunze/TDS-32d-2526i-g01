@@ -88,7 +88,7 @@ fun ReversiScope.ReversiButton(
         ReversiText(
             text = text,
             color = theme.buttonTextColor,
-            // O uso de autoSize já é uma excelente prática para adaptabilidade
+            // The use of autoSize is already an excellent practice for adaptability
             autoSize = MAIN_MENU_AUTO_SIZE_BUTTON_TEXT,
             textAlign = TextAlign.Center,
         )
@@ -129,7 +129,7 @@ fun ReversiScope.ReversiDropdownMenuItem(
             ReversiText(
                 text = text,
                 color = theme.textColor,
-                fontSize = 16.sp
+                fontSize = 16.sp,
             )
         },
         onClick = onClick,

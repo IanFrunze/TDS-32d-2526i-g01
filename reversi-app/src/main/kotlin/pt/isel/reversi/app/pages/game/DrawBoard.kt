@@ -22,64 +22,61 @@ import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
 import pt.isel.reversi.app.ReversiScope
 import pt.isel.reversi.app.getTheme
-import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.storage.GameState
 
 const val GHOST_PIECE_ALPHA = 0.5f // Aumentei ligeiramente para melhor visibilidade em cores exóticas
 
 @Composable
 fun ReversiScope.DrawBoard(
-    game: Game,
+    target: Boolean,
+    gameState: GameState,
     modifier: Modifier = Modifier,
     freeze: Boolean = false,
+    getAvailablePlays: () -> List<Coordinate>,
     onCellClick: (coordinate: Coordinate) -> Unit
 ) {
     Box(
         modifier = modifier
             .aspectRatio(1f)
             .dropShadow(shadow = Shadow(radius = 12.dp), shape = RoundedCornerShape(12.dp))
-            .background(getTheme().boardSideColor, shape = RoundedCornerShape(12.dp))
+            .background(getTheme().boardBgColor, shape = RoundedCornerShape(12.dp))
             .padding(all = 2.dp)
             .clip(RoundedCornerShape(12.dp))
+            .testTag(tag = testTagBoard())
     ) {
-
-        val state = game.gameState
-
-        if (state != null)
-            Grid(game, modifier, freeze) { coordinate -> onCellClick(coordinate) }
+        Grid(target, gameState, modifier, freeze, getAvailablePlays) { coordinate -> onCellClick(coordinate) }
     }
 }
 
 /** Composable that draws the board grid */
 @Composable
 fun ReversiScope.Grid(
-    game: Game,
+    target: Boolean,
+    gameState: GameState,
     modifier: Modifier = Modifier,
     freeze: Boolean = false,
+    getAvailablePlays: () -> List<Coordinate>,
     onCellClick: (coordinate: Coordinate) -> Unit
 ) {
-    val board: Board = game.gameState?.board ?: return
+    val board: Board = gameState.board
     val side = board.side
-    val target = game.target
-    val playerTurn = game.gameState?.lastPlayer?.swap()
+    val playerTurn = gameState.lastPlayer.swap()
 
     Column(
+        modifier = modifier,
         verticalArrangement = Arrangement.SpaceEvenly,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .background(getTheme().boardBgColor)
-            .padding(2.dp)
-            .testTag(testTagBoard()),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val availablePlays = game.getAvailablePlays()
+        val availablePlays = if (target) getAvailablePlays() else emptyList<Coordinate>()
 
         val infiniteTransition = rememberInfiniteTransition()
         val alphaAnim by infiniteTransition.animateFloat(
             initialValue = 0.8f,
-            targetValue = 0.4f, // Ajustado para ser subtil independentemente da cor
+            targetValue = 0.4f,
             animationSpec = infiniteRepeatable(
                 animation = tween(1000, easing = CubicBezierEasing(0.4f, 0.0f, 0.2f, 1.0f)),
                 repeatMode = RepeatMode.Reverse
@@ -144,13 +141,15 @@ fun ReversiScope.cellView(
     onClick: (coordinate: Coordinate) -> Unit
 ) {
     val clickable = !freeze && (piece == null || piece.isGhostPiece)
+    val newModifier =
+        if (clickable) modifier.clickable { onClick(coordinate) }
+        else modifier
     Box(
-        modifier = modifier
+        modifier = newModifier
             .aspectRatio(1f)
             .padding(2.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(getTheme().boardColor)
-            .clickable(enabled = clickable) { onClick(coordinate) }
             .testTag(testTagCellView(coordinate)),
         contentAlignment = Alignment.Center
     ) {
@@ -170,7 +169,7 @@ fun ReversiScope.cellView(
                 .semantics { testTag = testTagPiece(coordinate, type = type) }
         ) {
             val size = size
-            val radius = size.minDimension / 2 * 0.7f
+            val radius = size.minDimension / 2 * 0.5f
             val center = Offset(size.width / 2, size.height / 2)
 
             if (!piece.isGhostPiece) {

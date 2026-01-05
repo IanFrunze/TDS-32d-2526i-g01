@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.isel.reversi.app.ReversiScope
 import pt.isel.reversi.app.ReversiText
+import pt.isel.reversi.app.getTheme
 import pt.isel.reversi.core.board.PieceType
 
 
@@ -40,7 +41,7 @@ fun ReversiScope.PopupPickAPiece(
                 .pointerInput(Unit) {
                     detectTapGestures(onTap = { })
                 }
-                .background(Color(0xFF2D2D2D), RoundedCornerShape(16.dp))
+                .background(getTheme().secondaryColor, RoundedCornerShape(16.dp))
                 .border(1.dp, Color.White.copy(alpha = 0.2f), RoundedCornerShape(16.dp))
                 .padding(24.dp)
         ) {
@@ -49,9 +50,9 @@ fun ReversiScope.PopupPickAPiece(
             ) {
                 ReversiText(
                     text = "Escolha a sua peça",
+                    color = Color.White,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
                 )
                 Spacer(Modifier.height(16.dp))
                 Row(
@@ -59,12 +60,12 @@ fun ReversiScope.PopupPickAPiece(
                 ) {
                     pieces.forEach { piece ->
                         val color = when (piece) {
-                            PieceType.BLACK -> Color.Black
-                            PieceType.WHITE -> Color.White
+                            PieceType.BLACK -> getTheme().darkPieceColor
+                            PieceType.WHITE -> getTheme().lightPieceColor
                         }
                         val borderColor = when (piece) {
-                            PieceType.BLACK -> Color.White.copy(alpha = 0.3f)
-                            PieceType.WHITE -> Color.Black.copy(alpha = 0.2f)
+                            PieceType.BLACK -> getTheme().lightPieceColor.copy(alpha = 0.3f)
+                            PieceType.WHITE -> getTheme().darkPieceColor.copy(alpha = 0.2f)
                         }
 
                         IconButton(

@@ -31,9 +31,9 @@ private fun ReversiScope.SettingsSection(
         // Título da Secção com cor primária e divisor
         ReversiText(
             text = title,
+            color = getTheme().primaryColor,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            color = getTheme().primaryColor
         )
         HorizontalDivider(
             color = getTheme().textColor.copy(alpha = 0.1f),
@@ -95,8 +95,8 @@ fun SettingsPage(appState: MutableState<AppState>) {
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        ReversiText("Volume Geral", fontSize = 16.sp)
-                        ReversiText(volumeLabel, fontWeight = FontWeight.Bold, color = currentTheme.primaryColor)
+                        ReversiText("Volume Geral", fontSize = 16.sp,)
+                        ReversiText(volumeLabel, color = currentTheme.primaryColor, fontWeight = FontWeight.Bold,)
                     }
 
                     Slider(
@@ -124,7 +124,7 @@ fun SettingsPage(appState: MutableState<AppState>) {
                     ReversiText(
                         "Tema da Aplicação",
                         fontSize = 16.sp,
-                        modifier = Modifier.padding(bottom = 8.dp)
+                        modifier = Modifier.padding(bottom = 8.dp),
                     )
 
                     // O Dropdown de Temas
@@ -144,7 +144,7 @@ fun SettingsPage(appState: MutableState<AppState>) {
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 // Mostra o nome do tema atual
-                                ReversiText(currentTheme.name) // Assume que o tema tem uma propriedade .name
+                                ReversiText(currentTheme.name,) // Assume que o tema tem uma propriedade .name
                                 Icon(
                                     imageVector = Icons.Default.Palette,
                                     contentDescription = "Trocar tema",
@@ -174,9 +174,9 @@ fun SettingsPage(appState: MutableState<AppState>) {
 
                     ReversiText(
                         "A alteração do tema é aplicada imediatamente.",
-                        fontSize = 12.sp,
                         color = currentTheme.textColor.copy(alpha = 0.5f),
-                        modifier = Modifier.padding(top = 8.dp)
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(top = 8.dp),
                     )
                 }
             }

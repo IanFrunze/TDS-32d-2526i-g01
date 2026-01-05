@@ -110,7 +110,7 @@ private fun ReversiScope.NewOrJoinGamePage(
                 ReversiTextField(
                     value = game.currGameName ?: "",
                     onValueChange = { game = game.copy(currGameName = it) },
-                    label = { ReversiText("Nome do jogo") },
+                    label = { ReversiText("Nome do jogo",) },
                     modifier = Modifier.fillMaxWidth(),
                     onDone = { onClick(game) },
                 )
@@ -128,9 +128,9 @@ private fun ReversiScope.NewOrJoinGamePage(
                 Column(modifier = Modifier.fillMaxWidth()) {
                     ReversiText(
                         "Minha peça:",
+                        color = theme.textColor.copy(alpha = 0.7f),
                         fontSize = 14.sp,
                         modifier = Modifier.padding(bottom = 8.dp),
-                        color = theme.textColor.copy(alpha = 0.7f)
                     )
 
                     Box(modifier = Modifier.run { fillMaxWidth() }) {
@@ -148,7 +148,7 @@ private fun ReversiScope.NewOrJoinGamePage(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 // Aqui aparece o texto "Selecionar cor..." se game.myPiece for null
-                                ReversiText(selectedPieceLabel)
+                                ReversiText(selectedPieceLabel,)
                                 Icon(
                                     Icons.Default.ArrowDropDown,
                                     contentDescription = null,

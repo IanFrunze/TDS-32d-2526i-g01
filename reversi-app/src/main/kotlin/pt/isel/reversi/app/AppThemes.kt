@@ -67,7 +67,7 @@ private val spotifyTheme = AppTheme(
     boardBgColor = Color(0xFF191414),
     boardSideColor = Color(0xFFFFFFFF),
     darkPieceColor = Color(0xFF000000),
-    lightPieceColor = Color(0xFF1DB954)
+    lightPieceColor = Color(0xFFFFFFFF)
 )
 
 private val discordTheme = AppTheme(

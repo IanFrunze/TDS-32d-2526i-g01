@@ -26,7 +26,7 @@ fun ReversiScope.Loading(modifier: Modifier = Modifier) {
         ) {
             CircularProgressIndicator(color = getTheme().primaryColor, modifier = Modifier.size(56.dp))
             Spacer(Modifier.height(16.dp))
-            ReversiText("A carregar jogos...", color = Color.White, fontSize = 18.sp,)
+            ReversiText("A carregar jogos...", color = Color.White, fontSize = 18.sp)
         }
     }
 }

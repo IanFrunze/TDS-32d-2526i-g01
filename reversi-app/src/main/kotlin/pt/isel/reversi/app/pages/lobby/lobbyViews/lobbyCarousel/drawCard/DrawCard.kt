@@ -14,15 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.isel.reversi.app.ReversiScope
 import pt.isel.reversi.app.ReversiText
 import pt.isel.reversi.app.getTheme
+import pt.isel.reversi.app.pages.game.DrawBoard
 import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.CardStatus
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.Board
@@ -49,22 +48,27 @@ fun ReversiScope.GameCard(
         enabled = enabled,
         modifier = modifier.shadow(16.dp, RoundedCornerShape(24.dp)),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = getTheme().secondaryColor),
-        border = BorderStroke(1.dp, Color.White.copy(0.1f))
+        border = BorderStroke(1.dp, Color.White.copy(0.1f)),
+        colors = CardDefaults.cardColors(
+            containerColor = getTheme().backgroundColor,
+        )
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().background(
-                Brush.verticalGradient(
-                    listOf(Color(0xFF1E1E1E), Color(0xFF2D2D2D))
-                )
-
-            ).padding(8.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(getTheme().secondaryColor.copy(.2f))
+                .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             HeaderBadge(statusText, statusColor, name)
 
-            BoardPreview(
-                board = state.board, modifier = Modifier.weight(4f).padding(vertical = 12.dp)
+            DrawBoard(
+                false,
+                state,
+                modifier = Modifier.weight(4f), // Preenche o Box
+                true,
+                { emptyList() },
+                {}
             )
 
             ScorePanel(Modifier, state.board)
@@ -84,9 +88,6 @@ private fun ReversiScope.HeaderBadge(statusText: String, statusColor: Color, nam
             text = name,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.White,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
         )
         StatusBadge(statusText, statusColor)
     }
@@ -100,10 +101,10 @@ private fun ReversiScope.StatusBadge(text: String, color: Color, modifier: Modif
     ) {
         ReversiText(
             text = text,
-            fontSize = 11.sp,
-            fontWeight = FontWeight.Bold,
             color = color,
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)
+            fontSize = 11.sp,
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+            fontWeight = FontWeight.Bold,
         )
     }
 }
@@ -111,7 +112,7 @@ private fun ReversiScope.StatusBadge(text: String, color: Color, modifier: Modif
 @Composable
 private fun ReversiScope.ScorePanel(modifier: Modifier, board: Board) {
     Row(
-        modifier = modifier.fillMaxWidth().background(Color(0xFF2D2D2D), RoundedCornerShape(16.dp))
+        modifier = modifier.fillMaxWidth().background(getTheme().secondaryColor.copy(.2f), RoundedCornerShape(16.dp))
             .border(1.dp, Color.White.copy(0.1f), RoundedCornerShape(16.dp)).padding(8.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -127,14 +128,18 @@ private fun ReversiScope.ScoreItem(type: PieceType, score: Int) {
     ) {
         Box(
             Modifier.size(40.dp).background(
-                if (type == PieceType.BLACK) Color.Black else Color.White, CircleShape
+                if (type == PieceType.BLACK) getTheme().darkPieceColor else getTheme().lightPieceColor, CircleShape
             ).border(
-                2.dp, if (type == PieceType.BLACK) Color.White.copy(0.3f) else Color.Black.copy(0.2f), CircleShape
+                2.dp,
+                if (type == PieceType.BLACK) getTheme().darkPieceColor.copy(0.2f) else getTheme().lightPieceColor.copy(
+                    0.2f
+                ),
+                CircleShape
             )
         )
         Spacer(Modifier.height(8.dp))
         ReversiText(
-            text = score.toString(), fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.White
+            text = score.toString(), color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold,
         )
     }
 }

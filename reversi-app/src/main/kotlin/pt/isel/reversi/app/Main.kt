@@ -17,6 +17,7 @@ import pt.isel.reversi.app.pages.MainMenu
 import pt.isel.reversi.app.pages.NewGamePage
 import pt.isel.reversi.app.pages.SettingsPage
 import pt.isel.reversi.app.pages.game.GamePage
+import pt.isel.reversi.app.pages.game.GamePageViewModel
 import pt.isel.reversi.app.pages.lobby.LobbyMenu
 import pt.isel.reversi.app.pages.lobby.LobbyViewModel
 import pt.isel.reversi.app.state.*
@@ -72,14 +73,14 @@ fun main(args: Array<String>) {
         ) {
             val scope = rememberCoroutineScope()
 
-            window.minimumSize = java.awt.Dimension(600, 700)
+            window.minimumSize = java.awt.Dimension(800, 800)
 
             MakeMenuBar(appState, windowState, ::safeExitApplication)
             AppScreenSwitcher(appState) { page ->
                 LOGGER.info("Navigating to page: $page")
                 when (page) {
                     Page.MAIN_MENU -> MainMenu(appState)
-                    Page.GAME -> GamePage(appState)
+                    Page.GAME -> GamePage(GamePageViewModel(appState, scope))
                     Page.SETTINGS -> SettingsPage(appState)
                     Page.ABOUT -> AboutPage(appState)
                     Page.NEW_GAME -> NewGamePage(appState)
@@ -139,7 +140,7 @@ fun SaveGamePage(appState: MutableState<AppState>) {
                     value = gameName ?: "",
                     enabled = appState.value.game.currGameName == null,
                     onValueChange = { gameName = it },
-                    label = { ReversiText("Nome do jogo", color = getTheme().textColor) },
+                    label = { ReversiText("Nome do jogo", color = getTheme().textColor,) },
                     singleLine = true
                 )
 
@@ -164,7 +165,7 @@ fun SaveGamePage(appState: MutableState<AppState>) {
                         containerColor = getTheme().primaryColor
                     )
                 ) {
-                    ReversiText("Guardar", color = getTheme().primaryColor)
+                    ReversiText("Guardar", color = getTheme().primaryColor,)
                 }
             }
         }
@@ -199,12 +200,12 @@ fun AboutPage(appState: MutableState<AppState>, modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(height = 24.dp))
-            ReversiText("Projeto Reversi desenvolvido no ISEL.", color = getTheme().textColor)
-            ReversiText("Autores: ", color = getTheme().textColor)
-            ReversiText(" - Rafael Pereira - NUMERO", color = getTheme().textColor)
-            ReversiText(" - Ian Frunze - NUMERO", color = getTheme().textColor)
-            ReversiText(" - Tito Silva - NUMERO", color = getTheme().textColor)
-            ReversiText("Versão: DEV Build", color = getTheme().textColor)
+            ReversiText("Projeto Reversi desenvolvido no ISEL.", color = getTheme().textColor,)
+            ReversiText("Autores: ", color = getTheme().textColor,)
+            ReversiText(" - Rafael Pereira - NUMERO", color = getTheme().textColor,)
+            ReversiText(" - Ian Frunze - NUMERO", color = getTheme().textColor,)
+            ReversiText(" - Tito Silva - NUMERO", color = getTheme().textColor,)
+            ReversiText("Versão: DEV Build", color = getTheme().textColor,)
 
         }
     }

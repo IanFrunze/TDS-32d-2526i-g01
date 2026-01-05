@@ -54,8 +54,8 @@ fun ReversiScope.PageIndicators(total: Int, current: Int) {
 
         ReversiText(
             text = text,
+            color = Color.White.copy(alpha = 0.6f),
             fontSize = 14.sp,
-            color = Color.White.copy(alpha = 0.6f)
         )
     }
 }

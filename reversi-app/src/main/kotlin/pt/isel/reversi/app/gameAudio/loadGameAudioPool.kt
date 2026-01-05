@@ -6,7 +6,8 @@ import pt.isel.reversi.utils.audio.AudioModifier
 import pt.isel.reversi.utils.audio.AudioPool
 import pt.isel.reversi.utils.audio.AudioPool.Companion.buildAudioPool
 import pt.isel.reversi.utils.audio.AudioWrapper.Companion.loadAudio
-import pt.isel.reversi.utils.loadResource
+import pt.isel.reversi.utils.loadResourcesFromFolder
+
 
 /**
  * Loads the game's audio pool from the resources.
@@ -18,27 +19,24 @@ fun loadGameAudioPool(theme: AppTheme, mainFolder: String = "audios/"): AudioPoo
         theme.gameMusic,
         theme.placePieceSound
     )
-    val audioPaths = try {
-        loadResource(mainFolder).listFiles()?.mapNotNull {
-            val name = it.name.substringBeforeLast('.')
-            try {
-                when (name) {
-                    in setOf(theme.backgroundMusic, theme.gameMusic) -> loadAudio(
-                        name,
-                        it.toURI().toURL(),
-                        AudioModifier().setToLoopInfinitely()
-                    )
-                    in audioNames -> loadAudio(name, it.toURI().toURL())
-                    else -> null
-                }
-            } catch (e: Exception) {
-                LOGGER.warning("Failed to load audio $name: ${e.message}")
-                null
+    val audioPaths = loadResourcesFromFolder(mainFolder) { fileName, url ->
+        val name = fileName.substringBeforeLast('.')
+        try {
+            when (name) {
+                in setOf(theme.backgroundMusic, theme.gameMusic) -> loadAudio(
+                    name,
+                    url,
+                    AudioModifier().setToLoopInfinitely()
+                )
+
+                in audioNames -> loadAudio(name, url.toURI().toURL())
+                else -> null
             }
-        } ?: emptyList()
-    } catch (e: Exception) {
-        LOGGER.warning("Could not load audio resources from $mainFolder: ${e.message}")
-        emptyList()
+        } catch (e: Exception) {
+            LOGGER.warning("Failed to load audio $name: ${e.message}")
+            null
+        }
     }
+
     return buildAudioPool { for (audio in audioPaths) add(audio) }
 }
