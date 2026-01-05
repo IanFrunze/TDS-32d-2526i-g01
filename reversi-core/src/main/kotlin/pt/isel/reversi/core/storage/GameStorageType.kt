@@ -13,11 +13,11 @@ import pt.isel.reversi.storage.AsyncStorage
 enum class GameStorageType(val storage: (String) -> AsyncStorage<String, GameState, String>) {
     /** File-based storage using serialization to disk. */
     FILE_STORAGE({ folder ->
-                     AsyncFileStorage(
-                         folder = folder,
-                         serializer = GameStateSerializer()
-                     )
-                 });
+        AsyncFileStorage(
+            folder = folder,
+            serializer = GameStateSerializer()
+        )
+    });
 
     companion object {
         /**

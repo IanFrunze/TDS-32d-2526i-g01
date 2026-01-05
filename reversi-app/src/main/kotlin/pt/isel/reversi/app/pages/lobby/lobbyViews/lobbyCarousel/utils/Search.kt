@@ -11,6 +11,6 @@ fun ReversiScope.Search(search: String, onValueChange: (String) -> Unit) {
         value = search,
         singleLine = true,
         onValueChange = { onValueChange(it) },
-        label = { ReversiText("Procure um jogo...",) },
+        label = { ReversiText("Procure um jogo...") },
     )
 }

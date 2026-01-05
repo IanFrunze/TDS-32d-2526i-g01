@@ -12,6 +12,7 @@ import kotlin.test.Test
 @OptIn(ExperimentalTestApi::class)
 class EmptyLobbyTests {
     val reversiScope = ReversiScope(AppState.EMPTY_APP_STATE)
+
     @Test
     fun `test if empty lobby view is displayed correctly`() = runComposeUiTest {
         setContent {

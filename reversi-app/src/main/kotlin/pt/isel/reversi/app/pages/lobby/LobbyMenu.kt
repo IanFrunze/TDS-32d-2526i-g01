@@ -29,8 +29,10 @@ import pt.isel.reversi.utils.LOGGER
 enum class LobbyState {
     /** Initial uninitialized state. */
     NONE,
+
     /** Lobby has no available games. */
     EMPTY,
+
     /** Lobby displaying available games for joining. */
     SHOW_GAMES
 }

@@ -12,4 +12,4 @@ import pt.isel.reversi.core.exceptions.ReversiException
 class GameIsFull(
     message: String = "The game is full",
     type: ErrorType = ErrorType.INFO,
-): ReversiException(message, type)
+) : ReversiException(message, type)

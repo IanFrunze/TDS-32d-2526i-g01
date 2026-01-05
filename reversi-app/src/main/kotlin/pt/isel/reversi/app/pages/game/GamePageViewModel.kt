@@ -44,7 +44,7 @@ class GamePageViewModel(val appState: MutableState<AppState>, val scope: Corouti
                         val needsUpdate = newGame.gameState != game.gameState
                         if (needsUpdate)
                             _uiState.value = newGame
-                            save()
+                        save()
                     }
                     save()
                     delay(50L)

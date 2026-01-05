@@ -101,8 +101,8 @@ fun SettingsPage(appState: MutableState<AppState>) {
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        ReversiText("Volume Geral", fontSize = 16.sp,)
-                        ReversiText(volumeLabel, color = currentTheme.primaryColor, fontWeight = FontWeight.Bold,)
+                        ReversiText("Volume Geral", fontSize = 16.sp)
+                        ReversiText(volumeLabel, color = currentTheme.primaryColor, fontWeight = FontWeight.Bold)
                     }
 
                     Slider(
@@ -147,7 +147,7 @@ fun SettingsPage(appState: MutableState<AppState>) {
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                ReversiText(currentTheme.name,)
+                                ReversiText(currentTheme.name)
                                 Icon(
                                     imageVector = Icons.Default.Palette,
                                     contentDescription = "Trocar tema",

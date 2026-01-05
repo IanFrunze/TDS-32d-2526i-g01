@@ -19,11 +19,11 @@ import androidx.compose.ui.unit.sp
  */
 @Composable
 fun ReversiScope.Loading(modifier: Modifier = Modifier) {
-    Box (
+    Box(
         Modifier.fillMaxSize()
             .background(Color.Black.copy(alpha = 0.4f))
             .clickable(enabled = false) {}
-    ){
+    ) {
         Column(
             modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,

@@ -7,11 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import pt.isel.reversi.app.ReversiScope
-import pt.isel.reversi.app.pages.game.utils.DrawBoard
-import pt.isel.reversi.app.pages.game.utils.PassButton
-import pt.isel.reversi.app.pages.game.utils.TargetButton
-import pt.isel.reversi.app.pages.game.utils.TextPlayersScore
-import pt.isel.reversi.app.pages.game.utils.testTagGamePage
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.Coordinate
 

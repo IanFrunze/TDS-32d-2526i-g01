@@ -62,10 +62,10 @@ fun reversiGoInAnimation(
         initialOffsetX = { it },
         animationSpec = tween(duration, easing = animation)
     ) + fadeIn(tween(duration, easing = animation)) togetherWith
-    slideOutHorizontally(
-        targetOffsetX = { -it },
-        animationSpec = tween(duration, easing = animation)
-    ) + fadeOut(tween(duration, easing = animation))
+            slideOutHorizontally(
+                targetOffsetX = { -it },
+                animationSpec = tween(duration, easing = animation)
+            ) + fadeOut(tween(duration, easing = animation))
 
 /**
  * Creates an animation for backward page transitions (sliding left with fade in).
@@ -74,7 +74,7 @@ fun reversiGoInAnimation(
  * @param animation Easing function to apply to the animation.
  * @return A ContentTransform combining slide and fade animations.
  */
-fun reversiGoOutAnimation (
+fun reversiGoOutAnimation(
     duration: Int = 500,
     animation: Easing = CubicBezierEasing(0.22f, 1f, 0.36f, 1f)
 ): ContentTransform =
@@ -82,10 +82,10 @@ fun reversiGoOutAnimation (
         initialOffsetX = { -it },
         animationSpec = tween(duration, easing = animation)
     ) + fadeIn(tween(duration, easing = animation)) togetherWith
-    slideOutHorizontally(
-        targetOffsetX = { it },
-        animationSpec = tween(duration, easing = animation)
-    ) + fadeOut(tween(duration, easing = animation))
+            slideOutHorizontally(
+                targetOffsetX = { it },
+                animationSpec = tween(duration, easing = animation)
+            ) + fadeOut(tween(duration, easing = animation))
 
 /**
  * Creates a fade-only animation without slide transition.
@@ -99,4 +99,4 @@ fun reversiFadeAnimation(
     animation: Easing = CubicBezierEasing(0.22f, 1f, 0.36f, 1f)
 ): ContentTransform =
     fadeIn(tween(duration, easing = animation)) togetherWith
-    fadeOut(tween(duration, easing = animation))
+            fadeOut(tween(duration, easing = animation))

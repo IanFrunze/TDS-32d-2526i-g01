@@ -13,12 +13,16 @@ import pt.isel.reversi.core.Game
 enum class CardStatus(val text: String, val color: Color) {
     /** Game is empty with no players. */
     EMPTY("Vazio", Color.Green),
+
     /** Game is waiting for additional players to join. */
     WAITING_FOR_PLAYERS("Aguardando Jogadores", Color.Yellow),
+
     /** Game is full with all players present. */
     FULL("Cheio", Color.Blue),
+
     /** Game file is corrupted or invalid. */
     CORRUPTED("Corrompido", Color.Red),
+
     /** Game is currently being played. */
     CURRENT_GAME("Jogo Atual", Color.Cyan)
 }

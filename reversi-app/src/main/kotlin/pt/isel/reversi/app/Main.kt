@@ -146,7 +146,7 @@ fun SaveGamePage(appState: MutableState<AppState>) {
                     value = gameName ?: "",
                     enabled = appState.value.game.currGameName == null,
                     onValueChange = { gameName = it },
-                    label = { ReversiText("Nome do jogo", color = getTheme().textColor,) },
+                    label = { ReversiText("Nome do jogo", color = getTheme().textColor) },
                     singleLine = true
                 )
 
@@ -171,7 +171,7 @@ fun SaveGamePage(appState: MutableState<AppState>) {
                         containerColor = getTheme().primaryColor
                     )
                 ) {
-                    ReversiText("Guardar", color = getTheme().primaryColor,)
+                    ReversiText("Guardar", color = getTheme().primaryColor)
                 }
             }
         }
@@ -212,12 +212,12 @@ fun AboutPage(appState: MutableState<AppState>, modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(height = 24.dp))
-            ReversiText("Projeto Reversi desenvolvido no ISEL.", color = getTheme().textColor,)
-            ReversiText("Autores: ", color = getTheme().textColor,)
-            ReversiText(" - Rafael Pereira - NUMERO", color = getTheme().textColor,)
-            ReversiText(" - Ian Frunze - NUMERO", color = getTheme().textColor,)
-            ReversiText(" - Tito Silva - NUMERO", color = getTheme().textColor,)
-            ReversiText("Versão: DEV Build", color = getTheme().textColor,)
+            ReversiText("Projeto Reversi desenvolvido no ISEL.", color = getTheme().textColor)
+            ReversiText("Autores: ", color = getTheme().textColor)
+            ReversiText(" - Rafael Pereira - NUMERO", color = getTheme().textColor)
+            ReversiText(" - Ian Frunze - NUMERO", color = getTheme().textColor)
+            ReversiText(" - Tito Silva - NUMERO", color = getTheme().textColor)
+            ReversiText("Versão: DEV Build", color = getTheme().textColor)
 
         }
     }

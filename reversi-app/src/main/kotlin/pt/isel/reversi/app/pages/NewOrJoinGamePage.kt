@@ -122,7 +122,7 @@ private fun ReversiScope.NewOrJoinGamePage(
                 ReversiTextField(
                     value = game.currGameName ?: "",
                     onValueChange = { game = game.copy(currGameName = it) },
-                    label = { ReversiText("Nome do jogo",) },
+                    label = { ReversiText("Nome do jogo") },
                     modifier = Modifier.fillMaxWidth(),
                     onDone = { onClick(game) },
                 )
@@ -158,7 +158,7 @@ private fun ReversiScope.NewOrJoinGamePage(
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                ReversiText(selectedPieceLabel,)
+                                ReversiText(selectedPieceLabel)
                                 Icon(
                                     Icons.Default.ArrowDropDown,
                                     contentDescription = null,

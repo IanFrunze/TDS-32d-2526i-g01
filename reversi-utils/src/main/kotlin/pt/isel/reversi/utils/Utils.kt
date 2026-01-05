@@ -92,6 +92,7 @@ private fun listResourceFiles(path: String): List<String> {
             // Running from IDE or exploded directory
             File(resource.toURI()).listFiles()?.map { it.name } ?: emptyList()
         }
+
         "jar" -> {
             // Running from JAR
             val jarPath = resource.toString()
@@ -106,6 +107,7 @@ private fun listResourceFiles(path: String): List<String> {
                     .collect(Collectors.toList())
             }
         }
+
         else -> throw IllegalArgumentException("Unsupported protocol: ${resource.protocol}")
     }
 }

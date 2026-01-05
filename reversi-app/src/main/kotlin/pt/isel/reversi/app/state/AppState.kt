@@ -25,7 +25,7 @@ data class AppState(
     val isLoading: Boolean = false,
     val audioPool: AudioPool,
     val theme: AppTheme,
-){
+) {
     companion object {
         // Empty AppState for initialization
         val EMPTY_APP_STATE = AppState(

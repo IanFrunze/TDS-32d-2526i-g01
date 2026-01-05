@@ -8,10 +8,13 @@ const val BASE_FOLDER = "data"
 
 /** Configuration directory path. */
 const val CONFIG_FOLDER = "$BASE_FOLDER/config"
+
 /** Core module configuration file path. */
 const val CORE_CONFIG_FILE = "$CONFIG_FOLDER/reversi-core.properties"
+
 /** CLI module configuration file path. */
 const val CLI_CONFIG_FILE = "$CONFIG_FOLDER/reversi-cli.properties"
+
 /** Desktop app module configuration file path. */
 const val APP_CONFIG_FILE = "$CONFIG_FOLDER/reversi-app.properties"
 

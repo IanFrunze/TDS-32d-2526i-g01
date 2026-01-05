@@ -26,3 +26,19 @@ fun ReversiScope.TargetButton(target: Boolean, modifier: Modifier = Modifier, fr
         enabled = !freeze,
     )
 }
+
+/**
+ * Button to pass the current player's turn.
+ *
+ * @param modifier Optional composable modifier for layout adjustments.
+ * @param freeze Whether the button is disabled due to game frozen state.
+ * @param onClick Callback invoked when the button is clicked.
+ */
+@Composable
+fun ReversiScope.PassButton(modifier: Modifier = Modifier, freeze: Boolean, onClick: () -> Unit) {
+    ReversiButton(
+        text = "Pass",
+        onClick = onClick,
+        enabled = !freeze,
+    )
+}

@@ -40,7 +40,7 @@ fun testTagPiece(coordinate: Coordinate, type: PieceType?): String {
     val value = when (type) {
         PieceType.BLACK -> "BLACK"
         PieceType.WHITE -> "WHITE"
-        null            -> ""
+        null -> ""
     }
     return "Piece_${testTagCellView(coordinate)}_${value}"
 }

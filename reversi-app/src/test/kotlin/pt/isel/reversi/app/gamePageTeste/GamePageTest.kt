@@ -1,6 +1,7 @@
 package pt.isel.reversi.app.gamePageTeste
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -8,6 +9,7 @@ import androidx.compose.ui.test.runComposeUiTest
 import kotlinx.coroutines.runBlocking
 import pt.isel.reversi.app.AppThemes
 import pt.isel.reversi.app.pages.game.GamePage
+import pt.isel.reversi.app.pages.game.GamePageViewModel
 import pt.isel.reversi.app.pages.game.testTagCellView
 import pt.isel.reversi.app.pages.game.testTagGamePage
 import pt.isel.reversi.app.pages.game.testTagPlayerScore
@@ -43,7 +45,9 @@ class GamePageTest {
         val appState = mutableStateOf(value = expectedAppState)
 
         setContent {
-            GamePage(appState)
+            val coroutineScope = rememberCoroutineScope()
+            val viewModel = GamePageViewModel(appState, coroutineScope)
+            GamePage(viewModel)
         }
         onNodeWithTag(testTag = testTagGamePage())
             .assertExists()
@@ -62,7 +66,9 @@ class GamePageTest {
         val appState = mutableStateOf(value = expectedAppState)
 
         setContent {
-            GamePage(appState)
+            val coroutineScope = rememberCoroutineScope()
+            val viewModel = GamePageViewModel(appState, coroutineScope)
+            GamePage(viewModel)
         }
         onNodeWithTag(testTag = testTagGamePage()).assertExists()
     }
@@ -80,7 +86,9 @@ class GamePageTest {
         val appState = mutableStateOf(value = expectedAppState)
 
         setContent {
-            GamePage(appState)
+            val coroutineScope = rememberCoroutineScope()
+            val viewModel = GamePageViewModel(appState, coroutineScope)
+            GamePage(viewModel)
         }
 
         val players = game.gameState?.players
@@ -101,7 +109,9 @@ class GamePageTest {
         )
 
         setContent {
-            GamePage(mutableStateOf(value = expectedAppState))
+            val coroutineScope = rememberCoroutineScope()
+            val viewModel = GamePageViewModel(mutableStateOf(expectedAppState), coroutineScope)
+            GamePage(viewModel)
         }
 
         onNodeWithTag(testTag = testTagPlayerScore(game.gameState?.players[0]!!))
@@ -121,7 +131,9 @@ class GamePageTest {
         val appState = mutableStateOf(value = expectedAppState)
 
         setContent {
-            GamePage(appState)
+            val coroutineScope = rememberCoroutineScope()
+            val viewModel = GamePageViewModel(appState, coroutineScope)
+            GamePage(viewModel)
         }
 
         val players = game.gameState?.players!!
@@ -159,7 +171,9 @@ class GamePageTest {
         val appState = mutableStateOf(value = expectedAppState)
 
         setContent {
-            GamePage(appState, freeze = true)
+            val coroutineScope = rememberCoroutineScope()
+            val viewModel = GamePageViewModel(appState, coroutineScope)
+            GamePage(viewModel)
         }
 
         val players = game.gameState?.players!!

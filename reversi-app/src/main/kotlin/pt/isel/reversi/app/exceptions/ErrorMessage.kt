@@ -46,19 +46,19 @@ fun ReversiScope.ErrorMessage(appState: MutableState<AppState>, modifier: Modifi
     LaunchedEffect(appState.value.error) {
         val error = appState.value.error ?: return@LaunchedEffect
         when (error.type) {
-            ErrorType.INFO     -> LOGGER.info("${error.message}")
-            ErrorType.WARNING  -> LOGGER.warning("${error.message}")
-            ErrorType.ERROR    -> LOGGER.severe("${error.message}")
+            ErrorType.INFO -> LOGGER.info("${error.message}")
+            ErrorType.WARNING -> LOGGER.warning("${error.message}")
+            ErrorType.ERROR -> LOGGER.severe("${error.message}")
             ErrorType.CRITICAL -> LOGGER.severe("Critical ${error.message}")
         }
     }
 
     when (appState.value.error?.type) {
-        ErrorType.INFO     -> ToastMessage(appState, modifier)
-        ErrorType.WARNING  -> WarningMessage(appState, modifier)
-        ErrorType.ERROR    -> ToastMessage(appState, modifier)
+        ErrorType.INFO -> ToastMessage(appState, modifier)
+        ErrorType.WARNING -> WarningMessage(appState, modifier)
+        ErrorType.ERROR -> ToastMessage(appState, modifier)
         ErrorType.CRITICAL -> ToastMessage(appState, modifier)
-        null               -> return
+        null -> return
     }
 }
 
@@ -117,7 +117,7 @@ fun ReversiScope.WarningMessage(appState: MutableState<AppState>, modifier: Modi
                     .fillMaxWidth()
                     .height(48.dp)
             ) {
-                ReversiText(text = "OK", fontSize = 16.sp, fontWeight = FontWeight.Bold,)
+                ReversiText(text = "OK", fontSize = 16.sp, fontWeight = FontWeight.Bold)
             }
         }
     }

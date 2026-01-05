@@ -63,10 +63,10 @@ tasks.register<Jar>("fatJar") {
 
     dependsOn(configurations.runtimeClasspath)
     from({
-             configurations.runtimeClasspath.get()
-                 .filter { it.name.endsWith(".jar") }
-                 .map { zipTree(it) }
-         })
+        configurations.runtimeClasspath.get()
+            .filter { it.name.endsWith(".jar") }
+            .map { zipTree(it) }
+    })
 
     manifest {
         attributes["Main-Class"] = "pt.isel.reversi.app.MainKt"

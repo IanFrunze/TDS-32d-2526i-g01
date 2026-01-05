@@ -29,9 +29,14 @@ class DrawBoardTest {
                     currGameName = null
                 )
             }
+
+            val gameState = game.gameState!!
+
             reversiScope.DrawBoard(
-                game = game,
-                onCellClick = { fail("onCellClick should not be called during this test") }
+                target = false,
+                gameState = gameState,
+                onCellClick = { fail("onCellClick should not be called during this test") },
+                getAvailablePlays = { emptyList() }
             )
         }
 
@@ -55,9 +60,13 @@ class DrawBoardTest {
         val expectedPiecesCount = board.totalBlackPieces + board.totalWhitePieces
 
         setContent {
+            val gameState = game.gameState!!
+
             reversiScope.DrawBoard(
-                game = game,
-                onCellClick = { fail("onCellClick should not be called during this test") }
+                target = false,
+                gameState = gameState,
+                onCellClick = { fail("onCellClick should not be called during this test") },
+                getAvailablePlays = { emptyList() }
             )
         }
 
@@ -88,14 +97,18 @@ class DrawBoardTest {
         val coordinateToClick = game.getAvailablePlays()[0]
         var onCellClickCalled = false
 
+        val gameState = game.gameState!!
+
         setContent {
             reversiScope.DrawBoard(
-                game = game,
+                target = false,
+                gameState = gameState,
                 onCellClick = { coordinate ->
                     if (coordinate == coordinateToClick) {
                         onCellClickCalled = true
                     }
-                }
+                },
+                getAvailablePlays = { emptyList() }
             )
         }
 
@@ -120,15 +133,18 @@ class DrawBoardTest {
         val coordinateToClick = game.getAvailablePlays()[0]
         var onCellClickCalled = false
 
+        val gameState = game.gameState!!
+
         setContent {
             reversiScope.DrawBoard(
-                game = game,
-                freeze = true,
+                target = false,
+                gameState = gameState,
                 onCellClick = { coordinate ->
                     if (coordinate == coordinateToClick) {
                         onCellClickCalled = true
                     }
-                }
+                },
+                getAvailablePlays = { emptyList() }
             )
         }
 
@@ -155,13 +171,17 @@ class DrawBoardTest {
         var onCellClickCalled = false
 
         setContent {
+            val gameState = game.gameState!!
+
             reversiScope.DrawBoard(
-                game = game,
+                target = false,
+                gameState = gameState,
                 onCellClick = { coordinate ->
                     if (coordinate == coordinateToClick) {
                         onCellClickCalled = true
                     }
-                }
+                },
+                getAvailablePlays = { emptyList() }
             )
         }
 
@@ -189,9 +209,13 @@ class DrawBoardTest {
         val expectedGhostPiecesAndPiecesCount = availablePlays.size + piecesCount
 
         setContent {
+            val gameState = game.gameState!!
+
             reversiScope.DrawBoard(
-                game = game,
-                onCellClick = { fail("onCellClick should not be called during this test") }
+                target = false,
+                gameState = gameState,
+                onCellClick = { fail("onCellClick should not be called during this test") },
+                getAvailablePlays = { emptyList() }
             )
         }
 
