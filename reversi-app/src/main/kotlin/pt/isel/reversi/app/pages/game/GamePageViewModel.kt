@@ -42,6 +42,7 @@ class GamePageViewModel(val appState: MutableState<AppState>, val scope: Corouti
                         if (needsUpdate)
                             _uiState.value = newGame
                     }
+                    save()
                     delay(50L)
                 }
                 throw IllegalStateException("Polling coroutine ended unexpectedly")
