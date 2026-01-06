@@ -17,95 +17,75 @@ import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.state.Page
 import pt.isel.reversi.app.state.getStateAudioPool
 import pt.isel.reversi.app.state.setPage
-import pt.isel.reversi.utils.LOGGER
 
-/** Padding around main menu content. */
 val MAIN_MENU_PADDING = 20.dp
+val MAIN_MENU_BUTTON_SPACER = 20.dp
+val MAIN_MENU_AUTO_SIZE_BUTTON_TEXT =
+    TextAutoSize.StepBased(minFontSize = 10.sp, maxFontSize = 24.sp)
+val MAIN_MENU_AUTO_SIZE_TITLE_TEXT =
+    TextAutoSize.StepBased(minFontSize = 40.sp, maxFontSize = 80.sp)
 
-/** Auto-sizing configuration for main menu button text. */
-val MAIN_MENU_AUTO_SIZE_BUTTON_TEXT = TextAutoSize.StepBased(
-    minFontSize = 10.sp, maxFontSize = 30.sp
-)
-
-/** Vertical spacing between main menu buttons. */
-val MAIN_MENU_BUTTON_SPACER = 30.dp
-
-/** Auto-sizing configuration for main menu title text. */
-val MAIN_MENU_AUTO_SIZE_TITLE_TEXT = TextAutoSize.StepBased(
-    minFontSize = 30.sp, maxFontSize = 60.sp
-)
-
-/**
- * Main menu screen of the application.
- * Displays navigation buttons for starting a new game, joining lobby, accessing settings, and about page.
- * Manages background music playback during menu display.
- *
- * @param appState Global application state for navigation and audio control.
- * @param modifier Optional composable modifier for layout adjustments.
- */
 @Composable
-fun MainMenu(appState: MutableState<AppState>, modifier: Modifier = Modifier) {
+fun MainMenu(
+    appState: MutableState<AppState>,
+    modifier: Modifier = Modifier
+) {
     LaunchedEffect(appState.value.page) {
         val audioPool = appState.getStateAudioPool()
         val theme = appState.value.theme
-
         if (!audioPool.isPlaying(theme.backgroundMusic)) {
-            LOGGER.info("Playing background music")
             audioPool.stopAll()
             audioPool.play(theme.backgroundMusic)
         }
     }
+
     ScaffoldView(
         appState = appState,
-        previousPageContent = { /* No previous page */ },
+        previousPageContent = {}
     ) {
-        Column(
-            modifier = modifier.fillMaxSize().padding(MAIN_MENU_PADDING),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            // Título
-            ReversiText(
-                text = "Reversi",
-                autoSize = MAIN_MENU_AUTO_SIZE_TITLE_TEXT,
-                fontWeight = FontWeight.Bold,
-            )
+        Box(modifier = Modifier.fillMaxSize()) {
 
-            Spacer(Modifier.height(MAIN_MENU_PADDING))
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(MAIN_MENU_PADDING),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                ReversiText(
+                    text = "REVERSI",
+                    autoSize = MAIN_MENU_AUTO_SIZE_TITLE_TEXT,
+                    fontWeight = FontWeight.Black
+                )
 
-            ReversiButton(
-                text = "Novo Jogo",
-                onClick = {
-                    appState.setPage(Page.NEW_GAME)
-                },
-            )
+                Spacer(Modifier.height(40.dp))
 
-            Spacer(Modifier.height(MAIN_MENU_BUTTON_SPACER))
-
-            ReversiButton(
-                text = "Lobby",
-                onClick = {
-                    appState.setPage(Page.LOBBY)
-                },
-            )
-
-            Spacer(Modifier.height(MAIN_MENU_BUTTON_SPACER))
-
-            ReversiButton(
-                text = "Definições",
-                onClick = {
-                    appState.setPage(Page.SETTINGS)
-                },
-            )
-
-            Spacer(Modifier.height(MAIN_MENU_BUTTON_SPACER))
-
-            ReversiButton(
-                text = "Sobre",
-                onClick = {
-                    appState.setPage(Page.ABOUT)
-                },
-            )
+                Column(
+                    modifier = Modifier
+                        .widthIn(max = 350.dp)
+                        .fillMaxWidth(),
+                    verticalArrangement =
+                        Arrangement.spacedBy(MAIN_MENU_BUTTON_SPACER),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    ReversiButton(
+                        text = "Novo Jogo",
+                        onClick = { appState.setPage(Page.NEW_GAME) }
+                    )
+                    ReversiButton(
+                        text = "Lobby",
+                        onClick = { appState.setPage(Page.LOBBY) }
+                    )
+                    ReversiButton(
+                        text = "Definições",
+                        onClick = { appState.setPage(Page.SETTINGS) }
+                    )
+                    ReversiButton(
+                        text = "Sobre",
+                        onClick = { appState.setPage(Page.ABOUT) }
+                    )
+                }
+            }
         }
     }
 }

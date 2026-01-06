@@ -54,6 +54,7 @@ fun main(args: Array<String>) {
                     error = null,
                     audioPool = audioPool,
                     theme = AppThemes.DARK.appTheme,
+
                 )
             )
         }

@@ -16,7 +16,6 @@ import pt.isel.reversi.utils.audio.AudioPool
  * @return the updated [AppState] with the new game state
  */
 fun MutableState<AppState>.setGame(game: Game) {
-    LOGGER.info("Set new game state")
     value = value.copy(game = game)
 }
 
@@ -62,9 +61,8 @@ fun MutableState<AppState>.setAppState(
     backPage: Page? = null,
     audioPool: AudioPool = value.audioPool,
     theme: AppTheme = value.theme,
+    playerName: String? = value.playerName,
 ) {
-    LOGGER.info("Set entire app state")
-
     if (page != value.page) {
         setPage(page, backPage)
     } else {
@@ -80,6 +78,7 @@ fun MutableState<AppState>.setAppState(
         game = game,
         audioPool = audioPool,
         theme = theme,
+        playerName = playerName
     )
 }
 

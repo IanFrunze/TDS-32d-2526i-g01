@@ -18,6 +18,10 @@ class GameStateFileStorageTest {
             Player(PieceType.BLACK),
             Player(PieceType.WHITE)
         ),
+        playerNames = listOf(
+            PlayerName(PieceType.BLACK, "Player 1"),
+            PlayerName(PieceType.WHITE, "Player 2")
+        ),
         lastPlayer = PieceType.BLACK,
         board = Board(8).startPieces()
     )

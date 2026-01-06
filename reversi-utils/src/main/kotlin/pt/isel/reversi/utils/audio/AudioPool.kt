@@ -214,6 +214,14 @@ data class AudioPool(val pool: List<AudioWrapper>) {
         !it.isPlaying()
     }
 
+    /**
+     * Retrieves the IDs of all currently playing audio tracks in the pool.
+     * @return A list of IDs of playing audio tracks.
+     */
+    fun getPlayingAudios(): List<String> {
+        return pool.filter { it.isPlaying() }.map { it.id }
+    }
+
     companion object {
         /**
          * Builds an AudioPool using the provided builder action.

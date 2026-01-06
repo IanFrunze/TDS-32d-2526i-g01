@@ -44,7 +44,6 @@ fun ReversiScope.TextPlayersScore(
             text = "Placar",
             fontSize = 20.sp,
             fontWeight = FontWeight.ExtraBold,
-            // Ou o padrão da sua ReversiText
         )
 
         Spacer(Modifier.height(24.dp))
@@ -60,10 +59,13 @@ fun ReversiScope.TextPlayersScore(
                 )
             }
         } else {
-            val players = listOf(
-                Player(PieceType.BLACK, state.board.totalBlackPieces),
-                Player(PieceType.WHITE, state.board.totalWhitePieces)
-            )
+            val players = state.playerNames.map { playerName ->
+                val points = when (playerName.type) {
+                    PieceType.BLACK -> state.board.totalBlackPieces
+                    PieceType.WHITE -> state.board.totalWhitePieces
+                }
+                Player(playerName.type, points)
+            }
 
             players.forEach { player ->
                 val (type, points) = player
@@ -123,15 +125,19 @@ private fun ReversiScope.PlayerScoreRow(
             // Indicador visual da peça
             Surface(
                 shape = CircleShape,
-                color = if (type == PieceType.BLACK) Color.Black else Color.White,
-                border = BorderStroke(1.dp, Color.Gray),
+                color = if (type == PieceType.BLACK) getTheme().darkPieceColor else getTheme().lightPieceColor,
+                border = BorderStroke(1.dp, if (type == PieceType.BLACK) getTheme().lightPieceColor else getTheme().darkPieceColor),
                 modifier = Modifier.size(24.dp)
             ) {}
 
             Spacer(Modifier.width(12.dp))
 
+            val playerName = appState.game.gameState?.playerNames?.firstOrNull {
+                it.type == type
+            }?.name ?: type.name
+
             ReversiText(
-                text = if (type == PieceType.BLACK) "Preto" else "Branco",
+                text = playerName,
                 fontWeight = if (isTurn) FontWeight.Bold else FontWeight.Normal,
                 modifier = Modifier.alpha(if (isTurn || isWinner) 1f else 0.6f)
             )

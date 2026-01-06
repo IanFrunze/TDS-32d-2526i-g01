@@ -35,7 +35,11 @@ suspend fun startNewGame(
     val board = Board(side).startPieces()
 
     val gs = GameState(
-        board = board, players = players.map { it.refresh(board) }, lastPlayer = firstTurn.swap(), winner = null
+        players = players.map { it.refresh(board) },
+        playerNames = players.map { PlayerName(it.type, it.type.name) },
+        lastPlayer = firstTurn.swap(),
+        board = board,
+        winner = null
     )
 
     return if (currGameName != null && gs.players.size == 1) {
@@ -48,6 +52,7 @@ suspend fun startNewGame(
                 target = false,
                 gameState = gs,
                 currGameName = currGameName,
+                myPiece = firstTurn,
             ).also { it.storage.new(currGameName) { newGS } }
         } catch (_: Exception) {
             throw InvalidNameAlreadyExists(
@@ -59,6 +64,7 @@ suspend fun startNewGame(
             target = false,
             gameState = gs,
             currGameName = currGameName,
+            myPiece = firstTurn,
         )
     }
 }
@@ -75,7 +81,8 @@ suspend fun startNewGame(
  */
 suspend fun loadGame(
     gameName: String,
-    desiredType: PieceType? = null,
+    playerName: String? = null,
+    desiredType: PieceType?,
 ): Game {
     val storage = loadStorageFromConfig()
     val loadedState = storage.load(gameName)
@@ -89,6 +96,9 @@ suspend fun loadGame(
         message = "No players available in the loaded game: $gameName.", type = ErrorType.ERROR
     )
 
+    val playerName = if (playerName == null) PlayerName(myPieceType, myPieceType.name)
+    else PlayerName(myPieceType, playerName)
+
     val newState = loadedState.copy(
         players = loadedState.players.find { it.type == myPieceType }?.let {
             listOf(it)
@@ -96,14 +106,14 @@ suspend fun loadGame(
             message = "Player with piece type ${myPieceType.symbol} is not available in the loaded game: $gameName.",
             type = ErrorType.WARNING
         ),
+        playerNames = loadedState.playerNames + playerName,
     )
 
     val opponents = loadedState.players.filter { it.type != myPieceType }
 
     storage.save(
-        id = gameName, obj = newState.copy(
-            players = opponents
-        )
+        id = gameName,
+        obj = newState.copy(players = opponents)
     )
 
     return Game(
@@ -111,6 +121,7 @@ suspend fun loadGame(
         gameState = newState.copy(
             players = newState.players.map { it.refresh(newState.board) }),
         currGameName = gameName,
+        myPiece = myPieceType,
     )
 }
 
@@ -123,6 +134,7 @@ suspend fun readGame(gameName: String): Game? {
         gameState = loadedState.copy(
             players = loadedState.players.map { it.refresh(loadedState.board) }),
         currGameName = gameName,
+        myPiece = null,
     )
 }
 
@@ -158,8 +170,15 @@ fun newGameForTest(
     lastPlayer: PieceType,
     currGameName: String? = null,
 ): Game = Game(
-    target = false, currGameName = currGameName, gameState = GameState(
-        board = board, players = players, lastPlayer = lastPlayer, winner = null
+    target = false,
+    currGameName = currGameName,
+    myPiece = null,
+    gameState = GameState(
+        players = players,
+        playerNames = players.map { PlayerName(it.type, it.type.name) },
+        lastPlayer = lastPlayer,
+        board = board,
+        winner = null
     )
 )
 
