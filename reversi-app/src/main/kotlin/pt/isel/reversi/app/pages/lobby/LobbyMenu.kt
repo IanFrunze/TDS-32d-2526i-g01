@@ -55,6 +55,8 @@ fun LobbyMenu(
     val canRefresh = uiState.canRefresh
     val appState: MutableState<AppState> = viewModel.appState
 
+    viewModel.initLobbyAudio()
+
     DisposableEffect(viewModel) {
         LOGGER.info("Starting polling for lobby updates.")
         viewModel.startPolling()
@@ -115,15 +117,17 @@ fun LobbyMenu(
                 }
                 val players = state.players.map { it.type }
 
-                PopupPickAPiece(
-                    pieces = players,
-                    onPick = { pieceType ->
-                        viewModel.joinGame(game, pieceType)
-                    },
-                    onDismiss = {
-                        viewModel.selectGame(null)
-                    }
-                )
+                if (game.currGameName != appState.value.game.currGameName) {
+                    PopupPickAPiece(
+                        pieces = players,
+                        onPick = { pieceType ->
+                            viewModel.joinGame(game, pieceType)
+                        },
+                        onDismiss = {
+                            viewModel.selectGame(null)
+                        }
+                    )
+                }
             }
         }
     }

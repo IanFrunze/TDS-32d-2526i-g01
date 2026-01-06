@@ -28,8 +28,12 @@ class GamePageViewModel(val appState: MutableState<AppState>, val scope: Corouti
 
     private var pollingJob: Job? = null
 
+    init {
+        LOGGER.info("GamePageViewModel initialized with target mode ${_uiState.value.target}")
+    }
+
     fun save() {
-        appState.setGame(uiState.value)
+        appState.setGame(_uiState.value)
     }
 
     fun startPolling() {
@@ -39,17 +43,19 @@ class GamePageViewModel(val appState: MutableState<AppState>, val scope: Corouti
 
         scope.launch {
             try {
+                LOGGER.info("Starting auto-refreshing game state coroutine scope with target mode ${_uiState.value.target}")
                 while (isActive) {
                     val game = uiState.value
 
                     if (game.gameState != null && game.currGameName != null) {
                         val newGame = game.refresh()
                         val needsUpdate = newGame.gameState != game.gameState
-                        if (needsUpdate)
+                        if (needsUpdate) {
+                            // log target mode before updating
                             _uiState.value = newGame
                             save()
+                        }
                     }
-                    save()
                     delay(50L)
                 }
                 throw IllegalStateException("Polling coroutine ended unexpectedly")
@@ -75,7 +81,8 @@ class GamePageViewModel(val appState: MutableState<AppState>, val scope: Corouti
     fun isPollingActive() = pollingJob != null
 
     fun setTarget(target: Boolean) {
-        _uiState.value = uiState.value.setTargetMode(target)
+        _uiState.value = _uiState.value.setTargetMode(target)
+        save()
     }
 
     fun playMove(coordinate: Coordinate, save: Boolean = true) {
@@ -91,8 +98,7 @@ class GamePageViewModel(val appState: MutableState<AppState>, val scope: Corouti
             } catch (e: Exception) {
                 appState.setError(error = e)
             } finally {
-                if (save)
-                    save()
+                if (save) save()
             }
         }
     }

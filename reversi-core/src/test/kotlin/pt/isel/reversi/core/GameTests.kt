@@ -10,6 +10,7 @@ import pt.isel.reversi.core.exceptions.InvalidGameException
 import pt.isel.reversi.core.exceptions.InvalidNameAlreadyExists
 import pt.isel.reversi.core.exceptions.InvalidPlayException
 import pt.isel.reversi.core.storage.GameState
+import pt.isel.reversi.utils.LOGGER
 import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -122,7 +123,11 @@ class GameTests {
                     players = listOf(
                         Player(PieceType.BLACK, 4),
                         Player(PieceType.WHITE, 1)
-                    )
+                    ),
+                    playerNames = listOf(
+                        PlayerName(PieceType.BLACK, "BLACK"),
+                        PlayerName(PieceType.WHITE, "WHITE")
+                    ),
                 ),
                 target = false,
                 currGameName = null,
@@ -134,6 +139,8 @@ class GameTests {
                 firstTurn = PieceType.BLACK,
                 currGameName = null,
             ).play(Coordinate(1, 2))
+
+            LOGGER.info { "Expected Game State:\n${expectedGame.gameState}\nUUT Game State:\n${uut.gameState}" }
 
             assert(expectedGame.gameState == uut.gameState)
         }
@@ -176,7 +183,8 @@ class GameTests {
                 gameState = GameState(
                     players = emptyList(),
                     lastPlayer = PieceType.BLACK,
-                    board = Board(4).startPieces()
+                    board = Board(4).startPieces(),
+                    playerNames = emptyList(),
                 ),
                 currGameName = null,
             )
@@ -196,6 +204,10 @@ class GameTests {
                     players = listOf(
                         Player(PieceType.BLACK),
                         Player(PieceType.WHITE)
+                    ),
+                    playerNames = listOf(
+                        PlayerName(PieceType.BLACK, "Player 1"),
+                        PlayerName(PieceType.WHITE, "Player 2")
                     ),
                     board = Board(4)
                         .addPiece(Piece(Coordinate(1, 1), PieceType.BLACK))
@@ -236,6 +248,7 @@ class GameTests {
                 target = false,
                 gameState = GameState(
                     players = emptyList(),
+                    playerNames = emptyList(),
                     lastPlayer = PieceType.BLACK,
                     board = Board(4).startPieces()
                 ),
@@ -262,6 +275,9 @@ class GameTests {
                     players = listOf(
                         Player(PieceType.BLACK)
                     ),
+                    playerNames = listOf(
+                        PlayerName(PieceType.BLACK, "Player 1")
+                    ),
                     lastPlayer = PieceType.WHITE,
                     board = Board(4)
                         .addPiece(Piece(Coordinate(1, 1), PieceType.BLACK))
@@ -276,7 +292,10 @@ class GameTests {
                 )
             ).saveEndGame()
 
-            var uut2 = loadGame("testGame")
+            var uut2 = loadGame(
+                gameName = "testGame",
+                desiredType = null
+            )
 
             uut.pass()
             uut2 = uut2.refresh()
@@ -307,7 +326,8 @@ class GameTests {
             )
 
             val storage = loadGame(
-                gameName = "existingGame"
+                gameName = "existingGame",
+                desiredType = null
             ).storage
 
             val loadedGame = storage.load("existingGame")?.let {
@@ -383,7 +403,8 @@ class GameTests {
         cleanup {
             assertFailsWith<InvalidFileException> {
                 loadGame(
-                    gameName = "nonExistingGame"
+                    gameName = "nonExistingGame",
+                    desiredType = null
                 )
             }
         }
@@ -404,7 +425,10 @@ class GameTests {
                 currGameName = "testGame",
             )
 
-            val uut = loadGame("testGame")
+            val uut = loadGame(
+                gameName = "testGame",
+                desiredType = null
+            )
 
             assertFailsWith<InvalidPlayException> {
                 uut.play(Coordinate(1, 2))
@@ -427,7 +451,10 @@ class GameTests {
                 currGameName = "testGame",
             )
 
-            val uut = loadGame("testGame")
+            val uut = loadGame(
+                gameName = "testGame",
+                desiredType = null
+            )
 
             val expectedBoard = Board(4).startPieces()
                 .addPiece(Coordinate(1, 2), PieceType.BLACK)
@@ -454,7 +481,10 @@ class GameTests {
                 currGameName = "testGame",
             )
 
-            loadGame("testGame")
+            loadGame(
+                gameName = "testGame",
+                desiredType = null
+            )
 
             val expectedBoard = Board(4).startPieces()
                 .addPiece(Coordinate(1, 2), PieceType.BLACK)
@@ -487,7 +517,10 @@ class GameTests {
                 currGameName = "testGame",
             )
 
-            var uutW = loadGame("testGame")
+            var uutW = loadGame(
+                gameName = "testGame",
+                desiredType = null
+            )
 
             uutB = uutB.play(Coordinate(3, 4))
 
@@ -534,7 +567,10 @@ class GameTests {
                 currGameName = "testGame",
             )
 
-            var uutW = loadGame("testGame")
+            var uutW = loadGame(
+                gameName = "testGame",
+                desiredType = null
+            )
 
             uutB = uutB.refresh()
             assertFailsWith<InvalidPlayException> {
@@ -581,7 +617,10 @@ class GameTests {
                 currGameName = "testGame",
             )
 
-            var uutW = loadGame("testGame")
+            var uutW = loadGame(
+                gameName = "testGame",
+                desiredType = null
+            )
 
             uutB = uutB.play(Coordinate(1, 2))
 
@@ -610,6 +649,7 @@ class GameTests {
                 target = false,
                 gameState = GameState(
                     players = emptyList(),
+                    playerNames = emptyList(),
                     lastPlayer = PieceType.BLACK,
                     board = Board(4).startPieces()
                 ),

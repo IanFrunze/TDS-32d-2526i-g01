@@ -38,8 +38,8 @@ private val lightTheme = AppTheme(
 
 private val youTubeTheme = AppTheme(
     name = "YouTube Dark",
-    backgroundMusic = "background-music",
-    gameMusic = "MEGALOVANIA",
+    backgroundMusic = "WiiParty",
+    gameMusic = "Drill2",
     placePieceSound = "putPiece",
     textColor = Color(0xFFFFFFFF),
     buttonTextColor = Color(0xFFFFFFFF),

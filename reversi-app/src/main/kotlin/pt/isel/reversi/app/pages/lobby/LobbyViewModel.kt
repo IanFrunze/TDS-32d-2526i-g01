@@ -52,6 +52,10 @@ class LobbyViewModel(
 
     private var pollingJob: Job? = null
 
+    init {
+        LOGGER.info("LobbyViewModel initialized")
+    }
+
     fun refreshAll() {
         scope.launch {
             loadGamesAndUpdateState()
@@ -95,6 +99,15 @@ class LobbyViewModel(
             )
             appState.setLoading(false)
             appState.setError(e)
+        }
+    }
+
+    fun initLobbyAudio() {
+        val audioPool = appState.getStateAudioPool()
+        val theme = appState.value.theme
+        if (!audioPool.isPlaying(theme.backgroundMusic)) {
+            audioPool.stopAll()
+            audioPool.play(theme.backgroundMusic)
         }
     }
 
@@ -145,7 +158,12 @@ class LobbyViewModel(
 
     suspend fun tryLoadGame(gameName: String, desiredType: PieceType): Game? {
         return try {
-            loadGame(gameName = gameName, desiredType = desiredType)
+            LOGGER.info("Player Name when loading game: ${appState.value.playerName}")
+            loadGame(
+                gameName = gameName,
+                playerName = appState.value.playerName,
+                desiredType = desiredType
+            )
         } catch (e: Exception) {
             LOGGER.warning("Erro ao carregar jogo $gameName: ${e.message}")
             appState.setError(e)

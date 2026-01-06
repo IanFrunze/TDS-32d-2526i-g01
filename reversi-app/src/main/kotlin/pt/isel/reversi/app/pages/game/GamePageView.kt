@@ -10,6 +10,7 @@ import pt.isel.reversi.app.ReversiScope
 import pt.isel.reversi.app.pages.game.utils.DrawBoard
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.Coordinate
+import pt.isel.reversi.utils.LOGGER
 
 /**
  * Main game view composable displaying the board and player information side-by-side.
@@ -63,7 +64,11 @@ fun ReversiScope.GamePageView(
 
                 val target = game.target
 
-                TargetButton(target, freeze = freeze) { setTargetMode(!target) }
+                TargetButton(target, freeze = freeze) {
+                    LOGGER.info("Target button clicked, toggling target mode from $target to ${!target}")
+                    setTargetMode(!target)
+                    LOGGER.info("Target mode is now ${!target}")
+                }
 
                 Spacer(modifier = Modifier.height(32.dp))
 
