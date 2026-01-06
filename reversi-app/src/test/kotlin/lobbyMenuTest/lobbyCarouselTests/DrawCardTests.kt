@@ -23,6 +23,7 @@ class DrawCardTests {
         currGameName = "TestGame",
         gameState = GameState(
             players = emptyList(),
+            playerNames = emptyList(),
             lastPlayer = PieceType.BLACK,
             board = Board(4)
         )

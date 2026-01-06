@@ -1,6 +1,7 @@
 package pt.isel.reversi.core.storage.serializers
 
 import pt.isel.reversi.core.Player
+import pt.isel.reversi.core.PlayerName
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.exceptions.ErrorType
@@ -15,11 +16,13 @@ internal class GameStateSerializer : Serializer<GameState, String> {
     private val pieceTypeSerializer = PieceTypeSerializer()
     private val boardSerializer = BoardSerializer()
     private val playerSerializer = PlayerSerializer()
+    private val playerNameSerializer = PlayerNameSerializer()
 
-    private val playersLine = 0
-    private val lastPlayerLine = 1
-    private val winnerLine = 2
-    private val boardStartLine = 3
+    private val playersLine     = 0
+    private val playerNamesLine = playersLine     + 1
+    private val lastPlayerLine  = playerNamesLine + 1
+    private val winnerLine      = lastPlayerLine  + 1
+    private val boardStartLine  = winnerLine      + 1
 
     override fun serialize(obj: GameState): String {
         requireNotNull(obj.lastPlayer) { "lastPlayer cannot be null" }
@@ -32,6 +35,16 @@ internal class GameStateSerializer : Serializer<GameState, String> {
         } else {
             for (player in obj.players) {
                 sb.append(playerSerializer.serialize(player))
+                sb.append(";")
+            }
+            sb.appendLine()
+        }
+
+        if (obj.playerNames.isEmpty()) {
+            sb.appendLine()
+        } else {
+            for (playerName in obj.playerNames) {
+                sb.append(playerNameSerializer.serialize(playerName))
                 sb.append(";")
             }
             sb.appendLine()
@@ -61,6 +74,20 @@ internal class GameStateSerializer : Serializer<GameState, String> {
         return players
     }
 
+    private fun getPlayerNames(parts: List<String>): List<PlayerName> {
+        if (parts.size + 1 < playerNamesLine) return emptyList()
+        val playerNamesLineContent = parts[playerNamesLine]
+        if (playerNamesLineContent.isBlank() || playerNamesLineContent.first().isWhitespace()) return emptyList()
+
+        val playerNameStrings = playerNamesLineContent.split(";")
+        val playerNames = mutableListOf<PlayerName>()
+
+        for (playerName in playerNameStrings) {
+            if (playerName.isNotBlank()) playerNames += playerNameSerializer.deserialize(playerName)
+        }
+        return playerNames
+    }
+
     private fun getLastPlayerPart(parts: List<String>): PieceType {
         val firstLine = parts[lastPlayerLine]
         return pieceTypeSerializer.deserialize(firstLine.first())
@@ -82,12 +109,17 @@ internal class GameStateSerializer : Serializer<GameState, String> {
             val parts = obj.split("\n")
 
             val players = getPlayers(parts)
+            val playerNames = getPlayerNames(parts)
             val lastPlayer = getLastPlayerPart(parts)
             val winner = getWinnerPart(parts)
             val board = getBoardPart(parts)
 
             return GameState(
-                players = players, lastPlayer = lastPlayer, board = board, winner = winner
+                players = players,
+                playerNames = playerNames,
+                lastPlayer = lastPlayer,
+                board = board,
+                winner = winner
             )
         } catch (e: Exception) {
             throw InvalidGameStateInFileException(

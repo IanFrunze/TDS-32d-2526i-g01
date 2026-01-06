@@ -14,6 +14,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -22,8 +23,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.resources.Font
 import pt.isel.reversi.app.pages.MAIN_MENU_AUTO_SIZE_BUTTON_TEXT
 import pt.isel.reversi.app.state.AppState
+import reversi.reversi_app.generated.resources.Montserrat_Bold
+import reversi.reversi_app.generated.resources.Montserrat_Regular
+import reversi.reversi_app.generated.resources.Res
 
 /**
  * Receiver scope class providing composition helper functions and access to app state.
@@ -77,10 +82,15 @@ fun ReversiScope.ReversiText(
     textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
+    val font = FontFamily(Font(resource = Res.font.Montserrat_Regular, weight = FontWeight.Normal),
+        Font(resource = Res.font.Montserrat_Bold, weight = FontWeight.Bold),
+    )
+
     Text(
         text = text,
         color = color,
         fontSize = fontSize,
+        fontFamily = font,
         autoSize = autoSize,
         modifier = modifier,
         fontWeight = fontWeight,

@@ -1,6 +1,7 @@
 package pt.isel.reversi.core.storage
 
 import pt.isel.reversi.core.Player
+import pt.isel.reversi.core.PlayerName
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
 
@@ -13,6 +14,7 @@ import pt.isel.reversi.core.board.PieceType
  */
 data class GameState(
     val players: List<Player>,
+    val playerNames: List<PlayerName>,
     val lastPlayer: PieceType,
     val board: Board,
     val winner: Player? = null,

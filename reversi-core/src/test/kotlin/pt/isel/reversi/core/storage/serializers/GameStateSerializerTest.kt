@@ -2,11 +2,13 @@ package pt.isel.reversi.core.storage.serializers
 
 import org.junit.Test
 import pt.isel.reversi.core.Player
+import pt.isel.reversi.core.PlayerName
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.storage.GameState
+import pt.isel.reversi.utils.LOGGER
 import kotlin.test.assertFails
 
 class GameStateSerializerTest {
@@ -27,22 +29,39 @@ class GameStateSerializerTest {
             val players = listOf(
                 Player(PieceType.BLACK), Player(PieceType.WHITE)
             )
-            val gameState = GameState(players, currentPlayer, board)
+            val playerNames = listOf(
+                PlayerName(PieceType.BLACK, "Alice"),
+                PlayerName(PieceType.WHITE, "Bob")
+            )
+            val gameState = GameState(
+                players = players, playerNames = playerNames, lastPlayer = currentPlayer, board = board
+            )
             list += gameState
         }
         list
     }
 
     val testingGameState = GameState(
-        listOf(
+        players = listOf(
             Player(PieceType.BLACK), Player(PieceType.WHITE)
-        ), PieceType.BLACK, Board(8).startPieces(), null
+        ),
+        playerNames = listOf(
+            PlayerName(PieceType.BLACK, "Alice"),
+            PlayerName(PieceType.WHITE, "Bob")
+        ),
+        lastPlayer = PieceType.BLACK,
+        board = Board(8).startPieces(),
+        winner = null
     )
 
     private fun buildStringFromGameState(state: GameState): String {
         return buildString {
             for (player in state.players) {
                 append("${player.type.symbol},${player.points};")
+            }
+            appendLine()
+            for (playerName in state.playerNames) {
+                append("${playerName.type.symbol},${playerName.name};")
             }
             appendLine()
             appendLine(state.lastPlayer.symbol)
@@ -65,6 +84,8 @@ class GameStateSerializerTest {
     fun `Test serialize`() {
         val serialized = GameStateSerializer().serialize(testingGameState)
         val expected = buildStringFromGameState(testingGameState)
+        LOGGER.info("Serialized:\n$serialized")
+        LOGGER.info("Expected:\n$expected")
         assert(serialized == expected)
     }
 

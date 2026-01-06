@@ -25,6 +25,7 @@ data class AppState(
     val isLoading: Boolean = false,
     val audioPool: AudioPool,
     val theme: AppTheme,
+    val playerName: String? = game.myPiece?.name
 ) {
     companion object {
         // Empty AppState for initialization
@@ -33,7 +34,7 @@ data class AppState(
             page = Page.MAIN_MENU,
             error = null,
             audioPool = AudioPool(emptyList()),
-            theme = AppThemes.DARK.appTheme
+            theme = AppThemes.DARK.appTheme,
         )
     }
 }

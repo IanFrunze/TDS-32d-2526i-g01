@@ -17,6 +17,8 @@ import pt.isel.reversi.storage.AsyncStorage
  * #### Not Local Game
  * In a not local game, only one player is managed within the game instance. The game state is saved and loaded
  *
+ * TODO: Test my piece and parameters
+ *
  * @property target Indicates if the game is in target mode.
  * @property currGameName The name of the current game for storage purposes.
  * @property gameState The current state of the game, including the board and players.
@@ -124,7 +126,11 @@ data class Game(
         val refreshPlayers = gs.players.map { it.refresh(newBoard) }
 
         val newGameState = GameState(
-            lastPlayer = piece.value, board = newBoard, players = refreshPlayers, winner = gs.winner
+            lastPlayer = piece.value,
+            playerNames = gs.playerNames,
+            board = newBoard,
+            players = refreshPlayers,
+            winner = gs.winner
         )
 
         if (currGameName != null && gameState?.players?.size == 1) {
@@ -237,7 +243,7 @@ data class Game(
         )
     }
 
-    private suspend fun refreshBase(): GameState? {
+    suspend fun refreshBase(): GameState? {
         if (currGameName == null) return null
 
         val lastModified = storage.lastModified(currGameName)
@@ -271,7 +277,9 @@ data class Game(
             message = "Name of the current game is null", type = ErrorType.WARNING
         )
 
-        var playersInStorage = storage.load(currGameName)?.players ?: emptyList()
+        val loadedGs = storage.load(currGameName)
+        var playersInStorage = loadedGs?.players ?: emptyList()
+        var playerNamesInStorage = loadedGs?.playerNames ?: emptyList()
 
         gs.players.forEach {
             if (it !in playersInStorage) {
@@ -279,10 +287,14 @@ data class Game(
             }
         }
 
+        playerNamesInStorage = playerNamesInStorage.filter { it.type != myPiece }
+
         try {
             storage.save(
-                id = currGameName, obj = gs.copy(
-                    players = playersInStorage
+                id = currGameName,
+                obj = gs.copy(
+                    players = playersInStorage,
+                    playerNames = playerNamesInStorage
                 )
             )
         } catch (_: IllegalArgumentException) {
@@ -290,7 +302,8 @@ data class Game(
                 id = currGameName,
             ) {
                 gs.copy(
-                    players = playersInStorage
+                    players = playersInStorage,
+                    playerNames = gs.playerNames,
                 )
             }
         }
@@ -336,9 +349,5 @@ data class Game(
                 players = ls.players
             )
         )
-    }
-
-    suspend fun getAllSavedGames(): List<String> {
-        return storage.loadAllIds()
     }
 }
