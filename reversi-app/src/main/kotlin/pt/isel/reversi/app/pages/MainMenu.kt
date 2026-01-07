@@ -60,7 +60,7 @@ fun ReversiScope.AnimatedBackground() {
 
     LaunchedEffect(Unit) {
         while (true) {
-            if (activePieces.size < 50) {
+            if (activePieces.size < 100) {
                 val canAddSpecial = activePieces.none { it.isSpecial }
                 activePieces.add(
                     MovingPiece(
@@ -72,7 +72,7 @@ fun ReversiScope.AnimatedBackground() {
                         phase = Random.nextFloat() * 2f * PI.toFloat(),
                         isWhite = Random.nextBoolean(),
                         spawnTime = System.currentTimeMillis(),
-                        isSpecial = canAddSpecial && Random.nextFloat() < 0.1f
+                        isSpecial = canAddSpecial && Random.nextFloat() < 0.01f
                     )
                 )
             }

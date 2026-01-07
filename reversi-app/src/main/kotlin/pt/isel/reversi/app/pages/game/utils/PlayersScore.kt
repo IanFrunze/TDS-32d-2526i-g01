@@ -23,6 +23,7 @@ import pt.isel.reversi.app.ReversiScope
 import pt.isel.reversi.app.ReversiText
 import pt.isel.reversi.app.getTheme
 import pt.isel.reversi.core.Player
+import pt.isel.reversi.core.PlayerName
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.storage.GameState
 
@@ -59,21 +60,19 @@ fun ReversiScope.TextPlayersScore(
                 )
             }
         } else {
-            val players = state.playerNames.map { playerName ->
+
+            state.playerNames.forEach { playerName ->
                 val points = when (playerName.type) {
                     PieceType.BLACK -> state.board.totalBlackPieces
                     PieceType.WHITE -> state.board.totalWhitePieces
                 }
-                Player(playerName.type, points)
-            }
-
-            players.forEach { player ->
-                val (type, points) = player
+                val type = playerName.type
                 val isTurn = type != state.lastPlayer
                 val isWinner = state.winner?.type == type
+                val player = Player(type, points)
 
                 PlayerScoreRow(
-                    type = type,
+                    playerName = playerName,
                     points = points,
                     isTurn = isTurn,
                     isWinner = isWinner,
@@ -101,12 +100,13 @@ fun ReversiScope.TextPlayersScore(
 
 @Composable
 private fun ReversiScope.PlayerScoreRow(
-    type: PieceType,
+    playerName: PlayerName,
     points: Int,
     isTurn: Boolean,
     isWinner: Boolean,
     modifier: Modifier = Modifier
 ) {
+    val type = playerName.type
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -132,12 +132,8 @@ private fun ReversiScope.PlayerScoreRow(
 
             Spacer(Modifier.width(12.dp))
 
-            val playerName = appState.game.gameState?.playerNames?.firstOrNull {
-                it.type == type
-            }?.name ?: type.name
-
             ReversiText(
-                text = playerName,
+                text = playerName.name,
                 fontWeight = if (isTurn) FontWeight.Bold else FontWeight.Normal,
                 modifier = Modifier.alpha(if (isTurn || isWinner) 1f else 0.6f)
             )

@@ -10,7 +10,6 @@ import pt.isel.reversi.app.PreviousPage
 import pt.isel.reversi.app.ScaffoldView
 import pt.isel.reversi.app.state.getStateAudioPool
 import pt.isel.reversi.app.state.setPage
-import pt.isel.reversi.utils.LOGGER
 
 /**
  * Main game page displaying the Reversi board, player scores, and game controls.
@@ -24,9 +23,6 @@ import pt.isel.reversi.utils.LOGGER
 fun GamePage(viewModel: GamePageViewModel, modifier: Modifier = Modifier, freeze: Boolean = false) {
     val appState = viewModel.appState
     val game = viewModel.uiState.value
-
-    // log target mode
-    LOGGER.info("Target mode is ${if (game.target) "ON" else "OFF"}")
 
     // Launch the game refresh coroutine
     DisposableEffect(viewModel) {
