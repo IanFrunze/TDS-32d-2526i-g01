@@ -6,12 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.*
 import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.state.getStateAudioPool
-import pt.isel.reversi.app.state.setError
-import pt.isel.reversi.app.state.setGame
+import pt.isel.reversi.app.state.setAppState
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.Coordinate
-import pt.isel.reversi.core.exceptions.ErrorType
-import pt.isel.reversi.core.exceptions.ErrorType.Companion.toReversiException
 import pt.isel.reversi.utils.LOGGER
 import kotlin.coroutines.cancellation.CancellationException
 
@@ -28,8 +25,11 @@ class GamePageViewModel(val appState: MutableState<AppState>, val scope: Corouti
 
     private var pollingJob: Job? = null
 
-    fun save() {
-        appState.setGame(uiState.value)
+    init{
+        LOGGER.info("GamePageViewModel created")
+    }
+    fun saveAndQuit() {
+        appState.setAppState(game = uiState.value, page = appState.value.backPage)
     }
 
     fun startPolling() {
@@ -47,19 +47,16 @@ class GamePageViewModel(val appState: MutableState<AppState>, val scope: Corouti
                         val needsUpdate = newGame.gameState != game.gameState
                         if (needsUpdate)
                             _uiState.value = newGame
-                            save()
                     }
-                    save()
                     delay(50L)
                 }
                 throw IllegalStateException("Polling coroutine ended unexpectedly")
             } catch (_: CancellationException) {
                 LOGGER.info("Game polling cancelled.")
             } catch (e: Exception) {
-                val newE = e.toReversiException(ErrorType.CRITICAL)
-                LOGGER.warning("Auto-refreshing game state gave an error ${newE.message}")
+                LOGGER.warning("Auto-refreshing game state gave an error ${e.message}")
+                appState.setAppState(error = e, game = _uiState.value)
             } finally {
-                save()
                 LOGGER.info("Stop auto-refreshing game state coroutine")
             }
         }.also { pollingJob = it }
@@ -78,7 +75,7 @@ class GamePageViewModel(val appState: MutableState<AppState>, val scope: Corouti
         _uiState.value = uiState.value.setTargetMode(target)
     }
 
-    fun playMove(coordinate: Coordinate, save: Boolean = true) {
+    fun playMove(coordinate: Coordinate) {
         scope.launch {
             try {
                 _uiState.value = uiState.value.play(coordinate)
@@ -89,10 +86,7 @@ class GamePageViewModel(val appState: MutableState<AppState>, val scope: Corouti
                     play(theme.placePieceSound)
                 }
             } catch (e: Exception) {
-                appState.setError(error = e)
-            } finally {
-                if (save)
-                    save()
+                appState.setAppState(error = e, game = _uiState.value)
             }
         }
     }
@@ -104,9 +98,7 @@ class GamePageViewModel(val appState: MutableState<AppState>, val scope: Corouti
             try {
                 _uiState.value = uiState.value.pass()
             } catch (e: Exception) {
-                appState.setError(error = e)
-            } finally {
-                save()
+                appState.setAppState(error = e, game = _uiState.value)
             }
         }
     }

@@ -52,6 +52,9 @@ class LobbyViewModel(
 
     private var pollingJob: Job? = null
 
+    init {
+        LOGGER.info("LobbyViewModel created")
+    }
     fun refreshAll() {
         scope.launch {
             loadGamesAndUpdateState()
