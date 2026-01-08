@@ -39,9 +39,9 @@ object NewCmd : CommandImpl<Game>() {
 
         val game: Game = runBlocking {
             if (name != null) {
-                startNewGame(players = listOf(player), currGameName = name, firstTurn = playerType)
+                startNewGame(side = 8, players = listOf(player), currGameName = name, firstTurn = playerType)
             } else {
-                startNewGame(players = listOf(player, player.swap()), firstTurn = playerType)
+                startNewGame(side = 8, players = listOf(player, player.swap()), firstTurn = playerType)
             }
         }
 

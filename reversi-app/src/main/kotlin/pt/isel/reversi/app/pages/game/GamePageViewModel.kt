@@ -26,7 +26,7 @@ class GamePageViewModel(val appState: MutableState<AppState>, val scope: Corouti
 
     private var pollingJob: Job? = null
 
-    init{
+    init {
         LOGGER.info("GamePageViewModel created: ${this@GamePageViewModel}")
     }
 
@@ -82,8 +82,8 @@ class GamePageViewModel(val appState: MutableState<AppState>, val scope: Corouti
         scope.launch {
             try {
                 _uiState.value = uiState.value.play(coordinate)
-                val theme = appState.value.theme
 
+                val theme = appState.value.theme
                 appState.getStateAudioPool().run {
                     stop(theme.placePieceSound)
                     play(theme.placePieceSound)

@@ -1,6 +1,12 @@
 package pt.isel.reversi.app
 
 import pt.isel.reversi.app.gameAudio.loadGameAudioPool
+import pt.isel.reversi.core.CoreConfig
+import pt.isel.reversi.core.Game
+import pt.isel.reversi.core.loadCoreConfig
+import pt.isel.reversi.core.saveCoreConfig
+import pt.isel.reversi.core.storage.GameStorageType
+import pt.isel.reversi.utils.LOGGER
 import pt.isel.reversi.utils.audio.AudioPool
 import pt.isel.reversi.utils.setLoggerFilePath
 import pt.rafap.ktflag.cmd.args.CommandArg
@@ -74,5 +80,29 @@ fun initializeAppArgs(args: Array<String>): InitializedArgs? {
     val audioEnabled = parsedArgs[noAudioArg] == null
     val loadedPool = loadGameAudioPool(AppThemes.DARK.appTheme) {}
     val audioPool = if (audioEnabled) loadedPool else loadedPool.also { it.mute(true) }
+
     return InitializedArgs(audioPool)
+}
+
+suspend fun runStorageHealthCheck(testConf: CoreConfig? = null, save: Boolean = true): Exception? {
+    val loadedConf = testConf ?: loadCoreConfig()
+    if (loadedConf.gameStorageType == GameStorageType.DATABASE_STORAGE) {
+        LOGGER.info("Remote storage detected, checking connectivity...")
+        try {
+            val didPass = Game(config = loadedConf).runStorageHealthCheck()
+            if (didPass) {
+                LOGGER.info("Game remote storage connectivity check passed.")
+            } else {
+                LOGGER.severe("Game remote storage connectivity check failed.")
+                throw Exception("Game remote storage connectivity check failed.")
+            }
+        } catch (e: Exception) {
+            LOGGER.severe("Failed to initialize game remote storage: ${e.message}")
+            LOGGER.severe("Falling back to local storage.")
+            if (save)
+                saveCoreConfig(loadedConf.copy(gameStorageType = GameStorageType.FILE_STORAGE))
+            return e
+        }
+    }
+    return null
 }

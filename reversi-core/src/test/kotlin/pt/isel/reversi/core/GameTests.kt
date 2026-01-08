@@ -21,9 +21,9 @@ class GameTests {
 
     fun cleanup(func: suspend () -> Unit) {
         val conf = loadCoreConfig()
-        File(conf.SAVES_FOLDER).deleteRecursively()
+        File(conf.savesPath).deleteRecursively()
         runBlocking { func() }
-        File(conf.SAVES_FOLDER).deleteRecursively()
+        File(conf.savesPath).deleteRecursively()
     }
 
     @Test
@@ -265,6 +265,7 @@ class GameTests {
     fun `pass no local game with 2 players succeeds`() {
         cleanup {
             var uut = startNewGame(
+                side = 4,
                 players = listOf(
                     Player(PieceType.BLACK),
                 ),

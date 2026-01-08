@@ -19,12 +19,14 @@ data class AsyncMongoDBStorage<T>(
     private val collectionName: String,
     override val serializer: Serializer<T, String>
 ) : AsyncStorage<String, T, String> {
-    private val storage = MongoDBStorage(
-        mongoDBConnection = mongoDBConnection,
-        databaseName = databaseName,
-        collectionName = collectionName,
-        serializer = serializer
-    )
+    private val storage: MongoDBStorage<T> by lazy {
+        MongoDBStorage(
+            mongoDBConnection = mongoDBConnection,
+            databaseName = databaseName,
+            collectionName = collectionName,
+            serializer = serializer
+        )
+    }
 
     override suspend fun new(id: String, factory: () -> T): T =
         withContext(Dispatchers.IO) { storage.new(id, factory) }

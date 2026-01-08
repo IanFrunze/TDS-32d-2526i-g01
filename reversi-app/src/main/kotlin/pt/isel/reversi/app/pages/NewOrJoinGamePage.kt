@@ -11,7 +11,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
@@ -40,18 +39,19 @@ fun NewGamePage(
     val coroutineAppScope = rememberCoroutineScope()
     val reversiScope = ReversiScope(appState.value)
     with(reversiScope) {
-        NewOrJoinGamePage("Novo Jogo", appState) { game ->
+        NewGamePageView("Novo Jogo", appState) { game, boardSize ->
             val currGameName = game.currGameName
 
             val myPiece: PieceType = game.myPiece ?: run {
                 appState.setError(error = NoPieceSelected())
-                return@NewOrJoinGamePage
+                return@NewGamePageView
             }
 
             coroutineAppScope.launch {
                 try {
                     val newGame = if (currGameName.isNullOrBlank()) {
                         startNewGame(
+                            side = boardSize,
                             players = listOf(
                                 Player(PieceType.BLACK),
                                 Player(PieceType.WHITE)
@@ -60,6 +60,7 @@ fun NewGamePage(
                         )
                     } else {
                         startNewGame(
+                            side = boardSize,
                             players = listOf(
                                 Player(myPiece)
                             ),
@@ -86,15 +87,16 @@ fun NewGamePage(
  *
  * @param title The title displayed at the top of the page.
  * @param appState Global application state for navigation and game control.
- * @param onClick Callback invoked when the user confirms game creation with selected piece.
+ * @param onClick Callback invoked when the user confirms game creation with selected piece and board size.
  */
 @Composable
-private fun ReversiScope.NewOrJoinGamePage(
+private fun ReversiScope.NewGamePageView(
     title: String,
     appState: MutableState<AppState>,
-    onClick: (Game) -> Unit
+    onClick: (Game, Int) -> Unit
 ) {
     var game by remember { mutableStateOf(getCurrentState().game) }
+    var boardSize by remember { mutableStateOf(8) }
     var expanded by remember { mutableStateOf(false) }
     val theme = getTheme()
 
@@ -124,7 +126,20 @@ private fun ReversiScope.NewOrJoinGamePage(
                     onValueChange = { game = game.copy(currGameName = it) },
                     label = { ReversiText("Nome do jogo") },
                     modifier = Modifier.fillMaxWidth(),
-                    onDone = { onClick(game) },
+                    onDone = { onClick(game, boardSize) },
+                )
+
+                ReversiTextField(
+                    value = boardSize.toString(),
+                    onValueChange = {
+                        val newSize = it.toIntOrNull()
+                        if (newSize != null && newSize >= 4 && newSize <= 26) {
+                            boardSize = newSize
+                        }
+                    },
+                    label = { ReversiText("Tamanho do Tabuleiro (4-26)") },
+                    modifier = Modifier.fillMaxWidth(),
+                    onDone = { onClick(game, boardSize) },
                 )
 
 
@@ -194,29 +209,11 @@ private fun ReversiScope.NewOrJoinGamePage(
 
                 ReversiButton(
                     modifier = Modifier.fillMaxWidth().height(50.dp),
-                    onClick = { onClick(game) },
+                    onClick = { onClick(game, boardSize) },
                     text = "Entrar"
                 )
             }
         }
     }
-}
-
-@Composable
-fun ReversiScope.ButtonPieceType(
-    piece: PieceType,
-    currentPiece: PieceType?,
-    modifier: Modifier = Modifier,
-    onClick: (PieceType) -> Unit
-) {
-    ReversiButton(
-        modifier = modifier,
-        onClick = { onClick(piece) },
-        border = if (currentPiece == piece) BorderStroke(2.dp, Color.White) else null,
-        text = when (piece) {
-            PieceType.BLACK -> "Preto"
-            PieceType.WHITE -> "Branco"
-        }
-    )
 }
 

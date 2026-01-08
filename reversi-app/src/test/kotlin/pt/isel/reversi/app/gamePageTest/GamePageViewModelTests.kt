@@ -19,15 +19,14 @@ import pt.isel.reversi.utils.audio.AudioPool
 import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
 
 class GamePageViewModelTests {
 
     fun cleanup(func: suspend () -> Unit) {
         val conf = loadCoreConfig()
-        File(conf.SAVES_FOLDER).deleteRecursively()
+        File(conf.savesPath).deleteRecursively()
         runBlocking { func() }
-        File(conf.SAVES_FOLDER).deleteRecursively()
+        File(conf.savesPath).deleteRecursively()
     }
 
     val game = runBlocking {
@@ -89,7 +88,7 @@ class GamePageViewModelTests {
         val expectedGame = appState.value.game.play(coordinate)
         testScheduler.advanceUntilIdle()
 
-        uut.playMove(coordinate, save = false)
+        uut.playMove(coordinate)
         testScheduler.advanceUntilIdle()
 
         assertEquals(expectedGame, uut.uiState.value)
@@ -105,7 +104,7 @@ class GamePageViewModelTests {
         appState.value.game.play(coordinate)
         testScheduler.advanceUntilIdle()
 
-        uut.playMove(coordinate, save = false)
+        uut.playMove(coordinate)
 
         testScheduler.advanceUntilIdle()
 
@@ -117,39 +116,12 @@ class GamePageViewModelTests {
     }
 
     @Test
-    fun `verify that play move updates appState when save is true`() = runTest {
-        val appState = mutableStateOf(expectedAppState)
-        val uut = GamePageViewModel(appState, this)
-        val coordinate = uut.getAvailablePlays().first()
-
-        val expectedGame = appState.value.game.play(coordinate)
-        testScheduler.advanceUntilIdle()
-
-        uut.playMove(coordinate, save = true)
-        testScheduler.advanceUntilIdle()
-
-        assertEquals(expectedGame, appState.value.game)
-    }
-
-    @Test
-    fun `verify that play move does not update appState when save is false`() = runTest {
-        val appState = mutableStateOf(expectedAppState)
-        val uut = GamePageViewModel(appState, this)
-        val coordinate = uut.getAvailablePlays().first()
-
-        uut.playMove(coordinate, save = false)
-        testScheduler.advanceUntilIdle()
-
-        assertNotEquals(appState.value.game, uut.uiState.value)
-    }
-
-    @Test
     fun `verify that play move sets error in appState when exception is thrown`() = runTest {
         val appState = mutableStateOf(expectedAppState)
         val uut = GamePageViewModel(appState, this)
         val invalidCoordinate = Coordinate(-1, -1)
 
-        uut.playMove(invalidCoordinate, save = false)
+        uut.playMove(invalidCoordinate)
         testScheduler.advanceUntilIdle()
 
         assert(appState.value.error != null)
@@ -162,7 +134,7 @@ class GamePageViewModelTests {
         val uut = GamePageViewModel(appState, this)
         val coordinate = uut.getAvailablePlays().first()
 
-        uut.playMove(coordinate, save = false)
+        uut.playMove(coordinate)
         testScheduler.advanceUntilIdle()
 
         assert(appState.value.game != uut.uiState.value)

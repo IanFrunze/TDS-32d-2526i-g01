@@ -15,6 +15,7 @@ class PlayCmdTest {
             val result = PlayCmd.executeWrapper(
                 "3", "4",
                 context = startNewGame(
+                    side = 8,
                     players = listOf(Player(PieceType.BLACK), Player(PieceType.WHITE)),
                     firstTurn = PieceType.BLACK
                 )

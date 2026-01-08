@@ -1,5 +1,6 @@
 package pt.isel.reversi.core
 
+import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
@@ -33,9 +34,12 @@ data class Game(
     val gameState: GameState? = null,
     val countPass: Int = 0,
     val myPiece: PieceType? = null,
-    val config: CoreConfig = loadCoreConfig()
+    val config: CoreConfig = loadCoreConfig(),
 ) {
-    val storage: AsyncStorage<String, GameState, String> = setUpStorage(config)
+    // make this a lazy property to avoid initializing storage if not needed
+    val storage: AsyncStorage<String, GameState, String> by lazy {
+        setUpStorage(config)
+    }
 
     /**
      * Reloads the core configuration.
@@ -339,11 +343,11 @@ data class Game(
 
         storage.lastModified(id = name) ?: run {
             try {
-                storage.save(id = name, obj = gameState.copy(players = emptyList()))
+                storage.new(id = name) { gameState.copy(players = emptyList()) }
                 return@saveOnlyBoard
-            } catch (_: Exception) {
+            } catch (e: Exception) {
                 throw InvalidFileException(
-                    message = "this name already exist", type = ErrorType.CRITICAL
+                    message = e.message.toString(), type = ErrorType.CRITICAL
                 )
             }
         }
@@ -360,5 +364,36 @@ data class Game(
         )
     }
 
-    suspend fun closeStorage() { storage.close() }
+    /**
+     * Runs a health check on the storage system.
+     * Does the full cycle of creating, saving, loading, and deleting a test game state.
+     * @return True if the storage is healthy, false otherwise.
+     */
+    suspend fun runStorageHealthCheck(): Boolean {
+        val testId = "health_check_test_game"
+        val testState = GameState(
+            players = listOf(Player(PieceType.BLACK)),
+            playerNames = listOf(),
+            lastPlayer = PieceType.WHITE,
+            board = Board(8),
+            winner = null
+        )
+
+        storage.new(testId) { testState }
+        val loadedState = storage.load(testId)
+        if (loadedState != testState) return false
+        storage.save(testId, testState)
+        val reloadedState = storage.load(testId)
+        if (reloadedState != testState) return false
+        storage.delete(testId)
+        storage.load(testId) == null
+        return true
+    }
+
+    /**
+     * Closes the storage connection.
+     */
+    suspend fun closeStorage() {
+        storage.close()
+    }
 }

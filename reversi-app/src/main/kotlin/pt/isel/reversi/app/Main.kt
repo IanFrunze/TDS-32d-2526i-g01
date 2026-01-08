@@ -9,11 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import org.jetbrains.compose.resources.painterResource
 import pt.isel.reversi.app.exceptions.GameNotStartedYet
 import pt.isel.reversi.app.pages.MainMenu
@@ -48,6 +44,12 @@ fun main(args: Array<String>) {
             placement = WindowPlacement.Floating,
             position = WindowPosition.PlatformDefault
         )
+        // unica forma que permite sincronizar o estado do app no exit
+        val appJob = SupervisorJob()
+        val scope = CoroutineScope(Dispatchers.Default + appJob)
+
+        // start storage health check coroutine
+        scope.launch { runStorageHealthCheck() }
 
         val appState = remember {
             mutableStateOf(
@@ -60,11 +62,6 @@ fun main(args: Array<String>) {
                 )
             )
         }
-
-        // unica forma que permite sincronizar o estado do app no exit
-        val appJob = SupervisorJob()
-        val scope = CoroutineScope(Dispatchers.Default + appJob)
-
 
         fun safeExitApplication() {
             LOGGER.info("Application exit requested")

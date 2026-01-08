@@ -26,7 +26,7 @@ object ListGamesCmd : CommandImpl<Game>() {
         if (context == null) {
             return CommandResultType.ERROR("Game context is not available. No config is loaded.", context)
         }
-        val folder = File(context.config.SAVES_FOLDER)
+        val folder = File(context.config.savesPath)
         if (!folder.exists() || !folder.isDirectory) {
             return CommandResult.SUCCESS("No saved games found.", context)
         }

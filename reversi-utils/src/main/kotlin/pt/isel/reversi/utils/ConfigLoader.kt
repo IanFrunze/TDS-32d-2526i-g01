@@ -49,4 +49,27 @@ class ConfigLoader<U : Config>(
 
         return factory(configMap)
     }
+
+    /**
+     * Saves a configuration instance to the properties file.
+     * @param config The configuration instance to save.
+     */
+    fun saveConfig(config: U) {
+        val file = File(path)
+        val props = Properties()
+
+        if (!file.exists()) {
+            file.parentFile?.mkdirs()
+            file.createNewFile()
+        }
+
+        val configMap = config.getDefaultConfigFileEntries()
+        configMap.forEach { (key, value) ->
+            props.setProperty(key, value)
+        }
+
+        file.outputStream().use {
+            props.store(it, "Configuration file updated at ${file.absolutePath}")
+        }
+    }
 }

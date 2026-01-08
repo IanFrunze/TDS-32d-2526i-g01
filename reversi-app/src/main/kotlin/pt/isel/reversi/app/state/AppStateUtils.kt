@@ -57,7 +57,7 @@ private fun MutableState<AppState>.checkAndClearInfoError() {
 fun MutableState<AppState>.setAppState(
     game: Game = value.game,
     page: Page = value.page,
-    error: Exception? = null,
+    error: Exception? = value.error,
     backPage: Page? = null,
     audioPool: AudioPool = value.audioPool,
     theme: AppTheme = value.theme,
@@ -71,10 +71,7 @@ fun MutableState<AppState>.setAppState(
         }
     }
 
-    if (error !is ReversiException && error != null)
-        setError(error.toReversiException(ErrorType.CRITICAL))
-    else if (error is ReversiException)
-        setError(error)
+    setError(error)
     
     value = value.copy(
         game = game,
@@ -98,9 +95,9 @@ fun MutableState<AppState>.getStateAudioPool() = value.audioPool
  * @param error the new [Exception] or [ReversiException] to be set
  * @return the updated [AppState] with the new error state
  */
-fun MutableState<AppState>.setError(error: Exception?) {
+fun MutableState<AppState>.setError(error: Exception?, errorType: ErrorType = ErrorType.CRITICAL) {
     LOGGER.info("Set error: ${error?.message ?: "null"}")
-    val newError = error as? ReversiException ?: error?.toReversiException(ErrorType.CRITICAL)
+    val newError = error as? ReversiException ?: error?.toReversiException(errorType)
     value = value.copy(error = newError)
 }
 

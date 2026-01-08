@@ -4,7 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.text.TextAutoSize
-import androidx.compose.material3.*
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -72,8 +75,10 @@ fun ScaffoldView(
                 }
             },
             navigationIcon = {
-                if (previousPageContent != null) scope.previousPageContent()
-                else scope.previousPageContentDefault(appState)
+                if (!appState.value.isLoading) {
+                    if (previousPageContent != null) scope.previousPageContent()
+                    else scope.previousPageContentDefault(appState)
+                }
             }
         )
     }, snackbarHost = { appState.value.error?.let { scope.ErrorMessage(appState) } }

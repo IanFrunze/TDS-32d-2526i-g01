@@ -26,6 +26,7 @@ object MockCommand : CommandImpl<Game>() {
     ): CommandResult<Game> {
         val newContext = runBlocking {
             startNewGame(
+                side = 8,
                 players = listOf(Player(PieceType.BLACK)),
                 firstTurn = PieceType.BLACK
             )

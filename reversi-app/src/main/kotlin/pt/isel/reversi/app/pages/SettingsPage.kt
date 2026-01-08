@@ -15,13 +15,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import pt.isel.reversi.app.*
 import pt.isel.reversi.app.gameAudio.loadGameAudioPool
 import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.state.setAppState
 import pt.isel.reversi.app.state.setError
 import pt.isel.reversi.app.state.setLoading
+import pt.isel.reversi.core.CoreConfig
+import pt.isel.reversi.core.exceptions.ErrorType
+import pt.isel.reversi.core.loadCoreConfig
 import pt.isel.reversi.core.loadGame
+import pt.isel.reversi.core.saveCoreConfig
+import pt.isel.reversi.core.storage.GameStorageType
 import pt.isel.reversi.utils.LOGGER
 
 /**
@@ -63,6 +69,7 @@ private fun ReversiScope.SettingsSection(
 @Composable
 fun SettingsPage(appState: MutableState<AppState>) {
     val draftState = remember { mutableStateOf(appState.value.copy()) }
+    val draftCoreConfig = remember { mutableStateOf(loadCoreConfig()) }
     var currentVol by remember {
         val masterVol = appState.value.audioPool.getMasterVolume()
         val isMuted = appState.value.audioPool.isPoolMuted()
@@ -93,6 +100,11 @@ fun SettingsPage(appState: MutableState<AppState>) {
             ) {
                 GameSection(draftState)
 
+                CoreConfigSection(
+                    coreConfig = draftCoreConfig.value,
+                    onConfigChange = { draftCoreConfig.value = it }
+                )
+
                 AudioSection(
                     currentVol = currentVol,
                     onVolumeChange = { currentVol = it },
@@ -105,9 +117,13 @@ fun SettingsPage(appState: MutableState<AppState>) {
 
                 ApplyButton {
                     scope.launch {
-                        appState.setLoading(true)
-                        applySettings(appState, draftState.value, currentVol)
-                        appState.setLoading(false)
+                        val newState = applySettings(appState, draftState.value, draftCoreConfig.value, currentVol)
+                        // update draft state with the applied settings
+                        runBlocking {
+                            draftState.value = newState.copy()
+                            draftCoreConfig.value = loadCoreConfig()
+                            appState.value = newState
+                        }
                     }
                 }
             }
@@ -124,6 +140,100 @@ private fun ReversiScope.GameSection(draftState: MutableState<AppState>) {
             label = { ReversiText("Nome do Jogador") },
             modifier = Modifier.fillMaxWidth()
         )
+    }
+}
+
+@Composable
+private fun ReversiScope.CoreConfigSection(
+    coreConfig: CoreConfig,
+    onConfigChange: (CoreConfig) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    SettingsSection(title = "Configuração do Jogo") {
+        // Storage Type Dropdown
+        Box(modifier = Modifier.fillMaxWidth()) {
+            OutlinedButton(
+                onClick = { expanded = true },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    ReversiText("Tipo de Armazenamento: ${coreConfig.gameStorageType.name}")
+                }
+            }
+
+            ReversiDropDownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                GameStorageType.entries.forEach { storageType ->
+                    ReversiDropdownMenuItem(
+                        text = storageType.name,
+                        onClick = {
+                            onConfigChange(coreConfig.copy(gameStorageType = storageType))
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
+
+        // File Storage Path (only show when FILE_STORAGE is selected)
+        if (coreConfig.gameStorageType == GameStorageType.FILE_STORAGE) {
+            ReversiTextField(
+                value = coreConfig.savesPath,
+                onValueChange = { onConfigChange(coreConfig.copy(savesPath = it)) },
+                label = { ReversiText("Caminho das Gravações") },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
+        // Database Settings (only show when DATABASE_STORAGE is selected)
+        if (coreConfig.gameStorageType == GameStorageType.DATABASE_STORAGE) {
+            ReversiTextField(
+                value = coreConfig.dbURI,
+                onValueChange = { onConfigChange(coreConfig.copy(dbURI = it)) },
+                label = { ReversiText("URI do Banco de Dados") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            ReversiTextField(
+                value = coreConfig.dbPort.toString(),
+                onValueChange = {
+                    val newPort = it.toIntOrNull()
+                    if (newPort != null && newPort > 0) {
+                        onConfigChange(coreConfig.copy(dbPort = newPort))
+                    }
+                },
+                label = { ReversiText("Porta do Banco de Dados") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            ReversiTextField(
+                value = coreConfig.dbName,
+                onValueChange = { onConfigChange(coreConfig.copy(dbName = it)) },
+                label = { ReversiText("Nome do Banco de Dados") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            ReversiTextField(
+                value = coreConfig.dbUser,
+                onValueChange = { onConfigChange(coreConfig.copy(dbUser = it)) },
+                label = { ReversiText("Usuário do Banco de Dados") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            ReversiTextField(
+                value = coreConfig.dbPassword,
+                onValueChange = { onConfigChange(coreConfig.copy(dbPassword = it)) },
+                label = { ReversiText("Senha do Banco de Dados") },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
 
@@ -207,10 +317,30 @@ private fun ReversiScope.ApplyButton(onClick: () -> Unit) {
 private suspend fun applySettings(
     appState: MutableState<AppState>,
     draft: AppState,
+    draftCoreConfig: CoreConfig,
     volume: Float
-) {
+): AppState {
+    appState.setLoading(true)
+
     val current = appState.value
     val oldTheme = current.theme
+
+    // try to load newStorage (can fail if config is invalid)
+    val error = runStorageHealthCheck(draftCoreConfig)
+    if (error == null) {
+        LOGGER.info("Storage settings are valid.")
+        saveCoreConfig(draftCoreConfig)
+    } else {
+        LOGGER.severe("Storage settings are invalid: ${error.message}")
+        appState.setError(
+            error = Exception(
+                "Invalid storage settings. " +
+                        "Rolling Back. Please check your configuration and try again.",
+                error
+            ),
+            errorType = ErrorType.WARNING
+        )
+    }
 
     val playingAudios = current.audioPool.getPlayingAudios()
 
@@ -227,10 +357,13 @@ private suspend fun applySettings(
     val newGame = if (currGameName != null) {
         currGame.saveEndGame()
         loadGame(currGameName, draft.playerName, currGame.myPiece)
-    } else currGame
+    } else {
+        // Update the game with the new config
+        currGame.copy(config = draftCoreConfig)
+    }
 
     appState.setAppState(
-        game = newGame,
+        game = newGame.reloadConfig(),
         playerName = draft.playerName,
         theme = draft.theme,
         audioPool = current.audioPool
@@ -250,8 +383,12 @@ private suspend fun applySettings(
 
     val loadedAudios = current.audioPool.pool.map { it.id }
     LOGGER.info("Loaded audios after applying settings: $loadedAudios")
+    LOGGER.info("Core config saved: storageType=${draftCoreConfig.gameStorageType}")
 
-    delay(500)
+    delay(100)
+
+    appState.setLoading(false)
+    return appState.value
 }
 
 private fun parseVolume(volume: Float, current: AppState) {

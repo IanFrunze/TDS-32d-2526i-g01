@@ -49,28 +49,28 @@ enum class GameStorageType(val storage: (StorageParams) -> AsyncStorage<String, 
         }
 
         internal fun setUpStorage(config: CoreConfig): AsyncStorage<String, GameState, String> {
-            return when (config.STORAGE_TYPE) {
+            return when (config.gameStorageType) {
                 FILE_STORAGE -> setUpFileStorage(config)
                 DATABASE_STORAGE -> setUpDatabaseStorage(config)
             }
         }
 
         internal fun setUpFileStorage(config: CoreConfig): AsyncStorage<String, GameState, String> {
-            return FILE_STORAGE.storage(StorageParams.FileStorageParams(config.SAVES_PATH))
+            return FILE_STORAGE.storage(StorageParams.FileStorageParams(config.savesPath))
         }
 
         internal fun setUpDatabaseStorage(config: CoreConfig): AsyncStorage<String, GameState, String> {
             val mongoDBConnection = MongoDBConnection(
-                host = config.MONGO_URI,
-                port = config.MONGO_PORT,
-                user = config.MONGO_USER,
-                password = config.MONGO_PASSWORD
+                host = config.dbURI,
+                port = config.dbPort,
+                user = config.dbUser,
+                password = config.dbPassword
             )
             return DATABASE_STORAGE.storage(
                 StorageParams.DatabaseStorageParams(
                     mongoDBConnection = mongoDBConnection,
-                    databaseName = config.DATABASE_NAME,
-                    collectionName = config.DATABASE_NAME
+                    databaseName = config.dbName,
+                    collectionName = config.dbName
                 )
             )
         }

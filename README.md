@@ -191,7 +191,7 @@ and loads them into a typed `Config` object.
 
 Saved games are plain text files stored by `reversi-storage`'s `FileStorage` implementation. Each saved game uses a
 filename of the form `<name>.txt` and by default is placed in the `saves/` folder. The default folder can be changed via
-`config/reversi-core.properties` using the key `SAVES_FOLDER` (default: `saves`).
+`config/reversi-core.properties` using the key `savesPath` (default: `saves`).
 
 The on-disk format is produced by `reversi-core` serializers; it's line-oriented and human-readable. A saved game file
 consists of the following parts (in order):
@@ -258,7 +258,7 @@ providing a helpful error message.
 - Config: `config/reversi-cli.properties` and `config/reversi-core.properties` are created by the `ConfigLoader` when
   missing.
 - Saves: `FileStorage` writes `<name>.txt` files into the `saves/` folder by default (configurable via
-  `config/reversi-core.properties` key `SAVES_FOLDER`).
+  `config/reversi-core.properties` key `savesPath`).
 - Saves folder default: `saves`
 
 ## Troubleshooting & tips

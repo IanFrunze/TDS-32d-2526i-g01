@@ -5,13 +5,15 @@ import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.storage.GameState
 import pt.isel.reversi.core.storage.GameStorageType
+import pt.isel.reversi.core.storage.StorageParams
 import pt.isel.reversi.utils.CONFIG_FOLDER
 import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertFails
 
 class GameStateFileStorageTest {
-    val storage = GameStorageType.FILE_STORAGE.storage("test-saves")
+    val storageParams = StorageParams.FileStorageParams("test-saves")
+    val storage = GameStorageType.FILE_STORAGE.storage(storageParams)
 
     val defaultGameState = GameState(
         players = listOf(

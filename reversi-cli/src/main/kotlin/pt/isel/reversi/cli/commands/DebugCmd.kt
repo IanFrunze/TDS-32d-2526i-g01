@@ -95,7 +95,7 @@ object DebugCmd : CommandImpl<Game>() {
                 )
             )
             sb.appendLine(title("Saves Folder Contents"))
-            val files = java.io.File(context.config.SAVES_FOLDER).listFiles()
+            val files = java.io.File(context.config.savesPath).listFiles()
             if (files.isNullOrEmpty()) {
                 sb.appendLine("    No saved games found.")
             } else {

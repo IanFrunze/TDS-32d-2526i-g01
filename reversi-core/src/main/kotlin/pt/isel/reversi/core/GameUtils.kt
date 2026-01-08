@@ -13,7 +13,7 @@ fun loadStorageFromConfig() = setUpStorage(loadCoreConfig())
  * Starts a new game.
  * It is recommended to use this method only to create a not local game.
  * If is not a local game makes available the opponent player in storage for future loads.
- * @param side The side length of the board.
+ * @param side The side length of the board (required).
  * @param players The list of players.
  * @param firstTurn The piece type of the player who goes first can omit to use the default.
  * @param currGameName The current game name can omit to create a local game.
@@ -22,7 +22,7 @@ fun loadStorageFromConfig() = setUpStorage(loadCoreConfig())
  * @throws InvalidNameAlreadyExists if already exists a game with the same name in storage.
  */
 suspend fun startNewGame(
-    side: Int = loadCoreConfig().BOARD_SIDE,
+    side: Int,
     players: List<Player>,
     firstTurn: PieceType,
     currGameName: String? = null,
@@ -152,8 +152,8 @@ fun Game.stringifyBoard(): String {
                 col == 0 -> sb.append("$row ")
                 else -> sb.append(
                     when (useTarget && cords in availablePlays) {
-                        true -> "${this.config.TARGET_CHAR} "
-                        false -> (board[cords]?.symbol ?: this.config.EMPTY_CHAR) + " "
+                        true -> "${this.config.targetChar} "
+                        false -> (board[cords]?.symbol ?: this.config.emptyChar) + " "
                     }
                 )
             }

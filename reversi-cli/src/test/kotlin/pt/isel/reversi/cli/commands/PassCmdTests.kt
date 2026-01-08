@@ -20,6 +20,7 @@ class PassCmdTests {
         // Use a simple started game using startNewGame helper
         val g = runBlocking {
             startNewGame(
+                side = 8,
                 players = listOf(Player(PieceType.BLACK)),
                 firstTurn = PieceType.BLACK
             )
