@@ -31,6 +31,7 @@ class GamePageViewModel(val appState: MutableState<AppState>, val scope: Corouti
     }
 
     fun save() {
+        if (uiState.value == appState.value.game) return
         appState.setGame(game = uiState.value)
     }
 

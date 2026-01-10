@@ -37,11 +37,12 @@ fun MutableState<AppState>.setPage(page: Page, backPage: Page? = null) {
 
     if (error != null) return
 
-    if (backPage != null) {
-        setBackPage(value.page)
-    } else {
-        autoBackPage(page)
+    when {
+        page == Page.MAIN_MENU -> setBackPage(Page.NONE)
+        backPage != null -> setBackPage(backPage)
+        else -> autoBackPage(page)
     }
+
     LOGGER.info("Set page ${page.name}")
     value = value.copy(page = page, error = error)
 }
@@ -72,7 +73,7 @@ fun MutableState<AppState>.setAppState(
     }
 
     setError(error)
-    
+
     value = value.copy(
         game = game,
         audioPool = audioPool,
