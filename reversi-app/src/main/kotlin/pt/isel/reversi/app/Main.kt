@@ -110,6 +110,7 @@ fun main(args: Array<String>) {
             window.minimumSize = java.awt.Dimension(800, 800)
 
             MakeMenuBar(appState, windowState) { safeExitApplication() }
+            //val page = appState.value.page
             AppScreenSwitcher(appState) { page ->
                 LOGGER.info("Navigating to page: $page")
                 when (page) {
