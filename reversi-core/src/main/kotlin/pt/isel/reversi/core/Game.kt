@@ -290,22 +290,10 @@ data class Game(
             message = "Name of the current game is null", type = ErrorType.WARNING
         )
 
-        val loadedGs = try { storage.load(currGameName) }
-        catch (e: InvalidFileException) {
-            storage.delete(currGameName)
-            LOGGER.warning("Deleted corrupted game from storage: $currGameName due to ${e.message}")
-            return
-        }
+        val loadedGs = storage.load(currGameName)
 
         var playersInStorage = loadedGs?.players ?: emptyList()
         var playerNamesInStorage = loadedGs?.playerNames ?: emptyList()
-
-        if (loadedGs != null && loadedGs.winner == gs.winner && playerNamesInStorage.isNotEmpty()) {
-            LOGGER.info("Game already ended in storage: $currGameName")
-            storage.delete(currGameName)
-            LOGGER.info("Deleted ended game from storage: $currGameName")
-            return
-        }
 
         gs.players.forEach {
             if (it !in playersInStorage) {
