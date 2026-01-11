@@ -85,9 +85,9 @@ fun getStateAudioPool(appState: AppState) = appState.audioPool
  * @param appState The application state holder.
  * @param error The new error.
  */
-fun setError(appState: AppState, error: Exception?) {
+fun setError(appState: AppState, error: Exception?, type: ErrorType = ErrorType.CRITICAL) {
     LOGGER.info("Set error: ${error?.message ?: "null"}")
-    val newError = if (error is ReversiException) error else error?.toReversiException(ErrorType.CRITICAL)
+    val newError = if (error is ReversiException) error else error?.toReversiException(type)
     appState.error.value = newError
 }
 

@@ -21,6 +21,7 @@ import pt.isel.reversi.app.pages.lobby.lobbyViews.utils.RefreshButton
 import pt.isel.reversi.app.reversiFadeAnimation
 import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.utils.LOGGER
+import pt.isel.reversi.utils.TRACKER
 
 /**
  * Enumeration of possible lobby screen states.
@@ -49,17 +50,21 @@ fun LobbyMenu(
     viewModel: LobbyViewModel,
 ) {
     val uiState = viewModel.uiState.value
-    val games = uiState.games
+    val games = uiState.gameStates
     val lobbyState = uiState.lobbyState
     val canRefresh = uiState.canRefresh
     val appState: AppState = viewModel.appState
 
     viewModel.initLobbyAudio()
 
-    DisposableEffect(viewModel) {
+    DisposableEffect(viewModel.uiState.value) {
         LOGGER.info("Starting polling for lobby updates.")
+        TRACKER.trackEffectStart(viewModel)
         viewModel.startPolling()
-        onDispose { viewModel.stopPolling() }
+        onDispose {
+            TRACKER.trackEffectStop(viewModel)
+            viewModel.stopPolling()
+        }
     }
 
     val refreshAction: @Composable () -> Unit = {
@@ -108,9 +113,9 @@ fun LobbyMenu(
                     viewModel.selectGame(null)
                     return@let
                 }
-                val players = state.players.map { it.type }
+                val players = state.players.getAvailableTypes()
 
-                if (game.currGameName != appState.game.value.currGameName) {
+                if (game.name != appState.game.value.currGameName) {
                     PopupPickAPiece(
                         pieces = players,
                         onPick = { pieceType -> viewModel.joinGame(game, pieceType) },

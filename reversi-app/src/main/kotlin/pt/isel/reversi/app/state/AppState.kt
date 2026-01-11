@@ -19,7 +19,7 @@ data class AppState(
     val error: MutableState<ReversiException?>,
     val backPage: MutableState<Page>,
     val isLoading: MutableState<Boolean>,
-    val audioPool: AudioPool,
+    val audioPool: MutableState<AudioPool>,
     val theme: MutableState<AppTheme>,
     val playerName: MutableState<String?>
 ) {
@@ -31,7 +31,7 @@ data class AppState(
             error = mutableStateOf(null),
             backPage = mutableStateOf(Page.MAIN_MENU),
             isLoading = mutableStateOf(false),
-            audioPool = AudioPool(emptyList()),
+            audioPool = mutableStateOf(AudioPool(emptyList())),
             theme = mutableStateOf(AppThemes.DARK.appTheme),
             playerName = mutableStateOf(null)
         )

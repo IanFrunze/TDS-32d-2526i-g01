@@ -16,6 +16,7 @@ import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.state.Page
 import pt.isel.reversi.app.state.getStateAudioPool
 import pt.isel.reversi.app.state.setPage
+import pt.isel.reversi.utils.TRACKER
 
 val MAIN_MENU_AUTO_SIZE_BUTTON_TEXT =
     TextAutoSize.StepBased(minFontSize = 10.sp, maxFontSize = 24.sp)
@@ -26,8 +27,9 @@ fun MainMenu(
     appState: AppState,
     modifier: Modifier = Modifier
 ) {
+    TRACKER.trackPageEnter()
     LaunchedEffect(appState.page.value) {
-        val audioPool = getStateAudioPool(appState)
+        val audioPool = getStateAudioPool(appState).value
         val theme = appState.theme.value
         if (!audioPool.isPlaying(theme.backgroundMusic)) {
             audioPool.stopAll()

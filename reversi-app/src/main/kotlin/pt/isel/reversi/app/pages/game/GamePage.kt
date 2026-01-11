@@ -9,6 +9,7 @@ import pt.isel.reversi.app.PreviousPage
 import pt.isel.reversi.app.ScaffoldView
 import pt.isel.reversi.app.state.getStateAudioPool
 import pt.isel.reversi.app.state.setAppState
+import pt.isel.reversi.utils.TRACKER
 
 /**
  * Main game page displaying the Reversi board, player scores, and game controls.
@@ -23,15 +24,17 @@ fun GamePage(viewModel: GamePageViewModel, modifier: Modifier = Modifier, freeze
     val appState = viewModel.appState
     val game = viewModel.uiState.value
 
+    TRACKER.trackPageEnter()
 
     // Launch the game refresh coroutine
     DisposableEffect(viewModel) {
+        TRACKER.trackEffectStart(this)
         if (game.currGameName != null && !viewModel.isPollingActive()) {
             viewModel.startPolling()
         }
 
         val theme = appState.theme.value
-        getStateAudioPool(appState).run {
+        getStateAudioPool(appState).value.run {
             if (!isPlaying(theme.gameMusic)) {
                 stop(theme.backgroundMusic)
                 stop(theme.gameMusic)
@@ -42,6 +45,7 @@ fun GamePage(viewModel: GamePageViewModel, modifier: Modifier = Modifier, freeze
         onDispose {
             viewModel.stopPolling()
             viewModel.save()
+            TRACKER.trackEffectStop(this)
         }
     }
 

@@ -22,13 +22,14 @@ import pt.isel.reversi.app.pages.mainmenu.MainMenu
 import pt.isel.reversi.app.state.*
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.exceptions.ErrorType
+import pt.isel.reversi.core.loadCoreConfig
 import pt.isel.reversi.core.stringifyBoard
+import pt.isel.reversi.utils.ExportFormat
 import pt.isel.reversi.utils.LOGGER
+import pt.isel.reversi.utils.TRACKER
 import reversi.reversi_app.generated.resources.Res
 import reversi.reversi_app.generated.resources.reversi
 import java.lang.System.setProperty
-
-val pageEnterCounter = mutableMapOf<Page, Int>()
 
 /**
  * Entry point for the desktop Reversi application. Initializes app dependencies
@@ -41,6 +42,10 @@ fun main(args: Array<String>) {
     val initializedArgs = initializeAppArgs(args) ?: return
     val (audioPool) = initializedArgs
 
+    // Initialize tracker with auto-save enabled
+    TRACKER.setTrackerFilePath(autoSave = true)
+    LOGGER.info("Development tracker initialized with auto-save enabled")
+
     application {
         val windowState = rememberWindowState(
             placement = WindowPlacement.Floating,
@@ -51,16 +56,30 @@ fun main(args: Array<String>) {
         val scope = CoroutineScope(Dispatchers.Default + appJob)
 
         // start storage health check coroutine
-        scope.launch { runStorageHealthCheck() }
 
         val appState = remember { AppState.empty() }
-        appState.audioPool.merge(audioPool)
+        getStateAudioPool(appState).value = audioPool
+
+        scope.launch {
+            setLoading(appState, true)
+            val conf = loadCoreConfig()
+            val exception = runStorageHealthCheck(testConf = conf, save = true)
+            if (exception != null) {
+                setError(appState, exception, ErrorType.WARNING)
+                LOGGER.severe("Storage type change failed: ${exception.message}")
+            }
+            setLoading(appState, false)
+        }
 
         fun safeExitApplication() {
             LOGGER.info("Application exit requested")
             LOGGER.info("Stopping compose application...")
 
             try {
+                LOGGER.info("Saving tracking data...")
+                TRACKER.saveToFile()
+                LOGGER.info("Tracking data saved.")
+
                 LOGGER.info("Cancelling application coroutines...")
                 appJob.cancel()
                 setPage(appState, Page.NONE) // prevent new operations
@@ -76,7 +95,7 @@ fun main(args: Array<String>) {
                     LOGGER.info("Game storage closed.")
                 }
                 LOGGER.info("Destroying audio pool...")
-                getStateAudioPool(appState).destroy()
+                getStateAudioPool(appState).value.destroy()
                 LOGGER.info("Audio pool destroyed. Application exited safely.")
             } catch (e: Exception) {
                 LOGGER.info("Did it blow up? ${e.message}")
@@ -87,6 +106,8 @@ fun main(args: Array<String>) {
         installFatalCrashLogger()
         addShutdownHook {
             LOGGER.info("SHUTDOWN HOOK TRIGGERED")
+            for (type in ExportFormat.entries) TRACKER.saveToFile(type)
+
             for (handler in LOGGER.handlers) {
                 handler.flush()
                 handler.close()
@@ -107,6 +128,8 @@ fun main(args: Array<String>) {
             val backPageState = remember { derivedStateOf { appState.backPage.value } }
             val themeState = remember { derivedStateOf { appState.theme.value } }
 
+            TRACKER.trackRecomposition()
+
             AppScreenSwitcher(pageState.value, backPageState.value, themeState.value) { currentPage ->
                 LOGGER.info("Navigating to page: $currentPage")
                 when (currentPage) {
@@ -118,12 +141,13 @@ fun main(args: Array<String>) {
                             { game -> setGame(appState, game) },
                             { e -> setError(appState, e) })
                     )
+
                     Page.SETTINGS -> SettingsPage(appState)
                     Page.ABOUT -> AboutPage(appState)
                     Page.NEW_GAME -> NewGamePage(appState)
                     Page.SAVE_GAME -> SaveGamePage(appState)
                     Page.LOBBY -> LobbyMenu(LobbyViewModel(scope, appState))
-                    Page.NONE -> { }
+                    Page.NONE -> {}
                 }
             }
         }
@@ -206,18 +230,6 @@ fun SaveGamePage(appState: AppState) {
             }
         }
     }
-}
-
-/**
- * Converts a volume in decibels to a percentage string representation (0-100).
- * @param volume The volume in decibels.
- * @param min The minimum volume in decibels, defining the lower bound of the conversion range (default -20f).
- * @param max The maximum volume in decibels, defining the upper bound of the conversion range (default 0f).
- * @return A string representation of the volume as a percentage (0-100).
- */
-fun volumeDbToPercent(volume: Float, min: Float, max: Float): String {
-    val percent = ((volume - min) / (max - min)) * 100
-    return percent.toInt().toString()
 }
 
 /**
