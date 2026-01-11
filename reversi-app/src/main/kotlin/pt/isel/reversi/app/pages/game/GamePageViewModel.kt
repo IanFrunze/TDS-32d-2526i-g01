@@ -3,13 +3,24 @@ package pt.isel.reversi.app.pages.game
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.*
-import pt.isel.reversi.app.state.AppState
-import pt.isel.reversi.app.state.getStateAudioPool
+import pt.isel.reversi.app.state.ScreenState
+import pt.isel.reversi.app.state.UiState
+import pt.isel.reversi.app.state.setError
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.utils.LOGGER
 import kotlin.coroutines.cancellation.CancellationException
+
+
+data class GameUiState(
+    val game: Game,
+    override val screenState: ScreenState = ScreenState()
+) : UiState() {
+    override fun updateScreenState(newScreenState: ScreenState): GameUiState {
+        return copy(screenState = newScreenState)
+    }
+}
 
 /**
  * View model for the game page managing game state, UI updates, and user interactions.
@@ -17,15 +28,22 @@ import kotlin.coroutines.cancellation.CancellationException
  *
  * @property appState Global application state containing game and UI configuration.
  * @property scope Coroutine scope for launching async game operations.
+ * @property globalError Optional error to display on initial load.
  */
 class GamePageViewModel(
-    val appState: AppState,
-    val scope: CoroutineScope,
-    val setGame: (Game) -> Unit,
-    val setError: (Exception) -> Unit
+    private val game: Game,
+    private val scope: CoroutineScope,
+    private val setGame: (Game) -> Unit,
+    private val audioPlayMove: () -> Unit = {},
+    globalError: ReversiException? = null,
 ) {
-    private val _uiState = mutableStateOf(appState.game.value)
-    val uiState: State<Game> = _uiState
+    private val _uiState = mutableStateOf(
+        GameUiState(
+            game = game,
+            screenState = ScreenState(error = globalError)
+        )
+    )
+    val uiState: State<GameUiState> = _uiState
 
     private var pollingJob: Job? = null
 
@@ -34,10 +52,13 @@ class GamePageViewModel(
     }
 
     fun save() {
-        if (uiState.value == appState.game.value) return
-        setGame(uiState.value)
+        if (uiState.value == game) return
+        setGame(uiState.value.game)
     }
 
+    fun setError(error: Exception?) {
+        _uiState.setError(error)
+    }
     fun startPolling() {
         if (pollingJob != null) throw IllegalStateException("Polling already started")
 
@@ -46,13 +67,13 @@ class GamePageViewModel(
         scope.launch {
             try {
                 while (isActive) {
-                    val game = uiState.value
+                    val game = uiState.value.game
 
                     if (game.gameState != null && game.currGameName != null) {
                         val newGame = game.refresh()
                         val needsUpdate = newGame.lastModified != game.lastModified
                         if (needsUpdate)
-                            _uiState.value = newGame
+                            _uiState.value = _uiState.value.copy(game = newGame)
                     }
 
                     delay(50L)
@@ -78,35 +99,33 @@ class GamePageViewModel(
     fun isPollingActive() = pollingJob != null
 
     fun setTarget(target: Boolean) {
-        _uiState.value = uiState.value.setTargetMode(target)
+        _uiState.value = uiState.value.copy(game = uiState.value.game.setTargetMode(target))
     }
 
     fun playMove(coordinate: Coordinate) {
         scope.launch {
             try {
-                _uiState.value = uiState.value.play(coordinate)
+                _uiState.value = uiState.value.copy(
+                    game = uiState.value.game.play(coordinate)
+                )
 
-                val theme = appState.theme.value
-                getStateAudioPool(appState).run {
-                    stop(theme.placePieceSound)
-                    play(theme.placePieceSound)
-                }
-            } catch (e: ReversiException) {
-                setGame(uiState.value)
-                setError(e)
+                audioPlayMove()
+            } catch (e: Exception) {
+                setGame(uiState.value.game)
+                _uiState.setError(e)
             }
         }
     }
 
-    fun getAvailablePlays() = uiState.value.getAvailablePlays()
+    fun getAvailablePlays() = uiState.value.game.getAvailablePlays()
 
     fun pass() {
         scope.launch {
             try {
-                _uiState.value = uiState.value.pass()
+                _uiState.value = uiState.value.copy(game = uiState.value.game.pass())
             } catch (e: Exception) {
-                setGame(uiState.value)
-                setError(e)
+                setGame(uiState.value.game)
+                _uiState.setError(e)
             }
         }
     }

@@ -1,4 +1,4 @@
-package pt.isel.reversi.app.pages.mainmenu
+package pt.isel.reversi.app.pages.mainMenu
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.TextAutoSize
@@ -9,33 +9,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import pt.isel.reversi.app.ReversiButton
-import pt.isel.reversi.app.ReversiText
-import pt.isel.reversi.app.ScaffoldView
-import pt.isel.reversi.app.state.AppState
+import pt.isel.reversi.app.*
 import pt.isel.reversi.app.state.Page
 import pt.isel.reversi.app.state.getStateAudioPool
-import pt.isel.reversi.app.state.setPage
 
 val MAIN_MENU_AUTO_SIZE_BUTTON_TEXT =
     TextAutoSize.StepBased(minFontSize = 10.sp, maxFontSize = 24.sp)
 
 
 @Composable
-fun MainMenu(
-    appState: AppState,
-    modifier: Modifier = Modifier
+fun ReversiScope.MainMenu(
+    viewModel: MainMenuViewModel,
+    modifier: Modifier = Modifier,
+    setPage: (Page) -> Unit,
+    onLeave: () -> Unit,
 ) {
-    LaunchedEffect(appState.page.value) {
+    LaunchedEffect(appState.page) {
         val audioPool = getStateAudioPool(appState)
-        val theme = appState.theme.value
+        val theme = appState.theme
         if (!audioPool.isPlaying(theme.backgroundMusic)) {
             audioPool.stopAll()
             audioPool.play(theme.backgroundMusic)
         }
     }
 
-    ScaffoldView(appState = appState, previousPageContent = {}) {
+    ScaffoldView(
+        setError = { error -> viewModel.setErro(error) },
+        error = viewModel.uiState.value.screenState.error,
+        isLoading = viewModel.uiState.value.screenState.isLoading,
+        previousPageContent = { PreviousPage { onLeave() } },
+    ) {
         Box(modifier = Modifier.fillMaxSize()) {
 
             AnimatedBackground()
@@ -53,10 +56,10 @@ fun MainMenu(
                     verticalArrangement = Arrangement.spacedBy(20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    ReversiButton("Novo Jogo") { setPage(appState, Page.NEW_GAME) }
-                    ReversiButton("Lobby") { setPage(appState, Page.LOBBY) }
-                    ReversiButton("Definições") { setPage(appState, Page.SETTINGS) }
-                    ReversiButton("Sobre") { setPage(appState, Page.ABOUT) }
+                    ReversiButton("Novo Jogo") { setPage(Page.NEW_GAME) }
+                    ReversiButton("Lobby") { setPage(Page.LOBBY) }
+                    ReversiButton("Definições") { setPage(Page.SETTINGS) }
+                    ReversiButton("Sobre") { setPage(Page.ABOUT) }
                 }
             }
         }

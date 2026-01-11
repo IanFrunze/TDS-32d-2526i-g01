@@ -16,29 +16,41 @@ import pt.isel.reversi.app.state.Page
  * Central component managing transitions between pages in the application.
  * Slides right (forward) when navigating to higher-level pages, left (backward) when returning.
  *
- * @param appState Global application state containing current page and theme.
+ * @param targetPage The current/target page to display.
+ * @param backPage The previous page (kept for compatibility).
+ * @param theme The current app theme for styling.
+ * @param contentAlignment How to align overlapping content during transition.
  * @param switchAction Lambda defining content for each page within the animation container.
  */
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun AppScreenSwitcher(targetPage: Page, backPage: Page, theme: AppTheme, switchAction: @Composable (BoxScope.(page: Page) -> Unit)) {
+@Suppress("unused")
+fun AppScreenSwitcher(
+    targetPage: Page,
+    backPage: Page,
+    theme: AppTheme,
+    contentAlignment: androidx.compose.ui.Alignment = androidx.compose.ui.Alignment.TopStart,
+    switchAction: @Composable (BoxScope.(page: Page) -> Unit)
+) {
     val duration = 500
 
     AnimatedContent(
         targetState = targetPage,
         transitionSpec = {
             val forward = targetPage.level > initialState.level
-
             val iOSEasing = CubicBezierEasing(0.22f, 1f, 0.36f, 1f)
-
             if (forward) reversiGoInAnimation(duration, iOSEasing)
             else reversiGoOutAnimation(duration, iOSEasing)
         },
         modifier = Modifier.fillMaxSize().background(theme.backgroundColor),
-        label = "PageTransition"
+        label = "PageTransition",
+        contentAlignment = contentAlignment,
+        contentKey = { it }
     ) { page ->
         Box(modifier = Modifier.fillMaxSize()) {
-            if (page != backPage || page == Page.MAIN_MENU) switchAction(page)
+            if (page == targetPage || page == Page.MAIN_MENU) {
+                switchAction(page)
+            }
         }
     }
 }

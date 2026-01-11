@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.Font
-import pt.isel.reversi.app.pages.mainmenu.MAIN_MENU_AUTO_SIZE_BUTTON_TEXT
+import pt.isel.reversi.app.pages.mainMenu.MAIN_MENU_AUTO_SIZE_BUTTON_TEXT
 import pt.isel.reversi.app.state.AppState
 import reversi.reversi_app.generated.resources.Montserrat_Bold
 import reversi.reversi_app.generated.resources.Montserrat_Regular
@@ -50,7 +50,7 @@ fun ReversiScope.getCurrentState() = appState
  *
  * @return The AppTheme from the current application state.
  */
-fun ReversiScope.getTheme() = getCurrentState().theme.value
+fun ReversiScope.getTheme() = getCurrentState().theme
 
 /**
  * Themed text composable following the application's color scheme.
@@ -82,7 +82,8 @@ fun ReversiScope.ReversiText(
     textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Ellipsis,
 ) {
-    val font = FontFamily(Font(resource = Res.font.Montserrat_Regular, weight = FontWeight.Normal),
+    val font = FontFamily(
+        Font(resource = Res.font.Montserrat_Regular, weight = FontWeight.Normal),
         Font(resource = Res.font.Montserrat_Bold, weight = FontWeight.Bold),
     )
 

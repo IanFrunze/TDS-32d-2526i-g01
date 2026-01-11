@@ -19,20 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
 import pt.isel.reversi.app.exceptions.ErrorMessage
-import pt.isel.reversi.app.state.AppState
-import pt.isel.reversi.app.state.setPage
-
-/**
- * Default previous page button that navigates back to the stored back page.
- *
- * @param appState Global application state for navigation.
- */
-@Composable
-fun ReversiScope.previousPageContentDefault(appState: AppState) {
-    PreviousPage {
-        setPage(appState, appState.backPage.value)
-    }
-}
+import pt.isel.reversi.app.state.Page
+import pt.isel.reversi.core.exceptions.ReversiException
 
 
 /**
@@ -48,16 +36,17 @@ fun ReversiScope.previousPageContentDefault(appState: AppState) {
  */
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun ScaffoldView(
-    appState: AppState,
+fun ReversiScope.ScaffoldView(
+    setError: (Exception?) -> Unit,
     backgroundTopBar: Color = Color.Transparent,
+    error: ReversiException?,
+    isLoading: Boolean = false,
     title: String = "",
     loadingModifier: Modifier = Modifier,
-    previousPageContent: (@Composable ReversiScope.() -> Unit)? = null,
-    content: @Composable ReversiScope.(paddingValues: PaddingValues) -> Unit
+    previousPageContent: @Composable ReversiScope.() -> Unit,
+    content: @Composable ReversiScope.(paddingValues: PaddingValues) -> Unit,
 ) {
-    val theme = appState.theme.value
-    val scope = ReversiScope(appState)
+    val theme = appState.theme
     val backgroundImage = theme.backgroundImage
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -73,51 +62,46 @@ fun ScaffoldView(
                         containerColor = backgroundTopBar,
                     ),
                     title = {
-                        with(scope) {
-                            ReversiText(
-                                text = title,
-                                color = theme.textColor,
-                                fontWeight = FontWeight.Bold,
-                                textAlign = TextAlign.Center,
-                                autoSize = TextAutoSize.StepBased(
-                                    maxFontSize = 50.sp
-                                ),
-                                maxLines = 1,
-                                softWrap = false,
-                            )
-                        }
+                        ReversiText(
+                            text = title,
+                            color = theme.textColor,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
+                            autoSize = TextAutoSize.StepBased(
+                                maxFontSize = 50.sp
+                            ),
+                            maxLines = 1,
+                            softWrap = false,
+                        )
                     },
                     navigationIcon = {
-                        if (!appState.isLoading.value) {
-                            if (previousPageContent != null) scope.previousPageContent()
-                            else scope.previousPageContentDefault(appState)
+                        if (!isLoading && appState.page != Page.MAIN_MENU) {
+                            previousPageContent()
                         }
                     }
                 )
             },
-            snackbarHost = { appState.error.value?.let { scope.ErrorMessage(appState) } }
+            snackbarHost = { ErrorMessage(error) { setError(it) } }
         ) { paddingValues ->
-            with(scope) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    backgroundImage?.let { imageRes ->
-                        Image(
-                            painter = painterResource(imageRes),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .alpha(0.2f),
-                            contentScale = ContentScale.FillHeight
-                        )
-                    }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                backgroundImage?.let { imageRes ->
+                    Image(
+                        painter = painterResource(imageRes),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .alpha(0.2f),
+                        contentScale = ContentScale.FillHeight
+                    )
                 }
-                Box {
-                    content(paddingValues)
-                    if (appState.isLoading.value) {
-                        Loading(loadingModifier)
-                    }
+            }
+            Box {
+                content(paddingValues)
+                if (isLoading) {
+                    Loading(loadingModifier)
                 }
             }
         }

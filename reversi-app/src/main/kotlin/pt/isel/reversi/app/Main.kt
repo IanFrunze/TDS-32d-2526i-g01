@@ -1,27 +1,29 @@
 package pt.isel.reversi.app
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.ui.window.*
 import kotlinx.coroutines.*
 import org.jetbrains.compose.resources.painterResource
-import pt.isel.reversi.app.exceptions.GameNotStartedYet
-import pt.isel.reversi.app.pages.NewGamePage
-import pt.isel.reversi.app.pages.SettingsPage
+import pt.isel.reversi.app.pages.aboutPage.AboutPage
+import pt.isel.reversi.app.pages.aboutPage.AboutPageViewModel
 import pt.isel.reversi.app.pages.game.GamePage
 import pt.isel.reversi.app.pages.game.GamePageViewModel
 import pt.isel.reversi.app.pages.lobby.LobbyMenu
 import pt.isel.reversi.app.pages.lobby.LobbyViewModel
-import pt.isel.reversi.app.pages.mainmenu.MainMenu
+import pt.isel.reversi.app.pages.mainMenu.MainMenu
+import pt.isel.reversi.app.pages.mainMenu.MainMenuViewModel
+import pt.isel.reversi.app.pages.newGamePage.NewGamePage
+import pt.isel.reversi.app.pages.newGamePage.NewGameViewModel
+import pt.isel.reversi.app.pages.settingsPage.SettingsPage
+import pt.isel.reversi.app.pages.settingsPage.SettingsViewModel
 import pt.isel.reversi.app.state.*
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.exceptions.ErrorType
+import pt.isel.reversi.core.exceptions.ErrorType.Companion.toReversiException
+import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.core.stringifyBoard
 import pt.isel.reversi.utils.LOGGER
 import reversi.reversi_app.generated.resources.Res
@@ -39,7 +41,7 @@ val pageEnterCounter = mutableMapOf<Page, Int>()
 fun main(args: Array<String>) {
     setProperty("apple.awt.application.name", "Reversi-DEV")
     val initializedArgs = initializeAppArgs(args) ?: return
-    val (audioPool) = initializedArgs
+
 
     application {
         val windowState = rememberWindowState(
@@ -53,8 +55,23 @@ fun main(args: Array<String>) {
         // start storage health check coroutine
         scope.launch { runStorageHealthCheck() }
 
-        val appState = remember { AppState.empty() }
-        appState.audioPool.merge(audioPool)
+        val pageState = remember { mutableStateOf(Page.MAIN_MENU) }
+        val backPageState = remember { mutableStateOf(Page.NONE) }
+        val themeState = remember { mutableStateOf(AppThemes.DARK.appTheme) }
+        val game = remember { mutableStateOf(Game()) }
+        val audioPool = remember { mutableStateOf(initializedArgs.audioPool) }
+        val playerName = remember { mutableStateOf<String?>(null) }
+        val globalError = remember { mutableStateOf<ReversiException?>(null) }
+
+        val appState = AppState(
+            game = game.value,
+            page = pageState.value,
+            backPage = backPageState.value,
+            audioPool = audioPool.value,
+            theme = themeState.value,
+            globalError = globalError.value,
+            playerName = playerName.value
+        )
 
         fun safeExitApplication() {
             LOGGER.info("Application exit requested")
@@ -63,16 +80,16 @@ fun main(args: Array<String>) {
             try {
                 LOGGER.info("Cancelling application coroutines...")
                 appJob.cancel()
-                setPage(appState, Page.NONE) // prevent new operations
+                pageState.setPage(Page.NONE)
                 runBlocking {
                     LOGGER.info("Waiting for application coroutines to finish...")
                     appJob.join()
                     LOGGER.info("Application coroutines finished.")
                     LOGGER.info("Saving game state...")
-                    appState.game.value.saveEndGame()
+                    appState.game.saveEndGame()
                     LOGGER.info("Game state saved.")
                     LOGGER.info("Closing game storage...")
-                    appState.game.value.closeStorage()
+                    appState.game.closeStorage()
                     LOGGER.info("Game storage closed.")
                 }
                 LOGGER.info("Destroying audio pool...")
@@ -101,112 +118,212 @@ fun main(args: Array<String>) {
             state = windowState,
         ) {
             window.minimumSize = java.awt.Dimension(800, 800)
-            MakeMenuBar(appState, windowState) { safeExitApplication() }
+            MakeMenuBar(
+                appState,
+                windowState,
+                setPage = { pageState.setPage(it) },
+                setGame = { game.setGame(it) },
+                setTheme = { themeState.value = it },
+                setGlobalError = {
+                    globalError.value = it as? ReversiException ?: it?.toReversiException(ErrorType.WARNING)
+                },
+            ) { safeExitApplication() }
 
-            val pageState = remember { derivedStateOf { appState.page.value } }
-            val backPageState = remember { derivedStateOf { appState.backPage.value } }
-            val themeState = remember { derivedStateOf { appState.theme.value } }
+            val lastLoggedPage = remember { mutableStateOf<Page?>(null) }
+
+            val currentPage = pageState.value
+
+            // Create one ViewModel per page change
+            val currentViewModel = remember(currentPage, globalError.value) {
+                when (currentPage) {
+                    Page.MAIN_MENU -> MainMenuViewModel(scope = scope, globalError = globalError.value)
+                    Page.GAME -> GamePageViewModel(
+                        game.value,
+                        globalError = globalError.value,
+                        scope = scope,
+                        audioPlayMove = {
+                            audioPool.value.run {
+                                stop(themeState.value.placePieceSound)
+                                play(themeState.value.placePieceSound)
+                            }
+                        },
+                        setGame = { game.setGame(it) },
+                    ) as Any
+
+                    Page.SETTINGS -> SettingsViewModel(scope, globalError.value)
+                    Page.ABOUT -> AboutPageViewModel(scope, globalError.value)
+                    Page.NEW_GAME -> NewGameViewModel(scope, globalError.value)
+                    Page.LOBBY -> LobbyViewModel(
+                        scope = scope,
+                        appState = appState,
+                        pickGame = { game.setGame(it) },
+                        globalError = globalError.value,
+                    )
+
+                    Page.NONE -> null
+                } as Any
+            }
+
+            // Log navigation once per page change
+            LaunchedEffect(currentPage) {
+                LOGGER.info("Navigating to page: $currentPage")
+                lastLoggedPage.value = currentPage
+            }
 
             AppScreenSwitcher(pageState.value, backPageState.value, themeState.value) { currentPage ->
-                LOGGER.info("Navigating to page: $currentPage")
-                when (currentPage) {
-                    Page.MAIN_MENU -> MainMenu(appState)
-                    Page.GAME -> GamePage(
-                        GamePageViewModel(
-                            appState,
-                            scope,
-                            { game -> setGame(appState, game) },
-                            { e -> setError(appState, e) })
-                    )
-                    Page.SETTINGS -> SettingsPage(appState)
-                    Page.ABOUT -> AboutPage(appState)
-                    Page.NEW_GAME -> NewGamePage(appState)
-                    Page.SAVE_GAME -> SaveGamePage(appState)
-                    Page.LOBBY -> LobbyMenu(LobbyViewModel(scope, appState))
-                    Page.NONE -> { }
-                }
-            }
-        }
-    }
-}
-
-/**
- * Page to save the current game.
- * Save only board state and last player, not players info
- * (for avoid conflicts, because if save players info, in current game, permit other person to play with same piece type).
- * If the game has no name, allows the user to enter a name.
- * If the game has a name, shows the name but does not allow editing.
- * When the user clicks the save button, saves the game and returns to the game page.
- */
-@Composable
-fun SaveGamePage(appState: AppState) {
-    val game = appState.game.value
-    if (game.gameState == null) {
-        setAppState(
-            appState = appState,
-            page = appState.backPage.value,
-            error = GameNotStartedYet(
-                message = "Not possible to save a game that has not started yet",
-                type = ErrorType.WARNING
-            )
-        )
-        return
-    }
-
-    var gameName by remember { mutableStateOf(game.currGameName) }
-    val coroutineAppScope = rememberCoroutineScope()
-
-
-    ScaffoldView(
-        appState = appState,
-        title = "Guardar Jogo",
-        previousPageContent = {
-            PreviousPage { setPage(appState, Page.GAME) }
-        }
-    ) { padding ->
-        Box(
-            modifier = Modifier.fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.3f))
-                .padding(paddingValues = padding),
-        ) {
-            Column(
-                modifier = Modifier.background(Color.Transparent).fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Spacer(Modifier.height(height = 24.dp))
-
-                ReversiTextField(
-                    value = gameName ?: "",
-                    enabled = appState.game.value.currGameName == null,
-                    onValueChange = { gameName = it },
-                    label = { ReversiText("Nome do jogo", color = appState.theme.value.textColor) },
-                    singleLine = true
-                )
-
-                Spacer(Modifier.height(height = 24.dp))
-
-                Button(
-                    onClick = {
-                        val savedGame = game.copy(currGameName = gameName?.trim() ?: return@Button)
-                        coroutineAppScope.launch {
-                            try {
-                                savedGame.saveOnlyBoard(gameState = savedGame.gameState)
-                                setPage(appState, Page.GAME)
-                            } catch (e: Exception) {
-                                setError(appState, e)
-                            }
+                with(ReversiScope(appState.copy())) {
+                    when (currentPage) {
+                        Page.MAIN_MENU -> (currentViewModel as? MainMenuViewModel)?.let { vm ->
+                            MainMenu(
+                                viewModel = vm,
+                                setPage = { pageState.setPage(it) },
+                                onLeave = {}
+                            )
                         }
-                    },
-                    colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                        containerColor = appState.theme.value.primaryColor
-                    )
-                ) {
-                    ReversiText("Guardar", color = appState.theme.value.textColor)
+
+                        Page.GAME -> (currentViewModel as? GamePageViewModel)?.let { vm ->
+                            GamePage(
+                                viewModel = vm,
+                                onLeave = {
+                                    Snapshot.withMutableSnapshot {
+                                        game.setGame(it)
+                                        pageState.setPage(Page.MAIN_MENU)
+                                    }
+                                }
+                            )
+                        }
+
+                        Page.SETTINGS -> (currentViewModel as? SettingsViewModel)?.let { vm ->
+                            SettingsPage(
+                                viewModel = vm,
+                                onLeave = {
+                                    pageState.setPage(Page.MAIN_MENU)
+                                },
+                                save = { newPlayerName, theme, masterVol ->
+                                    Snapshot.withMutableSnapshot {
+                                        themeState.value = theme
+                                        playerName.value = newPlayerName
+                                        audioPool.value.setMasterVolume(masterVol)
+                                    }
+                                }
+                            )
+                        }
+
+                        Page.ABOUT -> (currentViewModel as? AboutPageViewModel)?.let { vm ->
+                            AboutPage(
+                                viewModel = vm,
+                                onLeave = {
+                                    pageState.setPage(Page.MAIN_MENU)
+                                }
+                            )
+                        }
+
+                        Page.NEW_GAME -> (currentViewModel as? NewGameViewModel)?.let { vm ->
+                            NewGamePage(
+                                viewModel = vm,
+                                playerNameChange = { name -> playerName.value = name },
+                                onLeave = {
+                                    pageState.setPage(Page.MAIN_MENU)
+                                },
+                                createGame = { newGame ->
+                                    Snapshot.withMutableSnapshot {
+                                        game.setGame(newGame)
+                                        pageState.setPage(Page.GAME)
+                                    }
+                                }
+                            )
+                        }
+
+                        Page.LOBBY -> (currentViewModel as? LobbyViewModel)?.let { vm ->
+                            LobbyMenu(
+                                vm,
+                                onLeave = { pageState.setPage(Page.MAIN_MENU) }
+                            )
+                        }
+
+                        Page.NONE -> {}
+                    }
                 }
             }
         }
     }
 }
+
+///**
+// * Page to save the current game.
+// * Save only board state and last player, not players info
+// * (for avoid conflicts, because if save players info, in current game, permit other person to play with same piece type).
+// * If the game has no name, allows the user to enter a name.
+// * If the game has a name, shows the name but does not allow editing.
+// * When the user clicks the save button, saves the game and returns to the game page.
+// */
+//@Composable
+//fun SaveGamePage(game: Game, onSave: () -> Unit, onLeave: () -> Unit, error: (Exception) -> Unit) {
+//    if (game.gameState == null) {
+//        error(
+//            GameNotStartedYet(
+//                message = "Not possible to save a game that has not started yet",
+//                type = ErrorType.WARNING
+//            )
+//        )
+//        onLeave()
+//        return
+//    }
+//
+//    var gameName by remember { mutableStateOf(game.currGameName) }
+//    val coroutineAppScope = rememberCoroutineScope()
+//
+//
+//    ScaffoldView(
+//        appState = appState,
+//        title = "Guardar Jogo",
+//        previousPageContent = {
+//            PreviousPage { setPage(appState, Page.GAME) }
+//        }
+//    ) { padding ->
+//        Box(
+//            modifier = Modifier.fillMaxSize()
+//                .background(Color.Black.copy(alpha = 0.3f))
+//                .padding(paddingValues = padding),
+//        ) {
+//            Column(
+//                modifier = Modifier.background(Color.Transparent).fillMaxSize(),
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//            ) {
+//                Spacer(Modifier.height(height = 24.dp))
+//
+//                ReversiTextField(
+//                    value = gameName ?: "",
+//                    enabled = appState.game.value.currGameName == null,
+//                    onValueChange = { gameName = it },
+//                    label = { ReversiText("Nome do jogo", color = appState.theme.value.textColor) },
+//                    singleLine = true
+//                )
+//
+//                Spacer(Modifier.height(height = 24.dp))
+//
+//                Button(
+//                    onClick = {
+//                        val savedGame = game.copy(currGameName = gameName?.trim() ?: return@Button)
+//                        coroutineAppScope.launch {
+//                            try {
+//                                savedGame.saveOnlyBoard(gameState = savedGame.gameState)
+//                                setPage(appState, Page.GAME)
+//                            } catch (e: Exception) {
+//                                setError(appState, e)
+//                            }
+//                        }
+//                    },
+//                    colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+//                        containerColor = appState.theme.value.primaryColor
+//                    )
+//                ) {
+//                    ReversiText("Guardar", color = appState.theme.value.textColor)
+//                }
+//            }
+//        }
+//    }
+//}
 
 /**
  * Converts a volume in decibels to a percentage string representation (0-100).
@@ -218,39 +335,6 @@ fun SaveGamePage(appState: AppState) {
 fun volumeDbToPercent(volume: Float, min: Float, max: Float): String {
     val percent = ((volume - min) / (max - min)) * 100
     return percent.toInt().toString()
-}
-
-/**
- * Simple about page presenting project and authorship information.
- *
- * @param appState Global state holder used for navigation and theming.
- * @param modifier Optional modifier to adjust layout in previews or reuse.
- */
-@Composable
-fun AboutPage(appState: AppState, modifier: Modifier = Modifier) {
-
-    ScaffoldView(
-        appState = appState,
-        title = "Sobre",
-        previousPageContent = {
-            PreviousPage { setPage(appState, appState.backPage.value) }
-        }
-    ) { padding ->
-        Column(
-            modifier = modifier.fillMaxSize().padding(paddingValues = padding),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(Modifier.height(height = 24.dp))
-            ReversiText("Projeto Reversi desenvolvido no ISEL.", color = appState.theme.value.textColor)
-            ReversiText("Autores: ", color = appState.theme.value.textColor)
-            ReversiText(" - Rafael Pereira - NUMERO", color = appState.theme.value.textColor)
-            ReversiText(" - Ian Frunze - NUMERO", color = appState.theme.value.textColor)
-            ReversiText(" - Tito Silva - NUMERO", color = appState.theme.value.textColor)
-            ReversiText("Versão: DEV Build", color = appState.theme.value.textColor)
-
-        }
-    }
 }
 
 /**

@@ -1,9 +1,9 @@
 package pt.isel.reversi.app.gamePageTest
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.test.*
 import kotlinx.coroutines.runBlocking
+import pt.isel.reversi.app.ReversiScope
 import pt.isel.reversi.app.pages.game.*
 import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.state.Page
@@ -26,17 +26,18 @@ class GamePageTests {
         )
     }
 
+    val appState = AppState.empty().copy(
+        game = game,
+        page = Page.GAME
+    )
+
     @Test
     fun `check if player score change after a move`() = runComposeUiTest {
-        val appState = AppState.empty().copy(
-            game = mutableStateOf(game),
-            page = mutableStateOf(Page.GAME)
-        )
 
         setContent {
             val scope = rememberCoroutineScope()
-            val gameViewModel = GamePageViewModel(appState, scope, { }, { })
-            GamePage(gameViewModel)
+            val gameViewModel = GamePageViewModel(game, scope, { },)
+            ReversiScope(appState).GamePage(gameViewModel, onLeave = { })
         }
 
         val players = game.gameState?.players!!
@@ -62,15 +63,10 @@ class GamePageTests {
 
     @Test
     fun `check if player score not change if freeze is true`() = runComposeUiTest {
-        val appState = AppState.empty().copy(
-            game = mutableStateOf(game),
-            page = mutableStateOf(Page.GAME)
-        )
-
         setContent {
             val scope = rememberCoroutineScope()
-            val gameViewModel = GamePageViewModel(appState, scope, { }, { })
-            GamePage(gameViewModel, freeze = true)
+            val gameViewModel = GamePageViewModel(game, scope, { },)
+            ReversiScope(appState).GamePage(gameViewModel, onLeave = { }, freeze = true)
         }
 
         val players = game.gameState?.players!!
@@ -92,19 +88,14 @@ class GamePageTests {
 
     @Test
     fun `check if ghost pieces shows when target mode is on`() = runComposeUiTest {
-        val appState = AppState.empty().copy(
-            game = mutableStateOf(game),
-            page = mutableStateOf(Page.GAME)
-        )
-
         val board = game.gameState!!.board
         val expectedGhostPieces = game.getAvailablePlays().size
         val expectedPieces = board.totalBlackPieces + board.totalWhitePieces
 
         setContent {
             val scope = rememberCoroutineScope()
-            val gameViewModel = GamePageViewModel(appState, scope, { }, { })
-            GamePage(gameViewModel)
+            val gameViewModel = GamePageViewModel(game, scope, { },)
+            ReversiScope(appState).GamePage(gameViewModel, onLeave = { })
         }
 
         var countPieces = 0
@@ -134,18 +125,13 @@ class GamePageTests {
 
     @Test
     fun `check if ghost pieces not shows when target mode is on and freeze is true`() = runComposeUiTest {
-        val appState = AppState.empty().copy(
-            game = mutableStateOf(game),
-            page = mutableStateOf(Page.GAME)
-        )
-
         val board = game.gameState!!.board
         val expectedPieces = board.totalBlackPieces + board.totalWhitePieces
 
         setContent {
             val scope = rememberCoroutineScope()
-            val gameViewModel = GamePageViewModel(appState, scope, { }, { })
-            GamePage(gameViewModel, freeze = true)
+            val gameViewModel = GamePageViewModel(game, scope, { },)
+            ReversiScope(appState).GamePage(gameViewModel, onLeave = { }, freeze = true)
         }
 
         var countPieces = 0

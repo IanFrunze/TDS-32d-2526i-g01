@@ -12,14 +12,11 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import pt.isel.reversi.app.ScaffoldView
-import pt.isel.reversi.app.getTheme
+import pt.isel.reversi.app.*
 import pt.isel.reversi.app.pages.lobby.lobbyViews.Empty
 import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.LobbyCarousel
 import pt.isel.reversi.app.pages.lobby.lobbyViews.utils.PopupPickAPiece
 import pt.isel.reversi.app.pages.lobby.lobbyViews.utils.RefreshButton
-import pt.isel.reversi.app.reversiFadeAnimation
-import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.utils.LOGGER
 
 /**
@@ -45,14 +42,15 @@ private const val PAGE_TRANSITION_DURATION_MS = 500
  * @param viewModel The lobby view model managing game list and selection logic.
  */
 @Composable
-fun LobbyMenu(
+fun ReversiScope.LobbyMenu(
     viewModel: LobbyViewModel,
+    onLeave: () -> Unit,
 ) {
     val uiState = viewModel.uiState.value
     val games = uiState.games
     val lobbyState = uiState.lobbyState
     val canRefresh = uiState.canRefresh
-    val appState: AppState = viewModel.appState
+    val appState = this.appState
 
     viewModel.initLobbyAudio()
 
@@ -63,10 +61,20 @@ fun LobbyMenu(
     }
 
     val refreshAction: @Composable () -> Unit = {
-        if (canRefresh) { RefreshButton { viewModel.refreshAll() } }
+        if (canRefresh) {
+            RefreshButton { viewModel.refreshAll() }
+        }
     }
 
-    ScaffoldView(appState, title = "Lobby - Jogos Guardados") { padding ->
+    ScaffoldView(
+        setError = { error -> viewModel.setError(error) },
+        error = uiState.screenState.error,
+        isLoading = uiState.screenState.isLoading,
+        title = "Lobby - Jogos Guardados",
+        previousPageContent = {
+            PreviousPage { onLeave() }
+        },
+    ) { padding ->
         val reversiScope = this
         AnimatedContent(
             targetState = lobbyState,
@@ -91,7 +99,7 @@ fun LobbyMenu(
                     LobbyState.NONE -> {}
                     LobbyState.EMPTY -> Empty { refreshAction() }
                     LobbyState.SHOW_GAMES -> LobbyCarousel(
-                        currentGameName = appState.game.value.currGameName,
+                        currentGameName = appState.game.currGameName,
                         games = games,
                         viewModel,
                         reversiScope = reversiScope,
@@ -110,7 +118,7 @@ fun LobbyMenu(
                 }
                 val players = state.players.map { it.type }
 
-                if (game.currGameName != appState.game.value.currGameName) {
+                if (game.currGameName != appState.game.currGameName) {
                     PopupPickAPiece(
                         pieces = players,
                         onPick = { pieceType -> viewModel.joinGame(game, pieceType) },
@@ -121,7 +129,3 @@ fun LobbyMenu(
         }
     }
 }
-
-fun testTagLobbyBoard() = "LobbyBoardPreview"
-fun testTagCellPreview(coordinateIndex: Int) = "LobbyCellPreview_$coordinateIndex"
-fun testTagCarouselItem(name: String) = "LobbyCarouselItem_$name"

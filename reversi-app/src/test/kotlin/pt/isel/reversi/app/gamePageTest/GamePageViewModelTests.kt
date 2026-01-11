@@ -1,10 +1,8 @@
 package pt.isel.reversi.app.gamePageTest
 
-import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import pt.isel.reversi.app.pages.game.GamePageViewModel
-import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.startNewGame
@@ -26,29 +24,21 @@ class GamePageViewModelTests {
 
     @Test
     fun `verify that the state initializes correctly`() = runTest {
-        val appState = AppState.empty().copy(
-            game = mutableStateOf(game)
-        )
 
         val uut = GamePageViewModel(
-            appState,
+            game,
             this,
             { },
-            { }
         )
 
         // Verify initial state
         assertNotNull(uut.uiState.value)
-        assertEquals(game, uut.uiState.value)
+        assertEquals(game, uut.uiState.value.game)
     }
 
     @Test
     fun `verify that get available plays works correctly`() = runTest {
-        val appState = AppState.empty().copy(
-            game = mutableStateOf(game)
-        )
-
-        val uut = GamePageViewModel(appState, this, { }, { })
+        val uut = GamePageViewModel(game, this, { })
 
         val availablePlays = uut.getAvailablePlays()
         val expectedPlays = game.getAvailablePlays()
@@ -58,29 +48,20 @@ class GamePageViewModelTests {
 
     @Test
     fun `verify that set target mode works correctly`() = runTest {
-        val appState = AppState.empty().copy(
-            game = mutableStateOf(game)
-        )
+        val uut = GamePageViewModel(game, this, { })
 
-        val uut = GamePageViewModel(appState, this, { }, { })
-
-        val initialTarget = uut.uiState.value.target
+        val initialTarget = uut.uiState.value.game.target
         uut.setTarget(!initialTarget)
 
-        assertEquals(!initialTarget, uut.uiState.value.target)
+        assertEquals(!initialTarget, uut.uiState.value.game.target)
     }
 
     @Test
     fun `verify that save preserves game state`() = runTest {
-        val appState = AppState.empty().copy(
-            game = mutableStateOf(game)
-        )
-
         val uut = GamePageViewModel(
-            appState,
+            game,
             this,
             { },
-            { }
         )
 
         uut.save()
@@ -90,11 +71,7 @@ class GamePageViewModelTests {
 
     @Test
     fun `verify polling control methods work`() = runTest {
-        val appState = AppState.empty().copy(
-            game = mutableStateOf(game)
-        )
-
-        val uut = GamePageViewModel(appState, this, { }, { })
+        val uut = GamePageViewModel(game, this, { })
 
         // Initially no polling
         assertEquals(false, uut.isPollingActive())

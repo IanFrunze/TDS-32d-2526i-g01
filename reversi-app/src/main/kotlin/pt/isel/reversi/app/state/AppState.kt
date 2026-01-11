@@ -1,7 +1,5 @@
 package pt.isel.reversi.app.state
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import pt.isel.reversi.app.AppTheme
 import pt.isel.reversi.app.AppThemes
 import pt.isel.reversi.core.Game
@@ -14,26 +12,43 @@ import pt.isel.reversi.utils.audio.AudioPool
  * composables that read that specific field.
  */
 data class AppState(
-    val game: MutableState<Game>,
-    val page: MutableState<Page>,
-    val error: MutableState<ReversiException?>,
-    val backPage: MutableState<Page>,
-    val isLoading: MutableState<Boolean>,
+    val game: Game,
+    val page: Page,
+    val backPage: Page,
     val audioPool: AudioPool,
-    val theme: MutableState<AppTheme>,
-    val playerName: MutableState<String?>
+    val globalError: ReversiException?,
+    val theme: AppTheme,
+    val playerName: String?
 ) {
     companion object {
         // Empty AppState for initialization
         fun empty(): AppState = AppState(
-            game = mutableStateOf(Game()),
-            page = mutableStateOf(Page.MAIN_MENU),
-            error = mutableStateOf(null),
-            backPage = mutableStateOf(Page.MAIN_MENU),
-            isLoading = mutableStateOf(false),
+            game = Game(),
+            page = Page.MAIN_MENU,
+            backPage = Page.MAIN_MENU,
             audioPool = AudioPool(emptyList()),
-            theme = mutableStateOf(AppThemes.DARK.appTheme),
-            playerName = mutableStateOf(null)
+            globalError = null,
+            theme = AppThemes.DARK.appTheme,
+            playerName = null
         )
     }
+}
+
+data class ScreenState(
+    val error: ReversiException? = null,
+    val isLoading: Boolean = false,
+)
+
+/**
+ * Base class for UI state with screen state management.
+ * Each subclass must implement updateScreenState to define how to copy itself with a new ScreenState.
+ */
+abstract class UiState {
+    abstract val screenState: ScreenState
+
+    /**
+     * Creates a copy of this UiState with the given ScreenState.
+     * Each subclass implements this using its data class copy() method.
+     */
+    abstract fun updateScreenState(newScreenState: ScreenState): UiState
 }

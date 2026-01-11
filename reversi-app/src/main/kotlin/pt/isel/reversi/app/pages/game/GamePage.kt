@@ -6,9 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import pt.isel.reversi.app.PreviousPage
+import pt.isel.reversi.app.ReversiScope
 import pt.isel.reversi.app.ScaffoldView
-import pt.isel.reversi.app.state.getStateAudioPool
-import pt.isel.reversi.app.state.setAppState
+import pt.isel.reversi.core.Game
 
 /**
  * Main game page displaying the Reversi board, player scores, and game controls.
@@ -19,10 +19,14 @@ import pt.isel.reversi.app.state.setAppState
  * @param freeze Whether to freeze the game board and prevent user interaction.
  */
 @Composable
-fun GamePage(viewModel: GamePageViewModel, modifier: Modifier = Modifier, freeze: Boolean = false) {
-    val appState = viewModel.appState
-    val game = viewModel.uiState.value
-
+fun ReversiScope.GamePage(
+    viewModel: GamePageViewModel,
+    modifier: Modifier = Modifier,
+    freeze: Boolean = false,
+    onLeave: (Game) -> Unit,
+) {
+    val game = viewModel.uiState.value.game
+    val theme = appState.theme
 
     // Launch the game refresh coroutine
     DisposableEffect(viewModel) {
@@ -30,8 +34,7 @@ fun GamePage(viewModel: GamePageViewModel, modifier: Modifier = Modifier, freeze
             viewModel.startPolling()
         }
 
-        val theme = appState.theme.value
-        getStateAudioPool(appState).run {
+        appState.audioPool.run {
             if (!isPlaying(theme.gameMusic)) {
                 stop(theme.backgroundMusic)
                 stop(theme.gameMusic)
@@ -47,11 +50,13 @@ fun GamePage(viewModel: GamePageViewModel, modifier: Modifier = Modifier, freeze
 
     val name = game.currGameName
 
-    ScaffoldView(
-        appState = appState,
+    this.ScaffoldView(
+        setError = { viewModel.setError(it) },
+        error = viewModel.uiState.value.screenState.error,
+        isLoading = viewModel.uiState.value.screenState.isLoading,
         title = name ?: "Reversi",
         previousPageContent = {
-            PreviousPage { setAppState(appState, page = appState.backPage.value, game = game) }
+            PreviousPage { onLeave(game) }
         }
     ) { padding ->
         GamePageView(

@@ -1,4 +1,4 @@
-package pt.isel.reversi.app.pages
+package pt.isel.reversi.app.pages.settingsPage
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -14,9 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import pt.isel.reversi.app.*
-import pt.isel.reversi.app.state.AppState
-import pt.isel.reversi.app.state.setAppState
-import pt.isel.reversi.app.state.setPage
 import pt.isel.reversi.core.CoreConfig
 import pt.isel.reversi.core.loadCoreConfig
 import pt.isel.reversi.core.storage.GameStorageType
@@ -58,21 +55,11 @@ private fun ReversiScope.SettingsSection(
  * @param appState Global application state for accessing and updating settings.
  */
 @Composable
-fun SettingsPage(appState: AppState) {
+fun ReversiScope.SettingsPage(viewModel: SettingsViewModel, onLeave: () -> Unit, save: (String?, AppTheme, Float) -> Unit) {
     val draftState = remember {
-        mutableStateOf(
-            AppState(
-                game = mutableStateOf(appState.game.value),
-                page = mutableStateOf(appState.page.value),
-                error = mutableStateOf(appState.error.value),
-                backPage = mutableStateOf(appState.backPage.value),
-                isLoading = mutableStateOf(appState.isLoading.value),
-                audioPool = appState.audioPool,
-                theme = mutableStateOf(appState.theme.value),
-                playerName = mutableStateOf(appState.playerName.value)
-            )
-        )
+        mutableStateOf(value = appState)
     }
+
     val draftCoreConfig = remember { mutableStateOf(loadCoreConfig()) }
     var currentVol by remember {
         val masterVol = appState.audioPool.getMasterVolume()
@@ -84,10 +71,12 @@ fun SettingsPage(appState: AppState) {
     }
 
     ScaffoldView(
-        appState = appState,
+        setError = { error -> viewModel.setError(error) },
+        error = viewModel.uiState.value.screenState.error,
+        isLoading = viewModel.uiState.value.screenState.isLoading,
         title = "Definições",
         previousPageContent = {
-            PreviousPage { setPage(appState, getCurrentState().backPage.value) }
+            PreviousPage { onLeave() }
         }
     ) { padding ->
         val scope = rememberCoroutineScope()
@@ -123,7 +112,12 @@ fun SettingsPage(appState: AppState) {
                 verticalArrangement = Arrangement.spacedBy(32.dp)
             ) {
 
-                GameSection(draftState)
+                GameSection(
+                    playerName = draftState.value.playerName,
+                    onValueChange = {
+                        draftState.value = draftState.value.copy(playerName = it)
+                    }
+                )
 
                 CoreConfigSection(
                     coreConfig = draftCoreConfig.value,
@@ -136,17 +130,18 @@ fun SettingsPage(appState: AppState) {
                 )
 
                 AppearanceSection(
-                    draftState = draftState,
-                    appTheme = appState.theme.value
-                )
+                    theme = draftState.value.theme,
+                    appTheme = appState.theme
+                ) { newTheme ->
+                    draftState.value = draftState.value.copy(theme = newTheme)
+                }
 
                 ApplyButton {
                     scope.launch {
-                        // Placeholder apply: update top-level appState from draft
-                        setAppState(
-                            appState,
-                            playerName = draftState.value.playerName.value,
-                            theme = draftState.value.theme.value,
+                        save(
+                            draftState.value.playerName,
+                            draftState.value.theme,
+                            currentVol
                         )
                     }
                 }
@@ -156,11 +151,11 @@ fun SettingsPage(appState: AppState) {
 }
 
 @Composable
-private fun ReversiScope.GameSection(draftState: MutableState<AppState>) {
+private fun ReversiScope.GameSection(playerName: String?, onValueChange: (String) -> Unit) {
     SettingsSection(title = "Jogo") {
         ReversiTextField(
-            value = draftState.value.playerName.value ?: "",
-            onValueChange = { draftState.value.playerName.value = it },
+            value = playerName ?: "",
+            onValueChange = { onValueChange(it) },
             label = { ReversiText("Nome do Jogador") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -284,9 +279,9 @@ private fun ReversiScope.AudioSection(
             valueRange = minVol..maxVol,
             onValueChange = onVolumeChange,
             colors = SliderDefaults.colors(
-                thumbColor = appState.theme.value.primaryColor,
-                activeTrackColor = appState.theme.value.primaryColor,
-                inactiveTrackColor = appState.theme.value.textColor.copy(alpha = 0.3f)
+                thumbColor = appState.theme.primaryColor,
+                activeTrackColor = appState.theme.primaryColor,
+                inactiveTrackColor = appState.theme.textColor.copy(alpha = 0.3f)
             )
         )
     }
@@ -294,8 +289,9 @@ private fun ReversiScope.AudioSection(
 
 @Composable
 private fun ReversiScope.AppearanceSection(
-    draftState: MutableState<AppState>,
-    appTheme: AppTheme
+    theme: AppTheme,
+    appTheme: AppTheme,
+    onClick: (AppTheme) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -310,7 +306,7 @@ private fun ReversiScope.AppearanceSection(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    ReversiText(draftState.value.theme.value.name)
+                    ReversiText(theme.name)
                     Icon(Icons.Default.Palette, null, tint = appTheme.primaryColor)
                 }
             }
@@ -323,7 +319,7 @@ private fun ReversiScope.AppearanceSection(
                     ReversiDropdownMenuItem(
                         text = entry.appTheme.name,
                         onClick = {
-                            draftState.value.theme.value = entry.appTheme
+                            onClick(entry.appTheme)
                             expanded = false
                         }
                     )
