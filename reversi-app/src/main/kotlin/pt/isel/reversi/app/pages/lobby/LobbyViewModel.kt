@@ -13,6 +13,7 @@ import pt.isel.reversi.core.loadGame
 import pt.isel.reversi.core.readState
 import pt.isel.reversi.core.storage.GameState
 import pt.isel.reversi.utils.LOGGER
+import pt.isel.reversi.utils.TRACKER
 
 private const val UI_DELAY_SHORT_MS = 100L
 private const val POLL_INTERVAL_MS = 1000L
@@ -56,6 +57,7 @@ class LobbyViewModel(
     private var pollingJob: Job? = null
 
     init {
+        TRACKER.trackViewModelCreated(this)
         LOGGER.info("LobbyViewModel initialized")
     }
 
