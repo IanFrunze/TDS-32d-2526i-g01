@@ -57,9 +57,9 @@ data class LobbyUiState(
  * @property globalError Optional error to display on initial load.
  */
 class LobbyViewModel(
-    val scope: CoroutineScope,
     val appState: AppState,
-    val pickGame: (Game) -> Unit,
+    private val scope: CoroutineScope,
+    private val pickGame: (Game) -> Unit,
     private val globalError: ReversiException? = null,
     private val setGlobalError: (Exception?) -> Unit,
 ) : ViewModel {

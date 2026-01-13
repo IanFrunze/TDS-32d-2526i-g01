@@ -46,7 +46,6 @@ fun ReversiScope.GamePage(
 
         onDispose {
             viewModel.stopPolling()
-            viewModel.save()
             TRACKER.trackEffectStop(this)
         }
     }

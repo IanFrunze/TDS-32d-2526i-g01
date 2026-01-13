@@ -54,8 +54,8 @@ fun FrameWindowScope.MakeMenuBar(
             }
             Item("Sair do jogo atual") {
                 runBlocking { appState.game.saveEndGame() }
-                setPage(Page.MAIN_MENU)
                 setGame(Game())
+                setPage(Page.MAIN_MENU)
             }
             Separator()
             Item("Sair") {
