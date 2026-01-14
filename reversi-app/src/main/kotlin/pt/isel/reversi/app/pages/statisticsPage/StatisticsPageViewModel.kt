@@ -3,10 +3,9 @@ package pt.isel.reversi.app.pages.statisticsPage
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.CoroutineScope
-import pt.isel.reversi.app.state.ScreenState
-import pt.isel.reversi.app.state.UiState
-import pt.isel.reversi.app.state.ViewModel
-import pt.isel.reversi.app.state.setError
+import pt.isel.reversi.app.state.pages.ScreenState
+import pt.isel.reversi.app.state.pages.UiState
+import pt.isel.reversi.app.state.pages.ViewModel
 import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.utils.TRACKER
 import pt.isel.reversi.utils.TrackingStats
@@ -43,7 +42,7 @@ data class StatisticsUiState(
     val totalEvents: Long = 0,
     val totalCategories: Int = 0,
     override val screenState: ScreenState = ScreenState()
-) : UiState() {
+) : UiState {
     /**
      * Creates a copy of this UI state with the given screen state.
      * @param newScreenState The new screen state to apply.
@@ -61,10 +60,11 @@ data class StatisticsUiState(
  * @param globalError Optional global error to seed initial screen state.
  */
 class StatisticsPageViewModel(
-    scope: CoroutineScope,
-    globalError: ReversiException? = null
-) : ViewModel {
-    private val _uiState = mutableStateOf(
+    private val scope: CoroutineScope,
+    override val globalError: ReversiException? = null,
+    override val setGlobalError: (Exception?) -> Unit
+) : ViewModel<StatisticsUiState>() {
+    override val _uiState = mutableStateOf(
         StatisticsUiState(
             screenState = ScreenState(error = globalError)
         )
@@ -74,9 +74,6 @@ class StatisticsPageViewModel(
     init {
         loadStatistics()
     }
-
-    override fun setError(error: Exception?) =
-        _uiState.setError(error)
 
     fun loadStatistics() {
         val categorizedStats = TRACKER.getCategorizedStats()

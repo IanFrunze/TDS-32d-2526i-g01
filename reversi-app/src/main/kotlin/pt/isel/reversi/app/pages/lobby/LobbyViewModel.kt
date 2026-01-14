@@ -7,6 +7,7 @@ import pt.isel.reversi.app.exceptions.GameCorrupted
 import pt.isel.reversi.app.exceptions.GameIsFull
 import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.state.getStateAudioPool
+import pt.isel.reversi.app.state.pages.Page
 import pt.isel.reversi.app.state.pages.ScreenState
 import pt.isel.reversi.app.state.pages.UiState
 import pt.isel.reversi.app.state.pages.ViewModel

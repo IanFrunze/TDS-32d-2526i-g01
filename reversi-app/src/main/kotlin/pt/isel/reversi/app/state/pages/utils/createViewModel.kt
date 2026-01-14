@@ -10,6 +10,7 @@ import pt.isel.reversi.app.pages.lobby.LobbyViewModel
 import pt.isel.reversi.app.pages.menu.MainMenuViewModel
 import pt.isel.reversi.app.pages.newGamePage.NewGameViewModel
 import pt.isel.reversi.app.pages.settingsPage.SettingsViewModel
+import pt.isel.reversi.app.pages.statisticsPage.StatisticsPageViewModel
 import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.state.pages.Page
 import pt.isel.reversi.app.state.pages.PagesState
@@ -102,6 +103,12 @@ fun Page.createViewModel(
             }
         },
         globalError = globalError.value,
+    )
+
+    Page.STATISTICS -> StatisticsPageViewModel(
+        scope = scope,
+        globalError = globalError.value,
+        setGlobalError = { globalError.setGlobalError(it) },
     )
 
     Page.NONE -> null
