@@ -5,10 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import pt.isel.reversi.app.exceptions.NoPieceSelected
-import pt.isel.reversi.app.state.ScreenState
-import pt.isel.reversi.app.state.UiState
-import pt.isel.reversi.app.state.ViewModel
-import pt.isel.reversi.app.state.setError
+import pt.isel.reversi.app.state.pages.ScreenState
+import pt.isel.reversi.app.state.pages.UiState
+import pt.isel.reversi.app.state.pages.ViewModel
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.PieceType
@@ -19,7 +18,7 @@ import pt.isel.reversi.utils.LOGGER
 
 data class NewGameUiState(
     override val screenState: ScreenState = ScreenState()
-) : UiState() {
+) : UiState {
     override fun updateScreenState(newScreenState: ScreenState) =
         copy(screenState = newScreenState)
 }
@@ -27,22 +26,16 @@ data class NewGameUiState(
 class NewGameViewModel(
     private val scope: CoroutineScope,
     private val playerName: String?,
-    private val globalError: ReversiException? = null,
-    private val setGlobalError: (Exception?) -> Unit,
+    override val globalError: ReversiException? = null,
+    override val setGlobalError: (Exception?) -> Unit,
     private val createGame: (Game) -> Unit,
-): ViewModel  {
-    private val _uiState = mutableStateOf(
+) : ViewModel<NewGameUiState>() {
+    override val _uiState = mutableStateOf(
         NewGameUiState(
             screenState = ScreenState(error = globalError)
         )
     )
     override val uiState: State<NewGameUiState> = _uiState
-
-    override fun setError(error: Exception?) =
-        if (globalError != null) {
-            setGlobalError(error)
-        } else
-            _uiState.setError(error)
 
     fun tryCreateGame(game: Game, boardSize: Int) {
         val currGameName = game.currGameName

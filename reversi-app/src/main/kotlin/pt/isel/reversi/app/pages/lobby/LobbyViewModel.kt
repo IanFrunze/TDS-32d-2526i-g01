@@ -5,7 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.*
 import pt.isel.reversi.app.exceptions.GameCorrupted
 import pt.isel.reversi.app.exceptions.GameIsFull
-import pt.isel.reversi.app.state.*
+import pt.isel.reversi.app.state.AppState
+import pt.isel.reversi.app.state.getStateAudioPool
+import pt.isel.reversi.app.state.pages.ScreenState
+import pt.isel.reversi.app.state.pages.UiState
+import pt.isel.reversi.app.state.pages.ViewModel
+import pt.isel.reversi.app.state.setError
+import pt.isel.reversi.app.state.setLoading
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.exceptions.ReversiException
@@ -41,7 +47,7 @@ data class LobbyUiState(
         error = null,
         isLoading = false
     )
-) : UiState() {
+) : UiState {
     override fun updateScreenState(newScreenState: ScreenState): LobbyUiState {
         return copy(screenState = newScreenState)
     }
@@ -60,10 +66,10 @@ class LobbyViewModel(
     val appState: AppState,
     private val scope: CoroutineScope,
     private val pickGame: (Game) -> Unit,
-    private val globalError: ReversiException? = null,
-    private val setGlobalError: (Exception?) -> Unit,
-) : ViewModel {
-    val _uiState = mutableStateOf(
+    override val globalError: ReversiException? = null,
+    override val setGlobalError: (Exception?) -> Unit,
+) : ViewModel<LobbyUiState>() {
+    override val _uiState = mutableStateOf(
         LobbyUiState(
             screenState = ScreenState(error = globalError)
         )
@@ -82,13 +88,6 @@ class LobbyViewModel(
 
     fun refreshAll() {
         scope.launch { loadGamesAndUpdateState() }
-    }
-
-    override fun setError(error: Exception?) {
-        if (globalError != null) {
-            setGlobalError(error)
-        } else
-            _uiState.setError(error)
     }
 
     private suspend fun loadGamesAndUpdateState() {

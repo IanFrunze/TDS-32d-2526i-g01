@@ -3,23 +3,16 @@ package pt.isel.reversi.app
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.ui.window.*
 import kotlinx.coroutines.*
 import org.jetbrains.compose.resources.painterResource
-import pt.isel.reversi.app.pages.aboutPage.AboutPage
-import pt.isel.reversi.app.pages.aboutPage.AboutPageViewModel
-import pt.isel.reversi.app.pages.game.GamePage
-import pt.isel.reversi.app.pages.game.GamePageViewModel
-import pt.isel.reversi.app.pages.lobby.LobbyMenu
-import pt.isel.reversi.app.pages.lobby.LobbyViewModel
-import pt.isel.reversi.app.pages.menu.MainMenu
-import pt.isel.reversi.app.pages.menu.MainMenuViewModel
-import pt.isel.reversi.app.pages.newGamePage.NewGamePage
-import pt.isel.reversi.app.pages.newGamePage.NewGameViewModel
-import pt.isel.reversi.app.pages.settingsPage.SettingsPage
-import pt.isel.reversi.app.pages.settingsPage.SettingsViewModel
 import pt.isel.reversi.app.state.*
+import pt.isel.reversi.app.state.pages.Page
+import pt.isel.reversi.app.state.pages.PagesState
+import pt.isel.reversi.app.state.pages.UiState
+import pt.isel.reversi.app.state.pages.ViewModel
+import pt.isel.reversi.app.state.pages.utils.createPageView
+import pt.isel.reversi.app.state.pages.utils.createViewModel
 import pt.isel.reversi.app.utils.addShutdownHook
 import pt.isel.reversi.app.utils.initializeAppArgs
 import pt.isel.reversi.app.utils.installFatalCrashLogger
@@ -153,87 +146,20 @@ fun main(args: Array<String>) {
                 },
             ) { safeExitApplication() }
 
-            val lastLoggedPage = remember { mutableStateOf<Page?>(null) }
-
             val currentPage = pagesState.value.page
 
-            // Create one ViewModel per page change
-            val currentViewModel: ViewModel? = remember(currentPage, globalError.value) {
-                when (currentPage) {
-                    Page.MAIN_MENU -> MainMenuViewModel(
-                        appState,
-                        globalError = globalError.value,
-                        setGlobalError = { globalError.setGlobalError(it) },
-                    )
-
-                    Page.GAME -> GamePageViewModel(
-                        game.value,
-                        globalError = globalError.value,
-                        scope = scope,
-                        setGlobalError = { globalError.setGlobalError(it) },
-                        audioPlayMove = {
-                            audioPool.value.run {
-                                stop(themeState.value.placePieceSound)
-                                play(themeState.value.placePieceSound)
-                            }
-                        },
-                        setGame = { game.setGame(it) },
-                    )
-
-                    Page.SETTINGS -> SettingsViewModel(
-                        scope,
-                        appState,
-                        setTheme = { themeState.value = it },
-                        setGlobalError = { globalError.setGlobalError(it) },
-                        setPlayerName = {
-                            Snapshot.withMutableSnapshot {
-                                playerName.value = it
-                                val newName = it ?: return@withMutableSnapshot
-                                val gameState = game.value.gameState ?: return@withMutableSnapshot
-                                val myPiece = game.value.myPiece ?: return@withMutableSnapshot
-                                game.setGame(
-                                    game.value.copy(
-                                        gameState = gameState.changeName(newName, myPiece)
-                                    )
-                                )
-                            }
-                        },
-                        globalError = globalError.value
-                    )
-
-                    Page.ABOUT -> AboutPageViewModel(
-                        globalError.value,
-                        setGlobalError = { globalError.setGlobalError(it) },
-                    )
-
-                    Page.NEW_GAME -> NewGameViewModel(
-                        scope,
-                        playerName.value,
-                        globalError.value,
-                        setGlobalError = { globalError.setGlobalError(it) },
-                        createGame = { newGame ->
-                            Snapshot.withMutableSnapshot {
-                                game.setGame(newGame)
-                                pagesState.setPage(Page.GAME, backPage = Page.MAIN_MENU)
-                            }
-                        }
-                    )
-
-                    Page.LOBBY -> LobbyViewModel(
-                        scope = scope,
-                        appState = appState,
-                        setGlobalError = { globalError.setGlobalError(it) },
-                        pickGame = {
-                            Snapshot.withMutableSnapshot {
-                                game.setGame(it)
-                                pagesState.setPage(Page.GAME, backPage = Page.MAIN_MENU)
-                            }
-                        },
-                        globalError = globalError.value,
-                    )
-
-                    Page.NONE -> null
-                }
+            // out [UiState] for allow ViewModel covariance
+            val currentViewModel: ViewModel<out UiState>? = remember(currentPage, globalError.value) {
+                pagesState.value.page.createViewModel(
+                    scope = scope,
+                    appState = appState,
+                    game = game,
+                    audioPool = audioPool,
+                    themeState = themeState,
+                    globalError = globalError,
+                    playerName = playerName,
+                    pagesState = pagesState,
+                )
             }
 
             TRACKER.trackRecomposition()
@@ -241,71 +167,23 @@ fun main(args: Array<String>) {
             // Log navigation once per page change
             LaunchedEffect(currentPage) {
                 LOGGER.info("Navigating to page: $currentPage")
-                lastLoggedPage.value = currentPage
             }
 
             AppScreenSwitcher(pagesState.value, themeState.value) { currentPage ->
                 with(ReversiScope(appState)) {
-                    when (currentPage) {
-                        Page.MAIN_MENU -> if (currentViewModel is MainMenuViewModel) {
-                            MainMenu(
-                                viewModel = currentViewModel,
-                                setPage = { pagesState.setPage(it) },
-                                onLeave = {}
-                            )
-                        }
-
-                        Page.GAME -> if (currentViewModel is GamePageViewModel) {
-                            GamePage(
-                                viewModel = currentViewModel,
-                                onLeave = {
-                                    Snapshot.withMutableSnapshot {
-                                        game.setGame(it)
-                                        pagesState.setPage(Page.MAIN_MENU)
-                                    }
-                                }
-                            )
-                        }
-
-                        Page.SETTINGS -> if (currentViewModel is SettingsViewModel) {
-                            SettingsPage(
-                                viewModel = currentViewModel,
-                                onLeave = {
-                                    pagesState.setPage(pagesState.value.backPage)
-                                },
-                            )
-                        }
-
-                        Page.ABOUT -> if (currentViewModel is AboutPageViewModel) {
-                            AboutPage(
-                                viewModel = currentViewModel,
-                                onLeave = {
-                                    pagesState.setPage(pagesState.value.backPage)
-                                }
-                            )
-                        }
-
-                        Page.NEW_GAME -> if (currentViewModel is NewGameViewModel) {
-                            NewGamePage(
-                                viewModel = currentViewModel,
-                                playerNameChange = { name -> playerName.value = name },
-                                onLeave = {
-                                    pagesState.setPage(Page.MAIN_MENU)
-                                }
-                            )
-                        }
-
-                        Page.LOBBY -> if (currentViewModel is LobbyViewModel) {
-                            LobbyMenu(
-                                currentViewModel,
-                                onLeave = {
-                                    pagesState.setPage(Page.MAIN_MENU)
-                                }
-                            )
-                        }
-
-                        Page.NONE -> {}
+                    if (currentViewModel == null) {
+                        LOGGER.severe("No ViewModel found for page: $currentPage")
+                        return@AppScreenSwitcher
                     }
+
+                    val view = currentPage.createPageView(
+                        vm = currentViewModel,
+                        game = game,
+                        playerName = playerName,
+                        pagesState = pagesState,
+                    )
+
+                    view()
                 }
             }
         }

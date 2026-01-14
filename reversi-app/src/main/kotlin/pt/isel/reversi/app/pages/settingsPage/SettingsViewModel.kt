@@ -8,7 +8,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import pt.isel.reversi.app.AppTheme
 import pt.isel.reversi.app.gameAudio.loadGameAudioPool
-import pt.isel.reversi.app.state.*
+import pt.isel.reversi.app.state.AppState
+import pt.isel.reversi.app.state.pages.ScreenState
+import pt.isel.reversi.app.state.pages.UiState
+import pt.isel.reversi.app.state.pages.ViewModel
+import pt.isel.reversi.app.state.setError
+import pt.isel.reversi.app.state.setLoading
 import pt.isel.reversi.app.utils.runStorageHealthCheck
 import pt.isel.reversi.core.CoreConfig
 import pt.isel.reversi.core.exceptions.ErrorType
@@ -25,7 +30,7 @@ data class SettingsUiState(
     val draftTheme: AppTheme,
     val draftCoreConfig: CoreConfig,
     val currentVol: Float
-) : UiState() {
+) : UiState {
     override fun updateScreenState(newScreenState: ScreenState) =
         copy(screenState = newScreenState)
 }
@@ -33,13 +38,13 @@ data class SettingsUiState(
 class SettingsViewModel(
     private val scope: CoroutineScope,
     private val appState: AppState,
-    private val globalError: ReversiException? = null,
+    override val globalError: ReversiException? = null,
     private val setTheme: (AppTheme) -> Unit,
     private val setPlayerName: (String?) -> Unit,
-    private val setGlobalError: (Exception?) -> Unit,
-) : ViewModel {
+    override val setGlobalError: (Exception?) -> Unit,
+) : ViewModel<SettingsUiState>() {
 
-    private val _uiState = mutableStateOf(
+    override val _uiState = mutableStateOf(
         SettingsUiState(
             draftPlayerName = appState.playerName,
             draftTheme = appState.theme,
@@ -64,11 +69,6 @@ class SettingsViewModel(
 
     override val uiState: State<SettingsUiState> = _uiState
 
-    override fun setError(error: Exception?) =
-        if (globalError != null) {
-            setGlobalError(error)
-        } else
-            _uiState.setError(error)
 
     fun setDraftPlayerName(name: String?) {
         _uiState.value = _uiState.value.copy(draftPlayerName = name)

@@ -10,10 +10,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.isel.reversi.app.ScaffoldView
-import pt.isel.reversi.app.state.Page
 import pt.isel.reversi.app.state.ReversiButton
 import pt.isel.reversi.app.state.ReversiScope
 import pt.isel.reversi.app.state.ReversiText
+import pt.isel.reversi.app.state.pages.Page
 import pt.isel.reversi.app.utils.PreviousPage
 import pt.isel.reversi.utils.TRACKER
 
@@ -25,7 +25,6 @@ val MAIN_MENU_AUTO_SIZE_BUTTON_TEXT =
 fun ReversiScope.MainMenu(
     viewModel: MainMenuViewModel,
     modifier: Modifier = Modifier,
-    setPage: (Page) -> Unit,
     onLeave: () -> Unit,
 ) {
     TRACKER.trackPageEnter()
@@ -57,10 +56,10 @@ fun ReversiScope.MainMenu(
                     verticalArrangement = Arrangement.spacedBy(20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    ReversiButton("Novo Jogo") { setPage(Page.NEW_GAME) }
-                    ReversiButton("Lobby") { setPage(Page.LOBBY) }
-                    ReversiButton("Definições") { setPage(Page.SETTINGS) }
-                    ReversiButton("Sobre") { setPage(Page.ABOUT) }
+                    ReversiButton("Novo Jogo") { viewModel.setPage(Page.NEW_GAME) }
+                    ReversiButton("Lobby") { viewModel.setPage(Page.LOBBY) }
+                    ReversiButton("Definições") { viewModel.setPage(Page.SETTINGS) }
+                    ReversiButton("Sobre") { viewModel.setPage(Page.ABOUT) }
                 }
             }
         }

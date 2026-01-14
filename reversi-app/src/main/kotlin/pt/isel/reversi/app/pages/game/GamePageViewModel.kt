@@ -5,9 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.*
 import pt.isel.reversi.app.exceptions.GameCorrupted
 import pt.isel.reversi.app.exceptions.GameNotStartedYet
-import pt.isel.reversi.app.state.ScreenState
-import pt.isel.reversi.app.state.UiState
-import pt.isel.reversi.app.state.ViewModel
+import pt.isel.reversi.app.state.pages.ScreenState
+import pt.isel.reversi.app.state.pages.UiState
+import pt.isel.reversi.app.state.pages.ViewModel
 import pt.isel.reversi.app.state.setError
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.Coordinate
@@ -21,7 +21,7 @@ import kotlin.coroutines.cancellation.CancellationException
 data class GameUiState(
     val game: Game,
     override val screenState: ScreenState = ScreenState()
-) : UiState() {
+) : UiState {
     override fun updateScreenState(newScreenState: ScreenState): GameUiState {
         return copy(screenState = newScreenState)
     }
@@ -31,7 +31,7 @@ data class GameUiState(
  * View model for the game page managing game state, UI updates, and user interactions.
  * Handles game move execution, state polling for multiplayer games, and sound effects.
  *
- * @property appState Global application state containing game and UI configuration.
+ * @property game The current game state.
  * @property scope Coroutine scope for launching async game operations.
  * @property globalError Optional error to display on initial load.
  */
@@ -40,10 +40,10 @@ class GamePageViewModel(
     private val scope: CoroutineScope,
     private val setGame: (Game) -> Unit,
     private val audioPlayMove: () -> Unit,
-    private val globalError: ReversiException? = null,
-    private val setGlobalError: (Exception?) -> Unit,
-) : ViewModel {
-    private val _uiState = mutableStateOf(
+    override val globalError: ReversiException? = null,
+    override val setGlobalError: (Exception?) -> Unit,
+) : ViewModel<GameUiState>() {
+    override val _uiState = mutableStateOf(
         GameUiState(
             game = game,
             screenState = ScreenState(error = globalError)
@@ -62,12 +62,6 @@ class GamePageViewModel(
         setGame(uiState.value.game)
     }
 
-    override fun setError(error: Exception?) {
-        if (globalError != null) {
-            setGlobalError(error)
-        } else
-            _uiState.setError(error)
-    }
 
     fun startPolling() {
         if (pollingJob != null) throw IllegalStateException("Polling already started")

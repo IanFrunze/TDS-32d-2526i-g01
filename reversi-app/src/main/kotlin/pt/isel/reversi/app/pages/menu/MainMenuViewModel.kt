@@ -2,13 +2,18 @@ package pt.isel.reversi.app.pages.menu
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import pt.isel.reversi.app.state.*
+import pt.isel.reversi.app.state.AppState
+import pt.isel.reversi.app.state.getStateAudioPool
+import pt.isel.reversi.app.state.pages.Page
+import pt.isel.reversi.app.state.pages.ScreenState
+import pt.isel.reversi.app.state.pages.UiState
+import pt.isel.reversi.app.state.pages.ViewModel
 import pt.isel.reversi.core.exceptions.ReversiException
 
 
 data class MainMenuUIState(
     override val screenState: ScreenState = ScreenState()
-) : UiState() {
+) : UiState {
     override fun updateScreenState(newScreenState: ScreenState): UiState {
         return this.copy(screenState = newScreenState)
     }
@@ -16,10 +21,11 @@ data class MainMenuUIState(
 
 class MainMenuViewModel(
     private val appState: AppState,
-    private val globalError: ReversiException? = null,
-    private val setGlobalError: (Exception?) -> Unit,
-) : ViewModel {
-    private val _uiState = mutableStateOf(
+    override val globalError: ReversiException? = null,
+    override val setGlobalError: (Exception?) -> Unit,
+    val setPage: (Page) -> Unit,
+) : ViewModel<MainMenuUIState>() {
+    override val _uiState = mutableStateOf(
         MainMenuUIState(
             screenState = ScreenState(
                 error = globalError
@@ -28,12 +34,6 @@ class MainMenuViewModel(
     )
     override val uiState: State<MainMenuUIState> = _uiState
 
-    override fun setError(error: Exception?) {
-        if (globalError != null) {
-            setGlobalError(error)
-        } else
-            _uiState.setError(error)
-    }
 
     fun playMenuAudio() {
         val audioPool = getStateAudioPool(appState)

@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import pt.isel.reversi.app.state.Page
-import pt.isel.reversi.app.state.PagesState
+import pt.isel.reversi.app.state.pages.Page
+import pt.isel.reversi.app.state.pages.PagesState
 
 /**
  * Central component managing transitions between pages in the application.

@@ -1,6 +1,9 @@
 package pt.isel.reversi.app.state
 
 import androidx.compose.runtime.MutableState
+import pt.isel.reversi.app.state.pages.Page
+import pt.isel.reversi.app.state.pages.PagesState
+import pt.isel.reversi.app.state.pages.UiState
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ErrorType.Companion.toReversiException

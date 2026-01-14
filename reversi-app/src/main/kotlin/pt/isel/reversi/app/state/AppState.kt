@@ -1,8 +1,9 @@
 package pt.isel.reversi.app.state
 
-import androidx.compose.runtime.State
 import pt.isel.reversi.app.AppTheme
 import pt.isel.reversi.app.AppThemes
+import pt.isel.reversi.app.state.pages.Page
+import pt.isel.reversi.app.state.pages.PagesState
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.utils.audio.AudioPool
@@ -32,33 +33,3 @@ data class AppState(
         )
     }
 }
-
-data class ScreenState(
-    val error: ReversiException? = null,
-    val isLoading: Boolean = false,
-)
-
-/**
- * Base class for UI state with screen state management.
- * Each subclass must implement updateScreenState to define how to copy itself with a new ScreenState.
- */
-abstract class UiState {
-    abstract val screenState: ScreenState
-
-    /**
-     * Creates a copy of this UiState with the given ScreenState.
-     * Each subclass implements this using its data class copy() method.
-     */
-    abstract fun updateScreenState(newScreenState: ScreenState): UiState
-}
-
-interface ViewModel {
-    val uiState: State<UiState>
-
-    fun setError(error: Exception?)
-}
-
-data class PagesState(
-    val page: Page,
-    val backPage: Page,
-)
