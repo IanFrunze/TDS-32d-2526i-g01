@@ -44,16 +44,18 @@ data class GameUiState(
  *
  * @property game The current game state.
  * @property scope Coroutine scope for launching async game operations.
- * @property globalError Optional error to display on initial load.
- * @property setGlobalError Callback function to update global error state.
  * @property setGame Callback function to persist updated game state.
  * @property audioPlayMove Callback function to play move sound effect.
+ * @property navigateToWinner Callback invoked to navigate to the winner page when the game ends.
+ * @property globalError Optional error to display on initial load.
+ * @property setGlobalError Callback function to update global error state.
  */
 class GamePageViewModel(
     private val game: Game,
     private val scope: CoroutineScope,
     private val setGame: (Game) -> Unit,
     private val audioPlayMove: () -> Unit,
+    private val setPage: (Page) -> Unit = {},
     override val globalError: ReversiException? = null,
     override val setGlobalError: (Exception?, ErrorType?) -> Unit,
 ) : ViewModel<GameUiState>() {
@@ -85,6 +87,9 @@ class GamePageViewModel(
         scope.launch {
             try {
                 while (isActive) {
+                    if (_uiState.value.game.gameState?.winner != null) {
+                        setPage(Page.WINNER)
+                    }
                     val game = uiState.value.game
                     val gameState = game.gameState
                     val myPiece = game.myPiece ?: run {
@@ -107,8 +112,9 @@ class GamePageViewModel(
                         }
 
                         val needsUpdate = newGame.lastModified != game.lastModified
-                        if (needsUpdate)
+                        if (needsUpdate) {
                             _uiState.value = _uiState.value.copy(game = newGame)
+                        }
                     }
 
                     delay(50L)
@@ -140,7 +146,7 @@ class GamePageViewModel(
     fun playMove(coordinate: Coordinate) {
         scope.launch {
             try {
-                _uiState.value = uiState.value.copy(
+                _uiState.value = _uiState.value.copy(
                     game = uiState.value.game.play(coordinate)
                 )
                 setGame(_uiState.value.game)
