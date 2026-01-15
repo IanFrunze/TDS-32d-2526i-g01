@@ -57,7 +57,6 @@ fun ReversiScope.PopupPickAPiece(
             ) {
                 ReversiText(
                     text = "Escolha a sua peça",
-                    color = Color.White,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                 )

@@ -40,12 +40,8 @@ data class Game(
     val countPass: Int = 0,
     val myPiece: PieceType? = null,
     val config: CoreConfig = loadCoreConfig(),
+    val service: GameServiceImpl
 ) {
-    // make this a lazy property to avoid initializing storage if not needed
-    val storage: AsyncStorage<String, GameState, String> by lazy {
-        setUpStorage(config)
-    }
-
     init {
         TRACKER.trackClassCreated(this, category = "Core.Game")
     }
@@ -109,15 +105,7 @@ data class Game(
      * @return True if both player slots are filled.
      * @throws InvalidFileException if loading the persisted game fails.
      */
-    private suspend fun hasAllPlayers(): Boolean {
-        val gs = requireStartedGame()
-        val name = currGameName ?: return (gs.players.isFull())
-
-        val loaded = storage.load(name) ?: throw InvalidFileException(
-            message = "Failed to load game state from storage: $name", type = ErrorType.WARNING
-        )
-        return (loaded.players.isFull())
-    }
+    suspend fun hasAllPlayers(): Boolean = service.hasAllPlayers(this)
 
     /**
      * Plays a move at the specified coordinate.
@@ -258,52 +246,20 @@ data class Game(
      * @throws InvalidGameException if the game is not started yet (board or players are null,empty).
      * @throws InvalidFileException if there is an error loading the game state from storage.
      */
-    suspend fun refresh(): Game {
-        TRACKER.trackFunctionCall(customName = "Game.refresh", category = "Core.Game")
-        val gs = requireStartedGame()
-        if (currGameName == null) return this
-
-        val newLastModified = storage.lastModified(currGameName)
-
-        if (newLastModified == this.lastModified) return this
-
-        val loadedState = refreshBase() ?: return this
-
-        return copy(
-            gameState = loadedState.refreshPlayers(),
-            countPass = if (loadedState.board == gs.board && loadedState.lastPlayer != gs.lastPlayer) countPass + 1
-            else 0,
-            lastModified = newLastModified
-        )
-    }
+    suspend fun refresh(): Game = service.refresh(this)
 
     /**
      * Loads the latest persisted game state without mutating the current instance.
      * @return The loaded game state or null if unchanged or no persisted state exists.
      * @throws InvalidFileException if loading from storage fails.
      */
-    suspend fun refreshBase(): GameState? {
-        if (currGameName == null) return null
-
-        val lastModified = storage.lastModified(currGameName)
-
-        if (lastModified == this.lastModified) return null
-
-        return storage.load(currGameName) ?: throw InvalidFileException(
-            message = "Failed to load game state from storage: $currGameName", type = ErrorType.WARNING
-        )
-    }
+    suspend fun refreshBase(): GameState? = service.refreshBase(this)
 
     /**
      * Replaces the in-memory game state with the latest persisted version if available.
      * @return A new Game instance reflecting the persisted state, or this instance if unchanged.
      */
-    suspend fun hardRefresh(): Game {
-        val gs = refreshBase()
-        return if (gs != null) {
-            copy(gameState = gs)
-        } else this
-    }
+    suspend fun hardRefresh(): Game = service.hardRefresh(this)
 
     /**
      * Saves the current game state to storage.
@@ -313,53 +269,7 @@ data class Game(
      * @throws InvalidGameException if the game is local or not started yet.
      * @throws InvalidFileException if the current game name is null.
      */
-    suspend fun saveEndGame() {
-        TRACKER.trackFunctionCall(customName = "Game.saveEndGame", category = "Core.Game")
-        val gs = requireStartedGame()
-
-        val name = currGameName ?: throw InvalidFileException(
-            message = "Name of the current game is null", type = ErrorType.WARNING
-        )
-
-        storage.lastModified(currGameName) ?: run {
-            storage.new(
-                id = name,
-            ) { gs.copy(players = MatchPlayers()) }
-            return
-        }
-
-        val loadedGs = try {
-            storage.load(currGameName)
-        } catch (e: InvalidFileException) {
-            storage.delete(currGameName)
-            LOGGER.warning("Deleted corrupted game from storage: $currGameName due to ${e.message}")
-            return
-        }
-
-
-        var playersInStorage = loadedGs?.players ?: MatchPlayers()
-
-        if (loadedGs != null && loadedGs.winner != null && loadedGs.winner == gs.winner) {
-            LOGGER.info("Game already ended in storage: $currGameName")
-            storage.delete(currGameName)
-            LOGGER.info("Deleted ended game from storage: $currGameName")
-            return
-        }
-
-        val myPieceTemp = myPiece ?: throw InvalidGameException(
-            message = "Game is not started yet.", type = ErrorType.WARNING
-        )
-
-        playersInStorage = MatchPlayers(null, playersInStorage.getPlayerByType(myPieceTemp.swap()))
-
-        LOGGER.info("Saving game state to storage: $currGameName")
-        storage.save(
-            id = currGameName,
-            obj = gs.copy(
-                players = playersInStorage,
-            )
-        )
-    }
+    suspend fun saveEndGame() = service.saveEndGame(this)
 
     /**
      * Saves only the play-related state (board and last player) to storage.
@@ -370,78 +280,18 @@ data class Game(
      * @throws InvalidGameException if the game is local or not started yet.
      * @throws InvalidFileException if the current game name is null or loading fails.
      */
-    suspend fun saveOnlyBoard(gameState: GameState?) {
-        val gs = gameState ?: throw InvalidGameException(
-            message = "Game is not started yet.", type = ErrorType.WARNING
-        )
-
-        val name = currGameName ?: throw InvalidFileException(
-            message = "Name of the current game is null", type = ErrorType.WARNING
-        )
-
-        storage.lastModified(id = name) ?: run {
-            try {
-                storage.new(id = name) { gameState }
-                return@saveOnlyBoard
-            } catch (e: Exception) {
-                throw InvalidFileException(
-                    message = e.message.toString(), type = ErrorType.CRITICAL
-                )
-            }
-        }
-
-        val ls = storage.load(id = name) ?: throw InvalidFileException(
-            message = "Failed to load game state from storage: $name", type = ErrorType.ERROR
-        )
-
-
-        var lsGameState = ls
-
-        ls.players.forEachIndexed { index, player ->
-            val gsPlayer = gs.players[index]
-            if (gsPlayer != null && gsPlayer.name != player.name) {
-                lsGameState = lsGameState.changeName(newName = gsPlayer.name, pieceType = gsPlayer.type)
-            }
-        }
-
-        storage.save(
-            id = name,
-            obj = gs.copy(
-                players = lsGameState.players,
-            )
-        )
-    }
+    suspend fun saveOnlyBoard(gameState: GameState?) =
+        service.saveOnlyBoard(currGameName, gameState)
 
     /**
      * Runs a health check on the storage system.
      * Does the full cycle of creating, saving, loading, and deleting a test game state.
      * @return True if the storage is healthy, false otherwise.
      */
-    suspend fun runStorageHealthCheck(): Boolean {
-        val testId = "health_check_test_game"
-        val testState = GameState(
-            players = MatchPlayers(Player(PieceType.BLACK)),
-            lastPlayer = PieceType.WHITE,
-            board = Board(8),
-            winner = null
-        )
-        if (storage.lastModified(testId) != null) storage.delete(testId)
-
-        storage.new(testId) { testState }
-        val loadedState = storage.load(testId)
-        if (loadedState != testState) return false
-        storage.save(testId, testState)
-        val reloadedState = storage.load(testId)
-        if (reloadedState != testState) return false
-        storage.delete(testId)
-        storage.load(testId) == null
-        return true
-    }
+    suspend fun runStorageHealthCheck(): Boolean = service.runStorageHealthCheck()
 
     /**
      * Closes the storage connection.
      */
-    suspend fun closeStorage() {
-        storage.close()
-    }
+    suspend fun closeStorage() = service.closeService()
 }

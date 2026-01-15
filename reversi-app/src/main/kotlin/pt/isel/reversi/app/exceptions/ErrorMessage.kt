@@ -41,7 +41,7 @@ import pt.isel.reversi.utils.LOGGER
  * @param setError Callback to clear or update the error.
  */
 @Composable
-fun ReversiScope.ErrorMessage(error: ReversiException?, modifier: Modifier = Modifier, setError: (Exception?) -> Unit) {
+fun ReversiScope.ErrorMessage(error: ReversiException?, modifier: Modifier = Modifier, setError: (Exception?, ErrorType?) -> Unit) {
     // Avoid logging on every recomposition, only when error changes
     LaunchedEffect(error) {
         val error = error?: return@LaunchedEffect
@@ -63,7 +63,7 @@ fun ReversiScope.ErrorMessage(error: ReversiException?, modifier: Modifier = Mod
 }
 
 @Composable
-fun ReversiScope.WarningMessage(error: ReversiException?, modifier: Modifier = Modifier, setError: (Exception?) -> Unit) {
+fun ReversiScope.WarningMessage(error: ReversiException?, modifier: Modifier = Modifier, setError: (Exception?, ErrorType?) -> Unit) {
     val errorMessage = error?.message ?: return
 
     val overlayColor = Color.Black.copy(alpha = 0.6f)
@@ -109,7 +109,7 @@ fun ReversiScope.WarningMessage(error: ReversiException?, modifier: Modifier = M
             )
 
             Button(
-                onClick = { setError(null) },
+                onClick = { setError(null, null) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = buttonBackgroundColor,
                     contentColor = Color.White
@@ -133,7 +133,7 @@ fun ReversiScope.WarningMessage(error: ReversiException?, modifier: Modifier = M
  * @param setError Callback to clear the error after display.
  */
 @Composable
-fun ReversiScope.ToastMessage(error: ReversiException?, modifier: Modifier = Modifier, setError: (Exception?) -> Unit) {
+fun ReversiScope.ToastMessage(error: ReversiException?, modifier: Modifier = Modifier, setError: (Exception?, ErrorType?) -> Unit) {
     val offsetY = remember { Animatable(-100f) }
     val message = error?.message
 
@@ -181,6 +181,6 @@ fun ReversiScope.ToastMessage(error: ReversiException?, modifier: Modifier = Mod
             targetValue = -100f,
             animationSpec = tween(durationMillis = slideDuration)
         )
-        setError(null)
+        setError(null, null)
     }
 }

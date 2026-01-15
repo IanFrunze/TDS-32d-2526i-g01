@@ -80,7 +80,7 @@ fun ReversiScope.LobbyMenu(
     }
 
     ScaffoldView(
-        setError = { error -> viewModel.setError(error) },
+        setError = { error, type -> viewModel.setError(error, type) },
         error = uiState.screenState.error,
         isLoading = uiState.screenState.isLoading,
         title = "Lobby - Jogos Guardados",

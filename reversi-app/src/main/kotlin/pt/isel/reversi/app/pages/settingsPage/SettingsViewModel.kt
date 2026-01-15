@@ -9,10 +9,10 @@ import kotlinx.coroutines.launch
 import pt.isel.reversi.app.AppTheme
 import pt.isel.reversi.app.gameAudio.loadGameAudioPool
 import pt.isel.reversi.app.pages.Page
-import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.pages.ScreenState
 import pt.isel.reversi.app.pages.UiState
 import pt.isel.reversi.app.pages.ViewModel
+import pt.isel.reversi.app.state.AppStateImpl
 import pt.isel.reversi.app.state.setError
 import pt.isel.reversi.app.state.setLoading
 import pt.isel.reversi.app.utils.runStorageHealthCheck
@@ -62,11 +62,12 @@ data class SettingsUiState(
  */
 class SettingsViewModel(
     private val scope: CoroutineScope,
-    private val appState: AppState,
+    private val appState: AppStateImpl,
     override val globalError: ReversiException? = null,
     private val setTheme: (AppTheme) -> Unit,
     private val setPlayerName: (String?) -> Unit,
-    override val setGlobalError: (Exception?) -> Unit,
+    private val saveGame: suspend () -> Unit,
+    override val setGlobalError: (Exception?, ErrorType?) -> Unit,
 ) : ViewModel<SettingsUiState>() {
 
     override val _uiState = mutableStateOf(
@@ -128,9 +129,14 @@ class SettingsViewModel(
             try {
                 // check if storage type changed and test connection if needed
                 val currentCoreConfig = loadCoreConfig()
+                var needsSaving = false
                 if (currentCoreConfig != draftCoreConfig) {
-                    LOGGER.info("Storage type changed from ${currentCoreConfig.gameStorageType} to ${draftCoreConfig.gameStorageType}, testing connectivity...")
-                    val exception = runStorageHealthCheck(testConf = draftCoreConfig, save = true)
+                    if (currentCoreConfig.gameStorageType != draftCoreConfig.gameStorageType) {
+                        LOGGER.info("Storage type changed from ${currentCoreConfig.gameStorageType} to ${draftCoreConfig.gameStorageType}, testing connectivity...")
+                        LOGGER.info("Saving Game...")
+                        needsSaving = true
+                    }
+                    val exception = runStorageHealthCheck(appState.service, testConf = draftCoreConfig, save = true)
                     if (exception != null) {
                         _uiState.setError(exception, ErrorType.WARNING)
                         LOGGER.severe("Storage type change failed: ${exception.message}")
@@ -156,6 +162,7 @@ class SettingsViewModel(
                     setPlayerName(newName)
                     setDraftPlayerName(newName)
                     setTheme(newTheme)
+                    if (needsSaving) saveGame()
                 }
 
                 // Resume previously playing theme-related audios

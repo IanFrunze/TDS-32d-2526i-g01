@@ -6,9 +6,10 @@ import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import kotlinx.coroutines.runBlocking
-import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.pages.Page
+import pt.isel.reversi.app.state.AppStateImpl
 import pt.isel.reversi.core.Game
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.utils.LOGGER
 
 /**
@@ -25,12 +26,12 @@ import pt.isel.reversi.utils.LOGGER
  */
 @Composable
 fun FrameWindowScope.MakeMenuBar(
-    appState: AppState,
+    appState: AppStateImpl,
     windowState: WindowState,
     setPage: (Page) -> Unit,
     setGame: (Game) -> Unit,
     setTheme: (AppTheme) -> Unit,
-    setGlobalError: (Exception?) -> Unit,
+    setGlobalError: (Exception?, ErrorType?) -> Unit,
     exitAction: () -> Unit
 ) {
     MenuBar {
@@ -52,13 +53,13 @@ fun FrameWindowScope.MakeMenuBar(
                     appState.game.requireStartedGame()
                     setPage(Page.GAME)
                 } catch (e: Exception) {
-                    setGlobalError(e)
+                    setGlobalError(e, null)
                     return@Item
                 }
             }
             Item("Sair do jogo atual") {
-                runBlocking { appState.game.saveEndGame() }
-                setGame(Game())
+                runBlocking { appState.service.saveEndGame(appState.game) }
+                setGame(Game(service = appState.service))
                 setPage(Page.MAIN_MENU)
             }
             Separator()
@@ -85,7 +86,7 @@ fun FrameWindowScope.MakeMenuBar(
                 setPage(Page.STATISTICS)
             }
             Item("Nullify Game State") {
-                setGame(Game())
+                setGame(Game(service = appState.service))
                 LOGGER.info("Estado do jogo anulado para fins de teste.")
             }
             Item("Reload Config") {
@@ -93,11 +94,11 @@ fun FrameWindowScope.MakeMenuBar(
                     setGame(appState.game.reloadConfig())
                     LOGGER.info("Config recarregada com sucesso.")
                 } catch (e: Exception) {
-                    setGlobalError(e)
+                    setGlobalError(e, null)
                 }
             }
             Item("Trigger Error") {
-                setGlobalError(Exception("Erro de teste disparado a partir do menu Dev"))
+                setGlobalError(Exception("Erro de teste disparado a partir do menu Dev"), null)
             }
             Item("Crash App") {
                 throw RuntimeException("App crash triggered from Dev menu")

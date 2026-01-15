@@ -22,6 +22,7 @@ import pt.isel.reversi.app.exceptions.ErrorMessage
 import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.state.ReversiScope
 import pt.isel.reversi.app.state.ReversiText
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ReversiException
 
 
@@ -41,7 +42,7 @@ import pt.isel.reversi.core.exceptions.ReversiException
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun ReversiScope.ScaffoldView(
-    setError: (Exception?) -> Unit,
+    setError: (Exception?, ErrorType?) -> Unit,
     backgroundTopBar: Color = Color.Transparent,
     error: ReversiException?,
     isLoading: Boolean = false,
@@ -85,7 +86,7 @@ fun ReversiScope.ScaffoldView(
                     }
                 )
             },
-            snackbarHost = { ErrorMessage(error) { setError(it) } }
+            snackbarHost = { ErrorMessage(error) { it, type -> setError(it, type) } }
         ) { paddingValues ->
             Box(
                 modifier = Modifier

@@ -28,6 +28,7 @@ suspend fun startNewGame(
     players: MatchPlayers,
     firstTurn: PieceType,
     currGameName: String? = null,
+    service: GameServiceImpl
 ): Game {
     TRACKER.trackFunctionCall(customName = "startNewGame", details = "gameName=$currGameName", category = "Core.Game")
     if (players.isEmpty()) throw InvalidGameException(
@@ -50,7 +51,8 @@ suspend fun startNewGame(
                 gameState = gs,
                 currGameName = currGameName,
                 myPiece = firstTurn,
-            ).also { it.storage.new(currGameName) { gs } }
+                service = service,
+            ).also { it.service.new(currGameName) { gs } }
         } catch (_: Exception) {
             throw InvalidNameAlreadyExists(
                 message = "A game with the name '$currGameName' already exists.", type = ErrorType.WARNING
@@ -62,6 +64,7 @@ suspend fun startNewGame(
             gameState = gs,
             currGameName = currGameName,
             myPiece = firstTurn,
+            service = service,
         )
     }
 }
@@ -80,6 +83,7 @@ suspend fun loadGame(
     gameName: String,
     playerName: String? = null,
     desiredType: PieceType?,
+    service: GameServiceImpl
 ): Game {
     TRACKER.trackFunctionCall(customName = "loadGame", details = "gameName=$gameName", category = "Core.Game")
     val storage = loadStorageFromConfig()
@@ -116,6 +120,7 @@ suspend fun loadGame(
         ),
         currGameName = gameName,
         myPiece = myPieceType,
+        service = service
     )
 }
 
@@ -125,7 +130,7 @@ suspend fun loadGame(
  * @param gameName The name of the game to read.
  * @return The game instance, or null if the game does not exist.
  */
-suspend fun readGame(gameName: String): Game? {
+suspend fun readGame(gameName: String, service: GameService): Game? {
     val storage = loadStorageFromConfig()
     val loadedState = storage.load(gameName) ?: return null
 
@@ -136,6 +141,7 @@ suspend fun readGame(gameName: String): Game? {
         ),
         currGameName = gameName,
         myPiece = null,
+        service = service
     )
 }
 
@@ -193,6 +199,7 @@ fun newGameForTest(
     players: MatchPlayers,
     myPiece: PieceType,
     currGameName: String? = null,
+    service: GameServiceImpl
 ): Game = Game(
     target = false,
     currGameName = currGameName,
@@ -202,7 +209,9 @@ fun newGameForTest(
         lastPlayer = myPiece,
         board = board,
         winner = null
-    )
+    ),
+    service = service,
+    config = CoreConfig(emptyMap())
 )
 
 /**

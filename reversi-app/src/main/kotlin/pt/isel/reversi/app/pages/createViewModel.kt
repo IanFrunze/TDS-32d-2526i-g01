@@ -11,18 +11,19 @@ import pt.isel.reversi.app.pages.menu.MainMenuViewModel
 import pt.isel.reversi.app.pages.newGamePage.NewGameViewModel
 import pt.isel.reversi.app.pages.settingsPage.SettingsViewModel
 import pt.isel.reversi.app.pages.statisticsPage.StatisticsPageViewModel
-import pt.isel.reversi.app.state.AppState
+import pt.isel.reversi.app.state.AppStateImpl
 import pt.isel.reversi.app.state.setGame
 import pt.isel.reversi.app.state.setGlobalError
 import pt.isel.reversi.app.state.setPage
 import pt.isel.reversi.core.Game
+import pt.isel.reversi.core.GameService
 import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.utils.audio.AudioPool
 
 
 fun Page.createViewModel(
     scope: CoroutineScope,
-    appState: AppState,
+    appState: AppStateImpl,
     game: MutableState<Game>,
     audioPool: MutableState<AudioPool>,
     themeState: MutableState<AppTheme>,
@@ -33,7 +34,7 @@ fun Page.createViewModel(
     Page.MAIN_MENU -> MainMenuViewModel(
         appState,
         globalError = globalError.value,
-        setGlobalError = { globalError.setGlobalError(it) },
+        setGlobalError = { it, type -> globalError.setGlobalError(it, type) },
         setPage = { pagesState.setPage(it) }
     )
 
@@ -41,7 +42,7 @@ fun Page.createViewModel(
         game.value,
         globalError = globalError.value,
         scope = scope,
-        setGlobalError = { globalError.setGlobalError(it) },
+        setGlobalError = { it, type -> globalError.setGlobalError(it, type) },
         audioPlayMove = {
             audioPool.value.run {
                 stop(themeState.value.placePieceSound)
@@ -55,7 +56,7 @@ fun Page.createViewModel(
         scope,
         appState,
         setTheme = { themeState.value = it },
-        setGlobalError = { globalError.setGlobalError(it) },
+        setGlobalError = { it, type -> globalError.setGlobalError(it, type) },
         setPlayerName = {
             Snapshot.withMutableSnapshot {
                 playerName.value = it
@@ -69,19 +70,21 @@ fun Page.createViewModel(
                 )
             }
         },
+        saveGame = { game.value.saveEndGame() ; game.setGame(Game(service = GameService())) },
         globalError = globalError.value
     )
 
     Page.ABOUT -> AboutPageViewModel(
         globalError.value,
-        setGlobalError = { globalError.setGlobalError(it) },
+        setGlobalError = { it, type -> globalError.setGlobalError(it, type) },
     )
 
     Page.NEW_GAME -> NewGameViewModel(
-        scope,
-        playerName.value,
-        globalError.value,
-        setGlobalError = { globalError.setGlobalError(it) },
+        scope = scope,
+        appState = appState,
+        playerName = playerName.value,
+        globalError = globalError.value,
+        setGlobalError = { it, type -> globalError.setGlobalError(it, type) },
         createGame = { newGame ->
             Snapshot.withMutableSnapshot {
                 game.setGame(newGame)
@@ -93,7 +96,7 @@ fun Page.createViewModel(
     Page.LOBBY -> LobbyViewModel(
         scope = scope,
         appState = appState,
-        setGlobalError = { globalError.setGlobalError(it) },
+        setGlobalError = { it, type -> globalError.setGlobalError(it, type) },
         pickGame = {
             Snapshot.withMutableSnapshot {
                 game.setGame(it)
@@ -106,7 +109,7 @@ fun Page.createViewModel(
     Page.STATISTICS -> StatisticsPageViewModel(
         scope = scope,
         globalError = globalError.value,
-        setGlobalError = { globalError.setGlobalError(it) },
+        setGlobalError = { it, type -> globalError.setGlobalError(it, type) },
     )
 
     Page.NONE -> null

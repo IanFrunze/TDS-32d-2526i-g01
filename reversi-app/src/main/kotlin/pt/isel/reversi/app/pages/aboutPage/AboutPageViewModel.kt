@@ -6,6 +6,7 @@ import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.pages.ScreenState
 import pt.isel.reversi.app.pages.UiState
 import pt.isel.reversi.app.pages.ViewModel
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.utils.TRACKER
 
@@ -34,7 +35,7 @@ data class AboutUiState(
  */
 class AboutPageViewModel(
     override val globalError: ReversiException? = null,
-    override val setGlobalError: (Exception?) -> Unit,
+    override val setGlobalError: (Exception?, ErrorType?) -> Unit,
 ) : ViewModel<AboutUiState>() {
     override val _uiState = mutableStateOf(
         AboutUiState(

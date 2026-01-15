@@ -5,10 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.*
 import pt.isel.reversi.app.exceptions.GameCorrupted
 import pt.isel.reversi.app.exceptions.GameNotStartedYet
-import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.pages.ScreenState
 import pt.isel.reversi.app.pages.UiState
 import pt.isel.reversi.app.pages.ViewModel
+import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.state.setError
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.Coordinate
@@ -55,7 +55,7 @@ class GamePageViewModel(
     private val setGame: (Game) -> Unit,
     private val audioPlayMove: () -> Unit,
     override val globalError: ReversiException? = null,
-    override val setGlobalError: (Exception?) -> Unit,
+    override val setGlobalError: (Exception?, ErrorType?) -> Unit,
 ) : ViewModel<GameUiState>() {
     override val _uiState = mutableStateOf(
         GameUiState(

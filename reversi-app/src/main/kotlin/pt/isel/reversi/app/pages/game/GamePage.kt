@@ -57,7 +57,7 @@ fun ReversiScope.GamePage(
     val name = game.currGameName
 
     this.ScaffoldView(
-        setError = { viewModel.setError(it) },
+        setError = { it, type -> viewModel.setError(it, type) },
         error = viewModel.uiState.value.screenState.error,
         isLoading = viewModel.uiState.value.screenState.isLoading,
         title = name ?: "Reversi",

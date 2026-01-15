@@ -5,6 +5,7 @@ import pt.isel.reversi.app.AppThemes
 import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.pages.PagesState
 import pt.isel.reversi.core.Game
+import pt.isel.reversi.core.GameServiceImpl
 import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.utils.audio.AudioPool
 
@@ -21,17 +22,19 @@ import pt.isel.reversi.utils.audio.AudioPool
  * @property playerName The name of the current player, if set.
  */
 data class AppState(
-    val game: Game,
-    val pagesState: PagesState,
-    val audioPool: AudioPool,
-    val globalError: ReversiException?,
-    val theme: AppTheme,
-    val playerName: String?
-) {
+    override val game: Game,
+    override val pagesState: PagesState,
+    override val audioPool: AudioPool,
+    override val globalError: ReversiException?,
+    override val theme: AppTheme,
+    override val playerName: String?,
+    private val serviceC: GameServiceImpl = game.service
+): AppStateImpl {
+    override val service get() = game.service
     companion object {
         // Empty AppState for initialization
-        fun empty(): AppState = AppState(
-            game = Game(),
+        fun empty(service: GameServiceImpl): AppStateImpl = AppState(
+            game = Game(service = service),
             pagesState = PagesState(Page.MAIN_MENU, Page.NONE),
             audioPool = AudioPool(emptyList()),
             globalError = null,

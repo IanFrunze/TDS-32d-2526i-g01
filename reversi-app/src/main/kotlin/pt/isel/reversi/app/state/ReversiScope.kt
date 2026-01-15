@@ -2,8 +2,9 @@ package pt.isel.reversi.app.state
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -11,9 +12,11 @@ import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -35,7 +38,7 @@ import reversi.reversi_app.generated.resources.Res
  *
  * @property appState The current application state.
  */
-class ReversiScope(val appState: AppState)
+class ReversiScope(val appState: AppStateImpl)
 
 /**
  * Retrieves the current application state.
@@ -265,6 +268,67 @@ fun ReversiScope.ReversiTextField(
         ),
         enabled = enabled
     )
+}
+
+
+/**
+ * Modal popup for confirming user actions.
+ *
+ * @param message The confirmation message to display.\
+ * @param onConfirm Callback invoked when the user confirms the action.
+ * @param onDismiss Callback invoked when the popup is closed without selection.
+ */
+@Composable
+fun ReversiScope.ConfirmationPopUp(
+    message: String,
+    onConfirmText: String = "Confirm",
+    onDismissText: String = "Cancel",
+    onConfirm: () -> Unit = {},
+    onDismiss: () -> Unit = {}
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.7f))
+            .pointerInput(Unit) {
+                detectTapGestures { onDismiss() }
+            }
+    ) {
+        Box(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .pointerInput(Unit) {
+                    detectTapGestures(onTap = { })
+                }
+                .background(getTheme().secondaryColor, RoundedCornerShape(16.dp))
+                .border(1.dp, Color.White.copy(alpha = 0.2f), RoundedCornerShape(16.dp))
+                .padding(24.dp)
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                ReversiText(
+                    text = message,
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+                Spacer(Modifier.height(16.dp))
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(24.dp),
+                ) {
+                    ReversiButton(
+                        text = onConfirmText,
+                        onClick = onConfirm,
+                    )
+                    ReversiButton(
+                        text = onDismissText,
+                        onClick = onDismiss,
+                    )
+                }
+            }
+        }
+    }
 }
 
 fun Color.invert(): Color {

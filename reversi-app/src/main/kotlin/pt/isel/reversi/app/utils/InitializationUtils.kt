@@ -3,7 +3,7 @@ package pt.isel.reversi.app.utils
 import pt.isel.reversi.app.AppThemes
 import pt.isel.reversi.app.gameAudio.loadGameAudioPool
 import pt.isel.reversi.core.CoreConfig
-import pt.isel.reversi.core.Game
+import pt.isel.reversi.core.GameServiceImpl
 import pt.isel.reversi.core.loadCoreConfig
 import pt.isel.reversi.core.saveCoreConfig
 import pt.isel.reversi.core.storage.GameStorageType
@@ -85,12 +85,12 @@ fun initializeAppArgs(args: Array<String>): InitializedArgs? {
     return InitializedArgs(audioPool)
 }
 
-suspend fun runStorageHealthCheck(testConf: CoreConfig? = null, save: Boolean = true): Exception? {
+suspend fun runStorageHealthCheck(service: GameServiceImpl, testConf: CoreConfig? = null, save: Boolean = true): Exception? {
     val loadedConf = testConf ?: loadCoreConfig()
     if (loadedConf.gameStorageType == GameStorageType.DATABASE_STORAGE) {
         LOGGER.info("Remote storage detected, checking connectivity...")
         try {
-            val didPass = Game(config = loadedConf).runStorageHealthCheck()
+            val didPass = service.runStorageHealthCheck()
             if (didPass) {
                 LOGGER.info("Game remote storage connectivity check passed.")
             } else {

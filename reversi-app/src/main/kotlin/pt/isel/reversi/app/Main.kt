@@ -6,18 +6,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.window.*
 import kotlinx.coroutines.*
 import org.jetbrains.compose.resources.painterResource
-import pt.isel.reversi.app.pages.Page
-import pt.isel.reversi.app.pages.PagesState
+import pt.isel.reversi.app.pages.*
 import pt.isel.reversi.app.state.*
-import pt.isel.reversi.app.pages.UiState
-import pt.isel.reversi.app.pages.ViewModel
-import pt.isel.reversi.app.pages.createPageView
-import pt.isel.reversi.app.pages.createViewModel
 import pt.isel.reversi.app.utils.addShutdownHook
 import pt.isel.reversi.app.utils.initializeAppArgs
 import pt.isel.reversi.app.utils.installFatalCrashLogger
 import pt.isel.reversi.app.utils.runStorageHealthCheck
 import pt.isel.reversi.core.Game
+import pt.isel.reversi.core.GameService
 import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ErrorType.Companion.toReversiException
 import pt.isel.reversi.core.exceptions.ReversiException
@@ -29,6 +25,11 @@ import pt.isel.reversi.utils.TRACKER
 import reversi.reversi_app.generated.resources.Res
 import reversi.reversi_app.generated.resources.reversi
 import java.lang.System.setProperty
+
+fun isInPreviewMode(): Boolean {
+    return System.getProperty("java.awt.headless") == "true"
+}
+
 
 /**
  * Entry point for the desktop Reversi application. Initializes app dependencies
@@ -54,34 +55,35 @@ fun main(args: Array<String>) {
         val appJob = SupervisorJob()
         val scope = CoroutineScope(Dispatchers.Default + appJob)
 
-        // start storage health check coroutine
+        val initialGameService = GameService()
 
-        val themeState = remember { mutableStateOf(AppThemes.DARK.appTheme) }
-        val game = remember { mutableStateOf(Game()) }
-        val audioPool = remember { mutableStateOf(initializedArgs.audioPool) }
-        val playerName = remember { mutableStateOf<String?>(null) }
         val globalError = remember { mutableStateOf<ReversiException?>(null) }
-        val pagesState = remember { mutableStateOf(PagesState(Page.MAIN_MENU, Page.NONE)) }
-
-        val appState = AppState(
-            game = game.value,
-            pagesState = pagesState.value,
-            audioPool = audioPool.value,
-            theme = themeState.value,
-            globalError = globalError.value,
-            playerName = playerName.value
-        )
 
         scope.launch {
-            //TODO: se for para ter loading precisa estar dentro de alguma pagina
-            //setLoading(appState, true)
             val conf = loadCoreConfig()
-            val exception = runStorageHealthCheck(testConf = conf, save = true)
+            LOGGER.info("STARTING STORAGE HEALTH CHECK TO SERVICE TYPE: ${conf.gameStorageType.name}")
+            val exception = runStorageHealthCheck(service = initialGameService, testConf = conf, save = true)
             if (exception != null) {
                 globalError.value = exception.toReversiException(ErrorType.WARNING)
                 LOGGER.severe("Storage type change failed: ${exception.message}")
             }
-            //setLoading(appState, false)
+        }
+
+        val themeState = remember { mutableStateOf(AppThemes.DARK.appTheme) }
+        val game = remember { mutableStateOf(Game(service = initialGameService)) }
+        val audioPool = remember { mutableStateOf(initializedArgs.audioPool) }
+        val playerName = remember { mutableStateOf<String?>(null) }
+        val pagesState = remember { mutableStateOf(PagesState(Page.MAIN_MENU, Page.NONE)) }
+
+        val appState = remember(game.value, initialGameService) {
+            AppState(
+                game = game.value,
+                pagesState = pagesState.value,
+                audioPool = audioPool.value,
+                theme = themeState.value,
+                globalError = globalError.value,
+                playerName = playerName.value
+            )
         }
 
         fun safeExitApplication() {
@@ -101,10 +103,10 @@ fun main(args: Array<String>) {
                     appJob.join()
                     LOGGER.info("Application coroutines finished.")
                     LOGGER.info("Saving game state...")
-                    appState.game.saveEndGame()
+                    initialGameService.saveEndGame(appState.game)
                     LOGGER.info("Game state saved.")
                     LOGGER.info("Closing game storage...")
-                    appState.game.closeStorage()
+                    initialGameService.closeService()
                     LOGGER.info("Game storage closed.")
                 }
                 LOGGER.info("Destroying audio pool...")
@@ -141,8 +143,8 @@ fun main(args: Array<String>) {
                 setPage = { pagesState.setPage(it) },
                 setGame = { game.setGame(it) },
                 setTheme = { themeState.value = it },
-                setGlobalError = {
-                    globalError.value = it as? ReversiException ?: it?.toReversiException(ErrorType.WARNING)
+                setGlobalError = { it, type ->
+                    globalError.value = it as? ReversiException ?: it?.toReversiException(type)
                 },
             ) { safeExitApplication() }
 

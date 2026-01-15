@@ -2,12 +2,13 @@ package pt.isel.reversi.app.pages.menu
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import pt.isel.reversi.app.state.AppState
-import pt.isel.reversi.app.state.getStateAudioPool
 import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.pages.ScreenState
 import pt.isel.reversi.app.pages.UiState
 import pt.isel.reversi.app.pages.ViewModel
+import pt.isel.reversi.app.state.AppStateImpl
+import pt.isel.reversi.app.state.getStateAudioPool
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.utils.TRACKER
 
@@ -38,9 +39,9 @@ data class MainMenuUIState(
  * @property setGlobalError A callback function to update the global error state.
  */
 class MainMenuViewModel(
-    private val appState: AppState,
+    private val appState: AppStateImpl,
     override val globalError: ReversiException? = null,
-    override val setGlobalError: (Exception?) -> Unit,
+    override val setGlobalError: (Exception?, ErrorType?) -> Unit,
     val setPage: (Page) -> Unit,
 ) : ViewModel<MainMenuUIState>() {
     override val _uiState = mutableStateOf(

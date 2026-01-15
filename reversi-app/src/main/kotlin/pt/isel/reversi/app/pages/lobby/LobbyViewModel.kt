@@ -6,15 +6,16 @@ import kotlinx.coroutines.*
 import pt.isel.reversi.app.exceptions.GameCorrupted
 import pt.isel.reversi.app.exceptions.GameIsFull
 import pt.isel.reversi.app.pages.Page
-import pt.isel.reversi.app.state.AppState
-import pt.isel.reversi.app.state.getStateAudioPool
 import pt.isel.reversi.app.pages.ScreenState
 import pt.isel.reversi.app.pages.UiState
 import pt.isel.reversi.app.pages.ViewModel
+import pt.isel.reversi.app.state.AppStateImpl
+import pt.isel.reversi.app.state.getStateAudioPool
 import pt.isel.reversi.app.state.setError
 import pt.isel.reversi.app.state.setLoading
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.core.getAllGameNames
 import pt.isel.reversi.core.loadGame
@@ -75,11 +76,11 @@ data class LobbyUiState(
  * @property globalError Optional error to display on initial load.
  */
 class LobbyViewModel(
-    val appState: AppState,
+    val appState: AppStateImpl,
     private val scope: CoroutineScope,
     private val pickGame: (Game) -> Unit,
     override val globalError: ReversiException? = null,
-    override val setGlobalError: (Exception?) -> Unit,
+    override val setGlobalError: (Exception?, ErrorType?) -> Unit,
 ) : ViewModel<LobbyUiState>() {
     override val _uiState = mutableStateOf(
         LobbyUiState(
@@ -198,7 +199,8 @@ class LobbyViewModel(
             loadGame(
                 gameName = gameName,
                 playerName = appState.playerName,
-                desiredType = desiredType
+                desiredType = desiredType,
+                service = appState.service
             )
         } catch (e: Exception) {
             LOGGER.warning("Erro ao carregar jogo $gameName: ${e.message}")
@@ -263,6 +265,7 @@ class LobbyViewModel(
     fun joinGame(game: LobbyLoadedState, pieceType: PieceType) {
         val appGame = appState.game
         val name = game.name
+
         scope.launch {
             try {
                 _uiState.setLoading(true)
@@ -278,6 +281,8 @@ class LobbyViewModel(
 
                 pickGame(joinedGame)
                 selectGame(null)
+            } catch (e: Exception) {
+                setError(e)
             } finally {
                 _uiState.setLoading(false)
             }

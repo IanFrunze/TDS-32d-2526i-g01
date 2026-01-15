@@ -51,7 +51,7 @@ fun MutableState<Game>.setGame(game: Game) {
  * @param appState The application state holder.
  * @return the AudioPool instance.
  */
-fun getStateAudioPool(appState: AppState) = appState.audioPool
+fun getStateAudioPool(appState: AppStateImpl) = appState.audioPool
 
 /**
  * Updates the loading state for any UiState implementation.
@@ -79,8 +79,8 @@ fun <T : UiState> MutableState<T>.setError(error: Exception?, type: ErrorType = 
     value = value.updateScreenState(newScreenState) as T
 }
 
-fun MutableState<ReversiException?>.setGlobalError(error: Exception?, type: ErrorType = ErrorType.CRITICAL) {
+fun MutableState<ReversiException?>.setGlobalError(error: Exception?, type: ErrorType? = ErrorType.CRITICAL) {
     LOGGER.info("Set global error: ${error?.message ?: "null"}")
-    val newError = error as? ReversiException ?: error?.toReversiException(type)
+    val newError = error as? ReversiException ?: error?.toReversiException(type ?: ErrorType.CRITICAL)
     value = newError
 }

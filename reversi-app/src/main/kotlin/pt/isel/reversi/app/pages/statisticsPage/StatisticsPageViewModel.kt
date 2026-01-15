@@ -6,6 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import pt.isel.reversi.app.pages.ScreenState
 import pt.isel.reversi.app.pages.UiState
 import pt.isel.reversi.app.pages.ViewModel
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.utils.TRACKER
 import pt.isel.reversi.utils.TrackingStats
@@ -62,7 +63,7 @@ data class StatisticsUiState(
 class StatisticsPageViewModel(
     private val scope: CoroutineScope,
     override val globalError: ReversiException? = null,
-    override val setGlobalError: (Exception?) -> Unit
+    override val setGlobalError: (Exception?, ErrorType?) -> Unit
 ) : ViewModel<StatisticsUiState>() {
     override val _uiState = mutableStateOf(
         StatisticsUiState(

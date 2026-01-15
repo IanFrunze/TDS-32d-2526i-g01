@@ -71,7 +71,7 @@ fun ReversiScope.SettingsPage(
     val currentVol = viewModel.uiState.value.currentVol
 
     ScaffoldView(
-        setError = { error -> viewModel.setError(error) },
+        setError = { error, type -> viewModel.setError(error, type) },
         error = viewModel.uiState.value.screenState.error,
         isLoading = viewModel.uiState.value.screenState.isLoading,
         title = "Definições",

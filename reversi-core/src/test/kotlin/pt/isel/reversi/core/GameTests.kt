@@ -610,7 +610,7 @@ class GameTests {
             val game = Game()
 
             assertFailsWith<InvalidGameException> {
-                game.saveEndGame()
+                game.service.saveEndGame()
             }
         }
     }

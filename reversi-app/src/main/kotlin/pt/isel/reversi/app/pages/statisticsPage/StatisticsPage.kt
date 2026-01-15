@@ -68,7 +68,7 @@ fun ReversiScope.StatisticsPage(
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
     ScaffoldView(
-        setError = { error -> viewModel.setError(error) },
+        setError = { error, type -> viewModel.setError(error, type) },
         error = state.screenState.error,
         isLoading = state.screenState.isLoading,
         title = "Estatísticas de Tracking",

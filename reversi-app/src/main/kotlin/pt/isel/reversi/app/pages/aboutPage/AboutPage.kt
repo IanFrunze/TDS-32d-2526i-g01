@@ -10,6 +10,7 @@ import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.state.ReversiScope
 import pt.isel.reversi.app.state.ReversiText
 import pt.isel.reversi.app.utils.PreviousPage
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.utils.TRACKER
 
 
@@ -24,7 +25,7 @@ import pt.isel.reversi.utils.TRACKER
 fun ReversiScope.AboutPage(viewModel: AboutPageViewModel, modifier: Modifier = Modifier, onLeave: () -> Unit) {
     TRACKER.trackPageEnter(category = Page.ABOUT)
     ScaffoldView(
-        setError = { error -> viewModel.setError(error) },
+        setError = { error, type -> viewModel.setError(error, type) },
         error = viewModel.uiState.value.screenState.error,
         isLoading = viewModel.uiState.value.screenState.isLoading,
         title = "Sobre",
@@ -40,7 +41,7 @@ fun ReversiScope.AboutPage(viewModel: AboutPageViewModel, modifier: Modifier = M
             Spacer(Modifier.height(height = 24.dp))
             ReversiText("Projeto Reversi desenvolvido no ISEL.", color = appState.theme.textColor)
             ReversiText("Autores: ", color = appState.theme.textColor)
-            ReversiText(" - Rafael Pereira - NUMERO", color = appState.theme.textColor)
+            ReversiText(" - Rafael Pereira - 52880", color = appState.theme.textColor)
             ReversiText(" - Ian Frunze - NUMERO", color = appState.theme.textColor)
             ReversiText(" - Tito Silva - NUMERO", color = appState.theme.textColor)
             ReversiText("Versão: DEV Build", color = appState.theme.textColor)

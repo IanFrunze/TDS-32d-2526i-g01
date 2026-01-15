@@ -8,9 +8,11 @@ import pt.isel.reversi.app.exceptions.NoPieceSelected
 import pt.isel.reversi.app.pages.ScreenState
 import pt.isel.reversi.app.pages.UiState
 import pt.isel.reversi.app.pages.ViewModel
+import pt.isel.reversi.app.state.AppStateImpl
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.core.startNewGame
 import pt.isel.reversi.core.storage.MatchPlayers
@@ -44,9 +46,10 @@ data class NewGameUiState(
  */
 class NewGameViewModel(
     private val scope: CoroutineScope,
+    private val appState: AppStateImpl,
     private val playerName: String?,
     override val globalError: ReversiException? = null,
-    override val setGlobalError: (Exception?) -> Unit,
+    override val setGlobalError: (Exception?, ErrorType?) -> Unit,
     private val createGame: (Game) -> Unit,
 ) : ViewModel<NewGameUiState>() {
     override val _uiState = mutableStateOf(
@@ -54,9 +57,12 @@ class NewGameViewModel(
             screenState = ScreenState(error = globalError)
         )
     )
+
     override val uiState: State<NewGameUiState> = _uiState
 
     fun tryCreateGame(game: Game, boardSize: Int) {
+        LOGGER.info("Using ${appState.service.getStorageTypeName()}")
+
         val currGameName = game.currGameName
 
         val myPiece: PieceType = game.myPiece ?: run {
@@ -89,6 +95,7 @@ class NewGameViewModel(
                 Player(PieceType.WHITE)
             ),
             firstTurn = myPiece,
+            service = appState.service,
         )
 
 
@@ -105,5 +112,6 @@ class NewGameViewModel(
             ),
             firstTurn = myPiece,
             currGameName = gameName.trim(),
+            service = appState.service,
         )
 }
