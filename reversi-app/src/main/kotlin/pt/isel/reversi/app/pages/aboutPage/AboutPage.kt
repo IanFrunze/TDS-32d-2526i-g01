@@ -42,7 +42,7 @@ fun ReversiScope.AboutPage(viewModel: AboutPageViewModel, modifier: Modifier = M
             ReversiText("Autores: ", color = appState.theme.textColor)
             ReversiText(" - Rafael Pereira - NUMERO", color = appState.theme.textColor)
             ReversiText(" - Ian Frunze - NUMERO", color = appState.theme.textColor)
-            ReversiText(" - Tito Silva - NUMERO", color = appState.theme.textColor)
+            ReversiText(" - Tito Silva - A53118", color = appState.theme.textColor)
             ReversiText("Versão: DEV Build", color = appState.theme.textColor)
 
         }

@@ -3,6 +3,7 @@ package pt.isel.reversi.app.state.pages
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import pt.isel.reversi.app.state.setError
+import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ReversiException
 
 /**
@@ -20,6 +21,7 @@ enum class Page(val level: Int) {
     LOBBY(1),
     GAME(2),
     STATISTICS(1),
+    WINNER(3)
 }
 
 
@@ -48,11 +50,11 @@ abstract class ViewModel<T : UiState> {
     protected abstract val globalError: ReversiException?
     protected abstract val setGlobalError: (Exception?) -> Unit
 
-    fun setError(error: Exception?) {
+    fun setError(error: Exception?, type: ErrorType = ErrorType.WARNING) {
         if (globalError != null) {
             setGlobalError(error)
         } else {
-            _uiState.setError(error)
+            _uiState.setError(error, type)
         }
     }
 }

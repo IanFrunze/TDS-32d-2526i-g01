@@ -17,6 +17,8 @@ import pt.isel.reversi.app.pages.settingsPage.SettingsPage
 import pt.isel.reversi.app.pages.settingsPage.SettingsViewModel
 import pt.isel.reversi.app.pages.statisticsPage.StatisticsPage
 import pt.isel.reversi.app.pages.statisticsPage.StatisticsPageViewModel
+import pt.isel.reversi.app.pages.winnerPage.WinnerPage
+import pt.isel.reversi.app.pages.winnerPage.WinnerPageViewModel
 import pt.isel.reversi.app.state.ReversiScope
 import pt.isel.reversi.app.state.pages.Page
 import pt.isel.reversi.app.state.pages.PagesState
@@ -84,6 +86,12 @@ fun Page.createPageView(
 
         Page.STATISTICS -> if (vm is StatisticsPageViewModel) {
             { StatisticsPage(viewModel = vm) { pagesState.setPage(Page.MAIN_MENU) } }
+        } else {
+            {}
+        }
+
+        Page.WINNER -> if (vm is WinnerPageViewModel) {
+            { WinnerPage(viewModel = vm) { pagesState.setPage(Page.MAIN_MENU) } }
         } else {
             {}
         }

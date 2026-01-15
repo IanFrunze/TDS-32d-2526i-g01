@@ -11,6 +11,7 @@ import pt.isel.reversi.app.pages.menu.MainMenuViewModel
 import pt.isel.reversi.app.pages.newGamePage.NewGameViewModel
 import pt.isel.reversi.app.pages.settingsPage.SettingsViewModel
 import pt.isel.reversi.app.pages.statisticsPage.StatisticsPageViewModel
+import pt.isel.reversi.app.pages.winnerPage.WinnerPageViewModel
 import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.state.pages.Page
 import pt.isel.reversi.app.state.pages.PagesState
@@ -50,6 +51,7 @@ fun Page.createViewModel(
                 play(themeState.value.placePieceSound)
             }
         },
+        setPage = { pagesState.setPage(it , backPage = Page.MAIN_MENU) },
         setGame = { game.setGame(it) },
     )
 
@@ -109,6 +111,12 @@ fun Page.createViewModel(
         scope = scope,
         globalError = globalError.value,
         setGlobalError = { globalError.setGlobalError(it) },
+    )
+
+    Page.WINNER -> WinnerPageViewModel(
+        game.value,
+        globalError = globalError.value,
+        setGlobalError = { globalError.setGlobalError(it) }
     )
 
     Page.NONE -> null
