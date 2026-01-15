@@ -5,10 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.*
 import pt.isel.reversi.app.exceptions.GameCorrupted
 import pt.isel.reversi.app.exceptions.GameNotStartedYet
+import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.pages.ScreenState
 import pt.isel.reversi.app.pages.UiState
 import pt.isel.reversi.app.pages.ViewModel
-import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.state.setError
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.Coordinate
@@ -68,6 +68,8 @@ class GamePageViewModel(
     override val uiState: State<GameUiState> = _uiState
 
     private var pollingJob: Job? = null
+
+    val error get() = globalError ?: uiState.value.screenState.error
 
     init {
         TRACKER.trackViewModelCreated(this, category = Page.GAME)

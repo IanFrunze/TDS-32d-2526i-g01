@@ -1,5 +1,6 @@
-package pt.isel.reversi.core
+package pt.isel.reversi.core.gameState
 
+import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.storage.MatchPlayers
@@ -9,8 +10,8 @@ import kotlin.test.assertFailsWith
 class MatchPlayersTests {
     @Test
     fun `test that creating MatchPlayers with same piece types throws exception`() {
-        val player1 = Player(name = "Alice",type =  PieceType.BLACK)
-        val player2 = Player(name = "Bob",type = PieceType.BLACK)
+        val player1 = Player(name = "Alice", type = PieceType.BLACK)
+        val player2 = Player(name = "Bob", type = PieceType.BLACK)
 
         assertFailsWith<IllegalArgumentException> {
             MatchPlayers(player1, player2)
@@ -20,8 +21,9 @@ class MatchPlayersTests {
     @Test
     fun `test isEmpty method`() {
         val emptyPlayers = MatchPlayers()
-        val onePlayer = MatchPlayers(Player(name = "Alice",type = PieceType.BLACK), null)
-        val fullPlayers = MatchPlayers(Player(name = "Alice",type = PieceType.BLACK), Player(name ="Bob", type = PieceType.WHITE))
+        val onePlayer = MatchPlayers(Player(name = "Alice", type = PieceType.BLACK), null)
+        val fullPlayers =
+            MatchPlayers(Player(name = "Alice", type = PieceType.BLACK), Player(name = "Bob", type = PieceType.WHITE))
 
         assert(emptyPlayers.isEmpty())
         assert(!onePlayer.isEmpty())
@@ -31,8 +33,9 @@ class MatchPlayersTests {
     @Test
     fun `test isFull method`() {
         val emptyPlayers = MatchPlayers()
-        val onePlayer = MatchPlayers(Player(name = "Alice",type = PieceType.BLACK), null)
-        val fullPlayers = MatchPlayers(Player(name = "Alice",type = PieceType.BLACK), Player(name = "Bob", type = PieceType.WHITE))
+        val onePlayer = MatchPlayers(Player(name = "Alice", type = PieceType.BLACK), null)
+        val fullPlayers =
+            MatchPlayers(Player(name = "Alice", type = PieceType.BLACK), Player(name = "Bob", type = PieceType.WHITE))
 
         assert(!emptyPlayers.isFull())
         assert(!onePlayer.isFull())
@@ -42,8 +45,9 @@ class MatchPlayersTests {
     @Test
     fun `test hasOnlyOnePlayer method`() {
         val emptyPlayers = MatchPlayers()
-        val onePlayer = MatchPlayers(Player(name = "Alice",type = PieceType.BLACK), null)
-        val fullPlayers = MatchPlayers(Player(name = "Alice",type = PieceType.BLACK), Player(name = "Bob", type = PieceType.WHITE))
+        val onePlayer = MatchPlayers(Player(name = "Alice", type = PieceType.BLACK), null)
+        val fullPlayers =
+            MatchPlayers(Player(name = "Alice", type = PieceType.BLACK), Player(name = "Bob", type = PieceType.WHITE))
 
         assert(!emptyPlayers.hasOnlyOnePlayer())
         assert(onePlayer.hasOnlyOnePlayer())
@@ -52,8 +56,8 @@ class MatchPlayersTests {
 
     @Test
     fun `test getPlayerByType method`() {
-        val player1 = Player(name = "Alice",type = PieceType.BLACK)
-        val player2 = Player(name = "Bob",type = PieceType.WHITE)
+        val player1 = Player(name = "Alice", type = PieceType.BLACK)
+        val player2 = Player(name = "Bob", type = PieceType.WHITE)
         val matchPlayers = MatchPlayers(player2, player1)
 
         val retrievedPlayer1 = matchPlayers.getPlayerByType(PieceType.BLACK)
@@ -65,7 +69,7 @@ class MatchPlayersTests {
 
     @Test
     fun `test getPlayerByType returns null for non-existing type`() {
-        val player1 = Player(name = "Alice",type = PieceType.BLACK)
+        val player1 = Player(name = "Alice", type = PieceType.BLACK)
         val matchPlayers = MatchPlayers(player1, null)
 
         val retrievedPlayer = matchPlayers.getPlayerByType(PieceType.WHITE)
@@ -117,7 +121,8 @@ class MatchPlayersTests {
     fun `test isNotEmpty method`() {
         val emptyPlayers = MatchPlayers()
         val onePlayer = MatchPlayers(Player(name = "Alice", type = PieceType.BLACK), null)
-        val fullPlayers = MatchPlayers(Player(name = "Alice",type =  PieceType.BLACK), Player(name = "Bob", type =  PieceType.WHITE))
+        val fullPlayers =
+            MatchPlayers(Player(name = "Alice", type = PieceType.BLACK), Player(name = "Bob", type = PieceType.WHITE))
 
         assert(!emptyPlayers.isNotEmpty())
         assert(onePlayer.isNotEmpty())
@@ -129,7 +134,8 @@ class MatchPlayersTests {
         val emptyPlayers = MatchPlayers()
         val onePlayerBlack = MatchPlayers(null, Player(name = "Alice", type = PieceType.BLACK))
         val onePlayerWhite = MatchPlayers(null, Player(name = "Bob", type = PieceType.WHITE))
-        val fullPlayers = MatchPlayers(Player(name = "Alice", type = PieceType.BLACK), Player(name = "Bob", type = PieceType.WHITE))
+        val fullPlayers =
+            MatchPlayers(Player(name = "Alice", type = PieceType.BLACK), Player(name = "Bob", type = PieceType.WHITE))
 
         assert(emptyPlayers.getFreeType() == PieceType.BLACK)
         assert(onePlayerBlack.getFreeType() == PieceType.WHITE)
@@ -139,7 +145,8 @@ class MatchPlayersTests {
 
     @Test
     fun `test addPlayerOrNull when full returns null`() {
-        val fullPlayers = MatchPlayers(Player(name = "Alice", type = PieceType.BLACK), Player(name = "Bob", type = PieceType.WHITE))
+        val fullPlayers =
+            MatchPlayers(Player(name = "Alice", type = PieceType.BLACK), Player(name = "Bob", type = PieceType.WHITE))
         val newPlayer = Player(name = "Charlie", type = PieceType.BLACK)
 
         val result = fullPlayers.addPlayerOrNull(newPlayer)
@@ -237,14 +244,16 @@ class MatchPlayersTests {
 
     @Test
     fun `test getAvailable players with both players present first black second white (none available)`() {
-        val fullPlayers = MatchPlayers(Player(name = "Alice", type = PieceType.BLACK), Player(name = "Bob", type = PieceType.WHITE))
+        val fullPlayers =
+            MatchPlayers(Player(name = "Alice", type = PieceType.BLACK), Player(name = "Bob", type = PieceType.WHITE))
         val availableTypesFull = fullPlayers.getAvailableTypes()
         assert(availableTypesFull.isEmpty())
     }
 
     @Test
     fun `test getAvailable players with both players present first white second black (none available)`() {
-        val fullPlayers = MatchPlayers(Player(name = "Bob", type = PieceType.WHITE), Player(name = "Alice", type = PieceType.BLACK))
+        val fullPlayers =
+            MatchPlayers(Player(name = "Bob", type = PieceType.WHITE), Player(name = "Alice", type = PieceType.BLACK))
         val availableTypesFull = fullPlayers.getAvailableTypes()
         assert(availableTypesFull.isEmpty())
     }

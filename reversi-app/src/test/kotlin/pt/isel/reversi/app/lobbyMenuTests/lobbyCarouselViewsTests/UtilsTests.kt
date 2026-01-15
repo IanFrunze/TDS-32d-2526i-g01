@@ -10,11 +10,12 @@ import androidx.compose.ui.test.*
 import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.utils.*
 import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.state.ReversiScope
+import pt.isel.reversi.core.gameServices.EmptyGameService
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
 class UtilsTests {
-    val reversiScope = ReversiScope(AppState.empty())
+    val reversiScope = ReversiScope(AppState.empty(EmptyGameService()))
 
     @Test
     fun `navButton executes onClick when clicked`() = runComposeUiTest {

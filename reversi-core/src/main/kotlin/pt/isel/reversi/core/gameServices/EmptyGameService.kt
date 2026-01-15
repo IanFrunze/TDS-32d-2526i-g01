@@ -1,8 +1,9 @@
-package pt.isel.reversi.core
+package pt.isel.reversi.core.gameServices
 
+import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.storage.GameState
 
-class FakeGameService: GameServiceImpl {
+class EmptyGameService: GameServiceImpl {
     override fun getStorageTypeName(): String {
         return "FakeStorage"
     }
@@ -19,9 +20,7 @@ class FakeGameService: GameServiceImpl {
         return game.gameState
     }
 
-    override suspend fun hardRefresh(game: Game): Game {
-        return game
-    }
+    override suspend fun hardLoad(id: String): GameState? = null
 
     override suspend fun saveEndGame(game: Game) {
         // No-op

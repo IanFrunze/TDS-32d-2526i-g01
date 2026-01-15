@@ -2,15 +2,17 @@ package pt.isel.reversi.app.gamePageTest
 
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.test.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 import pt.isel.reversi.app.pages.Page
+import pt.isel.reversi.app.pages.PagesState
 import pt.isel.reversi.app.pages.game.*
 import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.state.ReversiScope
-import pt.isel.reversi.app.pages.PagesState
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.gameServices.EmptyGameService
 import pt.isel.reversi.core.startNewGame
 import pt.isel.reversi.core.storage.MatchPlayers
 import kotlin.test.Test
@@ -18,6 +20,17 @@ import kotlin.test.assertEquals
 
 @OptIn(ExperimentalTestApi::class)
 class GamePageTests {
+
+    fun vmForTest(scope: CoroutineScope) =
+        GamePageViewModel(
+            game,
+            scope,
+            {},
+            { },
+            {},
+            null,
+            { _, _ -> }
+        )
 
     val game = runBlocking {
         startNewGame(
@@ -28,9 +41,8 @@ class GamePageTests {
         )
     }
 
-    val appState = AppState.empty().copy(
-        game = game,
-        pagesState = PagesState(Page.GAME, Page.NONE)
+    val appState = AppState.empty(service = EmptyGameService()).copy(
+        game = game, pagesState = PagesState(Page.GAME, Page.NONE)
     )
 
     @Test
@@ -38,7 +50,7 @@ class GamePageTests {
 
         setContent {
             val scope = rememberCoroutineScope()
-            val gameViewModel = GamePageViewModel(game, scope, {},{ }, null,{})
+            val gameViewModel = vmForTest(scope)
             ReversiScope(appState).GamePage(gameViewModel, onLeave = { })
         }
 
@@ -67,7 +79,7 @@ class GamePageTests {
     fun `check if player score not change if freeze is true`() = runComposeUiTest {
         setContent {
             val scope = rememberCoroutineScope()
-            val gameViewModel = GamePageViewModel(game, scope, {} ,{ },null,{})
+            val gameViewModel = vmForTest(scope)
             ReversiScope(appState).GamePage(gameViewModel, onLeave = { }, freeze = true)
         }
 
@@ -96,18 +108,17 @@ class GamePageTests {
 
         setContent {
             val scope = rememberCoroutineScope()
-            val gameViewModel = GamePageViewModel(game, scope, { }, {}, null,{})
+            val gameViewModel = vmForTest(scope)
             ReversiScope(appState).GamePage(gameViewModel, onLeave = { })
         }
 
         var countPieces = 0
 
         //check if the pieces are correct before target mode
-        onNodeWithTag(testTagBoard(), useUnmergedTree = true)
-            .onChildren().fetchSemanticsNodes().forEach { cellNode ->
-                val cell = cellNode.children
-                if (cell.isNotEmpty()) countPieces++
-            }
+        onNodeWithTag(testTagBoard(), useUnmergedTree = true).onChildren().fetchSemanticsNodes().forEach { cellNode ->
+            val cell = cellNode.children
+            if (cell.isNotEmpty()) countPieces++
+        }
 
         assertEquals(expectedPieces, countPieces)
 
@@ -116,11 +127,10 @@ class GamePageTests {
 
         //check if the pieces are correct after target mode
         countPieces = 0
-        onNodeWithTag(testTagBoard(), useUnmergedTree = true)
-            .onChildren().fetchSemanticsNodes().forEach { cellNode ->
-                val cell = cellNode.children
-                if (cell.isNotEmpty()) countPieces++
-            }
+        onNodeWithTag(testTagBoard(), useUnmergedTree = true).onChildren().fetchSemanticsNodes().forEach { cellNode ->
+            val cell = cellNode.children
+            if (cell.isNotEmpty()) countPieces++
+        }
 
         assertEquals(expectedPieces + expectedGhostPieces, countPieces)
     }
@@ -132,18 +142,17 @@ class GamePageTests {
 
         setContent {
             val scope = rememberCoroutineScope()
-            val gameViewModel = GamePageViewModel(game, scope, { }, { }, null,{})
+            val gameViewModel = vmForTest(scope)
             ReversiScope(appState).GamePage(gameViewModel, onLeave = { }, freeze = true)
         }
 
         var countPieces = 0
 
         //check if the pieces are correct before target mode
-        onNodeWithTag(testTagBoard(), useUnmergedTree = true)
-            .onChildren().fetchSemanticsNodes().forEach { cellNode ->
-                val cell = cellNode.children
-                if (cell.isNotEmpty()) countPieces++
-            }
+        onNodeWithTag(testTagBoard(), useUnmergedTree = true).onChildren().fetchSemanticsNodes().forEach { cellNode ->
+            val cell = cellNode.children
+            if (cell.isNotEmpty()) countPieces++
+        }
 
         assertEquals(expectedPieces, countPieces)
 
@@ -152,11 +161,10 @@ class GamePageTests {
 
         //check if the pieces not changed after target mode
         countPieces = 0
-        onNodeWithTag(testTagBoard(), useUnmergedTree = true)
-            .onChildren().fetchSemanticsNodes().forEach { cellNode ->
-                val cell = cellNode.children
-                if (cell.isNotEmpty()) countPieces++
-            }
+        onNodeWithTag(testTagBoard(), useUnmergedTree = true).onChildren().fetchSemanticsNodes().forEach { cellNode ->
+            val cell = cellNode.children
+            if (cell.isNotEmpty()) countPieces++
+        }
 
         assertEquals(expectedPieces, countPieces)
     }
@@ -168,18 +176,16 @@ class GamePageTests {
 
         setContent {
             val scope = rememberCoroutineScope()
-            val gameViewModel = GamePageViewModel(game, scope, { gameSaved = it }, { }, null,{})
+            val gameViewModel = GamePageViewModel(game, scope, { gameSaved = it }, { }, {},null, {_,_ ->})
 
             ReversiScope(appState).GamePage(
-                viewModel = gameViewModel,
-                onLeave = { }
-            )
+                viewModel = gameViewModel, onLeave = { })
         }
 
         //click on a valid cell to change the game state on view model
         onNodeWithTag(testTagCellView(game.getAvailablePlays()[0]), useUnmergedTree = true).performClick()
 
-        assertEquals(expectedGame,gameSaved!!)
+        assertEquals(expectedGame, gameSaved!!)
     }
 
     //TODO: add test for pass, wait for winner page

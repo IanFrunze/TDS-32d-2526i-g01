@@ -9,6 +9,7 @@ import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.state.ReversiScope
 import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.gameServices.EmptyGameService
 import pt.isel.reversi.core.startNewGame
 import pt.isel.reversi.core.storage.MatchPlayers
 import kotlin.test.Test
@@ -16,7 +17,7 @@ import kotlin.test.fail
 
 @OptIn(ExperimentalTestApi::class)
 class DrawBoardTest {
-    val reversiScope = ReversiScope(AppState.empty())
+    val reversiScope = ReversiScope(AppState.empty(EmptyGameService()))
 
     @Test
     fun `DrawBoard test if all cells are displayed`() = runComposeUiTest {

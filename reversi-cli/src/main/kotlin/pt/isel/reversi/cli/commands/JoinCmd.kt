@@ -4,7 +4,7 @@ import kotlinx.coroutines.runBlocking
 import pt.isel.reversi.cli.pieceTypes
 import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.loadGame
+import pt.isel.reversi.core.loadAndEntryGame
 import pt.isel.reversi.utils.TRACKER
 import pt.rafap.ktflag.cmd.CommandImpl
 import pt.rafap.ktflag.cmd.CommandInfo
@@ -56,7 +56,7 @@ object JoinCmd : CommandImpl<Game>() {
         if (pTypeArg != null && pType == null)
             return CommandResult.ERROR("Invalid piece type symbol provided: '$pTypeArg'.")
 
-        val game = runBlocking { loadGame(
+        val game = runBlocking { loadAndEntryGame(
              gameName = name,
              desiredType = pType,
         ) }

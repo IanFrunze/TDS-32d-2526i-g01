@@ -4,6 +4,9 @@ import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.exceptions.*
+import pt.isel.reversi.core.gameServices.EmptyGameService
+import pt.isel.reversi.core.gameServices.GameService
+import pt.isel.reversi.core.gameServices.GameServiceImpl
 import pt.isel.reversi.core.storage.GameState
 import pt.isel.reversi.core.storage.GameStorageType.Companion.setUpStorage
 import pt.isel.reversi.core.storage.MatchPlayers
@@ -28,7 +31,7 @@ suspend fun startNewGame(
     players: MatchPlayers,
     firstTurn: PieceType,
     currGameName: String? = null,
-    service: GameServiceImpl
+    service: GameServiceImpl? = null
 ): Game {
     TRACKER.trackFunctionCall(customName = "startNewGame", details = "gameName=$currGameName", category = "Core.Game")
     if (players.isEmpty()) throw InvalidGameException(
@@ -44,7 +47,7 @@ suspend fun startNewGame(
         winner = null
     )
 
-    return if (currGameName != null) {
+    return if (currGameName != null && service != null) {
         try {
             Game(
                 target = false,
@@ -64,7 +67,7 @@ suspend fun startNewGame(
             gameState = gs,
             currGameName = currGameName,
             myPiece = firstTurn,
-            service = service,
+            service = service ?: EmptyGameService(),
         )
     }
 }
@@ -79,7 +82,7 @@ suspend fun startNewGame(
  * @throws InvalidFileException if there is an error loading the game state.
  * @throws InvalidPieceInFileException if the specified piece type is not found in the loaded game.
  */
-suspend fun loadGame(
+suspend fun loadAndEntryGame(
     gameName: String,
     playerName: String? = null,
     desiredType: PieceType?,

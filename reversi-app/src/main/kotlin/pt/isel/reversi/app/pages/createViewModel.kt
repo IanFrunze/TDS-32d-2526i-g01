@@ -17,8 +17,8 @@ import pt.isel.reversi.app.state.setGame
 import pt.isel.reversi.app.state.setGlobalError
 import pt.isel.reversi.app.state.setPage
 import pt.isel.reversi.core.Game
-import pt.isel.reversi.core.GameService
 import pt.isel.reversi.core.exceptions.ReversiException
+import pt.isel.reversi.core.gameServices.GameService
 import pt.isel.reversi.utils.audio.AudioPool
 
 

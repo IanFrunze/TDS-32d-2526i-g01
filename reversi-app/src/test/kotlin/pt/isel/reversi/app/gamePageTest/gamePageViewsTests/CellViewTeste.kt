@@ -9,6 +9,7 @@ import pt.isel.reversi.app.state.ReversiScope
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.gameServices.EmptyGameService
 import kotlin.test.Test
 import kotlin.test.fail
 
@@ -22,7 +23,7 @@ import kotlin.test.fail
  */
 @OptIn(ExperimentalTestApi::class)
 class CellViewTeste {
-    val reversiScope = ReversiScope(AppState.empty())
+    val reversiScope = ReversiScope(AppState.empty(EmptyGameService()))
 
     @Test
     fun `cellView with piece null expect no piece view`() = runComposeUiTest {

@@ -8,6 +8,7 @@ import pt.isel.reversi.app.pages.PagesState
 import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.gameServices.EmptyGameService
 import pt.isel.reversi.core.startNewGame
 import pt.isel.reversi.core.storage.MatchPlayers
 import kotlin.test.Test
@@ -24,7 +25,7 @@ class WinnerPageTests {
         )
     }
 
-    val appState = AppState.empty().copy(
+    val appState = AppState.empty(service = EmptyGameService()).copy(
         game = game,
         pagesState = PagesState(Page.GAME, Page.NONE)
     )

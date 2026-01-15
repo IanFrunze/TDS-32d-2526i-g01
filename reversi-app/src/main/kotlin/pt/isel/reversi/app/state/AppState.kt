@@ -5,8 +5,8 @@ import pt.isel.reversi.app.AppThemes
 import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.pages.PagesState
 import pt.isel.reversi.core.Game
-import pt.isel.reversi.core.GameServiceImpl
 import pt.isel.reversi.core.exceptions.ReversiException
+import pt.isel.reversi.core.gameServices.GameServiceImpl
 import pt.isel.reversi.utils.audio.AudioPool
 
 /**
@@ -33,7 +33,7 @@ data class AppState(
     override val service get() = game.service
     companion object {
         // Empty AppState for initialization
-        fun empty(service: GameServiceImpl): AppStateImpl = AppState(
+        fun empty(service: GameServiceImpl): AppState = AppState(
             game = Game(service = service),
             pagesState = PagesState(Page.MAIN_MENU, Page.NONE),
             audioPool = AudioPool(emptyList()),

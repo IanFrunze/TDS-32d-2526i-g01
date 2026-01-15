@@ -1,5 +1,6 @@
 package pt.isel.reversi.app.gamePageTest
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import pt.isel.reversi.app.pages.game.GamePageViewModel
@@ -13,6 +14,16 @@ import kotlin.test.assertNotNull
 
 class GamePageViewModelTests {
 
+    fun vmForTest(scope: CoroutineScope) = GamePageViewModel(
+            game,
+            scope,
+            {},
+            {},
+        {},
+            null,
+            {_,_ ->}
+        )
+
     val game = runBlocking {
         startNewGame(
             side = 4,
@@ -25,13 +36,7 @@ class GamePageViewModelTests {
     @Test
     fun `verify that the state initializes correctly`() = runTest {
 
-        val uut = GamePageViewModel(
-            game,
-            this,
-            { },
-            {},
-            null,{}
-        )
+        val uut = vmForTest(this)
 
         // Verify initial state
         assertNotNull(uut.uiState.value)
@@ -40,7 +45,7 @@ class GamePageViewModelTests {
 
     @Test
     fun `verify that get available plays works correctly`() = runTest {
-        val uut = GamePageViewModel(game, this, { }, {}, null,{})
+        val uut = vmForTest(this)
 
         val availablePlays = uut.getAvailablePlays()
         val expectedPlays = game.getAvailablePlays()
@@ -50,7 +55,7 @@ class GamePageViewModelTests {
 
     @Test
     fun `verify that set target mode works correctly`() = runTest {
-        val uut = GamePageViewModel(game, this, { }, {}, null,{})
+        val uut = vmForTest(this)
 
         val initialTarget = uut.uiState.value.game.target
         uut.setTarget(!initialTarget)
@@ -60,14 +65,7 @@ class GamePageViewModelTests {
 
     @Test
     fun `verify that save preserves game state`() = runTest {
-        val uut = GamePageViewModel(
-            game,
-            this,
-            { },
-            {},
-            null,
-            {}
-        )
+        val uut = vmForTest(this)
 
         uut.save()
         // Verify save was called
@@ -76,7 +74,7 @@ class GamePageViewModelTests {
 
     @Test
     fun `verify polling control methods work`() = runTest {
-        val uut = GamePageViewModel(game, this, { }, {}, null,{})
+        val uut = vmForTest(this)
 
         // Initially no polling
         assertEquals(false, uut.isPollingActive())
@@ -87,7 +85,7 @@ class GamePageViewModelTests {
 
     @Test
     fun `verify that starting polling twice throws exception`() = runTest {
-        val uut = GamePageViewModel(game, this, { }, {}, null,{})
+        val uut = vmForTest(this)
         uut.startPolling()
         try {
             uut.startPolling()

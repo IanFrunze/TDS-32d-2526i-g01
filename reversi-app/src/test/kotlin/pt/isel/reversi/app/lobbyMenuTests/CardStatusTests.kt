@@ -7,6 +7,7 @@ import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.gameServices.EmptyGameService
 import pt.isel.reversi.core.storage.GameState
 import pt.isel.reversi.core.storage.MatchPlayers
 import kotlin.test.Test
@@ -20,7 +21,7 @@ class CardStatusTests {
             players = MatchPlayers(Player(PieceType.BLACK)),
             lastPlayer = PieceType.WHITE
         )
-        val game = Game(currGameName = "testGame", gameState = gameState)
+        val game = Game(currGameName = "testGame", gameState = gameState, service = EmptyGameService())
         val lobbyStats = LobbyLoadedState(game.gameState!!, game.currGameName!!)
 
         val expected = CardStatus.CURRENT_GAME
@@ -36,7 +37,7 @@ class CardStatusTests {
             players = MatchPlayers(Player(PieceType.BLACK), Player(PieceType.WHITE)),
             lastPlayer = PieceType.WHITE
         )
-        val game = Game(currGameName = "testGame", gameState = gameState)
+        val game = Game(currGameName = "testGame", gameState = gameState, service = EmptyGameService())
         val lobbyStats = LobbyLoadedState(game.gameState!!, game.currGameName!!)
         val expected = CardStatus.FULL
 
@@ -51,7 +52,7 @@ class CardStatusTests {
             players = MatchPlayers(Player(PieceType.BLACK)),
             lastPlayer = PieceType.WHITE
         )
-        val game = Game(currGameName = "testGame", gameState = gameState)
+        val game = Game(currGameName = "testGame", gameState = gameState, service = EmptyGameService())
         val lobbyStats = LobbyLoadedState(game.gameState!!, game.currGameName!!)
         val expected = CardStatus.WAITING_FOR_PLAYERS
 
@@ -66,7 +67,7 @@ class CardStatusTests {
             players = MatchPlayers(),
             lastPlayer = PieceType.BLACK
         )
-        val game = Game(currGameName = "testGame", gameState = gameState)
+        val game = Game(currGameName = "testGame", gameState = gameState,service = EmptyGameService())
         val lobbyStats = LobbyLoadedState(game.gameState!!, game.currGameName!!)
         val expected = CardStatus.EMPTY
 

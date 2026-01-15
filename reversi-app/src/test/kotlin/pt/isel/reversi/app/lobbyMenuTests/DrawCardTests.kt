@@ -14,6 +14,7 @@ import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.state.ReversiScope
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.gameServices.EmptyGameService
 import pt.isel.reversi.core.storage.GameState
 import pt.isel.reversi.core.storage.MatchPlayers
 import kotlin.test.Test
@@ -29,7 +30,7 @@ class DrawCardTests {
         )
     )
 
-    val reversiScope = ReversiScope(AppState.empty())
+    val reversiScope = ReversiScope(AppState.empty(EmptyGameService()))
 
     @Test
     fun `verify if drawCard is displayed`() = runComposeUiTest {

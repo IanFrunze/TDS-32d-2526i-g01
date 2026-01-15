@@ -8,11 +8,12 @@ import pt.isel.reversi.app.pages.game.TargetButton
 import pt.isel.reversi.app.pages.game.testTagTargetButtons
 import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.state.ReversiScope
+import pt.isel.reversi.core.gameServices.EmptyGameService
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
 class ButtonsTest {
-    val reversiScope = ReversiScope(AppState.empty())
+    val reversiScope = ReversiScope(AppState.empty(EmptyGameService()))
 
     @Test
     fun `check if the Target button is displayed and clickable`() = runComposeUiTest {

@@ -18,7 +18,7 @@ import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.core.getAllGameNames
-import pt.isel.reversi.core.loadGame
+import pt.isel.reversi.core.loadAndEntryGame
 import pt.isel.reversi.core.readState
 import pt.isel.reversi.core.storage.GameState
 import pt.isel.reversi.utils.LOGGER
@@ -196,7 +196,7 @@ class LobbyViewModel(
 
     suspend fun tryLoadGame(gameName: String, desiredType: PieceType): Game? {
         return try {
-            loadGame(
+            loadAndEntryGame(
                 gameName = gameName,
                 playerName = appState.playerName,
                 desiredType = desiredType,

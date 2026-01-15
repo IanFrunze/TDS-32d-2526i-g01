@@ -1,20 +1,24 @@
-package pt.isel.reversi.core
+package pt.isel.reversi.core.gameServices
 
+import pt.isel.reversi.core.Game
+import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.InvalidFileException
 import pt.isel.reversi.core.exceptions.InvalidGameException
+import pt.isel.reversi.core.loadCoreConfig
 import pt.isel.reversi.core.storage.GameState
-import pt.isel.reversi.core.storage.GameStorageType.Companion.setUpStorage
+import pt.isel.reversi.core.storage.GameStorageType
 import pt.isel.reversi.core.storage.MatchPlayers
+import pt.isel.reversi.core.storage.StorageParams
 import pt.isel.reversi.storage.AsyncStorage
 import pt.isel.reversi.utils.LOGGER
 import pt.isel.reversi.utils.TRACKER
 
-class GameService: GameServiceImpl {
+class GameService(storage: GameStorageType? = null, params: StorageParams? = null): GameServiceImpl {
     private val storage: AsyncStorage<String, GameState, String> by lazy {
-        setUpStorage(loadCoreConfig())
+        params?.let {storage?.storage(it)} ?: GameStorageType.Companion.setUpStorage(loadCoreConfig())
     }
 
     override fun getStorageTypeName(): String = storage.javaClass.simpleName
@@ -60,12 +64,9 @@ class GameService: GameServiceImpl {
         )
     }
 
-    override suspend fun hardRefresh(game: Game): Game {
-        val gs = refreshBase(game)
-        return if (gs != null) {
-            game.copy(gameState = gs)
-        } else game
-    }
+    override suspend fun hardLoad(id: String) =
+        storage.load(id)
+
 
     override suspend fun saveEndGame(game: Game) {
         TRACKER.trackFunctionCall(customName = "Game.saveEndGame", category = "Core.Game")

@@ -1,15 +1,11 @@
 package pt.isel.reversi.core
 
-import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.exceptions.*
+import pt.isel.reversi.core.gameServices.GameServiceImpl
 import pt.isel.reversi.core.storage.GameState
-import pt.isel.reversi.core.storage.GameStorageType.Companion.setUpStorage
-import pt.isel.reversi.core.storage.MatchPlayers
-import pt.isel.reversi.storage.AsyncStorage
-import pt.isel.reversi.utils.LOGGER
 import pt.isel.reversi.utils.TRACKER
 
 /**
@@ -259,7 +255,10 @@ data class Game(
      * Replaces the in-memory game state with the latest persisted version if available.
      * @return A new Game instance reflecting the persisted state, or this instance if unchanged.
      */
-    suspend fun hardRefresh(): Game = service.hardRefresh(this)
+    suspend fun hardRefresh(): GameState? {
+        val id = currGameName ?: return null
+        return service.hardLoad(id)
+    }
 
     /**
      * Saves the current game state to storage.
