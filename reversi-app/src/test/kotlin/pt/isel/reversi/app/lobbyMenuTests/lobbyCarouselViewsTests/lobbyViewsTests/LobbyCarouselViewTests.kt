@@ -1,4 +1,4 @@
-package pt.isel.reversi.app.lobbyMenuTests.lobbyCarouselViewsTests
+package pt.isel.reversi.app.lobbyMenuTests.lobbyCarouselViewsTests.lobbyViewsTests
 
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
@@ -86,14 +86,14 @@ class LobbyCarouselViewTests {
     }
 
     val reversiScope = ReversiScope(
-        appState = AppState.empty(service = EmptyGameService())
+        appState = AppState.Companion.empty(service = EmptyGameService())
     )
 
     @Test
     fun `verify lobby carousel view is displayed correctly with 2 buttons`() = runComposeUiTest {
 
         setContent {
-            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            BoxWithConstraints(modifier = Modifier.Companion.fillMaxSize()) {
                 LobbyCarouselView(
                     currentGameName = null,
                     pagerState = PagerState(pageCount = { games.size }, currentPage = 1),
@@ -118,7 +118,7 @@ class LobbyCarouselViewTests {
     fun `verify cards render in games order`() = runComposeUiTest {
 
         setContent {
-            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            BoxWithConstraints(modifier = Modifier.Companion.fillMaxSize()) {
                 LobbyCarouselView(
                     currentGameName = null,
                     pagerState = PagerState(pageCount = { games.size }),
@@ -149,7 +149,7 @@ class LobbyCarouselViewTests {
         val pagerState = PagerState(pageCount = { duplicatedGames.size })
 
         setContent {
-            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            BoxWithConstraints(modifier = Modifier.Companion.fillMaxSize()) {
                 LobbyCarouselView(
                     currentGameName = null,
                     pagerState = pagerState,
@@ -172,7 +172,7 @@ class LobbyCarouselViewTests {
     @Test
     fun `verify if display only right nav button on first page`() = runComposeUiTest {
         setContent {
-            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            BoxWithConstraints(modifier = Modifier.Companion.fillMaxSize()) {
                 LobbyCarouselView(
                     currentGameName = null,
                     pagerState = PagerState(pageCount = { games.size }, currentPage = 0),
@@ -191,7 +191,7 @@ class LobbyCarouselViewTests {
     @Test
     fun `verify if display only left nav button on last page`() = runComposeUiTest {
         setContent {
-            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            BoxWithConstraints(modifier = Modifier.Companion.fillMaxSize()) {
                 LobbyCarouselView(
                     currentGameName = null,
                     pagerState = PagerState(pageCount = { games.size }, currentPage = games.size - 1),
@@ -210,7 +210,7 @@ class LobbyCarouselViewTests {
     @Test
     fun `verify if no nav buttons are displayed when only one page exists`() = runComposeUiTest {
         setContent {
-            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            BoxWithConstraints(modifier = Modifier.Companion.fillMaxSize()) {
                 LobbyCarouselView(
                     currentGameName = null,
                     pagerState = PagerState(pageCount = { 1 }, currentPage = 0),
@@ -231,7 +231,7 @@ class LobbyCarouselViewTests {
         var clickedGameName: String? = null
 
         setContent {
-            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            BoxWithConstraints(modifier = Modifier.Companion.fillMaxSize()) {
                 LobbyCarouselView(
                     currentGameName = null,
                     pagerState = PagerState(pageCount = { games.size }, currentPage = 0),
@@ -256,7 +256,7 @@ class LobbyCarouselViewTests {
         var clickedNavButton = 0
 
         setContent {
-            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            BoxWithConstraints(modifier = Modifier.Companion.fillMaxSize()) {
                 LobbyCarouselView(
                     currentGameName = null,
                     pagerState = PagerState(pageCount = { games.size }, currentPage = 1),
@@ -280,7 +280,7 @@ class LobbyCarouselViewTests {
     @Test
     fun `verify lobby carousel view with no games`() = runComposeUiTest {
         setContent {
-            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            BoxWithConstraints(modifier = Modifier.Companion.fillMaxSize()) {
                 LobbyCarouselView(
                     currentGameName = null,
                     pagerState = PagerState(pageCount = { 0 }),

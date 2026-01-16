@@ -1,4 +1,4 @@
-package pt.isel.reversi.app.lobbyMenuTests.lobbyCarouselViewsTests
+package pt.isel.reversi.app.lobbyMenuTests.lobbyCarouselViewsTests.lobbyViewsTests
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertTextEquals
@@ -16,7 +16,7 @@ import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
 class EmptyLobbyTests {
-    val reversiScope = ReversiScope(AppState.empty(EmptyGameService()))
+    val reversiScope = ReversiScope(AppState.Companion.empty(EmptyGameService()))
 
     @BeforeTest
     @AfterTest
