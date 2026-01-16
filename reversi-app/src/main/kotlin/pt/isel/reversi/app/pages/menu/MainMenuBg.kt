@@ -91,8 +91,8 @@ fun ReversiScope.AnimatedBackground() {
         activePieces.forEach { piece ->
             val x = piece.xPercent * size.width
             val y = (piece.yPercent * size.height) + calculateWaveOffset(waveOffset, piece.phase, piece.waveAmplitude)
-            val edgeFade = calculateEdgeFade(piece.xPercent)
             val radiusPx = piece.radiusDp.dp.toPx()
+            val edgeFade = calculateEdgeFade(piece.xPercent)
 
             drawPiece(piece, theme, x, y, radiusPx, edgeFade)
 
@@ -206,7 +206,7 @@ private fun DrawScope.drawEyes(
     )
 }
 
-private fun DrawScope.drawCrown(
+fun DrawScope.drawCrown(
     x: Float,
     y: Float,
     radiusPx: Float,
