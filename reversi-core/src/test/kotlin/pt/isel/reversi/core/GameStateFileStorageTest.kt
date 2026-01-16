@@ -3,9 +3,10 @@ package pt.isel.reversi.core
 import kotlinx.coroutines.test.runTest
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.storage.GameState
+import pt.isel.reversi.core.gameState.GameState
+import pt.isel.reversi.core.gameState.MatchPlayers
+import pt.isel.reversi.core.gameState.Player
 import pt.isel.reversi.core.storage.GameStorageType
-import pt.isel.reversi.core.storage.MatchPlayers
 import pt.isel.reversi.core.storage.StorageParams
 import java.io.File
 import kotlin.test.AfterTest
@@ -27,12 +28,8 @@ class GameStateFileStorageTest {
     )
 
     @BeforeTest
-    fun cleanup() {
-        File("test-saves").deleteRecursively()
-    }
-
     @AfterTest
-    fun cleanupAfter() {
+    fun cleanup() {
         File("test-saves").deleteRecursively()
     }
 

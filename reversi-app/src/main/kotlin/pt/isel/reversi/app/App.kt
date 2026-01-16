@@ -13,10 +13,10 @@ import pt.isel.reversi.app.utils.addShutdownHook
 import pt.isel.reversi.app.utils.initializeAppArgs
 import pt.isel.reversi.app.utils.installFatalCrashLogger
 import pt.isel.reversi.app.utils.runStorageHealthCheck
-import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.exceptions.ErrorType.Companion.toReversiException
 import pt.isel.reversi.core.exceptions.ReversiException
-import pt.isel.reversi.core.gameServices.GameService
+import pt.isel.reversi.core.game.Game
+import pt.isel.reversi.core.game.gameServices.GameService
 import pt.isel.reversi.core.loadCoreConfig
 import pt.isel.reversi.utils.ExportFormat
 import pt.isel.reversi.utils.LOGGER

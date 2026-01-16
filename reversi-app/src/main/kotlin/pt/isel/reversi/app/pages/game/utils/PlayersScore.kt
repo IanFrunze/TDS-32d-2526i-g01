@@ -24,9 +24,9 @@ import pt.isel.reversi.app.state.ReversiScope
 import pt.isel.reversi.app.state.ReversiText
 import pt.isel.reversi.app.state.getTheme
 import pt.isel.reversi.app.state.invert
-import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.storage.GameState
+import pt.isel.reversi.core.gameState.GameState
+import pt.isel.reversi.core.gameState.Player
 
 @Composable
 fun ReversiScope.TextPlayersScore(

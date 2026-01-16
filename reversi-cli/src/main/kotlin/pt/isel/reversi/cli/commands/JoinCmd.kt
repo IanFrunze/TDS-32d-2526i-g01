@@ -2,10 +2,10 @@ package pt.isel.reversi.cli.commands
 
 import kotlinx.coroutines.runBlocking
 import pt.isel.reversi.cli.pieceTypes
-import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.gameServices.GameService
-import pt.isel.reversi.core.loadAndEntryGame
+import pt.isel.reversi.core.game.Game
+import pt.isel.reversi.core.game.gameServices.GameService
+import pt.isel.reversi.core.game.loadAndEntryGame
 import pt.isel.reversi.utils.TRACKER
 import pt.rafap.ktflag.cmd.CommandImpl
 import pt.rafap.ktflag.cmd.CommandInfo

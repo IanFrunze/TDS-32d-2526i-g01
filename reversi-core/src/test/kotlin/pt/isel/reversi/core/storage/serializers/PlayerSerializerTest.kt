@@ -1,7 +1,7 @@
 package pt.isel.reversi.core.storage.serializers
 
-import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.gameState.Player
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails

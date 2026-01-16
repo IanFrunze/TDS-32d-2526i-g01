@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.sp
 import pt.isel.reversi.app.ScaffoldView
 import pt.isel.reversi.app.state.*
 import pt.isel.reversi.app.utils.PreviousPage
-import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.game.Game
 
 /**
  * New game page for creating a local game with piece selection.

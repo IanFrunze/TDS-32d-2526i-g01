@@ -1,4 +1,4 @@
-package pt.isel.reversi.core
+package pt.isel.reversi.core.game
 
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
@@ -20,7 +20,7 @@ internal object GameLogic {
      * @param myPiece The piece being placed on the board.
      * @return The new state of the board after the play.
      * @throws IllegalArgumentException if the position is out of bounds
-     * @throws InvalidPlay if the play is not valid (when no pieces are captured or position is occupied)
+     * @throws pt.isel.reversi.core.exceptions.InvalidPlay if the play is not valid (when no pieces are captured or position is occupied)
      */
     fun play(
         board: Board,
@@ -136,7 +136,7 @@ internal object GameLogic {
         val coordinates = myPiece.coordinate
         // Check all 8 directions
         return buildList {
-            Coordinate.allDirection.forEach { direction ->
+            Coordinate.Companion.allDirection.forEach { direction ->
                 val newCord = coordinates + direction
 
                 if (

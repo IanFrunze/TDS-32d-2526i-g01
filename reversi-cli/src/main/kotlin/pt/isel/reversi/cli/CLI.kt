@@ -1,6 +1,6 @@
 package pt.isel.reversi.cli
 
-import pt.isel.reversi.core.Game
+import pt.isel.reversi.core.game.Game
 import pt.isel.reversi.utils.TRACKER
 import pt.rafap.ktflag.CommandParser
 import pt.rafap.ktflag.ParserConfig

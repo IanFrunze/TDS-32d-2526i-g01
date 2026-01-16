@@ -1,8 +1,8 @@
 package pt.isel.reversi.cli.commands
 
 import kotlinx.coroutines.runBlocking
-import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.Coordinate
+import pt.isel.reversi.core.game.Game
 import pt.isel.reversi.utils.TRACKER
 import pt.rafap.ktflag.cmd.CommandImpl
 import pt.rafap.ktflag.cmd.CommandInfo

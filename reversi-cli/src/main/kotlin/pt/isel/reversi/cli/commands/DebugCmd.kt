@@ -1,8 +1,8 @@
 package pt.isel.reversi.cli.commands
 
 import pt.isel.reversi.cli.CLI_CONFIG
-import pt.isel.reversi.core.Game
-import pt.isel.reversi.core.stringifyBoard
+import pt.isel.reversi.core.game.Game
+import pt.isel.reversi.core.game.stringifyBoard
 import pt.rafap.ktflag.cmd.CommandImpl
 import pt.rafap.ktflag.cmd.CommandInfo
 import pt.rafap.ktflag.cmd.CommandResult

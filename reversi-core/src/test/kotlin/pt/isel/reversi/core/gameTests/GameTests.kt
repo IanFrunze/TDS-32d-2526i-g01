@@ -1,8 +1,6 @@
 package pt.isel.reversi.core.gameTests
 
 import kotlinx.coroutines.test.runTest
-import pt.isel.reversi.core.Game
-import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
@@ -10,10 +8,12 @@ import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.exceptions.EndGame
 import pt.isel.reversi.core.exceptions.InvalidGame
 import pt.isel.reversi.core.exceptions.InvalidPlay
-import pt.isel.reversi.core.gameServices.EmptyGameService
-import pt.isel.reversi.core.startNewGame
-import pt.isel.reversi.core.storage.GameState
-import pt.isel.reversi.core.storage.MatchPlayers
+import pt.isel.reversi.core.game.Game
+import pt.isel.reversi.core.game.gameServices.EmptyGameService
+import pt.isel.reversi.core.game.startNewGame
+import pt.isel.reversi.core.gameState.GameState
+import pt.isel.reversi.core.gameState.MatchPlayers
+import pt.isel.reversi.core.gameState.Player
 import pt.isel.reversi.utils.LOGGER
 import java.io.File
 import kotlin.test.*
@@ -21,12 +21,8 @@ import kotlin.test.*
 class GameTests {
 
     @BeforeTest
-    fun cleanup() = runTest {
-        File("test-game").deleteRecursively()
-    }
-
     @AfterTest
-    fun cleanupAfter() = runTest {
+    fun cleanup() = runTest {
         File("test-game").deleteRecursively()
     }
 

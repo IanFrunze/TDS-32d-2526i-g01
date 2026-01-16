@@ -13,14 +13,14 @@ import pt.isel.reversi.app.state.AppStateImpl
 import pt.isel.reversi.app.state.getStateAudioPool
 import pt.isel.reversi.app.state.setError
 import pt.isel.reversi.app.state.setLoading
-import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ReversiException
-import pt.isel.reversi.core.getAllGameNames
-import pt.isel.reversi.core.loadAndEntryGame
-import pt.isel.reversi.core.readState
-import pt.isel.reversi.core.storage.GameState
+import pt.isel.reversi.core.game.Game
+import pt.isel.reversi.core.game.getAllGameNames
+import pt.isel.reversi.core.game.loadAndEntryGame
+import pt.isel.reversi.core.game.readState
+import pt.isel.reversi.core.gameState.GameState
 import pt.isel.reversi.utils.LOGGER
 import pt.isel.reversi.utils.TRACKER
 

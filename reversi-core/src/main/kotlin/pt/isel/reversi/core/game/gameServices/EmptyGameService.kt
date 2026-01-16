@@ -1,7 +1,7 @@
-package pt.isel.reversi.core.gameServices
+package pt.isel.reversi.core.game.gameServices
 
-import pt.isel.reversi.core.Game
-import pt.isel.reversi.core.storage.GameState
+import pt.isel.reversi.core.game.Game
+import pt.isel.reversi.core.gameState.GameState
 
 class EmptyGameService: GameServiceImpl {
     override fun getStorageTypeName(): String {

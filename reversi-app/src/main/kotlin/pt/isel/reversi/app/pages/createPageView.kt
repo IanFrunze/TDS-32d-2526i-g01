@@ -22,7 +22,7 @@ import pt.isel.reversi.app.pages.winnerPage.WinnerPageViewModel
 import pt.isel.reversi.app.state.ReversiScope
 import pt.isel.reversi.app.state.setGame
 import pt.isel.reversi.app.state.setPage
-import pt.isel.reversi.core.Game
+import pt.isel.reversi.core.game.Game
 
 /**
  * Creates a composable page view if the provided ViewModel is of the expected type T.

@@ -1,7 +1,7 @@
 package pt.isel.reversi.core.storage.serializers
 
-import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.exceptions.InvalidPlayerInFile
+import pt.isel.reversi.core.gameState.Player
 import pt.isel.reversi.storage.Serializer
 
 /**

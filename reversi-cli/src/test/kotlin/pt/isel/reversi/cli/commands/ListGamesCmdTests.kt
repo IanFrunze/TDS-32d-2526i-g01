@@ -1,7 +1,7 @@
 package pt.isel.reversi.cli.commands
 
-import pt.isel.reversi.core.Game
-import pt.isel.reversi.core.gameServices.GameService
+import pt.isel.reversi.core.game.Game
+import pt.isel.reversi.core.game.gameServices.GameService
 import pt.isel.reversi.core.storage.GameStorageType
 import pt.isel.reversi.core.storage.StorageParams
 import java.io.File

@@ -1,6 +1,7 @@
 package pt.isel.reversi.core.storage
 
 import pt.isel.reversi.core.CoreConfig
+import pt.isel.reversi.core.gameState.GameState
 import pt.isel.reversi.core.storage.serializers.GameStateSerializer
 import pt.isel.reversi.storage.AsyncFileStorage
 import pt.isel.reversi.storage.AsyncMongoDBStorage

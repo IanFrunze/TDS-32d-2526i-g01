@@ -1,17 +1,17 @@
-package pt.isel.reversi.core.gameServices
+package pt.isel.reversi.core.game.gameServices
 
-import pt.isel.reversi.core.Game
-import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.exceptions.BadStorage
 import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.InvalidFile
 import pt.isel.reversi.core.exceptions.InvalidGame
+import pt.isel.reversi.core.game.Game
+import pt.isel.reversi.core.gameState.GameState
+import pt.isel.reversi.core.gameState.MatchPlayers
+import pt.isel.reversi.core.gameState.Player
 import pt.isel.reversi.core.loadCoreConfig
-import pt.isel.reversi.core.storage.GameState
 import pt.isel.reversi.core.storage.GameStorageType
-import pt.isel.reversi.core.storage.MatchPlayers
 import pt.isel.reversi.core.storage.StorageParams
 import pt.isel.reversi.storage.AsyncStorage
 import pt.isel.reversi.utils.LOGGER

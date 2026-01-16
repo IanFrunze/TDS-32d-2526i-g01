@@ -10,7 +10,7 @@ import androidx.compose.ui.test.*
 import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.utils.*
 import pt.isel.reversi.app.state.AppState
 import pt.isel.reversi.app.state.ReversiScope
-import pt.isel.reversi.core.gameServices.EmptyGameService
+import pt.isel.reversi.core.game.gameServices.EmptyGameService
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)

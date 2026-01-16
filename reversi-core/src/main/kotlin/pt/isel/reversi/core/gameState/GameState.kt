@@ -1,6 +1,5 @@
-package pt.isel.reversi.core.storage
+package pt.isel.reversi.core.gameState
 
-import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
 

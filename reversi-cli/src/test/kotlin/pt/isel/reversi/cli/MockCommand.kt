@@ -1,13 +1,13 @@
 package pt.isel.reversi.cli
 
 import kotlinx.coroutines.runBlocking
-import pt.isel.reversi.core.Game
-import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.gameServices.GameService
-import pt.isel.reversi.core.startNewGame
+import pt.isel.reversi.core.game.Game
+import pt.isel.reversi.core.game.gameServices.GameService
+import pt.isel.reversi.core.game.startNewGame
+import pt.isel.reversi.core.gameState.MatchPlayers
+import pt.isel.reversi.core.gameState.Player
 import pt.isel.reversi.core.storage.GameStorageType
-import pt.isel.reversi.core.storage.MatchPlayers
 import pt.isel.reversi.core.storage.StorageParams
 import pt.rafap.ktflag.cmd.CommandImpl
 import pt.rafap.ktflag.cmd.CommandInfo

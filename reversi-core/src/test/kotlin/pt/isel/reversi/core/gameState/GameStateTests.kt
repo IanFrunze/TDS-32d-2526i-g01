@@ -1,15 +1,12 @@
 package pt.isel.reversi.core.gameState
 
-import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.storage.GameState
-import pt.isel.reversi.core.storage.MatchPlayers
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class GameStates {
+class GameStateTests {
     @Test
     fun `GameState changeName updates the correct player's name`() {
         val player1 = Player(type = PieceType.BLACK, name = "Alice")

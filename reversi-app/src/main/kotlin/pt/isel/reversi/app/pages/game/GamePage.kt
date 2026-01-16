@@ -10,7 +10,7 @@ import pt.isel.reversi.app.exceptions.GameNotStartedYet
 import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.state.ReversiScope
 import pt.isel.reversi.app.utils.PreviousPage
-import pt.isel.reversi.core.Game
+import pt.isel.reversi.core.game.Game
 import pt.isel.reversi.utils.LOGGER
 import pt.isel.reversi.utils.TRACKER
 

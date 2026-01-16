@@ -29,7 +29,7 @@ import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.storage.GameState
+import pt.isel.reversi.core.gameState.GameState
 
 /** Transparency level for ghost pieces showing potential moves. */
 const val GHOST_PIECE_ALPHA = 0.5f

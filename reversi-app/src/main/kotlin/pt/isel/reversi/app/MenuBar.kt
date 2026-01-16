@@ -8,8 +8,8 @@ import androidx.compose.ui.window.WindowState
 import kotlinx.coroutines.runBlocking
 import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.state.AppStateImpl
-import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.exceptions.ErrorType
+import pt.isel.reversi.core.game.Game
 import pt.isel.reversi.utils.LOGGER
 
 /**

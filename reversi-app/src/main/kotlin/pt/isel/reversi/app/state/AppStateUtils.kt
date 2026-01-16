@@ -6,10 +6,10 @@ import androidx.compose.runtime.MutableState
 import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.pages.PagesState
 import pt.isel.reversi.app.pages.UiState
-import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ErrorType.Companion.toReversiException
 import pt.isel.reversi.core.exceptions.ReversiException
+import pt.isel.reversi.core.game.Game
 import pt.isel.reversi.utils.LOGGER
 
 /**

@@ -30,7 +30,7 @@ import pt.isel.reversi.app.state.ReversiText
 import pt.isel.reversi.app.state.getTheme
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.storage.MatchPlayers
+import pt.isel.reversi.core.gameState.MatchPlayers
 
 fun cardTestTag(gameId: String) = "game_card_$gameId"
 

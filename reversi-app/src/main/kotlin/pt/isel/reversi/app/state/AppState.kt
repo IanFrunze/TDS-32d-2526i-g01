@@ -4,9 +4,9 @@ import pt.isel.reversi.app.AppTheme
 import pt.isel.reversi.app.AppThemes
 import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.pages.PagesState
-import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.exceptions.ReversiException
-import pt.isel.reversi.core.gameServices.GameServiceImpl
+import pt.isel.reversi.core.game.Game
+import pt.isel.reversi.core.game.gameServices.GameServiceImpl
 import pt.isel.reversi.utils.audio.AudioPool
 
 /**

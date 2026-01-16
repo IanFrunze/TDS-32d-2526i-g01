@@ -1,11 +1,17 @@
-package pt.isel.reversi.core
+package pt.isel.reversi.core.game
 
+import pt.isel.reversi.core.CoreConfig
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.exceptions.*
-import pt.isel.reversi.core.gameServices.GameServiceImpl
-import pt.isel.reversi.core.storage.GameState
+import pt.isel.reversi.core.exceptions.EndGame
+import pt.isel.reversi.core.exceptions.ErrorType
+import pt.isel.reversi.core.exceptions.InvalidGame
+import pt.isel.reversi.core.exceptions.InvalidPlay
+import pt.isel.reversi.core.game.gameServices.GameServiceImpl
+import pt.isel.reversi.core.gameState.GameState
+import pt.isel.reversi.core.gameState.Player
+import pt.isel.reversi.core.loadCoreConfig
 import pt.isel.reversi.utils.TRACKER
 
 /**
@@ -62,7 +68,7 @@ data class Game(
     /**
      * Ensures that the game has started by checking if the game state and players are initialized.
      * @return The current game state if the game has started.
-     * @throws InvalidGame if the game is not started yet (game state is null or players list is empty).
+     * @throws pt.isel.reversi.core.exceptions.InvalidGame if the game is not started yet (game state is null or players list is empty).
      */
     fun requireStartedGame(): GameState {
         if (gameState == null || !hasStarted()) throw InvalidGame(
@@ -78,7 +84,7 @@ data class Game(
     /**
      * Checks if it's the player's turn in a not local game.
      * @param gs The game state to check.
-     * @throws InvalidPlay if it's not the player's turn.
+     * @throws pt.isel.reversi.core.exceptions.InvalidPlay if it's not the player's turn.
      */
     internal fun checkTurnOnNotLocalGame(gs: GameState) {
         if (currGameName != null && myPiece != gs.lastPlayer.swap()) {
@@ -90,7 +96,7 @@ data class Game(
 
     /**
      * Validates whether the game already ended and throws if a winner is set.
-     * @throws EndGame if the game already has a winner.
+     * @throws pt.isel.reversi.core.exceptions.EndGame if the game already has a winner.
      */
     internal fun gameEnded() {
         val gs = requireStartedGame()
@@ -105,7 +111,7 @@ data class Game(
     /**
      * Ensures both players are available either locally or in persisted storage.
      * @return True if both player slots are filled.
-     * @throws InvalidFile if loading the persisted game fails.
+     * @throws pt.isel.reversi.core.exceptions.InvalidFile if loading the persisted game fails.
      */
     suspend fun hasAllPlayers(): Boolean = service.hasAllPlayers(this)
 
@@ -119,7 +125,7 @@ data class Game(
      * @throws InvalidPlay if it's not the player's turn or if the play is invalid.
      * @throws IllegalArgumentException if the position is out of bounds.
      * @throws InvalidGame if the game is not started yet (board or players are null,empty).
-     * @throws InvalidFile if there is an error saving the game state.
+     * @throws pt.isel.reversi.core.exceptions.InvalidFile if there is an error saving the game state.
      * @throws EndGame if the game has already ended.
      */
     suspend fun play(coordinate: Coordinate): Game {
@@ -190,7 +196,7 @@ data class Game(
      * @return The new game state after passing the turn.
      * @throws EndGame if both players have passed consecutively, ending the game.
      * @throws InvalidGame if the game is not started yet (board or players are null,empty).
-     * @throws InvalidFile if there is an error saving the game state.
+     * @throws pt.isel.reversi.core.exceptions.InvalidFile if there is an error saving the game state.
      * @throws InvalidPlay if there are available plays and passing is not allowed.
      * @throws EndGame if the game has already ended.
      */
@@ -246,7 +252,7 @@ data class Game(
      * Increments the pass count if the board is unchanged but the last player has changed.
      * @return The refreshed game state.
      * @throws InvalidGame if the game is not started yet (board or players are null,empty).
-     * @throws InvalidFile if there is an error loading the game state from storage.
+     * @throws pt.isel.reversi.core.exceptions.InvalidFile if there is an error loading the game state from storage.
      */
     suspend fun refresh(): Game = service.refresh(this)
 
@@ -256,7 +262,7 @@ data class Game(
      * It is recommended to use this method only to save the game at the end.
      * Only applicable for not local games (players size must be 1).
      * @throws InvalidGame if the game is local or not started yet.
-     * @throws InvalidFile if the current game name is null.
+     * @throws pt.isel.reversi.core.exceptions.InvalidFile if the current game name is null.
      */
     suspend fun saveEndGame() = service.saveEndGame(this)
 
@@ -267,7 +273,7 @@ data class Game(
      * Only applicable for not local games (players size must be 1).
      * @param gameState The current game state to save.
      * @throws InvalidGame if the game is local or not started yet.
-     * @throws InvalidFile if the current game name is null or loading fails.
+     * @throws pt.isel.reversi.core.exceptions.InvalidFile if the current game name is null or loading fails.
      */
     suspend fun saveOnlyBoard(gameState: GameState?) =
         service.saveOnlyBoard(currGameName, gameState)

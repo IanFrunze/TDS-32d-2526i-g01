@@ -6,11 +6,11 @@ import kotlinx.coroutines.runBlocking
 import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.pages.PagesState
 import pt.isel.reversi.app.state.AppState
-import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.gameServices.EmptyGameService
-import pt.isel.reversi.core.startNewGame
-import pt.isel.reversi.core.storage.MatchPlayers
+import pt.isel.reversi.core.game.gameServices.EmptyGameService
+import pt.isel.reversi.core.game.startNewGame
+import pt.isel.reversi.core.gameState.MatchPlayers
+import pt.isel.reversi.core.gameState.Player
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)

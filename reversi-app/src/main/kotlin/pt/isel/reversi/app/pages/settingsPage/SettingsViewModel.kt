@@ -17,10 +17,10 @@ import pt.isel.reversi.app.state.setError
 import pt.isel.reversi.app.state.setLoading
 import pt.isel.reversi.app.utils.runStorageHealthCheck
 import pt.isel.reversi.core.CoreConfig
-import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ReversiException
-import pt.isel.reversi.core.gameServices.GameService
+import pt.isel.reversi.core.game.Game
+import pt.isel.reversi.core.game.gameServices.GameService
 import pt.isel.reversi.core.loadCoreConfig
 import pt.isel.reversi.core.saveCoreConfig
 import pt.isel.reversi.utils.LOGGER

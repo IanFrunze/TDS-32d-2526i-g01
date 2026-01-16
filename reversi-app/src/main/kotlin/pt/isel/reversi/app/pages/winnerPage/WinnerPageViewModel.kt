@@ -5,10 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import pt.isel.reversi.app.pages.ScreenState
 import pt.isel.reversi.app.pages.UiState
 import pt.isel.reversi.app.pages.ViewModel
-import pt.isel.reversi.core.Game
-import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ReversiException
+import pt.isel.reversi.core.game.Game
+import pt.isel.reversi.core.gameState.Player
 
 data class WinnerUiState(
     override val screenState: ScreenState = ScreenState(),
