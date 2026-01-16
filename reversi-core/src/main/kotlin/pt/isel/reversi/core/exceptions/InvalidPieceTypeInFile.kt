@@ -7,7 +7,7 @@ package pt.isel.reversi.core.exceptions
  * Typical causes:
  * - Unknown piece type symbol
  */
-class InvalidPieceTypeInFileException(
+class InvalidPieceTypeInFile(
     message: String = "The piece type in the file is invalid",
     type: ErrorType
 ) : ReversiException(message, type)

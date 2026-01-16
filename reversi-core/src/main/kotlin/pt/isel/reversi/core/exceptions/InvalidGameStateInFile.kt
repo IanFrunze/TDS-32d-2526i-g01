@@ -9,7 +9,7 @@ package pt.isel.reversi.core.exceptions
  * - Inconsistent game state information
  * - Invalid format or corrupted data
  */
-class InvalidGameStateInFileException(
+class InvalidGameStateInFile(
     override val message: String = "The game state in the file is invalid",
     type: ErrorType
 ) : ReversiException(message, type)

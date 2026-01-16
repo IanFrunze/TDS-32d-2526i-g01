@@ -5,7 +5,7 @@ import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.exceptions.ErrorType
-import pt.isel.reversi.core.exceptions.InvalidPlayException
+import pt.isel.reversi.core.exceptions.InvalidPlay
 import pt.isel.reversi.utils.TRACKER
 
 /**
@@ -20,7 +20,7 @@ internal object GameLogic {
      * @param myPiece The piece being placed on the board.
      * @return The new state of the board after the play.
      * @throws IllegalArgumentException if the position is out of bounds
-     * @throws InvalidPlayException if the play is not valid (when no pieces are captured or position is occupied)
+     * @throws InvalidPlay if the play is not valid (when no pieces are captured or position is occupied)
      */
     fun play(
         board: Board,
@@ -30,7 +30,7 @@ internal object GameLogic {
         board.checkPosition(myPiece.coordinate)
         board[myPiece.coordinate]?.let {
             //if != null, position is occupied
-            throw InvalidPlayException(
+            throw InvalidPlay(
                 message = "Invalid play, position already occupied: $myPiece",
                 type = ErrorType.INFO
             )
@@ -47,7 +47,7 @@ internal object GameLogic {
 
         //If no capturable pieces, the play is invalid
         if (capturablePieces.isEmpty())
-            throw InvalidPlayException(
+            throw InvalidPlay(
                 message = "Invalid play: ${myPiece.coordinate.row} ${myPiece.coordinate.col}",
                 type = ErrorType.INFO
             )

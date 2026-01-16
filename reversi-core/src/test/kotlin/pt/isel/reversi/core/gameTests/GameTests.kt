@@ -7,9 +7,9 @@ import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.cleanup
-import pt.isel.reversi.core.exceptions.InvalidFileException
-import pt.isel.reversi.core.exceptions.InvalidGameException
-import pt.isel.reversi.core.exceptions.InvalidPlayException
+import pt.isel.reversi.core.exceptions.InvalidFile
+import pt.isel.reversi.core.exceptions.InvalidGame
+import pt.isel.reversi.core.exceptions.InvalidPlay
 import pt.isel.reversi.core.gameServices.EmptyGameService
 import pt.isel.reversi.core.startNewGame
 import pt.isel.reversi.core.storage.GameState
@@ -29,7 +29,7 @@ class GameTests {
                 service = EmptyGameService()
             )
 
-            assertFailsWith<InvalidGameException> {
+            assertFailsWith<InvalidGame> {
                 game.play(Coordinate(1, 1))
             }
         }
@@ -53,7 +53,7 @@ class GameTests {
                 service = EmptyGameService()
             )
 
-            assertFailsWith<InvalidPlayException> {
+            assertFailsWith<InvalidPlay> {
                 uut.play(Coordinate(1, 2))
             }
         }
@@ -167,7 +167,7 @@ class GameTests {
                 service = EmptyGameService()
             )
 
-            assertFailsWith<InvalidGameException> {
+            assertFailsWith<InvalidGame> {
                 uut.play(Coordinate(1, 2))
             }
         }
@@ -213,7 +213,7 @@ class GameTests {
             val game = Game(
                 service = EmptyGameService()
             )
-            assertFailsWith<InvalidGameException> {
+            assertFailsWith<InvalidGame> {
                 game.pass()
             }
         }
@@ -233,7 +233,7 @@ class GameTests {
                 service = EmptyGameService()
             )
 
-            assertFailsWith<InvalidGameException> {
+            assertFailsWith<InvalidGame> {
                 uut.pass()
             }
         }
@@ -263,7 +263,7 @@ class GameTests {
     @Test
     fun `startNewGame with empty players fails`() {
         cleanup {
-            assertFailsWith<InvalidGameException> {
+            assertFailsWith<InvalidGame> {
                 startNewGame(
                     side = 4,
                     players = MatchPlayers(),
@@ -312,7 +312,7 @@ class GameTests {
                 service = EmptyGameService()
             )
 
-            assertFailsWith<InvalidPlayException> {
+            assertFailsWith<InvalidPlay> {
                 uut.pass()
             }
 
@@ -352,7 +352,7 @@ class GameTests {
                 service = EmptyGameService()
             )
 
-            assertFailsWith<InvalidFileException> {
+            assertFailsWith<InvalidFile> {
                 uut.saveOnlyBoard(uut.gameState)
             }
         }

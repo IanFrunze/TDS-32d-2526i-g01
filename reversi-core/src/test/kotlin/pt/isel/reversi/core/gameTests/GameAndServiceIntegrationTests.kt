@@ -5,9 +5,9 @@ import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.exceptions.InvalidGameException
+import pt.isel.reversi.core.exceptions.InvalidGame
 import pt.isel.reversi.core.exceptions.InvalidNameAlreadyExists
-import pt.isel.reversi.core.exceptions.InvalidPlayException
+import pt.isel.reversi.core.exceptions.InvalidPlay
 import pt.isel.reversi.core.gameServices.GameService
 import pt.isel.reversi.core.storage.GameState
 import pt.isel.reversi.core.storage.GameStorageType
@@ -134,14 +134,14 @@ class GameAndServiceIntegrationTests {
             )
 
             uutB = uutB.refresh()
-            assertFailsWith<InvalidPlayException> {
+            assertFailsWith<InvalidPlay> {
                 uutB.pass()
             }
 
             assertEquals(PieceType.WHITE, uutB.gameState?.lastPlayer)
 
             uutW = uutW.refresh()
-            assertFailsWith<InvalidPlayException> {
+            assertFailsWith<InvalidPlay> {
                 uutW.pass()
             }
 
@@ -242,7 +242,7 @@ class GameAndServiceIntegrationTests {
                 service = gameService,
             )
 
-            assertFailsWith<InvalidGameException> {
+            assertFailsWith<InvalidGame> {
                 uut.saveEndGame()
             }
         }
@@ -255,7 +255,7 @@ class GameAndServiceIntegrationTests {
                 service = gameService,
             )
 
-            assertFailsWith<InvalidGameException> {
+            assertFailsWith<InvalidGame> {
                 game.service.saveEndGame(game)
             }
         }

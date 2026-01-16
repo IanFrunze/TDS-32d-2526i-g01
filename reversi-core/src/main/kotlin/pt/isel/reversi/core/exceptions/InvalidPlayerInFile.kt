@@ -8,7 +8,7 @@ package pt.isel.reversi.core.exceptions
  * - Unknown player identifier
  * - Points is not an integer
  */
-class InvalidPlayerInFileException(
+class InvalidPlayerInFile(
     message: String = "The player in the file is invalid",
-    type: ErrorType
+    type: ErrorType = ErrorType.ERROR
 ) : ReversiException(message, type)

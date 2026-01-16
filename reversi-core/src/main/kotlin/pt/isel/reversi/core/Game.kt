@@ -62,10 +62,10 @@ data class Game(
     /**
      * Ensures that the game has started by checking if the game state and players are initialized.
      * @return The current game state if the game has started.
-     * @throws InvalidGameException if the game is not started yet (game state is null or players list is empty).
+     * @throws InvalidGame if the game is not started yet (game state is null or players list is empty).
      */
     fun requireStartedGame(): GameState {
-        if (gameState == null || !hasStarted()) throw InvalidGameException(
+        if (gameState == null || !hasStarted()) throw InvalidGame(
             message = "Game is not started yet.", type = ErrorType.INFO
         )
         return gameState
@@ -74,11 +74,11 @@ data class Game(
     /**
      * Checks if it's the player's turn in a not local game.
      * @param gs The game state to check.
-     * @throws InvalidPlayException if it's not the player's turn.
+     * @throws InvalidPlay if it's not the player's turn.
      */
     private fun checkTurnOnNotLocalGame(gs: GameState) {
         if (currGameName != null && myPiece != gs.lastPlayer.swap()) {
-            throw InvalidPlayException(
+            throw InvalidPlay(
                 message = "It's not your turn", type = ErrorType.INFO
             )
         }
@@ -86,12 +86,12 @@ data class Game(
 
     /**
      * Validates whether the game already ended and throws if a winner is set.
-     * @throws EndGameException if the game already has a winner.
+     * @throws EndGame if the game already has a winner.
      */
     private fun gameEnded() {
         val gs = requireStartedGame()
         if (gs.winner != null) {
-            throw EndGameException(
+            throw EndGame(
                 message = "The game has already ended. The winner is ${gs.winner.type.symbol} with ${gs.winner.points} points.",
                 type = ErrorType.INFO
             )
@@ -101,7 +101,7 @@ data class Game(
     /**
      * Ensures both players are available either locally or in persisted storage.
      * @return True if both player slots are filled.
-     * @throws InvalidFileException if loading the persisted game fails.
+     * @throws InvalidFile if loading the persisted game fails.
      */
     suspend fun hasAllPlayers(): Boolean = service.hasAllPlayers(this)
 
@@ -112,18 +112,18 @@ data class Game(
      * And resets the pass count to 0.
      * @param coordinate The (row, column) coordinate for the move.
      * @return The new game state after the move.
-     * @throws InvalidPlayException if it's not the player's turn or if the play is invalid.
+     * @throws InvalidPlay if it's not the player's turn or if the play is invalid.
      * @throws IllegalArgumentException if the position is out of bounds.
-     * @throws InvalidGameException if the game is not started yet (board or players are null,empty).
-     * @throws InvalidFileException if there is an error saving the game state.
-     * @throws EndGameException if the game has already ended.
+     * @throws InvalidGame if the game is not started yet (board or players are null,empty).
+     * @throws InvalidFile if there is an error saving the game state.
+     * @throws EndGame if the game has already ended.
      */
     suspend fun play(coordinate: Coordinate): Game {
         TRACKER.trackFunctionCall(customName = "Game.play", details = "coordinate=$coordinate", category = "Core.Game")
         val gs = requireStartedGame()
         gameEnded()
         if (!hasAllPlayers()) {
-            throw InvalidPlayException(
+            throw InvalidPlay(
                 message = "Cannot play until all players have joined the game.", type = ErrorType.INFO
             )
         }
@@ -163,7 +163,7 @@ data class Game(
      * Gets the available plays for the current player.
      * If it is not a local game, and it is not the player's turn, returns an empty list.
      * @return List of available plays.
-     * @throws InvalidGameException if the game is not started yet (board is null).
+     * @throws InvalidGame if the game is not started yet (board is null).
      */
     fun getAvailablePlays(): List<Coordinate> {
         val gs = requireStartedGame()
@@ -184,11 +184,11 @@ data class Game(
      * Saves the game state if the game is not local.
      * Only check player turn if it is a not local game.
      * @return The new game state after passing the turn.
-     * @throws EndGameException if both players have passed consecutively, ending the game.
-     * @throws InvalidGameException if the game is not started yet (board or players are null,empty).
-     * @throws InvalidFileException if there is an error saving the game state.
-     * @throws InvalidPlayException if there are available plays and passing is not allowed.
-     * @throws EndGameException if the game has already ended.
+     * @throws EndGame if both players have passed consecutively, ending the game.
+     * @throws InvalidGame if the game is not started yet (board or players are null,empty).
+     * @throws InvalidFile if there is an error saving the game state.
+     * @throws InvalidPlay if there are available plays and passing is not allowed.
+     * @throws EndGame if the game has already ended.
      */
     suspend fun pass(): Game {
         TRACKER.trackFunctionCall(customName = "Game.pass", category = "Core.Game")
@@ -199,7 +199,7 @@ data class Game(
 
         if (GameLogic.getAvailablePlays(board = gs.board, myPieceType = gs.lastPlayer.swap())
                 .isNotEmpty()
-        ) throw InvalidPlayException(
+        ) throw InvalidPlay(
             message = "There are available plays, cannot pass the turn", type = ErrorType.INFO
         )
 
@@ -216,7 +216,7 @@ data class Game(
                         points = gs.board.totalWhitePieces
                     )
 
-                    else -> throw EndGameException(
+                    else -> throw EndGame(
                         message = "The game has ended in a draw.", type = ErrorType.INFO
                     )
                 }
@@ -241,8 +241,8 @@ data class Game(
      * Updates players to reflect the current board state.
      * Increments the pass count if the board is unchanged but the last player has changed.
      * @return The refreshed game state.
-     * @throws InvalidGameException if the game is not started yet (board or players are null,empty).
-     * @throws InvalidFileException if there is an error loading the game state from storage.
+     * @throws InvalidGame if the game is not started yet (board or players are null,empty).
+     * @throws InvalidFile if there is an error loading the game state from storage.
      */
     suspend fun refresh(): Game = service.refresh(this)
 
@@ -251,8 +251,8 @@ data class Game(
      * Saves the player in storage if not already present (makes available this player for future loads).
      * It is recommended to use this method only to save the game at the end.
      * Only applicable for not local games (players size must be 1).
-     * @throws InvalidGameException if the game is local or not started yet.
-     * @throws InvalidFileException if the current game name is null.
+     * @throws InvalidGame if the game is local or not started yet.
+     * @throws InvalidFile if the current game name is null.
      */
     suspend fun saveEndGame() = service.saveEndGame(this)
 
@@ -262,8 +262,8 @@ data class Game(
      * It is recommended to use this method during gameplay to save progress.
      * Only applicable for not local games (players size must be 1).
      * @param gameState The current game state to save.
-     * @throws InvalidGameException if the game is local or not started yet.
-     * @throws InvalidFileException if the current game name is null or loading fails.
+     * @throws InvalidGame if the game is local or not started yet.
+     * @throws InvalidFile if the current game name is null or loading fails.
      */
     suspend fun saveOnlyBoard(gameState: GameState?) =
         service.saveOnlyBoard(currGameName, gameState)

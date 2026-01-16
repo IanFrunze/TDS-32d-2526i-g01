@@ -10,7 +10,7 @@ package pt.isel.reversi.core.exceptions
  * - Unknown piece symbol
  *
  */
-class InvalidPieceInFileException(
+class InvalidPieceInFile(
     message: String = "The piece in the file is invalid",
     type: ErrorType
 ) : ReversiException(message, type)

@@ -4,7 +4,7 @@ import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.exceptions.ErrorType
-import pt.isel.reversi.core.exceptions.InvalidGameStateInFileException
+import pt.isel.reversi.core.exceptions.InvalidGameStateInFile
 import pt.isel.reversi.core.storage.GameState
 import pt.isel.reversi.core.storage.MatchPlayers
 import pt.isel.reversi.storage.Serializer
@@ -95,7 +95,7 @@ internal class GameStateSerializer : Serializer<GameState, String> {
                 winner = winner
             )
         } catch (e: Exception) {
-            throw InvalidGameStateInFileException(
+            throw InvalidGameStateInFile(
                 message = "Invalid game state data. Error: ${e.message}",
                 type = ErrorType.ERROR
             )

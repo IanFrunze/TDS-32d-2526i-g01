@@ -4,9 +4,10 @@ import pt.isel.reversi.core.Game
 import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
+import pt.isel.reversi.core.exceptions.BadStorage
 import pt.isel.reversi.core.exceptions.ErrorType
-import pt.isel.reversi.core.exceptions.InvalidFileException
-import pt.isel.reversi.core.exceptions.InvalidGameException
+import pt.isel.reversi.core.exceptions.InvalidFile
+import pt.isel.reversi.core.exceptions.InvalidGame
 import pt.isel.reversi.core.loadCoreConfig
 import pt.isel.reversi.core.storage.GameState
 import pt.isel.reversi.core.storage.GameStorageType
@@ -16,9 +17,9 @@ import pt.isel.reversi.storage.AsyncStorage
 import pt.isel.reversi.utils.LOGGER
 import pt.isel.reversi.utils.TRACKER
 
-class GameService(storage: GameStorageType? = null, params: StorageParams? = null): GameServiceImpl {
+class GameService(storage: GameStorageType? = null, params: StorageParams? = null) : GameServiceImpl {
     private val storage: AsyncStorage<String, GameState, String> by lazy {
-        params?.let {storage?.storage(it)} ?: GameStorageType.Companion.setUpStorage(loadCoreConfig())
+        params?.let { storage?.storage(it) } ?: GameStorageType.setUpStorage(loadCoreConfig())
     }
 
     override fun getStorageTypeName(): String = storage.javaClass.simpleName
@@ -27,7 +28,7 @@ class GameService(storage: GameStorageType? = null, params: StorageParams? = nul
         val gs = game.requireStartedGame()
         val name = game.currGameName ?: return (gs.players.isFull())
 
-        val loaded = storage.load(name) ?: throw InvalidFileException(
+        val loaded = storage.load(name) ?: throw InvalidFile(
             message = "Failed to load game state from storage: $name", type = ErrorType.WARNING
         )
         return (loaded.players.isFull())
@@ -59,20 +60,19 @@ class GameService(storage: GameStorageType? = null, params: StorageParams? = nul
 
         if (lastModified == game.lastModified) return null
 
-        return storage.load(game.currGameName) ?: throw InvalidFileException(
+        return storage.load(game.currGameName) ?: throw InvalidFile(
             message = "Failed to load game state from storage: ${game.currGameName}", type = ErrorType.WARNING
         )
     }
 
-    override suspend fun hardLoad(id: String) =
-        storage.load(id)
+    override suspend fun hardLoad(id: String) = storage.load(id)
 
 
     override suspend fun saveEndGame(game: Game) {
         TRACKER.trackFunctionCall(customName = "Game.saveEndGame", category = "Core.Game")
         val gs = game.requireStartedGame()
 
-        val name = game.currGameName ?: throw InvalidFileException(
+        val name = game.currGameName ?: throw InvalidFile(
             message = "Name of the current game is null", type = ErrorType.WARNING
         )
 
@@ -85,7 +85,7 @@ class GameService(storage: GameStorageType? = null, params: StorageParams? = nul
 
         val loadedGs = try {
             storage.load(game.currGameName)
-        } catch (e: InvalidFileException) {
+        } catch (e: InvalidFile) {
             storage.delete(game.currGameName)
             LOGGER.warning("Deleted corrupted game from storage: ${game.currGameName} due to ${e.message}")
             return
@@ -101,7 +101,7 @@ class GameService(storage: GameStorageType? = null, params: StorageParams? = nul
             return
         }
 
-        val myPieceTemp = game.myPiece ?: throw InvalidGameException(
+        val myPieceTemp = game.myPiece ?: throw InvalidGame(
             message = "Game is not started yet.", type = ErrorType.WARNING
         )
 
@@ -109,19 +109,18 @@ class GameService(storage: GameStorageType? = null, params: StorageParams? = nul
 
         LOGGER.info("Saving game state to storage: ${game.currGameName}")
         storage.save(
-            id = game.currGameName,
-            obj = gs.copy(
+            id = game.currGameName, obj = gs.copy(
                 players = playersInStorage,
             )
         )
     }
 
     override suspend fun saveOnlyBoard(gameName: String?, gameState: GameState?) {
-        val gs = gameState ?: throw InvalidGameException(
+        val gs = gameState ?: throw InvalidGame(
             message = "Game is not started yet.", type = ErrorType.WARNING
         )
 
-        val name = gameName ?: throw InvalidFileException(
+        val name = gameName ?: throw InvalidFile(
             message = "Name of the current game is null", type = ErrorType.WARNING
         )
 
@@ -130,13 +129,13 @@ class GameService(storage: GameStorageType? = null, params: StorageParams? = nul
                 storage.new(id = name) { gameState }
                 return@saveOnlyBoard
             } catch (e: Exception) {
-                throw InvalidFileException(
+                throw InvalidFile(
                     message = e.message.toString(), type = ErrorType.CRITICAL
                 )
             }
         }
 
-        val ls = storage.load(id = name) ?: throw InvalidFileException(
+        val ls = storage.load(id = name) ?: throw InvalidFile(
             message = "Failed to load game state from storage: $name", type = ErrorType.ERROR
         )
 
@@ -151,8 +150,7 @@ class GameService(storage: GameStorageType? = null, params: StorageParams? = nul
         }
 
         storage.save(
-            id = name,
-            obj = gs.copy(
+            id = name, obj = gs.copy(
                 players = lsGameState.players,
             )
         )
@@ -161,12 +159,11 @@ class GameService(storage: GameStorageType? = null, params: StorageParams? = nul
     override suspend fun new(gameName: String, gameStateProvider: () -> GameState) {
         TRACKER.trackFunctionCall(customName = "GameService.new", category = "Core.GameService")
         storage.new(
-            id = gameName,
-            factory = gameStateProvider
+            id = gameName, factory = gameStateProvider
         )
     }
 
-    override suspend fun runStorageHealthCheck(): Boolean {
+    override suspend fun runStorageHealthCheck() {
         val testId = "health_check_test_game"
         val testState = GameState(
             players = MatchPlayers(Player(PieceType.BLACK)),
@@ -178,12 +175,18 @@ class GameService(storage: GameStorageType? = null, params: StorageParams? = nul
 
         storage.new(testId) { testState }
         val loadedState = storage.load(testId)
-        if (loadedState != testState) return false
+        if (loadedState != testState) throw BadStorage(
+            message = "Storage health check failed: loaded state does not match created state."
+        )
         storage.save(testId, testState)
         val reloadedState = storage.load(testId)
-        if (reloadedState != testState) return false
+        if (reloadedState != testState) throw BadStorage(
+            message = "Storage health check failed: reloaded state does not match saved state."
+        )
         storage.delete(testId)
-        return storage.load(testId) == null
+        if (storage.load(testId) != null) throw BadStorage(
+            message = "Storage health check failed: deleted state still exists in storage."
+        )
     }
 
     override suspend fun closeService() {

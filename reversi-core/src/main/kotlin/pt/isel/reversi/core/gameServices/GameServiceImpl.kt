@@ -11,7 +11,7 @@ interface GameServiceImpl {
     suspend fun hardLoad(id: String): GameState?
     suspend fun saveEndGame(game: Game)
     suspend fun saveOnlyBoard(gameName: String?, gameState: GameState?)
-    suspend fun runStorageHealthCheck(): Boolean
+    suspend fun runStorageHealthCheck()
     suspend fun new(gameName: String, gameStateProvider: () -> GameState)
     suspend fun closeService()
 }

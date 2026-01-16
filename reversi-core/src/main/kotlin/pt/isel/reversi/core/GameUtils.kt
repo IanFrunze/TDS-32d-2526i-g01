@@ -4,7 +4,6 @@ import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.exceptions.*
-import pt.isel.reversi.core.gameServices.GameService
 import pt.isel.reversi.core.gameServices.GameServiceImpl
 import pt.isel.reversi.core.storage.GameState
 import pt.isel.reversi.core.storage.GameStorageType.Companion.setUpStorage
@@ -22,7 +21,7 @@ fun loadStorageFromConfig() = setUpStorage(loadCoreConfig())
  * @param firstTurn The piece type of the player who goes first can omit to use the default.
  * @param currGameName The current game name can omit to create a local game.
  * @return The new game state.
- * @throws InvalidGameException if no players are provided.
+ * @throws InvalidGame if no players are provided.
  * @throws InvalidNameAlreadyExists if already exists a game with the same name in storage.
  */
 suspend fun startNewGame(
@@ -33,7 +32,7 @@ suspend fun startNewGame(
     service: GameServiceImpl
 ): Game {
     TRACKER.trackFunctionCall(customName = "startNewGame", details = "gameName=$currGameName", category = "Core.Game")
-    if (players.isEmpty()) throw InvalidGameException(
+    if (players.isEmpty()) throw InvalidGame(
         "Need minimum one player to start the game", ErrorType.WARNING
     )
 
@@ -78,8 +77,8 @@ suspend fun startNewGame(
  * Removes the player from storage to avoid conflicts in future loads.
  * @param gameName The name of the game to load.
  * @return The loaded game state.
- * @throws InvalidFileException if there is an error loading the game state.
- * @throws InvalidPieceInFileException if the specified piece type is not found in the loaded game.
+ * @throws InvalidFile if there is an error loading the game state.
+ * @throws InvalidPieceInFile if the specified piece type is not found in the loaded game.
  */
 suspend fun loadAndEntryGame(
     gameName: String,
@@ -90,20 +89,20 @@ suspend fun loadAndEntryGame(
     TRACKER.trackFunctionCall(customName = "loadGame", details = "gameName=$gameName", category = "Core.Game")
     val storage = loadStorageFromConfig()
     val loadedState = storage.load(gameName)
-        ?: throw InvalidFileException(
+        ?: throw InvalidFile(
             message = "$gameName does not exist",
             type = ErrorType.ERROR
         )
 
     val myPieceType = desiredType ?: loadedState.players.getFreeType()
-    ?: throw InvalidPieceInFileException(
+    ?: throw InvalidPieceInFile(
         message = "No available piece types in the loaded game: $gameName.",
         type = ErrorType.WARNING
     )
 
     val player = Player(type = myPieceType, name = playerName ?: myPieceType.name)
 
-    val newMatch = loadedState.players.addPlayerOrNull(player) ?: throw InvalidPieceInFileException(
+    val newMatch = loadedState.players.addPlayerOrNull(player) ?: throw InvalidPieceInFile(
         message = "Player with piece type ${myPieceType.symbol} is not available in the loaded game: $gameName.",
         type = ErrorType.WARNING
     )
@@ -122,27 +121,6 @@ suspend fun loadAndEntryGame(
         ),
         currGameName = gameName,
         myPiece = myPieceType,
-        service = service
-    )
-}
-
-/**
- * Reads a game without modifying it or adding the current player.
- * Useful for spectating or inspecting game state without joining.
- * @param gameName The name of the game to read.
- * @return The game instance, or null if the game does not exist.
- */
-suspend fun readGame(gameName: String, service: GameService): Game? {
-    val storage = loadStorageFromConfig()
-    val loadedState = storage.load(gameName) ?: return null
-
-    return Game(
-        target = false,
-        gameState = loadedState.copy(
-            players = loadedState.players.refreshPlayers(loadedState.board),
-        ),
-        currGameName = gameName,
-        myPiece = null,
         service = service
     )
 }

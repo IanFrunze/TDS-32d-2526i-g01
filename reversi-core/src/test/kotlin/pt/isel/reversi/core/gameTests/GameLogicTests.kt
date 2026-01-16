@@ -5,7 +5,7 @@ import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.Coordinate
 import pt.isel.reversi.core.board.Piece
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.exceptions.InvalidPlayException
+import pt.isel.reversi.core.exceptions.InvalidPlay
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
@@ -384,7 +384,7 @@ class GameLogicTests {
         board = board.addPiece(Coordinate(3, 2), PieceType.BLACK)
 
 
-        assertFailsWith<InvalidPlayException> {
+        assertFailsWith<InvalidPlay> {
             val uut = GameLogic.play(board, Piece(Coordinate(3, 3), PieceType.WHITE))
             val uut2 = GameLogic.play(board, Piece(Coordinate(1, 4), PieceType.BLACK))
         }
@@ -413,7 +413,7 @@ class GameLogicTests {
 
         board = board.addPiece(myPiece.coordinate, myPiece.value)
 
-        assertFailsWith<InvalidPlayException> {
+        assertFailsWith<InvalidPlay> {
             val uut = GameLogic.play(board, myPiece)
         }
     }

@@ -10,7 +10,7 @@ package pt.isel.reversi.core.exceptions
  * - Piece serialization errors
  * - Missing or extra data
  */
-class InvalidBoardInFileException(
+class InvalidBoardInFile(
     message: String = "The board in the file is invalid",
     type: ErrorType
 ) : ReversiException(message, type)
