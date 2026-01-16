@@ -39,7 +39,7 @@ class LobbyCarouselViewTests {
 
     val board = Board(4).startPieces()
 
-    val games = listOf<LobbyLoadedState>(
+    val games = listOf(
         LobbyLoadedState(
             gameState = GameState(
                 players = MatchPlayers(
@@ -252,7 +252,7 @@ class LobbyCarouselViewTests {
 
     @Test
     fun `verify if nav buttons call onNavButtonClick with correct page`() = runComposeUiTest {
-        var clickedNavButton: Int = 0
+        var clickedNavButton = 0
 
         setContent {
             BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
@@ -261,7 +261,7 @@ class LobbyCarouselViewTests {
                     pagerState = PagerState(pageCount = { games.size }, currentPage = 1),
                     games = games,
                     reversiScope = reversiScope,
-                    onNavButtonClick = { page ->
+                    onNavButtonClick = { _ ->
                         clickedNavButton++
                     },
                     onGameClick = { _, _ -> }
@@ -270,7 +270,7 @@ class LobbyCarouselViewTests {
         }
 
         onNodeWithTag(testTagNavButton("left")).performClick()
-        assertEquals(1,clickedNavButton)
+        assertEquals(1, clickedNavButton)
 
         onNodeWithTag(testTagNavButton("right")).performClick()
         assertEquals(2, clickedNavButton)
