@@ -37,6 +37,7 @@ class LobbyCarouselViewTests {
         File(BASE_FOLDER).deleteRecursively()
     }
 
+
     val board = Board(4).startPieces()
 
     val games = listOf(

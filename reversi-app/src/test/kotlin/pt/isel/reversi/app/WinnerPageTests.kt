@@ -1,19 +1,12 @@
 package pt.isel.reversi.app
 
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 import pt.isel.reversi.app.app.state.AppState
 import pt.isel.reversi.app.app.state.GameSession
 import pt.isel.reversi.app.app.state.PagesState
 import pt.isel.reversi.app.pages.Page
-import pt.isel.reversi.app.pages.PagesState
-import pt.isel.reversi.app.pages.game.GamePage
-import pt.isel.reversi.app.pages.game.GamePageViewModel
-import pt.isel.reversi.app.state.AppState
-import pt.isel.reversi.app.state.ReversiScope
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.game.gameServices.EmptyGameService
 import pt.isel.reversi.core.game.startNewGame

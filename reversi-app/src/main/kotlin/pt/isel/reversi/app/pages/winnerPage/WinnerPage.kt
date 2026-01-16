@@ -12,10 +12,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.isel.reversi.app.ScaffoldView
+import pt.isel.reversi.app.app.state.AppState
+import pt.isel.reversi.app.app.state.ReversiScope
+import pt.isel.reversi.app.app.state.ReversiText
 import pt.isel.reversi.app.pages.menu.drawCrown
-import pt.isel.reversi.app.state.AppState
-import pt.isel.reversi.app.state.ReversiScope
-import pt.isel.reversi.app.state.ReversiText
 import pt.isel.reversi.app.utils.PreviousPage
 import pt.isel.reversi.core.game.Game
 import pt.isel.reversi.core.game.gameServices.EmptyGameService

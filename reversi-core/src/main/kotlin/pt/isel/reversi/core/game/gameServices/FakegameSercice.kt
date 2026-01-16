@@ -1,8 +1,6 @@
 package pt.isel.reversi.core.game.gameServices
 
-import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.InvalidFile
-import pt.isel.reversi.core.exceptions.InvalidGame
 import pt.isel.reversi.core.game.Game
 import pt.isel.reversi.core.gameState.GameState
 import pt.isel.reversi.core.gameState.MatchPlayers
@@ -17,10 +15,10 @@ class FakeGameService : GameServiceImpl {
 
     override fun getStorageTypeName(): String = "fake"
 
-    private fun load(id: String) =
+    fun load(id: String) =
         _game.find { it.first == id }?.second
 
-    private fun delete(id: String) {
+    fun delete(id: String) {
         _game.find { it.first == id }?.let {
             _game.remove(it)
         }
@@ -32,7 +30,7 @@ class FakeGameService : GameServiceImpl {
         )
     }
 
-    private fun save(id: String, gameState: GameState) {
+    fun save(id: String, gameState: GameState) {
         val index = _game.indexOfFirst { it.first == id }
         if (index != -1) {
             _game[index] = Pair(id, gameState)
@@ -45,9 +43,7 @@ class FakeGameService : GameServiceImpl {
         val gs = game.requireStartedGame()
         val name = game.currGameName ?: return (gs.players.isFull())
 
-        val loaded = load(game.currGameName) ?: throw InvalidFile(
-            message = "Failed to load game state from storage: $name", type = ErrorType.WARNING
-        )
+        val loaded = load(game.currGameName) ?: return false
         return (loaded.players.isFull())
     }
 
@@ -59,21 +55,19 @@ class FakeGameService : GameServiceImpl {
 
         val loadedState = refreshBase(game) ?: return game
         val countPassCondition = loadedState.board == gs.board && loadedState.lastPlayer != gs.lastPlayer
+        val mod = game.lastModified ?: 0L
 
         return game.copy(
             gameState = loadedState.refreshPlayers(),
             countPass = if (countPassCondition) game.countPass + 1 else 0,
+            lastModified =  mod + if (game.gameState == loadedState) 0L else 1L
         )
     }
 
     override suspend fun refreshBase(game: Game): GameState? {
         if (game.currGameName == null) return null
 
-
-
-        return load(game.currGameName) ?: throw InvalidFile(
-            message = "Failed to load game state from storage: ${game.currGameName}", type = ErrorType.WARNING
-        )
+        return load(game.currGameName)
     }
 
     override suspend fun hardLoad(id: String) = load(id)
@@ -85,9 +79,7 @@ class FakeGameService : GameServiceImpl {
         TRACKER.trackFunctionCall(customName = "Game.saveEndGame", category = "Core.Game")
         val gs = game.requireStartedGame()
 
-        val name = game.currGameName ?: throw InvalidFile(
-            message = "Name of the current game is null", type = ErrorType.WARNING
-        )
+        val name = game.currGameName ?: return
 
         _game.find { it.first == game.currGameName } ?: run {
             new(
@@ -114,9 +106,7 @@ class FakeGameService : GameServiceImpl {
             return
         }
 
-        val myPieceTemp = game.myPiece ?: throw InvalidGame(
-            message = "Game is not started yet.", type = ErrorType.WARNING
-        )
+        val myPieceTemp = game.myPiece ?: return
 
         playersInStorage = MatchPlayers(null, playersInStorage.getPlayerByType(myPieceTemp.swap()))
 
@@ -130,28 +120,20 @@ class FakeGameService : GameServiceImpl {
     }
 
     override suspend fun saveOnlyBoard(gameName: String?, gameState: GameState?) {
-        val gs = gameState ?: throw InvalidGame(
-            message = "Game is not started yet.", type = ErrorType.WARNING
-        )
+        val gs = gameState ?: return
 
-        val name = gameName ?: throw InvalidFile(
-            message = "Name of the current game is null", type = ErrorType.WARNING
-        )
+        val name = gameName ?: return
 
         _game.find { it.first == name } ?: run {
             try {
                 new(name) { gameState }
                 return@saveOnlyBoard
             } catch (e: Exception) {
-                throw InvalidFile(
-                    message = e.message.toString(), type = ErrorType.CRITICAL
-                )
+                return
             }
         }
 
-        val ls = load(id = name) ?: throw InvalidFile(
-            message = "Failed to load game state from storage: $name", type = ErrorType.ERROR
-        )
+        val ls = load(id = name) ?: return
 
 
         var lsGameState = ls
