@@ -3,6 +3,8 @@ package pt.isel.reversi.app.lobbyMenuTests
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.runComposeUiTest
+import pt.isel.reversi.app.app.state.AppState
+import pt.isel.reversi.app.app.state.ReversiScope
 import pt.isel.reversi.app.pages.game.testTagBoard
 import pt.isel.reversi.app.pages.lobby.LobbyLoadedState
 import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.drawCard.GameCard
@@ -10,8 +12,6 @@ import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.drawCard.cardTes
 import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.drawCard.headerBadgeTestTag
 import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.drawCard.scorePanelTestTag
 import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.getCardStatus
-import pt.isel.reversi.app.state.AppState
-import pt.isel.reversi.app.state.ReversiScope
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.game.gameServices.EmptyGameService

@@ -1,9 +1,9 @@
 @file:Suppress("UNCHECKED_CAST")
 
-package pt.isel.reversi.app.state
+package pt.isel.reversi.app.app.state
 
 import androidx.compose.runtime.MutableState
-import pt.isel.reversi.app.AppTheme
+import pt.isel.reversi.app.app.AppTheme
 import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.pages.UiState
 import pt.isel.reversi.core.exceptions.ErrorType

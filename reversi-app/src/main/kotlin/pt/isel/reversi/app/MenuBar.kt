@@ -7,8 +7,9 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import pt.isel.reversi.app.app.AppTheme
+import pt.isel.reversi.app.app.state.AppStateImpl
 import pt.isel.reversi.app.pages.Page
-import pt.isel.reversi.app.state.AppStateImpl
 import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.game.Game
 import pt.isel.reversi.utils.LOGGER

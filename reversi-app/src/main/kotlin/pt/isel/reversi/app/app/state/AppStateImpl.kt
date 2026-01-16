@@ -1,6 +1,6 @@
-package pt.isel.reversi.app.state
+package pt.isel.reversi.app.app.state
 
-import pt.isel.reversi.app.AppTheme
+import pt.isel.reversi.app.app.AppTheme
 import pt.isel.reversi.core.exceptions.ReversiException
 import pt.isel.reversi.core.game.Game
 import pt.isel.reversi.core.game.gameServices.GameServiceImpl

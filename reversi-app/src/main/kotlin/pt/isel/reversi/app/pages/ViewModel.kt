@@ -2,7 +2,7 @@ package pt.isel.reversi.app.pages
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
-import pt.isel.reversi.app.state.setError
+import pt.isel.reversi.app.app.state.setError
 import pt.isel.reversi.core.exceptions.ErrorType
 import pt.isel.reversi.core.exceptions.ReversiException
 

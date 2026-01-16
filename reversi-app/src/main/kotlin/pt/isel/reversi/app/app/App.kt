@@ -1,4 +1,4 @@
-package pt.isel.reversi.app
+package pt.isel.reversi.app.app
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -7,12 +7,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.window.*
 import kotlinx.coroutines.*
 import org.jetbrains.compose.resources.painterResource
+import pt.isel.reversi.app.MakeMenuBar
+import pt.isel.reversi.app.app.state.*
 import pt.isel.reversi.app.pages.*
-import pt.isel.reversi.app.state.*
-import pt.isel.reversi.app.utils.addShutdownHook
-import pt.isel.reversi.app.utils.initializeAppArgs
-import pt.isel.reversi.app.utils.installFatalCrashLogger
-import pt.isel.reversi.app.utils.runStorageHealthCheck
+import pt.isel.reversi.app.utils.*
 import pt.isel.reversi.core.game.Game
 import pt.isel.reversi.core.game.gameServices.GameService
 import pt.isel.reversi.core.loadCoreConfig
@@ -21,6 +19,7 @@ import pt.isel.reversi.utils.LOGGER
 import pt.isel.reversi.utils.TRACKER
 import reversi.reversi_app.generated.resources.Res
 import reversi.reversi_app.generated.resources.reversi
+import java.awt.Dimension
 import java.lang.System.setProperty
 import kotlin.system.exitProcess
 
@@ -101,7 +100,7 @@ class App(args: Array<String>) {
                 icon = painterResource(Res.drawable.reversi),
                 state = windowState,
             ) {
-                window.minimumSize = java.awt.Dimension(800, 800)
+                window.minimumSize = Dimension(800, 800)
                 MakeMenuBar(
                     appState,
                     scope = scope,

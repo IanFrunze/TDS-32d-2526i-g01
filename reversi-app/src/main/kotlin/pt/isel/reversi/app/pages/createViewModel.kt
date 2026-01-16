@@ -3,6 +3,7 @@ package pt.isel.reversi.app.pages
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.Snapshot
 import kotlinx.coroutines.CoroutineScope
+import pt.isel.reversi.app.app.state.*
 import pt.isel.reversi.app.pages.aboutPage.AboutPageViewModel
 import pt.isel.reversi.app.pages.game.GamePageViewModel
 import pt.isel.reversi.app.pages.lobby.LobbyViewModel
@@ -10,7 +11,6 @@ import pt.isel.reversi.app.pages.menu.MainMenuViewModel
 import pt.isel.reversi.app.pages.newGamePage.NewGameViewModel
 import pt.isel.reversi.app.pages.settingsPage.SettingsViewModel
 import pt.isel.reversi.app.pages.winnerPage.WinnerPageViewModel
-import pt.isel.reversi.app.state.*
 
 
 fun Page.createViewModel(
