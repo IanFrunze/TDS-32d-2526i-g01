@@ -39,7 +39,7 @@
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">1.0.1
+        <div class="library-version" id="library-version">2.0.0
         </div>
         <div class="navigation-controls">
         <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
@@ -94,7 +94,7 @@
   <div class="breadcrumbs"><a href="../../index.html">reversi-cli</a><span class="delimiter">/</span><a href="../index.html">pt.isel.reversi.cli.commands</a><span class="delimiter">/</span><span class="current">RefreshCmd</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Refresh</span><wbr><span><span>Cmd</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">RefreshCmd</a> : <span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token operator">&gt; </span></div><p class="paragraph">Refreshes and displays the current game state. It expects a <code class="lang-kotlin">Game</code> context and returns an error when the game or board is not initialized.</p></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">RefreshCmd</a> : <span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../../reversi-core/pt.isel.reversi.core.game/-game/index.html">Game</a><span class="token operator">&gt; </span></div><p class="paragraph">Command to refresh and display the current game state.</p><p class="paragraph">Re-reads the underlying game state from storage (useful in multi-process scenarios where another instance may have updated the game state) and displays the updated board.</p><p class="paragraph">Usage: <code class="lang-kotlin">refresh</code> or <code class="lang-kotlin">r</code></p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
@@ -120,17 +120,17 @@
       </div>
       <div data-togglable="FUNCTION">
         <h2 class="tableheader">Functions</h2>
-        <div class="table"><a data-name="-2122696388%2FFunctions%2F968266343" anchor-label="execute" id="-2122696388%2FFunctions%2F968266343" data-filterable-set=":reversi-cli/main"></a>
+        <div class="table"><a data-name="1377787976%2FFunctions%2F968266343" anchor-label="execute" id="1377787976%2FFunctions%2F968266343" data-filterable-set=":reversi-cli/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-cli/main" data-filterable-set=":reversi-cli/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="execute.html"><span><span>execute</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2122696388%2FFunctions%2F968266343"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1377787976%2FFunctions%2F968266343"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="execute.html"><span class="token function">execute</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>args<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">context<span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="pt.rafap.ktflag.cmd/CommandResult///PointingToDeclaration/">CommandResult</span><span class="token operator">&lt;</span><a href="../../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="execute.html"><span class="token function">execute</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>args<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">context<span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core.game/-game/index.html">Game</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="pt.rafap.ktflag.cmd/CommandResult///PointingToDeclaration/">CommandResult</span><span class="token operator">&lt;</span><a href="../../../reversi-core/pt.isel.reversi.core.game/-game/index.html">Game</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Executes the refresh command.</p></div></div></div>
                 </div>
               </div>
             </div>

@@ -39,7 +39,7 @@
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">1.0.1
+        <div class="library-version" id="library-version">2.0.0
         </div>
         <div class="navigation-controls">
         <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
@@ -95,7 +95,7 @@
   <div class="cover ">
     <h1 class="cover"><span>load</span><wbr><span><span>Config</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="load-config.html"><span class="token function">loadConfig</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">U</a></div><p class="paragraph">Loads the configuration into a Map.</p></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="load-config.html"><span class="token function">loadConfig</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">U</a></div><p class="paragraph">Loads configuration from the properties file at the specified path.</p><p class="paragraph">If the file doesn't exist:</p><ul><li><p class="paragraph">The parent directory is created if necessary</p></li><li><p class="paragraph">A new properties file is created</p></li><li><p class="paragraph">Default values from the factory are written to the file</p></li></ul><p class="paragraph">If the file exists but is missing keys:</p><ul><li><p class="paragraph">Missing keys are added with their default values</p></li><li><p class="paragraph">The file is updated</p></li></ul><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph">A new Config instance with the loaded properties.</p></span></div></div>
 </div>
     <div class="footer">
         <div class="footer--container">

@@ -39,7 +39,7 @@
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">1.0.1
+        <div class="library-version" id="library-version">2.0.0
         </div>
         <div class="navigation-controls">
         <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
@@ -94,7 +94,7 @@
   <div class="breadcrumbs"><a href="../index.html">reversi-utils</a><span class="delimiter">/</span><span class="current">pt.isel.reversi.utils</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
-    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><h2 class="">Overview</h2><p class="paragraph">This package contains reusable utilities that support configuration handling. The central feature is a <code class="lang-kotlin">ConfigLoader</code> class that automates the creation and loading of configuration files in <code class="lang-kotlin">.properties</code> format, allowing each subsystem to define its own configuration model by implementing the <code class="lang-kotlin">Config</code> interface. This ensures that each module can provide default configuration values while still allowing users to override them through editable files.</p><ul><li><p class="paragraph"><code class="lang-kotlin">ConfigLoader&lt;U : Config&gt;</code></p></li><ul><li><p class="paragraph">Reads a properties file from a provided path.</p></li><li><p class="paragraph">If the file does not exist, creates the directory/file; writes default entries obtained from       <code class="lang-kotlin">factory(emptyMap()).getDefaultConfigFileEntries()</code> and stores the file.</p></li><li><p class="paragraph">Converts the loaded properties to <code class="lang-kotlin">Map&lt;String, String&gt;</code> and invokes <code class="lang-kotlin">factory(configMap)</code> to build the concrete       configuration.</p></li></ul><li><p class="paragraph"><code class="lang-kotlin">Config</code></p></li><ul><li><p class="paragraph">Contract that requires exposing <code class="lang-kotlin">getDefaultConfigFileEntries(): Map&lt;String, String&gt;</code> with the default values to       write when the file does not exist.</p></li></ul><li><p class="paragraph"><code class="lang-kotlin">Environment</code></p></li><ul><li><p class="paragraph">Defines constants: <code class="lang-kotlin">CONFIG_FOLDER</code>, <code class="lang-kotlin">CORE_CONFIG_FILE</code>, <code class="lang-kotlin">CLI_CONFIG_FILE</code>. The default directory is config and the       default files are <code class="lang-kotlin">reversi-core.properties</code> and <code class="lang-kotlin">reversi-cli.properties</code>.</p></li></ul></ul><h3 class="">Responsibilities</h3><ul><li><p class="paragraph">Provide a simple and consistent mechanism to load/manage configuration files.</p></li><li><p class="paragraph">Ensure missing configuration files are created with default entries.</p></li><li><p class="paragraph">Expose reusable environment constants for other modules to locate configuration files.</p></li></ul><h3 class="">Notes</h3><ul><li><p class="paragraph">Modules such as <code class="lang-kotlin">reversi-core</code> and <code class="lang-kotlin">reversi-cli</code> should provide an implementation of <code class="lang-kotlin">Config</code> and pass a factory to   <code class="lang-kotlin">ConfigLoader</code>.</p></li><li><p class="paragraph">The default configuration file is plain text in Java Properties format, as this facilitates manual editing and   debugging.</p></li></ul></div></div>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><h2 class="">Overview</h2><p class="paragraph">This package contains reusable utilities that support configuration handling, logging, and audio management. The central feature is a <code class="lang-kotlin">ConfigLoader</code> class that automates the creation and loading of configuration files in <code class="lang-kotlin">.properties</code> format, allowing each subsystem to define its own configuration model by implementing the <code class="lang-kotlin">Config</code> interface. This ensures that each module can provide default configuration values while still allowing users to override them through editable files.</p><h3 class="">Key Components</h3><ul><li><p class="paragraph"><code class="lang-kotlin">ConfigLoader&lt;U : Config&gt;</code> — Generic configuration loader</p></li><ul><li><p class="paragraph">Reads a properties file from a provided path.</p></li><li><p class="paragraph">If the file does not exist, creates the directory/file; writes default entries obtained from       <code class="lang-kotlin">factory(emptyMap()).getDefaultConfigFileEntries()</code> and stores the file.</p></li><li><p class="paragraph">Converts the loaded properties to <code class="lang-kotlin">Map&lt;String, String&gt;</code> and invokes <code class="lang-kotlin">factory(configMap)</code> to build the concrete       configuration.</p></li></ul><li><p class="paragraph"><code class="lang-kotlin">Config</code> — Interface for configuration implementations</p></li><ul><li><p class="paragraph">Contract that requires exposing <code class="lang-kotlin">getDefaultConfigFileEntries(): Map&lt;String, String&gt;</code> with the default values to       write when the file does not exist.</p></li></ul><li><p class="paragraph"><code class="lang-kotlin">Environment</code> — Centralized constants</p></li><ul><li><p class="paragraph">Defines constants: <code class="lang-kotlin">CONFIG_FOLDER</code>, <code class="lang-kotlin">CORE_CONFIG_FILE</code>, <code class="lang-kotlin">CLI_CONFIG_FILE</code>, <code class="lang-kotlin">APP_CONFIG_FILE</code>. The default        directory is config and the default files are <code class="lang-kotlin">reversi-core.properties</code>, <code class="lang-kotlin">reversi-cli.properties</code>, and        <code class="lang-kotlin">reversi-app.properties</code>.</p></li></ul><li><p class="paragraph"><code class="lang-kotlin">PlainFormatter</code> — Log message formatter for clean, readable console output</p></li><li><p class="paragraph"><code class="lang-kotlin">StdOutConsoleHandler</code> — Console handler that writes to standard output</p></li><li><p class="paragraph"><code class="lang-kotlin">Tracker</code> — Tracking and analytics utilities for monitoring application behavior</p></li><li><p class="paragraph"><code class="lang-kotlin">Utils</code> — General utility functions and extension methods</p></li></ul><h3 class="">Responsibilities</h3><ul><li><p class="paragraph">Provide a simple and consistent mechanism to load/manage configuration files.</p></li><li><p class="paragraph">Ensure missing configuration files are created with default entries.</p></li><li><p class="paragraph">Expose reusable environment constants for other modules to locate configuration files.</p></li><li><p class="paragraph">Provide logging infrastructure with customizable formatters and handlers.</p></li><li><p class="paragraph">Supply utility functions used across multiple modules.</p></li><li><p class="paragraph">Manage audio playback and sound effects.</p></li></ul><h3 class="">Notes</h3><ul><li><p class="paragraph">Modules such as <code class="lang-kotlin">reversi-core</code>, <code class="lang-kotlin">reversi-cli</code>, and <code class="lang-kotlin">reversi-app</code> should provide an implementation of <code class="lang-kotlin">Config</code> and    pass a factory to <code class="lang-kotlin">ConfigLoader</code>.</p></li><li><p class="paragraph">The default configuration file is plain text in Java Properties format, as this facilitates manual editing and   debugging.</p></li></ul></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button><button class="section-tab" data-togglable="PROPERTY,EXTENSION_PROPERTY">Properties</button></div>
@@ -111,7 +111,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-config/index.html">Config</a></div><div class="brief "><p class="paragraph">Represents a configuration with key-value pairs.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-config/index.html">Config</a></div><div class="brief "><p class="paragraph">Contract for configuration objects that provide key-value configuration properties.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -126,7 +126,37 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-config-loader/index.html">ConfigLoader</a><span class="token operator">&lt;</span><a href="-config-loader/index.html">U</a><span class="token operator"> : </span><a href="-config/index.html">Config</a><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>path<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>factory<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="-config-loader/index.html">U</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Configuration loader. Loads configuration from a properties file and validates expected entries.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-config-loader/index.html">ConfigLoader</a><span class="token operator">&lt;</span><a href="-config-loader/index.html">U</a><span class="token operator"> : </span><a href="-config/index.html">Config</a><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>path<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>factory<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="-config-loader/index.html">U</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Loads and manages configuration from Java properties files.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1531258763%2FClasslikes%2F1186424312" anchor-label="DevTracker" id="-1531258763%2FClasslikes%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-dev-tracker/index.html"><span>Dev</span><wbr><span><span>Tracker</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1531258763%2FClasslikes%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-dev-tracker/index.html">DevTracker</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">var </span>config<span class="token operator">: </span><a href="-tracker-config/index.html">TrackerConfig</a><span class="token operator"> = </span>TrackerConfig()</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Development tracker for monitoring application behavior.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1554726835%2FClasslikes%2F1186424312" anchor-label="ExportFormat" id="-1554726835%2FClasslikes%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-export-format/index.html"><span>Export</span><wbr><span><span>Format</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1554726835%2FClasslikes%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-export-format/index.html">ExportFormat</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>ext<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span> : <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="-export-format/index.html">ExportFormat</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Export format options for tracking data.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -146,26 +176,86 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div data-togglable="PROPERTY">
-        <h2 class="tableheader">Properties</h2>
-        <div class="table"><a data-name="-1147566248%2FProperties%2F1186424312" anchor-label="APP_CONFIG_FILE" id="-1147566248%2FProperties%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+<a data-name="-1510356870%2FClasslikes%2F1186424312" anchor-label="StdOutConsoleHandler" id="-1510356870%2FClasslikes%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-a-p-p_-c-o-n-f-i-g_-f-i-l-e.html"><span>APP_</span><wbr><span>CONFIG_</span><wbr><span>FILE</span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1147566248%2FProperties%2F1186424312"></span>
+                  <div><a href="-std-out-console-handler/index.html"><span>Std</span><wbr><span>Out</span><wbr><span>Console</span><wbr><span><span>Handler</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1510356870%2FClasslikes%2F1186424312"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-a-p-p_-c-o-n-f-i-g_-f-i-l-e.html">APP_CONFIG_FILE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-std-out-console-handler/index.html">StdOutConsoleHandler</a> : <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.logging/java/util/logging/Handler.html">Handler</a></div><div class="brief "><p class="paragraph">Custom logging handler that outputs formatted log records to standard output with ANSI color codes. Different log levels are displayed in different colors for better readability.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1957928695%2FProperties%2F1186424312" anchor-label="BASE_FOLDER" id="1957928695%2FProperties%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+<a data-name="1911687984%2FClasslikes%2F1186424312" anchor-label="TrackerConfig" id="1911687984%2FClasslikes%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-tracker-config/index.html"><span>Tracker</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1911687984%2FClasslikes%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-tracker-config/index.html">TrackerConfig</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>enabled<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>maxEventsPerContext<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">1000</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>autoSave<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>stackTraceDepth<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">4</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Configuration for the DevTracker.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1388010041%2FClasslikes%2F1186424312" anchor-label="TrackingEvent" id="-1388010041%2FClasslikes%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-tracking-event/index.html"><span>Tracking</span><wbr><span><span>Event</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1388010041%2FClasslikes%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-tracking-event/index.html">TrackingEvent</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>timestamp<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalDateTime.html">LocalDateTime</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>type<span class="token operator">: </span><a href="-tracking-type/index.html">TrackingType</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>context<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>category<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>details<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">""</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>threadId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span>Thread.currentThread().threadId()</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Data class representing a single tracking event.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-153144478%2FClasslikes%2F1186424312" anchor-label="TrackingStats" id="-153144478%2FClasslikes%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-tracking-stats/index.html"><span>Tracking</span><wbr><span><span>Stats</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-153144478%2FClasslikes%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-tracking-stats/index.html">TrackingStats</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>context<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>eventCount<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/atomic/AtomicInteger.html">AtomicInteger</a><span class="token operator"> = </span>AtomicInteger(0)<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>pageEnters<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/atomic/AtomicInteger.html">AtomicInteger</a><span class="token operator"> = </span>AtomicInteger(0)<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>viewModelCreations<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/atomic/AtomicInteger.html">AtomicInteger</a><span class="token operator"> = </span>AtomicInteger(0)<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>classCreations<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/atomic/AtomicInteger.html">AtomicInteger</a><span class="token operator"> = </span>AtomicInteger(0)<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>recompositions<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/atomic/AtomicInteger.html">AtomicInteger</a><span class="token operator"> = </span>AtomicInteger(0)<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>functionCalls<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/atomic/AtomicInteger.html">AtomicInteger</a><span class="token operator"> = </span>AtomicInteger(0)<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>effectStarts<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/atomic/AtomicInteger.html">AtomicInteger</a><span class="token operator"> = </span>AtomicInteger(0)<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>effectStops<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/atomic/AtomicInteger.html">AtomicInteger</a><span class="token operator"> = </span>AtomicInteger(0)<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">var </span>firstOccurrence<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalDateTime.html">LocalDateTime</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">var </span>lastOccurrence<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalDateTime.html">LocalDateTime</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Data class representing statistics for a specific tracked context.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-755819193%2FClasslikes%2F1186424312" anchor-label="TrackingType" id="-755819193%2FClasslikes%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-tracking-type/index.html"><span>Tracking</span><wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-755819193%2FClasslikes%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-tracking-type/index.html">TrackingType</a> : <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="-tracking-type/index.html">TrackingType</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Enum representing the types of tracking events that can be recorded.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="tableheader">Properties</h2>
+        <div class="table"><a data-name="1957928695%2FProperties%2F1186424312" anchor-label="BASE_FOLDER" id="1957928695%2FProperties%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
@@ -175,22 +265,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-b-a-s-e_-f-o-l-d-e-r.html">BASE_FOLDER</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="943584802%2FProperties%2F1186424312" anchor-label="BASE_LOG_FILE_NAME" id="943584802%2FProperties%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
-          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="-b-a-s-e_-l-o-g_-f-i-l-e_-n-a-m-e.html"><span>BASE_</span><wbr><span>LOG_</span><wbr><span>FILE_</span><wbr><span>NAME</span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="943584802%2FProperties%2F1186424312"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-b-a-s-e_-l-o-g_-f-i-l-e_-n-a-m-e.html">BASE_LOG_FILE_NAME</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-b-a-s-e_-f-o-l-d-e-r.html">BASE_FOLDER</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Base data directory for configuration and logs.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -205,7 +280,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-c-l-i_-c-o-n-f-i-g_-f-i-l-e.html">CLI_CONFIG_FILE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-c-l-i_-c-o-n-f-i-g_-f-i-l-e.html">CLI_CONFIG_FILE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">CLI module configuration file path (reversi-cli.properties).</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -220,7 +295,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-c-o-n-f-i-g_-f-o-l-d-e-r.html">CONFIG_FOLDER</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-c-o-n-f-i-g_-f-o-l-d-e-r.html">CONFIG_FOLDER</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Configuration directory path containing all application configuration files.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -235,7 +310,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-c-o-r-e_-c-o-n-f-i-g_-f-i-l-e.html">CORE_CONFIG_FILE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">const </span><span class="token keyword">val </span><a href="-c-o-r-e_-c-o-n-f-i-g_-f-i-l-e.html">CORE_CONFIG_FILE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Core module configuration file path (reversi-core.properties).</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -250,7 +325,37 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-l-o-g-g-e-r.html">LOGGER</a><span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.logging/java/util/logging/Logger.html">Logger</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-l-o-g-g-e-r.html">LOGGER</a><span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.logging/java/util/logging/Logger.html">Logger</a></div><div class="brief "><p class="paragraph">Global logger instance configured with console handler and plain formatter.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1853622006%2FProperties%2F1186424312" anchor-label="RUN_LOG_FOLDER" id="-1853622006%2FProperties%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-r-u-n_-l-o-g_-f-o-l-d-e-r.html"><span>RUN_</span><wbr><span>LOG_</span><wbr><span>FOLDER</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1853622006%2FProperties%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-r-u-n_-l-o-g_-f-o-l-d-e-r.html">RUN_LOG_FOLDER</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Per-run logs folder derived from current date (e.g., data/logs/log-YYYY-MM-DD-N).</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1344121851%2FProperties%2F1186424312" anchor-label="TRACKER" id="1344121851%2FProperties%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-t-r-a-c-k-e-r.html"><span><span>TRACKER</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1344121851%2FProperties%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-t-r-a-c-k-e-r.html">TRACKER</a><span class="token operator">: </span><a href="-dev-tracker/index.html">DevTracker</a></div><div class="brief "><p class="paragraph">Global development tracker instance for monitoring application behavior.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -259,7 +364,67 @@
       </div>
       <div data-togglable="FUNCTION">
         <h2 class="tableheader">Functions</h2>
-        <div class="table"><a data-name="1395390289%2FFunctions%2F1186424312" anchor-label="loadResource" id="1395390289%2FFunctions%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+        <div class="table"><a data-name="-1206960544%2FFunctions%2F1186424312" anchor-label="buildOrigin" id="-1206960544%2FFunctions%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="build-origin.html"><span>build</span><wbr><span><span>Origin</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1206960544%2FFunctions%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">internal </span><span class="token keyword">fun </span><a href="build-origin.html"><span class="token function">buildOrigin</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">className<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">methodName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-41658004%2FFunctions%2F1186424312" anchor-label="generateUniqueTimestampedFileName" id="-41658004%2FFunctions%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="generate-unique-timestamped-file-name.html"><span>generate</span><wbr><span>Unique</span><wbr><span>Timestamped</span><wbr><span>File</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-41658004%2FFunctions%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="generate-unique-timestamped-file-name.html"><span class="token function">generateUniqueTimestampedFileName</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">baseName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">extension<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="722066444%2FFunctions%2F1186424312" anchor-label="getLoggerFilePath" id="722066444%2FFunctions%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-logger-file-path.html"><span>get</span><wbr><span>Logger</span><wbr><span>File</span><wbr><span><span>Path</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="722066444%2FFunctions%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-logger-file-path.html"><span class="token function">getLoggerFilePath</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-298412516%2FFunctions%2F1186424312" anchor-label="listResourceFiles" id="-298412516%2FFunctions%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="list-resource-files.html"><span>list</span><wbr><span>Resource</span><wbr><span><span>Files</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-298412516%2FFunctions%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">fun </span><a href="list-resource-files.html"><span class="token function">listResourceFiles</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">path<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Lists all files in a resource directory, works both in IDE and JAR.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1395390289%2FFunctions%2F1186424312" anchor-label="loadResource" id="1395390289%2FFunctions%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
@@ -269,7 +434,22 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="load-resource.html"><span class="token function">loadResource</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">path<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/File.html">File</a></div><div class="brief "><p class="paragraph">Loads a resource file from the classpath.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="load-resource.html"><span class="token function">loadResource</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">path<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/File.html">File</a></div><div class="brief "><p class="paragraph">Loads a resource file from the classpath. Only use this if you really need a File object. For most cases, use getResource() directly.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="554506503%2FFunctions%2F1186424312" anchor-label="loadResourcesFromFolder" id="554506503%2FFunctions%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="load-resources-from-folder.html"><span>load</span><wbr><span>Resources</span><wbr><span>From</span><wbr><span><span>Folder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="554506503%2FFunctions%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="load-resources-from-folder.html">T</a><span class="token operator">&gt; </span><a href="load-resources-from-folder.html"><span class="token function">loadResourcesFromFolder</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">folder<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">transform<span class="token operator">: </span><span class="token punctuation">(</span>fileName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>url<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/URL.html">URL</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="load-resources-from-folder.html">T</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="load-resources-from-folder.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Generic function to load resources from a folder and transform them. Handles both IDE and JAR execution transparently.</p></div></div></div>
                 </div>
               </div>
             </div>

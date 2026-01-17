@@ -39,7 +39,7 @@
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">1.0.1
+        <div class="library-version" id="library-version">2.0.0
         </div>
         <div class="navigation-controls">
         <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
@@ -94,7 +94,7 @@
   <div class="breadcrumbs"><a href="../index.html">reversi-cli</a><span class="delimiter">/</span><span class="current">pt.isel.reversi.cli</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
-    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><h2 class="">Overview</h2><p class="paragraph">Hosts the CLI loop, command parsing and rendering utilities. The CLI is designed to be minimal and driven by plain standard input/output which makes it easy to script and test.</p></div></div>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><h2 class="">Overview</h2><p class="paragraph">Hosts the CLI loop, command parsing and rendering utilities. The CLI is designed to be minimal and driven by plain standard input/output which makes it easy to script and test.</p><h3 class="">Key Components</h3><ul><li><p class="paragraph"><code class="lang-kotlin">CLI</code> — Main CLI coordinator class managing the REPL loop</p></li><li><p class="paragraph"><code class="lang-kotlin">CliConfig</code> — Configuration for CLI appearance (colors, prompts, messages)</p></li><li><p class="paragraph"><code class="lang-kotlin">Environment</code> — Constants for CLI-specific paths and settings</p></li><li><p class="paragraph"><code class="lang-kotlin">Main</code> — Entry point for the CLI application</p></li></ul><h3 class="">Responsibilities</h3><ul><li><p class="paragraph">Providing an interactive command-line interface for the Reversi game</p></li><li><p class="paragraph">Managing the REPL (Read-Eval-Print Loop)</p></li><li><p class="paragraph">Parsing and dispatching commands</p></li><li><p class="paragraph">Maintaining game context across command executions</p></li><li><p class="paragraph">Rendering game state to the console</p></li><li><p class="paragraph">Loading CLI configuration from properties file</p></li></ul></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button><button class="section-tab" data-togglable="PROPERTY,EXTENSION_PROPERTY">Properties</button></div>
@@ -111,7 +111,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-c-l-i/index.html">CLI</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>commands<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>debug<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">debugCommands<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator"> = </span>arrayOf()</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Simple command-line interface coordinator.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-c-l-i/index.html">CLI</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>commands<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core.game/-game/index.html">Game</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>debug<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">debugCommands<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core.game/-game/index.html">Game</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator"> = </span>arrayOf()</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Simple command-line interface coordinator.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -126,7 +126,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-cli-config/index.html">CliConfig</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>map<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span> : <a href="../../reversi-utils/pt.isel.reversi.utils/-config/index.html">Config</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-cli-config/index.html">CliConfig</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>map<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span> : <a href="../../reversi-utils/pt.isel.reversi.utils/-config/index.html">Config</a></div><div class="brief "><p class="paragraph">Configuration holder for CLI-specific settings including welcome messages and text colors. Manages display colors for different message types and command prompt styling.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -145,7 +145,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="all-commands.html">allCommands</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="all-commands.html">allCommands</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core.game/-game/index.html">Game</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -160,7 +160,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-c-l-i_-c-o-n-f-i-g.html">CLI_CONFIG</a><span class="token operator">: </span><a href="-cli-config/index.html">CliConfig</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-c-l-i_-c-o-n-f-i-g.html">CLI_CONFIG</a><span class="token operator">: </span><a href="-cli-config/index.html">CliConfig</a></div><div class="brief "><p class="paragraph">Global CLI configuration loaded from the CLI configuration file. Contains all theme colors, prompts, and text settings for the command-line interface.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -190,7 +190,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="debug-commands.html">debugCommands</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="debug-commands.html">debugCommands</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span data-unresolved-link="pt.rafap.ktflag.cmd/CommandImpl///PointingToDeclaration/">CommandImpl</span><span class="token operator">&lt;</span><a href="../../reversi-core/pt.isel.reversi.core.game/-game/index.html">Game</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -205,7 +205,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-e-r-r-o-r_-c-o-l-o-r.html">ERROR_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-e-r-r-o-r_-c-o-l-o-r.html">ERROR_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">ANSI color code for error messages.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -220,7 +220,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-h-e-l-p_-a-l-i-a-s_-c-o-l-o-r.html">HELP_ALIAS_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-h-e-l-p_-a-l-i-a-s_-c-o-l-o-r.html">HELP_ALIAS_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">ANSI color code for help command aliases.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -235,7 +235,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-h-e-l-p_-d-e-s-c_-c-o-l-o-r.html">HELP_DESC_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-h-e-l-p_-d-e-s-c_-c-o-l-o-r.html">HELP_DESC_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">ANSI color code for help command descriptions.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -250,7 +250,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-h-e-l-p_-u-s-a-g-e_-c-o-l-o-r.html">HELP_USAGE_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-h-e-l-p_-u-s-a-g-e_-c-o-l-o-r.html">HELP_USAGE_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">ANSI color code for help command usage text.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -265,7 +265,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-i-n-f-o_-c-o-l-o-r.html">INFO_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-i-n-f-o_-c-o-l-o-r.html">INFO_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">ANSI color code for informational messages.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -295,7 +295,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-p-r-o-m-p-t.html">PROMPT</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-p-r-o-m-p-t.html">PROMPT</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Command prompt string displayed to the user.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -310,7 +310,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-p-r-o-m-p-t_-c-o-l-o-r.html">PROMPT_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-p-r-o-m-p-t_-c-o-l-o-r.html">PROMPT_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">ANSI color code for the command prompt.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -325,7 +325,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-t-e-x-t_-c-o-l-o-r.html">TEXT_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-t-e-x-t_-c-o-l-o-r.html">TEXT_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">ANSI color code for regular text output.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -340,7 +340,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-w-a-r-n-i-n-g_-c-o-l-o-r.html">WARNING_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-w-a-r-n-i-n-g_-c-o-l-o-r.html">WARNING_COLOR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">ANSI color code for warning messages.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -355,7 +355,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-w-e-l-c-o-m-e_-m-e-s-s-a-g-e.html">WELCOME_MESSAGE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-cli/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-w-e-l-c-o-m-e_-m-e-s-s-a-g-e.html">WELCOME_MESSAGE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Welcome message displayed when the CLI starts.</p></div></div></div>
                 </div>
               </div>
             </div>

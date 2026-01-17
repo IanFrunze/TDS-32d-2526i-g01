@@ -39,7 +39,7 @@
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">1.0.1
+        <div class="library-version" id="library-version">2.0.0
         </div>
         <div class="navigation-controls">
         <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
@@ -94,7 +94,7 @@
   <div class="breadcrumbs"><a href="../../index.html">reversi-utils</a><span class="delimiter">/</span><a href="../index.html">pt.isel.reversi.utils.audio</a><span class="delimiter">/</span><span class="current">AudioPool</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Audio</span><wbr><span><span>Pool</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">AudioPool</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>pool<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-audio-wrapper/index.html">AudioWrapper</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><p class="paragraph">Represents a pool of audio tracks that can be managed together.</p><h4 class="tableheader">Parameters</h4><div class="table"><div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>pool</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The list of AudioWrapper instances in the pool.</p></div></div></div></div></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">AudioPool</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">startPool<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-audio-wrapper/index.html">AudioWrapper</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><p class="paragraph">Represents a pool of audio tracks that can be managed together.</p><h4 class="tableheader">Parameters</h4><div class="table"><div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>pool</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The list of AudioWrapper instances in the pool.</p></div></div></div></div></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
@@ -111,7 +111,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">pool<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-audio-wrapper/index.html">AudioWrapper</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">startPool<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-audio-wrapper/index.html">AudioWrapper</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -149,7 +149,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="pool.html">pool</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-audio-wrapper/index.html">AudioWrapper</a><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="pool.html">pool</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-mutable-list/index.html">MutableList</a><span class="token operator">&lt;</span><a href="../-audio-wrapper/index.html">AudioWrapper</a><span class="token operator">&gt;</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -233,6 +233,21 @@
               </div>
             </div>
           </div>
+<a data-name="1806311348%2FFunctions%2F1186424312" anchor-label="getBalanceRange" id="1806311348%2FFunctions%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-balance-range.html"><span>get</span><wbr><span>Balance</span><wbr><span><span>Range</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1806311348%2FFunctions%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-balance-range.html"><span class="token function">getBalanceRange</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html">Float</a><span class="token operator">&gt;</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Gets the balance range (min and max) of the first audio track in the pool.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
 <a data-name="-1184939079%2FFunctions%2F1186424312" anchor-label="getMasterVolume" id="-1184939079%2FFunctions%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
             <div class="main-subrow keyValue ">
@@ -244,6 +259,36 @@
               <div>
                 <div class="title">
                   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-master-volume.html"><span class="token function">getMasterVolume</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html">Float</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Gets the master volume of the first audio track in the pool.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-905846076%2FFunctions%2F1186424312" anchor-label="getMasterVolumeRange" id="-905846076%2FFunctions%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-master-volume-range.html"><span>get</span><wbr><span>Master</span><wbr><span>Volume</span><wbr><span><span>Range</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-905846076%2FFunctions%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-master-volume-range.html"><span class="token function">getMasterVolumeRange</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-float/index.html">Float</a><span class="token operator">&gt;</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Gets the master volume range (min and max) of the first audio track in the pool.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1442392230%2FFunctions%2F1186424312" anchor-label="getPlayingAudios" id="-1442392230%2FFunctions%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-playing-audios.html"><span>get</span><wbr><span>Playing</span><wbr><span><span>Audios</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1442392230%2FFunctions%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-playing-audios.html"><span class="token function">getPlayingAudios</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Retrieves the IDs of all currently playing audio tracks in the pool.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -263,6 +308,21 @@
               </div>
             </div>
           </div>
+<a data-name="-1260853242%2FFunctions%2F1186424312" anchor-label="isPoolMuted" id="-1260853242%2FFunctions%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-pool-muted.html"><span>is</span><wbr><span>Pool</span><wbr><span><span>Muted</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1260853242%2FFunctions%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="is-pool-muted.html"><span class="token function">isPoolMuted</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Checks if all audio tracks in the pool are muted.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
 <a data-name="2022544612%2FFunctions%2F1186424312" anchor-label="isPoolStopped" id="2022544612%2FFunctions%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
             <div class="main-subrow keyValue ">
@@ -274,6 +334,21 @@
               <div>
                 <div class="title">
                   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="is-pool-stopped.html"><span class="token function">isPoolStopped</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Checks if all audio tracks in the pool are stopped.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-416927251%2FFunctions%2F1186424312" anchor-label="merge" id="-416927251%2FFunctions%2F1186424312" data-filterable-set=":reversi-utils/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-utils/main" data-filterable-set=":reversi-utils/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="merge.html"><span><span>merge</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-416927251%2FFunctions%2F1186424312"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-utils/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="merge.html"><span class="token function">merge</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">other<span class="token operator">: </span><a href="index.html">AudioPool</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Merges this AudioPool with another AudioPool. New audio tracks from the other pool are added to this pool. Duplicate audio tracks (by ID) from the new pool are not added. Tracks from this pool take precedence in case of ID conflicts. Old tracks that do not exist in the other pool are destroyed and removed from this pool.</p></div></div></div>
                 </div>
               </div>
             </div>

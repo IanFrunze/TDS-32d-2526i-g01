@@ -39,7 +39,7 @@
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">1.0.1
+        <div class="library-version" id="library-version">2.0.0
         </div>
         <div class="navigation-controls">
         <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
@@ -94,7 +94,7 @@
   <div class="breadcrumbs"><a href="../../index.html">reversi-core</a><span class="delimiter">/</span><a href="../index.html">pt.isel.reversi.core</a><span class="delimiter">/</span><span class="current">CoreConfig</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Core</span><wbr><span><span>Config</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">CoreConfig</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>map<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span> : <a href="../../../reversi-utils/pt.isel.reversi.utils/-config/index.html">Config</a></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">CoreConfig</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>map<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span> : <a href="../../../reversi-utils/pt.isel.reversi.utils/-config/index.html">Config</a></div><p class="paragraph">Configuration holder for core game parameters loaded from properties files. Manages character representations and storage configuration.</p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
@@ -120,32 +120,107 @@
       </div>
       <div data-togglable="PROPERTY">
         <h2 class="tableheader">Properties</h2>
-        <div class="table"><a data-name="1164849748%2FProperties%2F-935644378" anchor-label="BOARD_SIDE" id="1164849748%2FProperties%2F-935644378" data-filterable-set=":reversi-core/main"></a>
+        <div class="table"><a data-name="-1241686277%2FProperties%2F-935644378" anchor-label="dbName" id="-1241686277%2FProperties%2F-935644378" data-filterable-set=":reversi-core/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-core/main" data-filterable-set=":reversi-core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-b-o-a-r-d_-s-i-d-e.html"><span>BOARD_</span><wbr><span>SIDE</span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1164849748%2FProperties%2F-935644378"></span>
+                  <div><a href="db-name.html"><span>db</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1241686277%2FProperties%2F-935644378"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-b-o-a-r-d_-s-i-d-e.html">BOARD_SIDE</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Side length of the game board.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="db-name.html">dbName</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Name of the MongoDB database for storing game states.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="219976028%2FProperties%2F-935644378" anchor-label="EMPTY_CHAR" id="219976028%2FProperties%2F-935644378" data-filterable-set=":reversi-core/main"></a>
+<a data-name="-898993045%2FProperties%2F-935644378" anchor-label="dbPassword" id="-898993045%2FProperties%2F-935644378" data-filterable-set=":reversi-core/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-core/main" data-filterable-set=":reversi-core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-e-m-p-t-y_-c-h-a-r.html"><span>EMPTY_</span><wbr><span>CHAR</span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="219976028%2FProperties%2F-935644378"></span>
+                  <div><a href="db-password.html"><span>db</span><wbr><span><span>Password</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-898993045%2FProperties%2F-935644378"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-e-m-p-t-y_-c-h-a-r.html">EMPTY_CHAR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-char/index.html">Char</a></div><div class="brief "><p class="paragraph">Character representing empty spaces on the board.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="db-password.html">dbPassword</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Password for MongoDB authentication.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1851572677%2FProperties%2F-935644378" anchor-label="dbPort" id="1851572677%2FProperties%2F-935644378" data-filterable-set=":reversi-core/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-core/main" data-filterable-set=":reversi-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="db-port.html"><span>db</span><wbr><span><span>Port</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1851572677%2FProperties%2F-935644378"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="db-port.html">dbPort</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Name of the MongoDB collection for storing game states.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="887598920%2FProperties%2F-935644378" anchor-label="dbURI" id="887598920%2FProperties%2F-935644378" data-filterable-set=":reversi-core/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-core/main" data-filterable-set=":reversi-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="db-u-r-i.html"><span>db</span><wbr><span><span>URI</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="887598920%2FProperties%2F-935644378"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="db-u-r-i.html">dbURI</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">URI for connecting to the MongoDB server.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="325047739%2FProperties%2F-935644378" anchor-label="dbUser" id="325047739%2FProperties%2F-935644378" data-filterable-set=":reversi-core/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-core/main" data-filterable-set=":reversi-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="db-user.html"><span>db</span><wbr><span><span>User</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="325047739%2FProperties%2F-935644378"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="db-user.html">dbUser</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Username for MongoDB authentication.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-391547341%2FProperties%2F-935644378" anchor-label="emptyChar" id="-391547341%2FProperties%2F-935644378" data-filterable-set=":reversi-core/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-core/main" data-filterable-set=":reversi-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="empty-char.html"><span>empty</span><wbr><span><span>Char</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-391547341%2FProperties%2F-935644378"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="empty-char.html">emptyChar</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-char/index.html">Char</a></div><div class="brief "><p class="paragraph">Character representing empty spaces on the board.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1159668915%2FProperties%2F-935644378" anchor-label="gameStorageType" id="1159668915%2FProperties%2F-935644378" data-filterable-set=":reversi-core/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-core/main" data-filterable-set=":reversi-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="game-storage-type.html"><span>game</span><wbr><span>Storage</span><wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1159668915%2FProperties%2F-935644378"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="game-storage-type.html">gameStorageType</a><span class="token operator">: </span><a href="../../pt.isel.reversi.core.storage/-game-storage-type/index.html">GameStorageType</a></div><div class="brief "><p class="paragraph">Configured storage type for game state persistence.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -160,52 +235,37 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="map.html">map</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="map.html">map</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The underlying configuration map with string keys and values.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-1176386739%2FProperties%2F-935644378" anchor-label="SAVES_FOLDER" id="-1176386739%2FProperties%2F-935644378" data-filterable-set=":reversi-core/main"></a>
+<a data-name="-6716517%2FProperties%2F-935644378" anchor-label="savesPath" id="-6716517%2FProperties%2F-935644378" data-filterable-set=":reversi-core/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-core/main" data-filterable-set=":reversi-core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-s-a-v-e-s_-f-o-l-d-e-r.html"><span>SAVES_</span><wbr><span>FOLDER</span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1176386739%2FProperties%2F-935644378"></span>
+                  <div><a href="saves-path.html"><span>saves</span><wbr><span><span>Path</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-6716517%2FProperties%2F-935644378"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-s-a-v-e-s_-f-o-l-d-e-r.html">SAVES_FOLDER</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="saves-path.html">savesPath</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Directory path where game saves are stored.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1737139430%2FProperties%2F-935644378" anchor-label="STORAGE_TYPE" id="1737139430%2FProperties%2F-935644378" data-filterable-set=":reversi-core/main"></a>
+<a data-name="270511325%2FProperties%2F-935644378" anchor-label="targetChar" id="270511325%2FProperties%2F-935644378" data-filterable-set=":reversi-core/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-core/main" data-filterable-set=":reversi-core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-s-t-o-r-a-g-e_-t-y-p-e.html"><span>STORAGE_</span><wbr><span>TYPE</span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1737139430%2FProperties%2F-935644378"></span>
+                  <div><a href="target-char.html"><span>target</span><wbr><span><span>Char</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="270511325%2FProperties%2F-935644378"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-s-t-o-r-a-g-e_-t-y-p-e.html">STORAGE_TYPE</a><span class="token operator">: </span><a href="../../pt.isel.reversi.core.storage/-game-storage-type/index.html">GameStorageType</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="1283859474%2FProperties%2F-935644378" anchor-label="TARGET_CHAR" id="1283859474%2FProperties%2F-935644378" data-filterable-set=":reversi-core/main"></a>
-          <div class="table-row table-row_content" data-filterable-current=":reversi-core/main" data-filterable-set=":reversi-core/main">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="-t-a-r-g-e-t_-c-h-a-r.html"><span>TARGET_</span><wbr><span>CHAR</span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1283859474%2FProperties%2F-935644378"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="-t-a-r-g-e-t_-c-h-a-r.html">TARGET_CHAR</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-char/index.html">Char</a></div><div class="brief "><p class="paragraph">Character representing the target pieces on the board.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="target-char.html">targetChar</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-char/index.html">Char</a></div><div class="brief "><p class="paragraph">Character representing the target pieces on the board.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -214,7 +274,22 @@
       </div>
       <div data-togglable="FUNCTION">
         <h2 class="tableheader">Functions</h2>
-        <div class="table"><a data-name="118834351%2FFunctions%2F-935644378" anchor-label="getDefaultConfigFileEntries" id="118834351%2FFunctions%2F-935644378" data-filterable-set=":reversi-core/main"></a>
+        <div class="table"><a data-name="-1714335931%2FFunctions%2F-935644378" anchor-label="copy" id="-1714335931%2FFunctions%2F-935644378" data-filterable-set=":reversi-core/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-core/main" data-filterable-set=":reversi-core/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="copy.html"><span><span>copy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1714335931%2FFunctions%2F-935644378"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="copy.html"><span class="token function">copy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">targetChar<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-char/index.html">Char</a><span class="token operator"> = </span>this.targetChar<span class="token punctuation">, </span></span><span class="parameter ">emptyChar<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-char/index.html">Char</a><span class="token operator"> = </span>this.emptyChar<span class="token punctuation">, </span></span><span class="parameter ">gameStorageType<span class="token operator">: </span><a href="../../pt.isel.reversi.core.storage/-game-storage-type/index.html">GameStorageType</a><span class="token operator"> = </span>this.gameStorageType<span class="token punctuation">, </span></span><span class="parameter ">savesPath<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>this.savesPath<span class="token punctuation">, </span></span><span class="parameter ">dbName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>this.dbName<span class="token punctuation">, </span></span><span class="parameter ">dbURI<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>this.dbURI<span class="token punctuation">, </span></span><span class="parameter ">dbPort<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>this.dbPort<span class="token punctuation">, </span></span><span class="parameter ">dbUser<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>this.dbUser<span class="token punctuation">, </span></span><span class="parameter ">dbPassword<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>this.dbPassword</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">CoreConfig</a></div><div class="brief "><p class="paragraph">Creates a copy of this CoreConfig with optionally modified values.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="118834351%2FFunctions%2F-935644378" anchor-label="getDefaultConfigFileEntries" id="118834351%2FFunctions%2F-935644378" data-filterable-set=":reversi-core/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-core/main" data-filterable-set=":reversi-core/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
@@ -224,7 +299,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-default-config-file-entries.html"><span class="token function">getDefaultConfigFileEntries</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-core/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-default-config-file-entries.html"><span class="token function">getDefaultConfigFileEntries</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Returns the default configuration entries for core game settings.</p></div></div></div>
                 </div>
               </div>
             </div>

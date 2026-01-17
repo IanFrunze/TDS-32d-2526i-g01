@@ -39,7 +39,7 @@
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">1.0.1
+        <div class="library-version" id="library-version">2.0.0
         </div>
         <div class="navigation-controls">
         <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
@@ -94,24 +94,24 @@
   <div class="breadcrumbs"><a href="../../index.html">reversi-app</a><span class="delimiter">/</span><a href="../index.html">pt.isel.reversi.app.pages.lobby</a><span class="delimiter">/</span><span class="current">LobbyViewModel</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Lobby</span><wbr><span>View</span><wbr><span><span>Model</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">LobbyViewModel</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>scope<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/CoroutineScope///PointingToDeclaration/">CoroutineScope</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>appState<span class="token operator">: </span><span data-unresolved-link="androidx.compose.runtime/MutableState///PointingToDeclaration/">MutableState</span><span class="token operator">&lt;</span><a href="../../pt.isel.reversi.app.state/-app-state/index.html">AppState</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">LobbyViewModel</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>appState<span class="token operator">: </span><a href="../../pt.isel.reversi.app.app.state/-app-state-impl/index.html">AppStateImpl</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>scope<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/CoroutineScope///PointingToDeclaration/">CoroutineScope</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>pickGame<span class="token operator">: </span><span class="token punctuation">(</span><a href="../../../reversi-core/pt.isel.reversi.core.game/-game/index.html">Game</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>globalError<span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core.exceptions/-reversi-exception/index.html">ReversiException</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>setGlobalError<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-exception/index.html">Exception</a><span class="token operator">?</span><span class="token punctuation">, </span><a href="../../../reversi-core/pt.isel.reversi.core.exceptions/-error-type/index.html">ErrorType</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span> : <a href="../../pt.isel.reversi.app.pages/-view-model/index.html">ViewModel</a><span class="token operator">&lt;</span><a href="../-lobby-ui-state/index.html">LobbyUiState</a><span class="token operator">&gt; </span></div><p class="paragraph">View model for the lobby screen managing game list, polling, and user interactions. Handles loading available games, polling for updates, and game selection.</p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
       <div data-togglable="CONSTRUCTOR">
         <h2 class="tableheader">Constructors</h2>
-        <div class="table"><a data-name="-895645723%2FConstructors%2F-781564056" anchor-label="LobbyViewModel" id="-895645723%2FConstructors%2F-781564056" data-filterable-set=":reversi-app/main"></a>
+        <div class="table"><a data-name="285400649%2FConstructors%2F-781564056" anchor-label="LobbyViewModel" id="285400649%2FConstructors%2F-781564056" data-filterable-set=":reversi-app/main"></a>
           <div class="table-row table-row_content" data-togglable="CONSTRUCTOR" data-filterable-current=":reversi-app/main" data-filterable-set=":reversi-app/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="-lobby-view-model.html"><span>Lobby</span><wbr><span>View</span><wbr><span><span>Model</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-895645723%2FConstructors%2F-781564056"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="285400649%2FConstructors%2F-781564056"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">scope<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/CoroutineScope///PointingToDeclaration/">CoroutineScope</span><span class="token punctuation">, </span></span><span class="parameter ">appState<span class="token operator">: </span><span data-unresolved-link="androidx.compose.runtime/MutableState///PointingToDeclaration/">MutableState</span><span class="token operator">&lt;</span><a href="../../pt.isel.reversi.app.state/-app-state/index.html">AppState</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">appState<span class="token operator">: </span><a href="../../pt.isel.reversi.app.app.state/-app-state-impl/index.html">AppStateImpl</a><span class="token punctuation">, </span></span><span class="parameter ">scope<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/CoroutineScope///PointingToDeclaration/">CoroutineScope</span><span class="token punctuation">, </span></span><span class="parameter ">pickGame<span class="token operator">: </span><span class="token punctuation">(</span><a href="../../../reversi-core/pt.isel.reversi.core.game/-game/index.html">Game</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">, </span></span><span class="parameter ">globalError<span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core.exceptions/-reversi-exception/index.html">ReversiException</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">setGlobalError<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-exception/index.html">Exception</a><span class="token operator">?</span><span class="token punctuation">, </span><a href="../../../reversi-core/pt.isel.reversi.core.exceptions/-error-type/index.html">ErrorType</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -130,7 +130,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">val </span><a href="_ui-state.html">_uiState</a><span class="token operator">: </span><span data-unresolved-link="androidx.compose.runtime/MutableState///PointingToDeclaration/">MutableState</span><span class="token operator">&lt;</span><a href="../-lobby-ui-state/index.html">LobbyUiState</a><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">protected </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="_ui-state.html">_uiState</a><span class="token operator">: </span><span data-unresolved-link="androidx.compose.runtime/MutableState///PointingToDeclaration/">MutableState</span><span class="token operator">&lt;</span><a href="../-lobby-ui-state/index.html">LobbyUiState</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">The mutable internal UI state.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -145,7 +145,22 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="app-state.html">appState</a><span class="token operator">: </span><span data-unresolved-link="androidx.compose.runtime/MutableState///PointingToDeclaration/">MutableState</span><span class="token operator">&lt;</span><a href="../../pt.isel.reversi.app.state/-app-state/index.html">AppState</a><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="app-state.html">appState</a><span class="token operator">: </span><a href="../../pt.isel.reversi.app.app.state/-app-state-impl/index.html">AppStateImpl</a></div><div class="brief "><p class="paragraph">Global application state for game and UI updates.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="420367246%2FProperties%2F-781564056" anchor-label="globalError" id="420367246%2FProperties%2F-781564056" data-filterable-set=":reversi-app/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-app/main" data-filterable-set=":reversi-app/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="global-error.html"><span>global</span><wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="420367246%2FProperties%2F-781564056"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="global-error.html">globalError</a><span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core.exceptions/-reversi-exception/index.html">ReversiException</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Optional error to display on initial load.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -161,6 +176,21 @@
               <div>
                 <div class="title">
                   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">var </span><a href="known-names.html">knownNames</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-170763564%2FProperties%2F-781564056" anchor-label="pickGame" id="-170763564%2FProperties%2F-781564056" data-filterable-set=":reversi-app/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-app/main" data-filterable-set=":reversi-app/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="pick-game.html"><span>pick</span><wbr><span><span>Game</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-170763564%2FProperties%2F-781564056"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">val </span><a href="pick-game.html">pickGame</a><span class="token operator">: </span><span class="token punctuation">(</span><a href="../../../reversi-core/pt.isel.reversi.core.game/-game/index.html">Game</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></div><div class="brief "><p class="paragraph">Callback function when a game is picked.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -190,22 +220,37 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="scope.html">scope</a><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/CoroutineScope///PointingToDeclaration/">CoroutineScope</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">val </span><a href="scope.html">scope</a><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/CoroutineScope///PointingToDeclaration/">CoroutineScope</span></div><div class="brief "><p class="paragraph">Coroutine scope for launching async lobby operations.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="990494550%2FProperties%2F-781564056" anchor-label="uiState" id="990494550%2FProperties%2F-781564056" data-filterable-set=":reversi-app/main"></a>
+<a data-name="-155922946%2FProperties%2F-781564056" anchor-label="service" id="-155922946%2FProperties%2F-781564056" data-filterable-set=":reversi-app/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-app/main" data-filterable-set=":reversi-app/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="ui-state.html"><span>ui</span><wbr><span><span>State</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="990494550%2FProperties%2F-781564056"></span>
+                  <div><a href="service.html"><span><span>service</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-155922946%2FProperties%2F-781564056"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="ui-state.html">uiState</a><span class="token operator">: </span><span data-unresolved-link="androidx.compose.runtime/State///PointingToDeclaration/">State</span><span class="token operator">&lt;</span><a href="../-lobby-ui-state/index.html">LobbyUiState</a><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">val </span><a href="service.html">service</a><span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core.game.game-services/-game-service-impl/index.html">GameServiceImpl</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1363842396%2FProperties%2F-781564056" anchor-label="setGlobalError" id="-1363842396%2FProperties%2F-781564056" data-filterable-set=":reversi-app/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-app/main" data-filterable-set=":reversi-app/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-global-error.html"><span>set</span><wbr><span>Global</span><wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1363842396%2FProperties%2F-781564056"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="set-global-error.html">setGlobalError</a><span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-exception/index.html">Exception</a><span class="token operator">?</span><span class="token punctuation">, </span><a href="../../../reversi-core/pt.isel.reversi.core.exceptions/-error-type/index.html">ErrorType</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></div><div class="brief "><p class="paragraph">Callback to set a global error.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -214,32 +259,47 @@
       </div>
       <div data-togglable="FUNCTION">
         <h2 class="tableheader">Functions</h2>
-        <div class="table"><a data-name="-1960999358%2FFunctions%2F-781564056" anchor-label="joinGame" id="-1960999358%2FFunctions%2F-781564056" data-filterable-set=":reversi-app/main"></a>
+        <div class="table"><a data-name="-2067741993%2FFunctions%2F-781564056" anchor-label="initLobbyAudio" id="-2067741993%2FFunctions%2F-781564056" data-filterable-set=":reversi-app/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-app/main" data-filterable-set=":reversi-app/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="join-game.html"><span>join</span><wbr><span><span>Game</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1960999358%2FFunctions%2F-781564056"></span>
+                  <div><a href="init-lobby-audio.html"><span>init</span><wbr><span>Lobby</span><wbr><span><span>Audio</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2067741993%2FFunctions%2F-781564056"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="join-game.html"><span class="token function">joinGame</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">game<span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token punctuation">, </span></span><span class="parameter ">pieceType<span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core.board/-piece-type/index.html">PieceType</a></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="init-lobby-audio.html"><span class="token function">initLobbyAudio</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1196881287%2FFunctions%2F-781564056" anchor-label="joinGameValidations" id="1196881287%2FFunctions%2F-781564056" data-filterable-set=":reversi-app/main"></a>
+<a data-name="-532404408%2FFunctions%2F-781564056" anchor-label="joinGame" id="-532404408%2FFunctions%2F-781564056" data-filterable-set=":reversi-app/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-app/main" data-filterable-set=":reversi-app/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="join-game-validations.html"><span>join</span><wbr><span>Game</span><wbr><span><span>Validations</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1196881287%2FFunctions%2F-781564056"></span>
+                  <div><a href="join-game.html"><span>join</span><wbr><span><span>Game</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-532404408%2FFunctions%2F-781564056"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="join-game-validations.html"><span class="token function">joinGameValidations</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">game<span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core.storage/-game-state/index.html">GameState</a><span class="token operator">?</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="join-game.html"><span class="token function">joinGame</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">game<span class="token operator">: </span><a href="../-lobby-loaded-state/index.html">LobbyLoadedState</a><span class="token punctuation">, </span></span><span class="parameter ">pieceType<span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core.board/-piece-type/index.html">PieceType</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1385721387%2FFunctions%2F-781564056" anchor-label="joinGameValidations" id="-1385721387%2FFunctions%2F-781564056" data-filterable-set=":reversi-app/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":reversi-app/main" data-filterable-set=":reversi-app/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="join-game-validations.html"><span>join</span><wbr><span>Game</span><wbr><span><span>Validations</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1385721387%2FFunctions%2F-781564056"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="join-game-validations.html"><span class="token function">joinGameValidations</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">game<span class="token operator">: </span><a href="../-lobby-loaded-state/index.html">LobbyLoadedState</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core.game-state/-game-state/index.html">GameState</a><span class="token operator">?</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -289,32 +349,32 @@
               </div>
             </div>
           </div>
-<a data-name="-1473926666%2FFunctions%2F-781564056" anchor-label="refreshGame" id="-1473926666%2FFunctions%2F-781564056" data-filterable-set=":reversi-app/main"></a>
+<a data-name="-1577365370%2FFunctions%2F-781564056" anchor-label="refreshGame" id="-1577365370%2FFunctions%2F-781564056" data-filterable-set=":reversi-app/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-app/main" data-filterable-set=":reversi-app/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="refresh-game.html"><span>refresh</span><wbr><span><span>Game</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1473926666%2FFunctions%2F-781564056"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1577365370%2FFunctions%2F-781564056"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="refresh-game.html"><span class="token function">refreshGame</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">game<span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="refresh-game.html"><span class="token function">refreshGame</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">game<span class="token operator">: </span><a href="../-lobby-loaded-state/index.html">LobbyLoadedState</a></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="1429808128%2FFunctions%2F-781564056" anchor-label="selectGame" id="1429808128%2FFunctions%2F-781564056" data-filterable-set=":reversi-app/main"></a>
+<a data-name="189903210%2FFunctions%2F-781564056" anchor-label="selectGame" id="189903210%2FFunctions%2F-781564056" data-filterable-set=":reversi-app/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-app/main" data-filterable-set=":reversi-app/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="select-game.html"><span>select</span><wbr><span><span>Game</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1429808128%2FFunctions%2F-781564056"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="189903210%2FFunctions%2F-781564056"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="select-game.html"><span class="token function">selectGame</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">game<span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="select-game.html"><span class="token function">selectGame</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">game<span class="token operator">: </span><a href="../-lobby-loaded-state/index.html">LobbyLoadedState</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -359,7 +419,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="try-load-game.html"><span class="token function">tryLoadGame</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">gameName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">desiredType<span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core.board/-piece-type/index.html">PieceType</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core/-game/index.html">Game</a><span class="token operator">?</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="try-load-game.html"><span class="token function">tryLoadGame</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">gameName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">desiredType<span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core.board/-piece-type/index.html">PieceType</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../reversi-core/pt.isel.reversi.core.game/-game/index.html">Game</a><span class="token operator">?</span></div></div></div>
                 </div>
               </div>
             </div>

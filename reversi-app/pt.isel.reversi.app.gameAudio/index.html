@@ -39,7 +39,7 @@
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">1.0.1
+        <div class="library-version" id="library-version">2.0.0
         </div>
         <div class="navigation-controls">
         <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
@@ -94,23 +94,24 @@
   <div class="breadcrumbs"><a href="../index.html">reversi-app</a><span class="delimiter">/</span><span class="current">pt.isel.reversi.app.gameAudio</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><h2 class="">Overview</h2><p class="paragraph">Audio system management for game sound effects and background music.</p><h3 class="">Components</h3><ul><li><p class="paragraph"><code class="lang-kotlin">loadGameAudioPool</code> — Loads and configures the application's audio pool based on theme</p></li></ul><h3 class="">Responsibilities</h3><ul><li><p class="paragraph">Loading audio assets from resources</p></li><li><p class="paragraph">Configuring music tracks to loop</p></li><li><p class="paragraph">Managing sound effects</p></li><li><p class="paragraph">Handling missing audio files gracefully</p></li><li><p class="paragraph">Integrating with theme-based audio configurations</p></li></ul></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button></div>
     <div class="tabs-section-body">
       <div data-togglable="FUNCTION">
         <h2 class="tableheader">Functions</h2>
-        <div class="table"><a data-name="2132895429%2FFunctions%2F-781564056" anchor-label="loadGameAudioPool" id="2132895429%2FFunctions%2F-781564056" data-filterable-set=":reversi-app/main"></a>
+        <div class="table"><a data-name="-472587986%2FFunctions%2F-781564056" anchor-label="loadGameAudioPool" id="-472587986%2FFunctions%2F-781564056" data-filterable-set=":reversi-app/main"></a>
           <div class="table-row table-row_content" data-filterable-current=":reversi-app/main" data-filterable-set=":reversi-app/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="load-game-audio-pool.html"><span>load</span><wbr><span>Game</span><wbr><span>Audio</span><wbr><span><span>Pool</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2132895429%2FFunctions%2F-781564056"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-472587986%2FFunctions%2F-781564056"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="load-game-audio-pool.html"><span class="token function">loadGameAudioPool</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">mainFolder<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">"audios/"</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../reversi-utils/pt.isel.reversi.utils.audio/-audio-pool/index.html">AudioPool</a></div><div class="brief "><p class="paragraph">Loads the game's audio pool from the resources.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reversi-app/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="load-game-audio-pool.html"><span class="token function">loadGameAudioPool</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">theme<span class="token operator">: </span><a href="../pt.isel.reversi.app.app/-app-theme/index.html">AppTheme</a><span class="token punctuation">, </span></span><span class="parameter ">mainFolder<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">"audios/"</span><span class="token punctuation">, </span></span><span class="parameter ">setErrorFun<span class="token operator">: </span><span class="token punctuation">(</span><a href="../../reversi-core/pt.isel.reversi.core.exceptions/-reversi-exception/index.html">ReversiException</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../reversi-utils/pt.isel.reversi.utils.audio/-audio-pool/index.html">AudioPool</a></div><div class="brief "><p class="paragraph">Loads the game's audio pool from resources based on the specified theme. Automatically configures music tracks to loop infinitely and loads sound effects normally. Handles missing or failed audio loads gracefully with warnings.</p></div></div></div>
                 </div>
               </div>
             </div>
