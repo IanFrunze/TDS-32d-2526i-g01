@@ -10,10 +10,10 @@ enum class ErrorType(val level: String) {
     CRITICAL("CRITICAL");
 
     companion object {
-        fun Exception.toReversiException(type: ErrorType): ReversiException {
+        fun Exception.toReversiException(type: ErrorType?): ReversiException {
             return object : ReversiException(
                 message = message ?: "An unknown error occurred.",
-                type = type
+                type = type ?: CRITICAL,
             ) {}
         }
     }

@@ -1,33 +1,68 @@
 package pt.isel.reversi.app
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
-import pt.isel.reversi.app.state.*
-import pt.isel.reversi.core.Game
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import pt.isel.reversi.app.app.AppTheme
+import pt.isel.reversi.app.app.state.AppStateImpl
+import pt.isel.reversi.app.pages.Page
+import pt.isel.reversi.core.exceptions.ErrorType
+import pt.isel.reversi.core.game.Game
 import pt.isel.reversi.utils.LOGGER
+import javax.swing.JOptionPane
 
+/**
+ * Creates the application menu bar with File, View, Dev, and Help menus.
+ * Provides navigation to different pages and application controls.
+ *
+ * @param appState Global application state for navigation and configuration.
+ * @param windowState Window state for toggling fullscreen mode.
+ * @param setPage Callback to change the current page.
+ * @param setGame Callback to update the current game instance.
+ * @param setTheme Callback to reapply the current theme (used after fullscreen toggle).
+ * @param setGlobalError Callback to surface errors triggered from menu actions.
+ * @param exitAction Callback function to execute on application exit.
+ */
 @Composable
-fun FrameWindowScope.MakeMenuBar(appState: MutableState<AppState>, windowState: WindowState, exitAction: () -> Unit) {
+fun FrameWindowScope.MakeMenuBar(
+    appState: AppStateImpl,
+    scope: CoroutineScope,
+    windowState: WindowState,
+    setPage: (Page) -> Unit,
+    setGame: (Game) -> Unit,
+    setTheme: (AppTheme) -> Unit,
+    setGlobalError: (Exception?, ErrorType?) -> Unit,
+    exitAction: () -> Unit
+) {
     MenuBar {
         Menu("Ficheiro") {
             Item("Novo Jogo") {
-                appState.setPage(Page.NEW_GAME)
-            }
-            Item("Guardar Jogo") {
-                appState.setPage(Page.SAVE_GAME)
+                setPage(Page.NEW_GAME)
             }
             Item("Definições") {
-                appState.setPage(Page.SETTINGS)
+                setPage(Page.SETTINGS)
             }
             Item("Menu Principal") {
-                appState.setPage(Page.MAIN_MENU)
+                setPage(Page.MAIN_MENU)
             }
             Item("Jogo Atual") {
-                appState.setPage(Page.GAME)
+                try {
+                    appState.game.requireStartedGame()
+                    setPage(Page.GAME)
+                } catch (e: Exception) {
+                    setGlobalError(e, null)
+                }
+            }
+            Item("Sair do jogo atual") {
+                if (appState.game.currGameName != null) {
+                    scope.launch { appState.service.saveEndGame(appState.game) }
+                }
+                setGame(Game(service = appState.service))
+                setPage(Page.MAIN_MENU)
             }
             Separator()
             Item("Sair") {
@@ -40,38 +75,56 @@ fun FrameWindowScope.MakeMenuBar(appState: MutableState<AppState>, windowState: 
                 windowState.placement =
                     if (windowState.placement == WindowPlacement.Floating) WindowPlacement.Fullscreen
                     else WindowPlacement.Floating
-                appState.value = appState.value.copy() // Epa foi o q arranjei para forcar o gajo a dar update lol
+                setTheme(appState.theme) // Force recomposition
             }
         }
 
         Menu("Dev") {
-            Item("Mostrar Estado do Jogo") {
-                appState.value.game.printDebugState()
-            }
             Item("Nullify Game State") {
-                appState.setGame(
-                    Game()
-                )
+                setGame(Game(service = appState.service))
                 LOGGER.info("Estado do jogo anulado para fins de teste.")
             }
             Item("Reload Config") {
                 try {
-                    appState.setGame(
-                        appState.value.game.reloadConfig()
-                    )
+                    setGame(appState.game.reloadConfig())
                     LOGGER.info("Config recarregada com sucesso.")
                 } catch (e: Exception) {
-                    appState.setError(error = e)
+                    setGlobalError(e, null)
                 }
             }
-            Item("Lobby Screen") {
-                appState.setPage(Page.LOBBY)
+            Item("Trigger Error") {
+                val message = JOptionPane.showInputDialog(
+                    null,
+                    "Introduza a mensagem do erro",
+                    "Trigger Error",
+                    JOptionPane.QUESTION_MESSAGE
+                )
+
+                if (!message.isNullOrBlank()) {
+                    val options = ErrorType.entries.toTypedArray()
+                    val selectedIndex = JOptionPane.showOptionDialog(
+                        null,
+                        "Escolha o tipo de erro",
+                        "Trigger Error",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        ErrorType.ERROR
+                    )
+
+                    val selectedType = options.getOrNull(selectedIndex) ?: ErrorType.ERROR
+                    setGlobalError(Exception(message), selectedType)
+                }
+            }
+            Item("Crash App") {
+                throw RuntimeException("App crash triggered from Dev menu")
             }
         }
 
         Menu("Ajuda") {
             Item("Sobre") {
-                appState.setPage(Page.ABOUT)
+                setPage(Page.ABOUT)
             }
         }
     }

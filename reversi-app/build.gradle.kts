@@ -17,6 +17,7 @@ dependencies {
     implementation(compose.components.uiToolingPreview)
     implementation(libs.androidx.lifecycle.viewmodelCompose)
     implementation(libs.androidx.lifecycle.runtimeCompose)
+    implementation(compose.preview)
 
     @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
     implementation(compose.uiTest)
@@ -29,20 +30,55 @@ dependencies {
     implementation(libs.coroutines)
 
     // TEST MODULE
-    testImplementation(libs.kotlin.test)
+    testImplementation(kotlin("test"))
 }
+
+
 
 compose.desktop {
     application {
         mainClass = "pt.isel.reversi.app.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = rootProject.name
+
+            targetFormats(
+                TargetFormat.Dmg,
+                TargetFormat.Msi,
+                TargetFormat.Deb
+            )
+
+            packageName = "reversi"
             packageVersion = rootProject.version.toString()
+
+            macOS {
+                dockName = "Reversi"
+                bundleID = "pt.isel.reversi.app"
+
+                // Ícone da aplicação
+                iconFile.set(project.file("src/main/resources/reversi.icns"))
+
+                // Configurações adicionais para o ícone funcionar
+                packageBuildVersion = rootProject.version.toString()
+
+                // Info.plist customizado para forçar o ícone
+                infoPlist {
+                    extraKeysRawXml = """
+                        <key>CFBundleIconFile</key>
+                        <string>reversi.icns</string>
+                        <key>LSApplicationCategoryType</key>
+                        <string>public.app-category.games</string>
+                    """.trimIndent()
+                }
+            }
+
+            // Disable ProGuard for release builds
+            buildTypes.release.proguard {
+                isEnabled.set(false)
+            }
         }
     }
 }
+
 
 // === Fat Jar executável ===
 tasks.register<Jar>("fatJar") {
@@ -59,19 +95,25 @@ tasks.register<Jar>("fatJar") {
 
     dependsOn(configurations.runtimeClasspath)
     from({
-             configurations.runtimeClasspath.get()
-                 .filter { it.name.endsWith(".jar") }
-                 .map { zipTree(it) }
-         })
+        configurations.runtimeClasspath.get()
+            .filter { it.name.endsWith(".jar") }
+            .map { zipTree(it) }
+    })
 
     manifest {
         attributes["Main-Class"] = "pt.isel.reversi.app.MainKt"
     }
 }
 
-// === Usa o fatJar como o jar padrão ===
+kotlin {
+    jvmToolchain(21)
+}
+
 tasks {
     build {
-        dependsOn("fatJar")
+        dependsOn(
+            "fatJar",
+            "createDistributable"
+        )
     }
 }

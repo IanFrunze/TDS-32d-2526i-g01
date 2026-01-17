@@ -1,11 +1,12 @@
 package pt.isel.reversi.core.storage.serializers
 
-import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.Board
 import pt.isel.reversi.core.board.PieceType
 import pt.isel.reversi.core.exceptions.ErrorType
-import pt.isel.reversi.core.exceptions.InvalidGameStateInFileException
-import pt.isel.reversi.core.storage.GameState
+import pt.isel.reversi.core.exceptions.InvalidGameStateInFile
+import pt.isel.reversi.core.gameState.GameState
+import pt.isel.reversi.core.gameState.MatchPlayers
+import pt.isel.reversi.core.gameState.Player
 import pt.isel.reversi.storage.Serializer
 
 /**
@@ -17,9 +18,9 @@ internal class GameStateSerializer : Serializer<GameState, String> {
     private val playerSerializer = PlayerSerializer()
 
     private val playersLine = 0
-    private val lastPlayerLine = 1
-    private val winnerLine = 2
-    private val boardStartLine = 3
+    private val lastPlayerLine = playersLine + 1
+    private val winnerLine = lastPlayerLine + 1
+    private val boardStartLine = winnerLine + 1
 
     override fun serialize(obj: GameState): String {
         requireNotNull(obj.lastPlayer) { "lastPlayer cannot be null" }
@@ -27,15 +28,12 @@ internal class GameStateSerializer : Serializer<GameState, String> {
 
         val sb = StringBuilder()
 
-        if (obj.players.isEmpty()) {
-            sb.appendLine()
-        } else {
-            for (player in obj.players) {
-                sb.append(playerSerializer.serialize(player))
-                sb.append(";")
-            }
-            sb.appendLine()
+        for (player in obj.players) {
+            sb.append(playerSerializer.serialize(player))
+            sb.append(";")
         }
+        sb.appendLine()
+
 
         sb.appendLine(pieceTypeSerializer.serialize(obj.lastPlayer))
 
@@ -47,16 +45,20 @@ internal class GameStateSerializer : Serializer<GameState, String> {
         return sb.toString()
     }
 
-    private fun getPlayers(parts: List<String>): List<Player> {
-        if (parts.size + 1 < playersLine) return emptyList()
+    private fun getPlayers(parts: List<String>): MatchPlayers {
+        if (parts.size + 1 < playersLine) return MatchPlayers()
         val playersLineContent = parts[playersLine]
-        if (playersLineContent.isBlank() || playersLineContent.first().isWhitespace()) return emptyList()
+        if (playersLineContent.isBlank() || playersLineContent.first().isWhitespace()) return MatchPlayers()
 
         val playerStrings = playersLineContent.split(";")
-        val players = mutableListOf<Player>()
+        var players = MatchPlayers()
 
         for (player in playerStrings) {
-            if (player.isNotBlank()) players += playerSerializer.deserialize(player)
+            if (player.isNotBlank()) {
+                val newPlayers =
+                    players.addPlayerOrNull(playerSerializer.deserialize(player)) ?: players
+                players = newPlayers
+            }
         }
         return players
     }
@@ -87,10 +89,13 @@ internal class GameStateSerializer : Serializer<GameState, String> {
             val board = getBoardPart(parts)
 
             return GameState(
-                players = players, lastPlayer = lastPlayer, board = board, winner = winner
+                players = players,
+                lastPlayer = lastPlayer,
+                board = board,
+                winner = winner
             )
         } catch (e: Exception) {
-            throw InvalidGameStateInFileException(
+            throw InvalidGameStateInFile(
                 message = "Invalid game state data. Error: ${e.message}",
                 type = ErrorType.ERROR
             )

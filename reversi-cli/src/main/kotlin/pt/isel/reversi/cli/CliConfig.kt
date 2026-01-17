@@ -3,6 +3,12 @@ package pt.isel.reversi.cli
 import pt.isel.reversi.utils.Config
 import pt.rafap.ktflag.style.Colors
 
+/**
+ * Configuration holder for CLI-specific settings including welcome messages and text colors.
+ * Manages display colors for different message types and command prompt styling.
+ *
+ * @property map The underlying configuration map with string keys and values.
+ */
 class CliConfig(override val map: Map<String, String>) : Config {
 
     val WELCOME_MESSAGE = map["WELCOME_MESSAGE"] ?: "Welcome to Reversi!"
@@ -16,6 +22,11 @@ class CliConfig(override val map: Map<String, String>) : Config {
     val HELP_ALIAS_COLOR = map["HELP_ALIAS_COLOR"] ?: Colors.BLUE
     val HELP_DESC_COLOR = map["HELP_DESC_COLOR"] ?: Colors.WHITE
 
+    /**
+     * Returns the default configuration entries for CLI settings.
+     *
+     * @return A map of default CLI configuration key-value pairs.
+     */
     override fun getDefaultConfigFileEntries(): Map<String, String> {
         return mapOf(
             "WELCOME_MESSAGE" to WELCOME_MESSAGE,

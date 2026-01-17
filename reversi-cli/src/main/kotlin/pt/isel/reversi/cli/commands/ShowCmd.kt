@@ -1,9 +1,9 @@
 package pt.isel.reversi.cli.commands
 
-import pt.isel.reversi.core.Game
-import pt.isel.reversi.core.Player
 import pt.isel.reversi.core.board.PieceType
-import pt.isel.reversi.core.stringifyBoard
+import pt.isel.reversi.core.game.Game
+import pt.isel.reversi.core.game.stringifyBoard
+import pt.isel.reversi.core.gameState.Player
 import pt.rafap.ktflag.cmd.CommandImpl
 import pt.rafap.ktflag.cmd.CommandInfo
 import pt.rafap.ktflag.cmd.CommandResult
@@ -34,7 +34,8 @@ object ShowCmd : CommandImpl<Game>() {
 
         val board = gs.board
         val players = listOf(
-            Player(PieceType.WHITE, board.totalWhitePieces), Player(PieceType.BLACK, board.totalBlackPieces)
+            Player(PieceType.WHITE, points = board.totalWhitePieces),
+            Player(PieceType.BLACK, points = board.totalBlackPieces)
         )
         val lastPLayer = gs.lastPlayer
         val name = context.currGameName

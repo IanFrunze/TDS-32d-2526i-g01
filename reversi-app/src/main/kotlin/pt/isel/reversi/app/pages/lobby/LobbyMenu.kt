@@ -9,54 +9,86 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import pt.isel.reversi.app.MAIN_BACKGROUND_COLOR
 import pt.isel.reversi.app.ScaffoldView
+import pt.isel.reversi.app.app.state.ReversiScope
+import pt.isel.reversi.app.app.state.getTheme
+import pt.isel.reversi.app.pages.Page
 import pt.isel.reversi.app.pages.lobby.lobbyViews.Empty
 import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.LobbyCarousel
 import pt.isel.reversi.app.pages.lobby.lobbyViews.utils.PopupPickAPiece
 import pt.isel.reversi.app.pages.lobby.lobbyViews.utils.RefreshButton
-import pt.isel.reversi.app.reversiFadeAnimation
-import pt.isel.reversi.app.state.AppState
+import pt.isel.reversi.app.utils.PreviousPage
+import pt.isel.reversi.app.utils.reversiFadeAnimation
 import pt.isel.reversi.utils.LOGGER
+import pt.isel.reversi.utils.TRACKER
 
+/**
+ * Enumeration of possible lobby screen states.
+ */
 enum class LobbyState {
-    NONE, EMPTY, SHOW_GAMES
+    /** Initial uninitialized state. */
+    NONE,
+
+    /** Lobby has no available games. */
+    EMPTY,
+
+    /** Lobby displaying available games for joining. */
+    SHOW_GAMES
 }
 
 private const val PAGE_TRANSITION_DURATION_MS = 500
 
+/**
+ * Lobby menu screen for browsing and joining saved multiplayer games.
+ * Displays available games in a carousel and handles game selection and joining.
+ *
+ * @param viewModel The lobby view model managing game list and selection logic.
+ * @param onLeave Callback invoked when navigating back from the lobby.
+ */
 @Composable
-fun LobbyMenu(
+fun ReversiScope.LobbyMenu(
     viewModel: LobbyViewModel,
+    onLeave: () -> Unit,
 ) {
+    TRACKER.trackPageEnter(customName = "LobbyMenu", category = Page.LOBBY)
 
     val uiState = viewModel.uiState.value
-    val games = uiState.games
+    val games = uiState.gameStates
     val lobbyState = uiState.lobbyState
     val canRefresh = uiState.canRefresh
-    val appState: MutableState<AppState> = viewModel.appState
+    val appState = this.appState
+
+    viewModel.initLobbyAudio()
 
     DisposableEffect(viewModel) {
         LOGGER.info("Starting polling for lobby updates.")
+        TRACKER.trackEffectStart(viewModel, category = Page.LOBBY)
         viewModel.startPolling()
         onDispose {
+            TRACKER.trackEffectStop(viewModel, category = Page.LOBBY)
             viewModel.stopPolling()
         }
     }
 
     val refreshAction: @Composable () -> Unit = {
         if (canRefresh) {
-            RefreshButton {
-                viewModel.refreshAll()
-            }
+            RefreshButton { viewModel.refreshAll() }
         }
     }
 
-    ScaffoldView(appState, title = "Lobby - Jogos Guardados") { padding ->
+    ScaffoldView(
+        setError = { error, type -> viewModel.setError(error, type) },
+        error = uiState.screenState.error,
+        isLoading = uiState.screenState.isLoading,
+        title = "Lobby - Jogos Guardados",
+        previousPageContent = {
+            PreviousPage { onLeave() }
+        },
+    ) { padding ->
+        val reversiScope = this
         AnimatedContent(
             targetState = lobbyState,
             transitionSpec = {
@@ -65,7 +97,7 @@ fun LobbyMenu(
             },
             modifier = Modifier
                 .fillMaxSize()
-                .background(MAIN_BACKGROUND_COLOR),
+                .background(getTheme().backgroundColor),
             label = "PageTransition"
         ) { page ->
             Column(
@@ -80,9 +112,10 @@ fun LobbyMenu(
                     LobbyState.NONE -> {}
                     LobbyState.EMPTY -> Empty { refreshAction() }
                     LobbyState.SHOW_GAMES -> LobbyCarousel(
-                        currentGameName = appState.value.game.currGameName,
+                        currentGameName = appState.game.currGameName,
                         games = games,
                         viewModel,
+                        reversiScope = reversiScope,
                         buttonRefresh = { refreshAction() }
                     ) { game ->
                         viewModel.selectGame(game)
@@ -96,22 +129,16 @@ fun LobbyMenu(
                     viewModel.selectGame(null)
                     return@let
                 }
-                val players = state.players.map { it.type }
+                val players = state.players.getAvailableTypes()
 
-                PopupPickAPiece(
-                    pieces = players,
-                    onPick = { pieceType ->
-                        viewModel.joinGame(game, pieceType)
-                    },
-                    onDismiss = {
-                        viewModel.selectGame(null)
-                    }
-                )
+                if (game.name != appState.game.currGameName) {
+                    PopupPickAPiece(
+                        pieces = players,
+                        onPick = { pieceType -> viewModel.joinGame(game, pieceType) },
+                        onDismiss = { viewModel.selectGame(null) }
+                    )
+                }
             }
         }
     }
 }
-
-fun testTagLobbyBoard() = "LobbyBoardPreview"
-fun testTagCellPreview(coordinateIndex: Int) = "LobbyCellPreview_$coordinateIndex"
-fun testTagCarouselItem(name: String) = "LobbyCarouselItem_$name"

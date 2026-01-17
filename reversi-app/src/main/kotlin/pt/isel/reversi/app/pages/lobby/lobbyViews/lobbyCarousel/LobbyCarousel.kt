@@ -2,29 +2,22 @@ package pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel
 
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBackIos
-import androidx.compose.material.icons.automirrored.rounded.ArrowForwardIos
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import pt.isel.reversi.app.app.state.ReversiScope
+import pt.isel.reversi.app.pages.lobby.LobbyLoadedState
 import pt.isel.reversi.app.pages.lobby.LobbyViewModel
-import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.utils.NavButton
+import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.drawCard.CardStatus
+import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.drawCard.getCardStatus
 import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.utils.PageIndicators
 import pt.isel.reversi.app.pages.lobby.lobbyViews.lobbyCarousel.utils.Search
-import pt.isel.reversi.core.Game
 import pt.isel.reversi.utils.LOGGER
 
 private suspend fun PagerState.animateScroll(page: Int) {
@@ -37,22 +30,34 @@ private suspend fun PagerState.animateScroll(page: Int) {
     )
 }
 
+/**
+ * Carousel component for browsing saved multiplayer games.
+ * Supports search filtering, pagination, and game status indication.
+ *
+ * @param currentGameName Name of the currently active game for highlighting.
+ * @param games List of all available games to display.
+ * @param viewModel The lobby view model managing game state.
+ * @param reversiScope The ReversiScope receiver for theming and utilities.
+ * @param buttonRefresh Optional composable for rendering a refresh button.
+ * @param onGameClick Callback invoked when a game card is selected.
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ColumnScope.LobbyCarousel(
     currentGameName: String?,
-    games: List<Game>,
+    games: List<LobbyLoadedState>,
     viewModel: LobbyViewModel,
+    reversiScope: ReversiScope,
     buttonRefresh: @Composable () -> Unit = {},
-    onGameClick: (Game) -> Unit
+    onGameClick: (LobbyLoadedState) -> Unit
 ) {
     var searchQuery by remember { mutableStateOf("") }
 
-    val gamesToShow: List<Game> = remember(games, searchQuery) {
+    val gamesToShow: List<LobbyLoadedState> = remember(games, searchQuery) {
         if (searchQuery.isEmpty())
             games
         else {
-            val foundGames = games.filter { it.currGameName?.contains(searchQuery, ignoreCase = true) == true }
+            val foundGames = games.filter { it.name.contains(searchQuery, ignoreCase = true) }
             LOGGER.info("Search query: '$searchQuery' - Found : ${foundGames.size}")
             foundGames
         }
@@ -64,8 +69,13 @@ fun ColumnScope.LobbyCarousel(
     LaunchedEffect(pagerState.currentPage, gamesToShow) {
         if (gamesToShow.isEmpty()) return@LaunchedEffect
         val game = gamesToShow.getOrNull(pagerState.currentPage) ?: return@LaunchedEffect
-        val gameName = game.currGameName
-        LOGGER.info("lobbyCarousel: Refresh iniciado para $gameName")
+        val leftGame = gamesToShow.getOrNull(pagerState.currentPage - 1)
+        val rightGame = gamesToShow.getOrNull(pagerState.currentPage + 1)
+
+        val gameName = game.name
+        val leftGameName = leftGame?.name
+        val rightGameName = rightGame?.name
+        LOGGER.info("lobbyCarousel: Refresh iniciado para $gameName, $leftGameName, $rightGameName")
 
         val delayMillis = when (getCardStatus(game, currentGameName)) {
             CardStatus.EMPTY,
@@ -79,29 +89,43 @@ fun ColumnScope.LobbyCarousel(
         try {
             while (isActive) {
                 viewModel.refreshGame(game)
+                if (leftGame != null) viewModel.refreshGame(leftGame)
+                if (rightGame != null) viewModel.refreshGame(rightGame)
                 delay(delayMillis)
             }
         } finally {
-            LOGGER.info("lobbyCarousel: Refresh terminado para $gameName")
+            LOGGER.info("lobbyCarousel: Refresh terminado para $gameName, $leftGameName, $rightGameName")
         }
     }
 
-    Row {
-        Search(searchQuery) { query ->
-            scope.launch { pagerState.scrollToPage(0) }
-            searchQuery = query
+    with(reversiScope) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            Search(searchQuery) { query ->
+                scope.launch { pagerState.scrollToPage(0) }
+                searchQuery = query
+            }
+
+            buttonRefresh()
         }
 
-        buttonRefresh()
+        Spacer(Modifier.weight(1f))
     }
 
-    Spacer(Modifier.weight(1f))
-
+    // Move BoxWithConstraints outside the reversiScope
     BoxWithConstraints {
         LobbyCarouselView(
             currentGameName = currentGameName,
             pagerState = pagerState,
             games = gamesToShow,
+            reversiScope = reversiScope,
+            onNavButtonClick = { page ->
+                scope.launch {
+                    pagerState.animateScroll(page)
+                }
+            },
         ) { game, page ->
             scope.launch {
                 if (page != pagerState.currentPage)
@@ -110,41 +134,10 @@ fun ColumnScope.LobbyCarousel(
                 onGameClick(game)
             }
         }
-
-        if (gamesToShow.size > 1) {
-            if (pagerState.currentPage > 0) {
-                NavButton(
-                    icon = Icons.AutoMirrored.Rounded.ArrowBackIos,
-                    alignment = Alignment.CenterStart,
-                    onClick = {
-                        scope.launch {
-                            pagerState.animateScroll(pagerState.currentPage - 1)
-                        }
-                    }
-                )
-            }
-            if (pagerState.currentPage < gamesToShow.size - 1) {
-                NavButton(
-                    icon = Icons.AutoMirrored.Rounded.ArrowForwardIos,
-                    alignment = Alignment.CenterEnd,
-                    onClick = {
-                        scope.launch {
-                            pagerState.animateScroll(pagerState.currentPage + 1)
-                        }
-                    }
-                )
-            }
-        } else if (gamesToShow.isEmpty()) {
-            Text(
-                text = "Nenhum jogo encontrado",
-                fontSize = 18.sp,
-                color = Color.White.copy(alpha = 0.6f),
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
     }
 
-    Spacer(Modifier.weight(1f))
-
-    PageIndicators(gamesToShow.size, pagerState.currentPage)
+    with(reversiScope) {
+        Spacer(Modifier.weight(1f))
+        PageIndicators(gamesToShow.size, pagerState.currentPage)
+    }
 }

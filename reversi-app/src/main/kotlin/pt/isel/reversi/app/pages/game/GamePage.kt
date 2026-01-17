@@ -1,107 +1,89 @@
 package pt.isel.reversi.app.pages.game
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
-import pt.isel.reversi.app.*
-import pt.isel.reversi.app.corroutines.launchGameRefreshCoroutine
-import pt.isel.reversi.app.state.*
+import pt.isel.reversi.app.ScaffoldView
+import pt.isel.reversi.app.app.state.ReversiScope
+import pt.isel.reversi.app.exceptions.GameNotStartedYet
+import pt.isel.reversi.app.pages.Page
+import pt.isel.reversi.app.utils.PreviousPage
+import pt.isel.reversi.core.game.Game
+import pt.isel.reversi.utils.LOGGER
+import pt.isel.reversi.utils.TRACKER
 
-
+/**
+ * Main game page displaying the Reversi board, player scores, and game controls.
+ * Manages game music playback and periodic game state refreshes for multiplayer games.
+ *
+ * @param viewModel The game page view model containing UI state and game logic.
+ * @param modifier Modifier for layout adjustments.
+ * @param freeze When true, disables interactions with the board.
+ * @param onLeave Callback invoked when navigating back, receives the current game.
+ */
 @Composable
-fun GamePage(appState: MutableState<AppState>, modifier: Modifier = Modifier, freeze: Boolean = false) {
-    val coroutineAppScope = rememberCoroutineScope()
+fun ReversiScope.GamePage(
+    viewModel: GamePageViewModel,
+    modifier: Modifier = Modifier,
+    freeze: Boolean = false,
+    onLeave: (Game) -> Unit,
+) {
+    TRACKER.trackPageEnter(customName = "GamePage", category = Page.GAME)
+
+    val game = viewModel.uiState.value.game
+    val theme = appState.theme
+
+    // TODO Mudar logica do error .. Ian -> Startar o global error aaaaaaaaaa
+    if (!game.hasStarted()) {
+        LOGGER.warning("Game not started yet, navigating back to previous page")
+        viewModel.setGlobalError(GameNotStartedYet(), null)
+        onLeave(game)
+        return
+    }
 
     // Launch the game refresh coroutine
-    LaunchedEffect(appState.value.page) {
-        val game = appState.value.game
-        if (game.currGameName != null && game.gameState?.players?.size != 2) {
-            launchGameRefreshCoroutine(50L, appState)
+    DisposableEffect(viewModel) {
+        TRACKER.trackEffectStart(this, category = Page.GAME)
+        if (game.currGameName != null && !viewModel.isPollingActive()) {
+            viewModel.startPolling()
         }
 
-        appState.getStateAudioPool().run {
-            if (!isPlaying(MEGALOVANIA)) {
-                stop(BACKGROUND_MUSIC)
-                stop(MEGALOVANIA)
-                play(MEGALOVANIA)
+        appState.audioPool.run {
+            if (!isPlaying(theme.gameMusic)) {
+                stop(theme.backgroundMusic)
+                stop(theme.gameMusic)
+                play(theme.gameMusic)
             }
+        }
+
+        onDispose {
+            viewModel.stopPolling()
+            TRACKER.trackEffectStop(this, category = Page.GAME)
         }
     }
 
-    val name = appState.value.game.currGameName?.let { "Game: $it" }
+    val name = game.currGameName
 
     ScaffoldView(
-        appState = appState,
+        setError = { it, type -> viewModel.setError(it, type) },
+        error = viewModel.error,
+        isLoading = viewModel.uiState.value.screenState.isLoading,
         title = name ?: "Reversi",
         previousPageContent = {
-            PreviousPage { appState.setPage(appState.value.backPage) }
+            PreviousPage { onLeave(game) }
         }
     ) { padding ->
-        Column(
+        GamePageView(
             modifier = modifier.fillMaxSize()
-                .background(BOARD_BACKGROUND_COLOR)
-                .padding(paddingValues = padding)
-                .testTag(tag = testTagGamePage()),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(all = 16.dp),
-            ) {
-                Box(
-                    modifier = modifier.weight(0.7f),
-                ) {
-                    DrawBoard(appState.value.game, freeze = freeze) { coordinate ->
-                        coroutineAppScope.launch {
-                            try {
-                                appState.setGame(
-                                    game = appState.value.game.play(coordinate)
-                                )
-                                appState.getStateAudioPool().run {
-                                    stop(PLACE_PIECE_SOUND)
-                                    play(PLACE_PIECE_SOUND)
-                                }
-                            } catch (e: Exception) {
-                                appState.setError(error = e)
-                            }
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.width(width = 16.dp))
-
-                // Coluna dos jogadores e botões
-                Column(
-                    modifier = modifier.weight(0.3f),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    TextPlayersScore(state = appState.value.game.gameState)
-
-                    val target = appState.value.game.target
-
-                    Spacer(modifier = Modifier.height(32.dp))
-
-
-                    TargetButton(target, freeze = freeze) {
-                        appState.setGame(
-                            game = appState.value.game.setTargetMode(!appState.value.game.target)
-                        )
-                    }
-
-                    //Spacer(modifier = Modifier.height(padding))
-
-//                GameButton("Update", freeze = freeze) {
-//                    appState.value = setGame(appState, appState.value.game.refresh())
-//                }
-
-                }
-            }
-        }
+                .padding(paddingValues = padding),
+            game = game,
+            freeze = freeze,
+            getAvailablePlays = { viewModel.getAvailablePlays() },
+            onCellClick = { viewModel.playMove(it) },
+            setTargetMode = { viewModel.setTarget(!game.target) },
+            pass = { viewModel.pass() }
+        )
     }
 }
