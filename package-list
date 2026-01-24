@@ -20,6 +20,7 @@ pt.isel.reversi.app.pages.lobby.lobbyViews.utils
 pt.isel.reversi.app.pages.menu
 pt.isel.reversi.app.pages.newGamePage
 pt.isel.reversi.app.pages.settingsPage
+pt.isel.reversi.app.pages.settingsPage.sections
 pt.isel.reversi.app.pages.winnerPage
 pt.isel.reversi.app.utils
 reversi.reversi_app.generated.resources
