@@ -62,9 +62,8 @@ fun ReversiScope.WinnerPage(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     players.forEach { player ->
-
                         PlayerResultColumn(
-                            player = player, isWinner = player == winner, modifier = Modifier.weight(1f)
+                            player = player, isWinner = player.type == winner.type, modifier = Modifier.weight(1f)
                         )
                     }
                 }
